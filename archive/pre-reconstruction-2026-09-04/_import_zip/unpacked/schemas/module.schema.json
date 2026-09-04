@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Curriculum Module",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "skill",
+    "subskill",
+    "difficulty",
+    "objectives",
+    "lesson",
+    "exercises",
+    "masteryCheck"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "skill": {
+      "type": "string"
+    },
+    "subskill": {
+      "type": "string"
+    },
+    "difficulty": {
+      "enum": [
+        "foundation",
+        "6.5",
+        "7",
+        "7.5",
+        "8"
+      ]
+    },
+    "objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "lesson": {
+      "type": "array"
+    },
+    "workedExamples": {
+      "type": "array"
+    },
+    "exercises": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "masteryCheck": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "relatedModules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errorCategories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "vocabularyTags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

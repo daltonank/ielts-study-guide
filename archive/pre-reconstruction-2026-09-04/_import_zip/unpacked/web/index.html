@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f3f91">
+<title>IELTS Academic C1 • UA+EN</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to study content</a>
+<header class="app-header">
+  <button class="brand" data-route="today" aria-label="IELTS Academic C1 home">
+    <span class="brand-mark" aria-hidden="true">UA</span>
+    <span><strong>IELTS Academic C1</strong><small>Band 7.0–8.0 • UA+EN</small></span>
+  </button>
+  <div class="header-actions">
+    <label class="sr-only" for="languageMode">Language support</label>
+    <select id="languageMode" class="mode-select" aria-label="Language support mode">
+      <option value="en">EN</option>
+      <option value="uaen">UA + EN</option>
+      <option value="uahelp">UA Help</option>
+    </select>
+    <button id="menuBtn" class="icon-btn" aria-expanded="false" aria-controls="drawer">☰<span class="sr-only">Open navigation</span></button>
+  </div>
+</header>
+
+<aside id="drawer" class="drawer" aria-label="Secondary navigation" hidden>
+  <nav id="secondaryNav"></nav>
+</aside>
+<div id="scrim" class="scrim" hidden></div>
+
+<nav class="mobile-nav" aria-label="Primary">
+  <button data-route="today"><span aria-hidden="true">⌂</span><span>Today</span></button>
+  <button data-route="skills"><span aria-hidden="true">▤</span><span>Skills</span></button>
+  <button data-route="practice"><span aria-hidden="true">✓</span><span>Practice</span></button>
+  <button data-route="words"><span aria-hidden="true">Aa</span><span>Words</span></button>
+  <button data-route="progress"><span aria-hidden="true">↗</span><span>Progress</span></button>
+</nav>
+
+<main id="main" tabindex="-1"></main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<input id="importFile" type="file" accept="application/json" hidden>
+<script src="vocabulary.js"></script>
+<script src="data.js"></script>
+<script src="reading_data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

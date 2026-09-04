@@ -1,0 +1,7 @@
+ID,Priority,Risk,Impact,Control,Status
+RISK-001,P0,Raw legacy workbook bytes unavailable to current build runtime,"Blocks exact 1,784-row G2 reconciliation",Use deterministic migration script; do not fabricate records,Open
+RISK-002,P1,Later numeric curriculum targets can invite shallow filler,Educational quality degradation,Require explanation/purpose tags and QA sampling before phase gates,Open
+RISK-003,P1,Automated practice estimates may be mistaken for official IELTS scores,Misleading learner,Label all automated metrics non-official,Mitigated
+RISK-004,P1,Local-only storage can be cleared by browser/device,Progress loss,Export/import with backup snapshot before import,Mitigated
+RISK-005,P2,Large future datasets may make a single-file app slow,Performance,Structured data files + lazy view rendering; consider IndexedDB after G2,Open
+RISK-006,P1,Copyright risk from commercial test materials,Legal/content risk,Original passages/visuals; authorized links only,Mitigated

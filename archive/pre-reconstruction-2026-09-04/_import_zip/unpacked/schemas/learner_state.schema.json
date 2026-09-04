@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IELTS C1 UA+EN Learner State",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "settings",
+    "diagnostic",
+    "mastery",
+    "vocabulary",
+    "errors",
+    "reviews",
+    "savedResponses",
+    "practiceResults",
+    "mockResults",
+    "studyHistory"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string"
+    },
+    "settings": {
+      "type": "object",
+      "required": [
+        "languageMode",
+        "targetBand"
+      ],
+      "properties": {
+        "languageMode": {
+          "enum": [
+            "en",
+            "uaen",
+            "uahelp"
+          ]
+        },
+        "targetBand": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "targetDate": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preferredMinutes": {
+          "enum": [
+            10,
+            20,
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      }
+    },
+    "diagnostic": {
+      "type": "object"
+    },
+    "mastery": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 5
+      }
+    },
+    "vocabulary": {
+      "type": "object"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "date",
+          "skill",
+          "category"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "skill": {
+            "type": "string"
+          },
+          "module": {
+            "type": "string"
+          },
+          "questionId": {
+            "type": "string"
+          },
+          "learnerAnswer": {
+            "type": "string"
+          },
+          "correctAnswer": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "correction": {
+            "type": "string"
+          },
+          "repeated": {
+            "type": "boolean"
+          },
+          "reviewDate": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "resolved": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "reviews": {
+      "type": "array"
+    },
+    "savedResponses": {
+      "type": "array"
+    },
+    "practiceResults": {
+      "type": "array"
+    },
+    "mockResults": {
+      "type": "array"
+    },
+    "studyHistory": {
+      "type": "array"
+    },
+    "recommendationState": {
+      "type": "object"
+    },
+    "backups": {
+      "type": "array"
+    },
+    "reading": {
+      "type": "object",
+      "required": [
+        "activeFamily",
+        "activePassageId",
+        "answers",
+        "results"
+      ],
+      "properties": {
+        "activeFamily": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "activePassageId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "answers": {
+          "type": "object"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "date",
+              "passageId",
+              "moduleId",
+              "family",
+              "mode",
+              "score",
+              "total",
+              "accuracy"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "passageId": {
+                "type": "string"
+              },
+              "moduleId": {
+                "type": "string"
+              },
+              "family": {
+                "type": "string"
+              },
+              "mode": {
+                "enum": [
+                  "guided",
+                  "independent",
+                  "timed",
+                  "mastery"
+                ]
+              },
+              "score": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "total": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "accuracy": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "timed": {
+                "type": "boolean"
+              },
+              "withinLimit": {
+                "type": "boolean"
+              },
+              "answers": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "timer": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

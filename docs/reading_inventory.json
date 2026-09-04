@@ -1,0 +1,43 @@
+{
+  "passageCount": 60,
+  "questionCount": 240,
+  "familyCount": 15,
+  "moduleCount": 23,
+  "foundationModuleCount": 8,
+  "questionFamilyModuleCount": 15,
+  "families": {
+    "multiple_choice": 4,
+    "tfng": 4,
+    "ynng": 4,
+    "matching_information": 4,
+    "matching_headings": 4,
+    "matching_features": 4,
+    "matching_sentence_endings": 4,
+    "sentence_completion": 4,
+    "summary_completion": 4,
+    "note_completion": 4,
+    "table_completion": 4,
+    "flow_chart_completion": 4,
+    "diagram_label": 4,
+    "short_answer": 4,
+    "inference_author": 4
+  },
+  "questionsByFamily": {
+    "multiple_choice": 16,
+    "tfng": 16,
+    "ynng": 16,
+    "matching_information": 16,
+    "matching_headings": 16,
+    "matching_features": 16,
+    "matching_sentence_endings": 16,
+    "sentence_completion": 16,
+    "summary_completion": 16,
+    "note_completion": 16,
+    "table_completion": 16,
+    "flow_chart_completion": 16,
+    "diagram_label": 16,
+    "short_answer": 16,
+    "inference_author": 16
+  },
+  "originality": "All passages and scored questions are original training content."
+}

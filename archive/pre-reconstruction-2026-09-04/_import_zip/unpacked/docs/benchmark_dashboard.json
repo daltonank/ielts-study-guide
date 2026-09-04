@@ -1,0 +1,27 @@
+{
+  "requirements_total": 110,
+  "requirements_by_status": {
+    "Passed": 62,
+    "Not Started": 48
+  },
+  "vocabulary_loaded": 1784,
+  "vocabulary_expected": 1784,
+  "vocabulary_migration_complete": true,
+  "foundation_modules_registered": 8,
+  "reading_passages": 60,
+  "reading_questions": 240,
+  "task1_micro_exercises": 0,
+  "task1_full_prompts": 0,
+  "task2_prompts": 0,
+  "task2_drills": 0,
+  "grammar_items": 0,
+  "paraphrase_items": 0,
+  "speaking_part1": 0,
+  "speaking_part2": 0,
+  "speaking_part3": 0,
+  "p0_defects": 0,
+  "p1_defects": 0,
+  "regression_status": "PASS through G3",
+  "accessibility_score": null,
+  "performance_score": null
+}

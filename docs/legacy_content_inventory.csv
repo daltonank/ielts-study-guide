@@ -1,0 +1,14 @@
+ID,Legacy item,Type,Known content/functionality,Disposition,Implementation note
+LEG-001,Read Me sheet,Workbook guidance,20-week vocabulary sequence; learning rules; authoritative source links,Preserve + merge,Migrated into About/Study Path and vocabulary guidance
+LEG-002,Dashboard sheet,Progress metrics,1315 Oxford; 570 AWL; 1784 unique; 100 overlaps; status dashboard,Enhance,Converted to Progress/Vocabulary metrics
+LEG-003,Oxford C1 Bank,Vocabulary dataset,"1,315 Oxford C1 entries with POS, UA equivalent, priority/topic/progress metadata",Migrate,Exact migration blocked until raw workbook is available
+LEG-004,Academic Word List Bank,Vocabulary dataset,"570 AWL families with sublist, UA equivalent, overlap, priority/topic/progress metadata",Migrate,Exact migration blocked until raw workbook is available
+LEG-005,Study Bank,Vocabulary dataset,"1,784 normalized/deduplicated entries with UA definitions and learner fields",Migrate,Primary target table for deterministic migration script
+LEG-006,Starter 100,Active-use subset,60 AWL Sublist 1 + 40 high-priority Oxford C1 entries; recall/collocation/original sentence/check fields,Merge + enhance,Becomes onboarding review set and production workflow
+LEG-007,Legacy mastery rule,Pedagogy,Recognize meaning; recall English from Ukrainian; natural collocation; correct use in two IELTS-style responses,Preserve,Implemented as vocabulary mastery policy
+LEG-008,v2 Today,UI/function,10/25/40 minute study sessions,Replace + enhance,New presets 10/20/30/45/60/90 with adaptive reasons
+LEG-009,v2 Diagnostic,UI/function,Baseline scorecard + checklist,Merge + enhance,Foundation shell; staged content deferred to Phase 3+
+LEG-010,v2 Error Log,UI/function,Skill/error/fix/detail records,Merge + enhance,Expanded error schema and recurrence model
+LEG-011,v2 Speaking timer,UI/function,1-minute prep and 2-minute speaking timer,Preserve + enhance,Shared timer component
+LEG-012,v2 Saved practice,UI/function,Local writing/speaking response persistence,Preserve + enhance,Unified saved response store
+LEG-013,C2 Edge,Vocabulary extension,Curated stretch vocabulary beyond core C1 bank,Preserve + merge,"C2 Edge remains enrichment, not IELTS priority"

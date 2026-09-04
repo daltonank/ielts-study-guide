@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f3f91">
+<title>IELTS Academic C1 • UA+EN</title>
+<style>
+:root{
+ --bg:#f6f7fb;--surface:#ffffff;--ink:#152238;--muted:#66738b;--line:#dfe5ee;
+ --blue:#2754c5;--blue2:#173a8c;--yellow:#f3bf2b;--ua:#0b65c2;--good:#207357;
+ --danger:#a33838;--warn:#875d00;--shadow:0 12px 34px rgba(22,43,89,.08);
+ --r:18px;--pad:clamp(14px,3vw,24px);--max:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.58;padding-bottom:84px}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #f0b90b;outline-offset:3px}
+a{color:var(--blue)}
+.skip-link{position:fixed;left:12px;top:-70px;background:#fff;padding:10px 14px;z-index:200;border-radius:10px}
+.skip-link:focus{top:12px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.app-header{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:10px max(14px,env(safe-area-inset-left));background:rgba(246,247,251,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(223,229,238,.8)}
+.brand{border:0;background:transparent;display:flex;align-items:center;gap:10px;text-align:left;color:inherit;min-height:48px}
+.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(180deg,var(--ua) 0 50%,#ffd43b 50%);color:#fff;font-weight:900;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.brand small{display:block;color:var(--muted)}
+.header-actions{display:flex;align-items:center;gap:8px}
+.mode-select,.icon-btn{min-height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:0 10px}
+.icon-btn{min-width:44px;font-size:1.25rem}
+.drawer{position:fixed;z-index:80;right:10px;top:68px;width:min(360px,calc(100vw - 20px));max-height:calc(100vh - 90px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:12px}
+.drawer button{display:flex;width:100%;min-height:44px;align-items:center;border:0;background:transparent;border-radius:10px;padding:10px;text-align:left}
+.drawer button:hover,.drawer button:focus-visible{background:#eef3ff}
+.scrim{position:fixed;inset:0;background:rgba(12,24,49,.34);z-index:70}
+main{max-width:var(--max);margin:0 auto;padding:var(--pad)}
+.hero{background:linear-gradient(135deg,var(--blue2),var(--blue) 60%,#5d7ce0);color:#fff;padding:clamp(22px,5vw,42px);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
+.hero h1{font-size:clamp(2rem,7vw,4.2rem);line-height:1.02;margin:.1em 0 .25em;letter-spacing:-.03em}
+.hero p{max-width:760px;color:#eef3ff}
+.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.76rem;font-weight:850;color:var(--blue)}
+.hero .eyebrow{color:#cdd9ff}.hero .ua-note{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-top:14px}
+.card{grid-column:span 12;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:0 3px 15px rgba(18,36,76,.04)}
+@media(min-width:760px){.half{grid-column:span 6}.third{grid-column:span 4}.twoThird{grid-column:span 8}}
+h1,h2,h3{line-height:1.18}h2{font-size:clamp(1.45rem,4vw,2.15rem);margin:.25em 0}.card h3{margin-top:.1em}
+.muted{color:var(--muted)}.small{font-size:.88rem}.big{font-size:2rem;font-weight:850}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stack{display:grid;gap:10px}
+.btn{min-height:44px;border:0;border-radius:12px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:750}
+.btn.secondary{background:#eef3ff;color:var(--blue)}.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}.btn.danger{background:#fff1f1;color:var(--danger);border:1px solid #f0caca}
+label{font-weight:650}.field{display:grid;gap:6px}.field input,.field select,.field textarea,.search{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:10px 12px}
+textarea{min-height:130px;resize:vertical}
+.notice{padding:12px 14px;border-radius:13px;background:#fff8de;border-left:4px solid var(--yellow)}
+.ua-note{padding:12px 14px;border-radius:13px;background:#edf5ff;border-left:4px solid var(--ua);margin-top:10px}
+.ua-note[data-hide="true"]{display:none}
+.trap{padding:12px;border-radius:13px;background:#fff0ef;border-left:4px solid #c94b43}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;background:#eef3ff;color:#24479b;font-size:.78rem;font-weight:800}
+.badge.good{background:#eaf7f1;color:var(--good)}.badge.warn{background:#fff6df;color:var(--warn)}
+.progress{height:10px;border-radius:999px;background:#edf0f5;overflow:hidden}.progress>span{display:block;height:100%;background:var(--blue)}
+.session-item,.review-item,.search-item,.vocab-card,.error-card,.component-demo{border:1px solid var(--line);border-radius:14px;padding:13px;background:#fbfcff}
+.session-item{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.priority{border-left:5px solid var(--yellow)}
+.module-list{display:grid;gap:10px}
+.module-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+.mastery-dot{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:#edf2ff;color:var(--blue);font-weight:850}
+.mobile-nav{position:fixed;z-index:60;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.mobile-nav button{min-height:64px;border:0;background:transparent;color:var(--muted);display:grid;place-content:center;gap:2px;font-size:.74rem}
+.mobile-nav button span:first-child{font-size:1.25rem}.mobile-nav button.active{color:var(--blue);font-weight:850}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:620px;background:#fff}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:.77rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}@media(min-width:700px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}.kpi{padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff}.kpi strong{display:block;font-size:1.55rem}
+.segmented{display:flex;overflow:auto;gap:6px;flex-wrap:wrap}.segmented button{white-space:nowrap}
+.timer{font-variant-numeric:tabular-nums;font-size:2.4rem;font-weight:900;letter-spacing:.04em}
+.toast{position:fixed;z-index:120;left:50%;bottom:92px;transform:translateX(-50%) translateY(30px);opacity:0;pointer-events:none;background:#14213a;color:#fff;padding:10px 14px;border-radius:12px;transition:.2s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.dev-note{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:#101827;color:#d7e0ef;padding:12px;border-radius:12px;overflow:auto}
+@media(max-width:430px){main{padding:12px}.hero{border-radius:20px}.card{padding:14px}.brand small{font-size:.7rem}.mode-select{max-width:105px}.session-item{display:grid}}
+@media(max-width:340px){.brand strong{font-size:.86rem}.brand small{display:none}.brand-mark{width:38px;height:38px}.header-actions{gap:4px}.mode-select{width:80px;padding:0 5px}.mobile-nav button{font-size:.67rem}}
+@media(min-width:1024px){body{padding-bottom:0}.mobile-nav{position:sticky;top:69px;bottom:auto;max-width:var(--max);margin:0 auto;border:1px solid var(--line);border-radius:14px;overflow:hidden}.mobile-nav button{min-height:54px}.drawer{right:calc((100vw - var(--max))/2)}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to study content</a>
+<header class="app-header">
+  <button class="brand" data-route="today" aria-label="IELTS Academic C1 home">
+    <span class="brand-mark" aria-hidden="true">UA</span>
+    <span><strong>IELTS Academic C1</strong><small>Band 7.0–8.0 • UA+EN</small></span>
+  </button>
+  <div class="header-actions">
+    <label class="sr-only" for="languageMode">Language support</label>
+    <select id="languageMode" class="mode-select" aria-label="Language support mode">
+      <option value="en">EN</option>
+      <option value="uaen">UA + EN</option>
+      <option value="uahelp">UA Help</option>
+    </select>
+    <button id="menuBtn" class="icon-btn" aria-expanded="false" aria-controls="drawer">☰<span class="sr-only">Open navigation</span></button>
+  </div>
+</header>
+
+<aside id="drawer" class="drawer" aria-label="Secondary navigation" hidden>
+  <nav id="secondaryNav"></nav>
+</aside>
+<div id="scrim" class="scrim" hidden></div>
+
+<nav class="mobile-nav" aria-label="Primary">
+  <button data-route="today"><span aria-hidden="true">⌂</span><span>Today</span></button>
+  <button data-route="skills"><span aria-hidden="true">▤</span><span>Skills</span></button>
+  <button data-route="practice"><span aria-hidden="true">✓</span><span>Practice</span></button>
+  <button data-route="words"><span aria-hidden="true">Aa</span><span>Words</span></button>
+  <button data-route="progress"><span aria-hidden="true">↗</span><span>Progress</span></button>
+</nav>
+
+<main id="main" tabindex="-1"></main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<input id="importFile" type="file" accept="application/json" hidden>
+<script>window.VOCABULARY_META={"complete": false, "expectedCount": 1784, "seedCount": 17, "source": "legacy evidence preview", "gate": "G2 BLOCKED"};
+window.VOCABULARY=[{"id": "AWL1-001", "word": "analysis", "pos": "word family", "ua": "аналіз", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-002", "word": "approach", "pos": "word family", "ua": "підхід; метод", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-003", "word": "area", "pos": "word family", "ua": "галузь; сфера; область", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-004", "word": "assessment", "pos": "word family", "ua": "оцінювання; оцінка", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-005", "word": "assume", "pos": "word family", "ua": "припускати; брати на себе", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-006", "word": "authority", "pos": "word family", "ua": "орган влади; повноваження; авторитет", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-007", "word": "available", "pos": "word family", "ua": "доступний; наявний", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-008", "word": "benefit", "pos": "word family", "ua": "користь; перевага; приносити користь", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-009", "word": "concept", "pos": "word family", "ua": "поняття; концепція", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "AWL1-010", "word": "consistent", "pos": "word family", "ua": "послідовний; узгоджений; сталий", "source": "AWL 1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "OX-C1-001", "word": "abolish", "pos": "v.", "ua": "скасувати", "source": "Oxford C1", "priority": "Core", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "OX-C1-008", "word": "academy", "pos": "n.", "ua": "академія", "source": "Oxford C1", "priority": "High", "topic": "Education", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "OX-C1-015", "word": "accountability", "pos": "n.", "ua": "підзвітність", "source": "Oxford C1", "priority": "Core", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "OX-C1-022", "word": "acquisition", "pos": "n.", "ua": "придбання", "source": "Oxford C1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "OX-C1-027", "word": "adaptation", "pos": "n.", "ua": "адаптація", "source": "Oxford C1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "OX-C1-043", "word": "agricultural", "pos": "adj.", "ua": "сільськогосподарський", "source": "Oxford C1", "priority": "High", "topic": "Environment", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}, {"id": "OX-C1-045", "word": "albeit", "pos": "conj.", "ua": "хоча", "source": "Oxford C1", "priority": "High", "topic": "General", "definitionUa": "", "collocations": [], "example": "", "register": "academic/neutral", "masteryDefault": "New"}];
+</script>
+<script>
+window.APP_DATA = {
+  masteryLevels:[
+    {level:0,en:"Not Assessed",ua:"Не оцінено"},
+    {level:1,en:"Introduced",ua:"Ознайомлення"},
+    {level:2,en:"Guided",ua:"З підтримкою"},
+    {level:3,en:"Independent",ua:"Самостійно"},
+    {level:4,en:"Timed",ua:"У часі"},
+    {level:5,en:"Mastered",ua:"Опановано"}
+  ],
+  secondaryNav:[
+    ["start","Start Here"],["reading","Reading Lab"],["listening","Listening Lab"],
+    ["task1","Writing Task 1"],["task2","Writing Task 2"],["speaking","Speaking Lab"],
+    ["grammar","Grammar Clinic"],["paraphrase","Paraphrasing"],["pronunciation","Pronunciation"],
+    ["errors","Error Log"],["review","Review Queue"],["search","Global Search"],
+    ["settings","Settings / Backup"],["components","Component Lab"]
+  ],
+  modules:[
+    {id:"ORI-001",skill:"Orientation",title:"IELTS Academic overview",difficulty:"foundation",minutes:8},
+    {id:"READ-TFNG",skill:"Reading",title:"True / False / Not Given",difficulty:"7",minutes:18},
+    {id:"READ-HEAD",skill:"Reading",title:"Matching Headings",difficulty:"7",minutes:20},
+    {id:"W1-OVERVIEW",skill:"Writing Task 1",title:"Selecting overview features",difficulty:"7",minutes:18},
+    {id:"W2-ARG",skill:"Writing Task 2",title:"Claim → Explanation → Example → Implication",difficulty:"7",minutes:22},
+    {id:"GRAM-ART",skill:"Grammar",title:"Articles for Ukrainian speakers",difficulty:"7",minutes:14},
+    {id:"SPEAK-P2",skill:"Speaking",title:"Part 2 long turn",difficulty:"7",minutes:15},
+    {id:"LIST-DIST",skill:"Listening",title:"Distractors and corrections",difficulty:"7",minutes:16}
+  ],
+  seedReviews:[
+    {id:"REV-ART",type:"Grammar",title:"Article omission review",priority:5,module:"GRAM-ART"},
+    {id:"REV-W1",type:"Writing Task 1",title:"Overview feature selection",priority:4,module:"W1-OVERVIEW"}
+  ],
+  resources:[
+    {title:"IELTS Academic sample questions",kind:"Official IELTS",url:"https://www.ielts.org/take-a-test/preparation-resources/sample-test-questions/academic-test"},
+    {title:"IELTS Academic Writing format",kind:"Official IELTS",url:"https://ielts.org/take-a-test/test-types/ielts-academic-test/ielts-academic-format-writing"},
+    {title:"IELTS Academic Speaking format",kind:"Official IELTS",url:"https://ielts.org/take-a-test/test-types/ielts-academic-test/ielts-academic-format-speaking"},
+    {title:"British Council Ukraine IELTS preparation",kind:"Ukraine",url:"https://www.britishcouncil.org.ua/exam/ielts/prepare"},
+    {title:"IDP IELTS Academic preparation",kind:"Official partner",url:"https://ielts.idp.com/about/academic-preparation"}
+  ]
+};
+</script>
+<script>
+(() => {
+const VERSION="1.0.0-phase1";
+const STORE="ieltsC1UAEN.state.v1";
+const MODES={en:"EN",uaen:"UA + EN",uahelp:"UA Help"};
+const defaultState=()=>({
+ schemaVersion:"1.0.0",
+ settings:{languageMode:"uaen",targetBand:7.5,targetDate:null,preferredMinutes:30},
+ diagnostic:{completed:false,familiarity:{},baseline:{},weakAreas:[]},
+ mastery:{}, vocabulary:{}, errors:[], reviews:[], savedResponses:[], practiceResults:[], mockResults:[], studyHistory:[],
+ recommendationState:{lastActivity:null,lastRecommendation:null},backups:[]
+});
+let state=loadState();
+let route=location.hash.replace("#/","")||"today";
+let timerHandle=null, timerSeconds=60;
+
+function loadState(){try{const x=JSON.parse(localStorage.getItem(STORE));return {...defaultState(),...x,settings:{...defaultState().settings,...(x?.settings||{})}}}catch(e){return defaultState()}}
+function saveState(){localStorage.setItem(STORE,JSON.stringify(state))}
+function escapeHTML(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function uid(p="ID"){return p+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7)}
+function toast(msg){const el=document.querySelector("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
+function ua(en,uaText){
+ const m=state.settings.languageMode;
+ if(m==="en") return "";
+ if(m==="uaen") return `<div class="ua-note"><strong>UA:</strong> ${uaText}</div>`;
+ return `<div class="ua-note"><strong>Пояснення українською:</strong> ${uaText}</div>`;
+}
+function pageHero(kicker,title,desc,uaDesc=""){
+ return `<section class="hero"><div class="eyebrow">${kicker}</div><h1>${title}</h1><p>${desc}</p>${uaDesc?ua("",uaDesc):""}</section>`;
+}
+function card(title,body,cls=""){return `<section class="card ${cls}"><h2>${title}</h2>${body}</section>`}
+function masteryBadge(id){const l=state.mastery[id]??0;const x=APP_DATA.masteryLevels[l];return `<span class="badge">L${l} • ${x.en}</span>`}
+function progressPct(){const vals=Object.values(state.mastery);return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/(vals.length*5)*100):0}
+
+function recommendation(){
+ const noDiag=!state.diagnostic.completed;
+ if(noDiag) return {top:"Complete the baseline diagnostic",reason:"There is not enough performance evidence to prioritize a weak IELTS skill yet.",module:"start",secondary:"Orientation"};
+ const recentErrors=state.errors.filter(e=>!e.resolved);
+ const counts={}; recentErrors.forEach(e=>counts[e.category]=(counts[e.category]||0)+1);
+ const ranked=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+ const baseline=state.diagnostic.baseline||{};
+ const nums=Object.entries(baseline).filter(([,v])=>Number(v)>0).sort((a,b)=>Number(a[1])-Number(b[1]));
+ if(ranked[0] && ranked[0][1]>=2) return {top:`Review ${ranked[0][0]}`,reason:`This category appears ${ranked[0][1]} times in unresolved errors, so recurrence currently outweighs broad practice.`,module:"errors",secondary:"Error-driven repair"};
+ if(nums[0]) return {top:`Practice ${nums[0][0]}`,reason:`Your saved baseline places ${nums[0][0]} at ${nums[0][1]}, currently the lowest recorded skill estimate.`,module:"skills",secondary:"Lowest baseline skill"};
+ return {top:"Build an evidence baseline",reason:"You completed orientation, but the system still lacks enough scored work to personalize confidently.",module:"practice",secondary:"Collect practice evidence"};
+}
+function session(minutes=state.settings.preferredMinutes||30){
+ const rec=recommendation();
+ const reviews=(state.reviews.length?state.reviews:APP_DATA.seedReviews).slice().sort((a,b)=>(b.priority||0)-(a.priority||0));
+ let items=[];
+ let remaining=minutes;
+ if(reviews.length && remaining>=10){items.push({minutes:Math.min(10,remaining),title:reviews[0].title,type:"Review"});remaining-=Math.min(10,remaining)}
+ if(remaining>=10){items.push({minutes:Math.min(Math.max(10,Math.round(remaining*.6)),remaining),title:rec.top,type:"Priority"});remaining-=items.at(-1).minutes}
+ if(remaining>0){items.push({minutes:remaining,title:"Vocabulary active-use review",type:"Language"})}
+ return {minutes,items,reason:rec.reason};
+}
+function renderToday(){
+ const rec=recommendation(), s=session();
+ return pageHero("TODAY","Know what matters next","The home screen uses diagnostic evidence, mastery, errors and review debt to choose a practical next move.","Відкрийте застосунок і одразу побачте, що варто вчити далі та чому.")+
+ `<div class="grid">
+ ${card("Top priority",`<div class="priority session-item"><div><span class="badge warn">Recommended</span><h3>${escapeHTML(rec.top)}</h3><p>${escapeHTML(rec.reason)}</p></div><button class="btn" data-route="${rec.module}">Start</button></div>`,"twoThird")}
+ ${card("Target",`<div class="big">Band ${state.settings.targetBand}</div><p class="muted">Practice indicators are non-official. Only qualified IELTS examiners award official Writing/Speaking bands.</p><div class="progress" aria-label="Overall mastery ${progressPct()}%"><span style="width:${progressPct()}%"></span></div>`,"third")}
+ ${card("Study time",`<div class="segmented">${[10,20,30,45,60,90].map(m=>`<button class="btn ${m===s.minutes?"":"secondary"}" data-minutes="${m}">${m} min</button>`).join("")}</div><div class="stack" style="margin-top:12px">${s.items.map(x=>`<div class="session-item"><div><span class="badge">${x.type}</span><strong>${escapeHTML(x.title)}</strong></div><span>${x.minutes} min</span></div>`).join("")}</div><p class="small muted">${escapeHTML(s.reason)}</p>`,"half")}
+ ${card("Resume / due review",renderReviewItems(3),"half")}
+ </div>`;
+}
+function renderReviewItems(limit=99){
+ const items=(state.reviews.length?state.reviews:APP_DATA.seedReviews).slice(0,limit);
+ return `<div class="stack">${items.map(r=>`<div class="review-item"><span class="badge">${escapeHTML(r.type)}</span><strong>${escapeHTML(r.title)}</strong><div class="small muted">Priority ${r.priority||1}</div></div>`).join("")}</div>`;
+}
+function renderStart(){
+ const b=state.diagnostic.baseline||{};
+ return pageHero("START HERE","Diagnostic before prescription","Capture familiarity and a baseline, then let the system prioritize evidence rather than treating every skill equally.","Спочатку збираємо базові дані. Рекомендації мають спиратися на докази, а не на припущення.")+
+ `<div class="grid">
+ ${card("Stage 1 • Familiarity",`<div class="stack">
+ <label class="field">Prior IELTS experience<select id="priorIelts"><option value="">Choose</option><option ${state.diagnostic.familiarity.prior==="none"?"selected":""} value="none">None</option><option ${state.diagnostic.familiarity.prior==="practice"?"selected":""} value="practice">Practice only</option><option ${state.diagnostic.familiarity.prior==="official"?"selected":""} value="official">Taken official IELTS</option></select></label>
+ <label class="field">Perceived weakest area<select id="perceivedWeak"><option value="">Choose</option>${["Reading","Listening","Writing Task 1","Writing Task 2","Speaking","Grammar"].map(x=>`<option ${state.diagnostic.familiarity.weak===x?"selected":""}>${x}</option>`).join("")}</select></label>
+ <button class="btn" id="saveFamiliarity">Save familiarity</button></div>`,"half")}
+ ${card("Baseline scorecard",`<p class="muted">Use actual or practice estimates where known. Leave unknown fields blank.</p>
+ <div class="grid">${["Reading","Listening","Writing","Speaking"].map(k=>`<label class="field half">${k}<input id="base${k}" type="number" min="0" max="9" step=".5" value="${escapeHTML(b[k]??"")}"></label>`).join("")}</div>
+ <button class="btn" id="saveBaseline">Save baseline</button>`,"half")}
+ ${card("Diagnostic status",`<p><strong>${state.diagnostic.completed?"Baseline saved":"Not yet complete"}</strong></p><p>${escapeHTML(recommendation().reason)}</p><button class="btn secondary" data-route="skills">View skill map</button>`)}
+ </div>`;
+}
+function renderSkills(){
+ return pageHero("CORE SKILLS","The IELTS training map","Phase 1 establishes the module/mastery shell. Later gated phases populate the complete Reading, Writing, Speaking and Listening banks.","Кожен модуль має рівень опанування 0–5. Відкриття сторінки саме по собі не підвищує mastery.")+
+ `<div class="grid">${["Reading","Listening","Writing Task 1","Writing Task 2","Speaking","Grammar"].map(skill=>{
+ const mods=APP_DATA.modules.filter(m=>m.skill===skill);
+ return card(skill,`<div class="module-list">${mods.length?mods.map(m=>`<div class="module-item"><div class="mastery-dot">${state.mastery[m.id]??0}</div><div><strong>${m.title}</strong><div class="small muted">${m.difficulty} • ${m.minutes} min</div></div>${masteryBadge(m.id)}</div>`).join(""):`<p class="muted">Curriculum content is assigned to a later gated phase.</p>`}</div>`,"half")
+ }).join("")}</div>`;
+}
+function renderPractice(){
+ return pageHero("PRACTICE","Practice, capture error, explain, review","The practice shell already records errors and saved work; phase content fills it only after preceding gates pass.","Помилка має стати навчальним сигналом: що сталося, чому, і що повторити далі.")+
+ `<div class="grid">
+ ${card("Review Today",renderReviewItems(),"half")}
+ ${card("Quick error capture",`<div class="stack">
+ <label class="field">Skill<select id="errSkill">${["Reading","Listening","Writing Task 1","Writing Task 2","Speaking","Grammar","Vocabulary"].map(x=>`<option>${x}</option>`).join("")}</select></label>
+ <label class="field">Category<input id="errCategory" placeholder="e.g. article omission"></label>
+ <label class="field">Explanation<textarea id="errExplanation" placeholder="What happened, and what should happen next time?"></textarea></label>
+ <button class="btn" id="saveError">Save error</button></div>`,"half")}
+ ${card("Writing autosave",`<p class="muted">Foundation validation field. Saved locally while you type.</p><label class="field">Practice response<textarea id="autosaveWriting" placeholder="Type here…">${escapeHTML(state.savedResponses.find(x=>x.id==="AUTOSAVE-WRITING")?.text||"")}</textarea></label><span id="autosaveStatus" class="small muted">Local draft</span>`,"half")}
+ ${card("Timer",`<div id="timer" class="timer">01:00</div><div class="row"><button class="btn" data-timer="60">1:00 prep</button><button class="btn secondary" data-timer="120">2:00 speak</button><button class="btn ghost" data-timer="0">Reset</button></div>`,"half")}
+ </div>`;
+}
+function vocabState(id){return state.vocabulary[id]||{stage:"New",confidence:0,lastReviewed:null,nextReview:null,collocation:"",example:""}}
+function renderWords(){
+ const meta=window.VOCABULARY_META||{};
+ return pageHero("WORDS","Vocabulary, but for production","The legacy bank remains the source of truth. This Phase 1 build uses a small audited preview until the exact workbook bytes can pass G2.","Повна міграція 1 784 записів не буде імітована. Після G2 збережемо українські значення, метадані та прогрес без втрат.")+
+ `<div class="grid">
+ ${card("Migration gate",`<div class="notice"><strong>${meta.complete?"G2 source loaded":"G2 BLOCKED"}</strong><br>${meta.complete?`${window.VOCABULARY.length} records loaded.`:`${meta.seedCount} audited preview records loaded. Expected full bank: ${meta.expectedCount}.`}</div>`)}
+ ${card("Search vocabulary",`<input id="vocabSearch" class="search" type="search" placeholder="Search English or Ukrainian…" aria-label="Search vocabulary"><div id="vocabResults" class="stack" style="margin-top:12px"></div>`)}
+ </div>`;
+}
+function renderVocabResults(q=""){
+ const target=document.querySelector("#vocabResults"); if(!target)return;
+ q=q.trim().toLowerCase();
+ const rows=(window.VOCABULARY||[]).filter(v=>!q||`${v.word} ${v.ua} ${v.topic} ${v.source}`.toLowerCase().includes(q)).slice(0,40);
+ target.innerHTML=rows.map(v=>{const s=vocabState(v.id);return `<div class="vocab-card">
+ <div class="row"><strong>${escapeHTML(v.word)}</strong><span class="badge">${escapeHTML(v.pos)}</span><span class="badge">${escapeHTML(v.source)}</span></div>
+ <div class="ua-note"><strong>UA:</strong> ${escapeHTML(v.ua)}</div>
+ <div class="row" style="margin-top:9px"><label class="field">Mastery<select data-vocab-stage="${v.id}">${["New","Recognized","Recall","Active","Mastered"].map(x=>`<option ${s.stage===x?"selected":""}>${x}</option>`).join("")}</select></label>
+ <label class="field">Confidence<select data-vocab-confidence="${v.id}">${[0,1,2,3,4,5].map(x=>`<option ${Number(s.confidence)===x?"selected":""}>${x}</option>`).join("")}</select></label></div>
+ </div>`}).join("")||`<p class="muted">No matches.</p>`;
+}
+function renderProgress(){
+ const errCounts={};state.errors.forEach(e=>{if(!e.resolved)errCounts[e.category]=(errCounts[e.category]||0)+1});
+ const top=Object.entries(errCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+ return pageHero("PROGRESS","Evidence, not decoration","The dashboard emphasizes mastery, recurring errors, review debt and meaningful changes rather than streak pressure.","Прогрес показує навчальні сигнали, а не карає за пропущений день.")+
+ `<div class="grid">
+ ${card("Current profile",`<div class="kpi-grid">
+ <div class="kpi"><span class="muted">Mastery</span><strong>${progressPct()}%</strong></div>
+ <div class="kpi"><span class="muted">Errors open</span><strong>${state.errors.filter(e=>!e.resolved).length}</strong></div>
+ <div class="kpi"><span class="muted">Saved writing</span><strong>${state.savedResponses.length}</strong></div>
+ <div class="kpi"><span class="muted">Reviews due</span><strong>${(state.reviews.length||APP_DATA.seedReviews.length)}</strong></div>
+ </div>`)}
+ ${card("Weak areas",top.length?`<div class="stack">${top.map(([k,v])=>`<div class="review-item"><strong>${escapeHTML(k)}</strong><span>${v} unresolved</span></div>`).join("")}</div>`:`<p class="muted">No recurring error pattern yet.</p>`,"half")}
+ ${card("Recommendation",`<h3>${escapeHTML(recommendation().top)}</h3><p>${escapeHTML(recommendation().reason)}</p>`,"half")}
+ ${card("Study history",state.studyHistory.length?state.studyHistory.map(x=>`<div class="review-item">${escapeHTML(x.date)} • ${x.minutes} min • ${escapeHTML(x.skill||"Mixed")}</div>`).join(""):`<p class="muted">History will populate as scored curriculum phases come online.</p>`)}
+ </div>`;
+}
+function genericLab(name,desc,uaText){
+ return pageHero("CURRICULUM SHELL",name,desc,uaText)+`<div class="grid">${card("Gate status",`<div class="notice"><strong>Not gate-complete.</strong><br>This route exists in the stable platform shell, but its benchmark content is intentionally not marked complete before prerequisite gates pass.</div>`)}${card("Module mastery contract",`<p>Opening content does not increase mastery. Level 2 requires guided evidence; Level 3 unseen independent performance; Level 4 repeated timed performance; Level 5 spaced consistency.</p>`)}</div>`;
+}
+function renderErrors(){
+ return pageHero("ERROR LOG","Turn mistakes into a dataset","Filterable records feed later adaptive recommendations.","Помилки зберігаються локально і можуть бути позначені як resolved після повторної успішної практики.")+
+ `<div class="grid">${card("Open errors",state.errors.length?`<div class="stack">${state.errors.map(e=>`<div class="error-card"><div class="row"><span class="badge">${escapeHTML(e.skill)}</span><strong>${escapeHTML(e.category)}</strong><span class="small muted">${escapeHTML(e.date)}</span></div><p>${escapeHTML(e.explanation)}</p><button class="btn secondary" data-resolve="${e.id}">${e.resolved?"Reopen":"Mark resolved"}</button></div>`).join("")}</div>`:`<p class="muted">No logged errors yet.</p>`)}</div>`;
+}
+function renderSearch(){
+ return pageHero("SEARCH","One search across the study system","Search modules, vocabulary and saved errors in one place.","Пошук групує результати за типом, щоб швидко перейти від терміну до вправи або власної помилки.")+
+ `<div class="grid">${card("Global search",`<input id="globalSearch" class="search" type="search" placeholder="Try: articles" aria-label="Global search"><div id="globalResults" class="stack" style="margin-top:12px"></div>`)}</div>`;
+}
+function renderGlobal(q=""){
+ const el=document.querySelector("#globalResults");if(!el)return;q=q.trim().toLowerCase();
+ if(!q){el.innerHTML="<p class='muted'>Enter a search term.</p>";return}
+ let hits=[];
+ APP_DATA.modules.forEach(m=>{if(`${m.title} ${m.skill}`.toLowerCase().includes(q))hits.push({type:"Module",title:m.title,detail:m.skill})});
+ (window.VOCABULARY||[]).forEach(v=>{if(`${v.word} ${v.ua}`.toLowerCase().includes(q))hits.push({type:"Vocabulary",title:v.word,detail:v.ua})});
+ state.errors.forEach(e=>{if(`${e.category} ${e.explanation}`.toLowerCase().includes(q))hits.push({type:"Error",title:e.category,detail:e.explanation})});
+ el.innerHTML=hits.slice(0,50).map(h=>`<div class="search-item"><span class="badge">${h.type}</span><strong>${escapeHTML(h.title)}</strong><div class="small muted">${escapeHTML(h.detail)}</div></div>`).join("")||"<p class='muted'>No results.</p>";
+}
+function renderSettings(){
+ return pageHero("SETTINGS","Language, target and backup","Settings persist locally. Import validates the expected learner-state structure before replacement.","Перед імпортом застосунок зберігає резервну копію поточного стану.")+
+ `<div class="grid">
+ ${card("Study settings",`<div class="stack"><label class="field">Target band<input id="targetBand" type="number" min="0" max="9" step=".5" value="${state.settings.targetBand}"></label><label class="field">Preferred session<select id="preferredMinutes">${[10,20,30,45,60,90].map(x=>`<option ${x===state.settings.preferredMinutes?"selected":""}>${x}</option>`).join("")}</select></label><button id="saveSettings" class="btn">Save settings</button></div>`,"half")}
+ ${card("Backup / restore",`<div class="stack"><button id="exportBtn" class="btn">Export Progress JSON</button><button id="importBtn" class="btn secondary">Import Progress JSON</button><p class="small muted">Import does not silently overwrite malformed data. A snapshot of the current state is retained before a valid replacement.</p></div>`,"half")}
+ ${card("Build identity",`<div class="dev-note">Version ${VERSION}\nVocabulary gate: ${(window.VOCABULARY_META||{}).gate}\nStorage key: ${STORE}</div>`)}
+ </div>`;
+}
+function renderComponents(){
+ const names=["Section header","Module header","Lesson objective","Ukrainian explanation","Example","Worked example","Examiner note","Common trap","Strategy block","Practice item","Multiple choice","T/F/NG","Matching activity","Text response","Answer reveal","Explanation panel","Timer","Progress bar","Mastery badge","Vocabulary card","Collocation card","Graph exercise","Writing response","Speaking cue card","Error record","Review item","Score summary","Weak-area recommendation","Study session card","Diagnostic result","Resource card"];
+ return pageHero("DESIGN SYSTEM","Reusable component inventory","A Phase 1 verification surface for shared spacing, states, focus behavior and responsive rules.","Це внутрішня QA-сторінка: вона підтверджує, що компоненти використовують одну систему, а не випадкові стилі.")+
+ `<div class="grid">${names.map((n,i)=>`<div class="card third"><span class="badge">C-${String(i+1).padStart(2,"0")}</span><h3>${n}</h3><p class="muted">Shared token/component primitive ready for curriculum binding.</p></div>`).join("")}</div>`;
+}
+function renderReview(){return pageHero("REVIEW TODAY","Due work before new work","Review debt, recurring errors and mastery weakness determine what returns.","Черга повторення зменшує забування та не дозволяє слабким місцям загубитися.")+`<div class="grid">${card("Queue",renderReviewItems())}</div>`}
+
+function routeView(){
+ const map={
+ today:renderToday,start:renderStart,skills:renderSkills,practice:renderPractice,words:renderWords,progress:renderProgress,
+ reading:()=>genericLab("Reading Lab","Full question-family curriculum is assigned to Phase 3.","Повний Reading Academy починається лише після проходження G2."),
+ listening:()=>genericLab("Listening Lab","Strategy and error-taxonomy content is assigned to Phase 8.","Listening використовує лише оригінальні, дозволені або офіційно пов'язані матеріали."),
+ task1:()=>genericLab("Writing Task 1","Original visual-analysis curriculum is assigned to Phase 4.","Візуали будуть оригінальними, а автоматичні оцінки не називатимуться офіційними IELTS bands."),
+ task2:()=>genericLab("Writing Task 2","Argument and essay curriculum is assigned to Phase 5.","Task 2 має вищу вагу в Writing, тому пізніша адаптивна система врахує це."),
+ speaking:()=>genericLab("Speaking Lab","Parts 1–3 curriculum and Together Mode are assigned to Phase 7.","Мета pronunciation: зрозумілість, а не стирання акценту."),
+ grammar:()=>genericLab("Grammar Clinic","Ukrainian→English transfer curriculum is assigned to Phase 6.","Українські пояснення використовуються там, де контраст справді допомагає."),
+ paraphrase:()=>genericLab("Paraphrasing Academy","Cross-skill transformation practice is assigned to Phase 6.","Перефразування пов'язується з Reading, Listening, Writing і Speaking."),
+ pronunciation:()=>genericLab("Pronunciation Lab","Intelligibility-focused curriculum is assigned to Phase 6.","Не 'прибираємо акцент'; тренуємо stress, sounds, thought groups та fluency repair."),
+ errors:renderErrors,review:renderReview,search:renderSearch,settings:renderSettings,components:renderComponents
+ };
+ return (map[route]||renderToday)();
+}
+function navigate(r){
+ const y=window.scrollY; route=r; history.replaceState(null,"","#/"+r); render(); window.scrollTo({top:0,behavior:"instant"});
+ closeDrawer();
+}
+function render(){
+ const main=document.querySelector("#main");main.innerHTML=routeView();
+ document.documentElement.lang=state.settings.languageMode==="uahelp"?"uk":"en";
+ document.querySelector("#languageMode").value=state.settings.languageMode;
+ document.querySelectorAll(".mobile-nav button").forEach(b=>b.classList.toggle("active",b.dataset.route===route));
+ bindPage();
+}
+function bindPage(){
+ document.querySelectorAll("[data-route]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.route)));
+ document.querySelectorAll("[data-minutes]").forEach(b=>b.addEventListener("click",()=>{state.settings.preferredMinutes=Number(b.dataset.minutes);saveState();render()}));
+ if(document.querySelector("#saveFamiliarity"))document.querySelector("#saveFamiliarity").onclick=()=>{state.diagnostic.familiarity={prior:priorIelts.value,weak:perceivedWeak.value};saveState();toast("Familiarity saved")};
+ if(document.querySelector("#saveBaseline"))document.querySelector("#saveBaseline").onclick=()=>{state.diagnostic.baseline={Reading:baseReading.value,Listening:baseListening.value,Writing:baseWriting.value,Speaking:baseSpeaking.value};state.diagnostic.completed=Object.values(state.diagnostic.baseline).some(Boolean);saveState();toast("Baseline saved");render()};
+ if(document.querySelector("#saveError"))document.querySelector("#saveError").onclick=()=>{if(!errCategory.value.trim())return toast("Add an error category");state.errors.unshift({id:uid("ERR"),date:new Date().toISOString().slice(0,10),skill:errSkill.value,module:"",questionId:"",learnerAnswer:"",correctAnswer:"",category:errCategory.value.trim(),explanation:errExplanation.value.trim(),correction:"",repeated:false,reviewDate:null,resolved:false});saveState();toast("Error saved");render()};
+ if(document.querySelector("#autosaveWriting"))document.querySelector("#autosaveWriting").addEventListener("input",e=>{let x=state.savedResponses.find(x=>x.id==="AUTOSAVE-WRITING");if(!x){x={id:"AUTOSAVE-WRITING",type:"writing",text:"",updatedAt:""};state.savedResponses.push(x)}x.text=e.target.value;x.updatedAt=new Date().toISOString();saveState();document.querySelector("#autosaveStatus").textContent="Saved locally"});
+ document.querySelectorAll("[data-timer]").forEach(b=>b.onclick=()=>startTimer(Number(b.dataset.timer)));
+ if(document.querySelector("#vocabSearch")){renderVocabResults();document.querySelector("#vocabSearch").addEventListener("input",e=>renderVocabResults(e.target.value))}
+ document.querySelectorAll("[data-vocab-stage]").forEach(s=>s.onchange=()=>{const id=s.dataset.vocabStage;state.vocabulary[id]={...vocabState(id),stage:s.value,lastReviewed:new Date().toISOString().slice(0,10)};saveState();toast("Vocabulary state saved")});
+ document.querySelectorAll("[data-vocab-confidence]").forEach(s=>s.onchange=()=>{const id=s.dataset.vocabConfidence;state.vocabulary[id]={...vocabState(id),confidence:Number(s.value)};saveState();toast("Confidence saved")});
+ document.querySelectorAll("[data-resolve]").forEach(b=>b.onclick=()=>{const e=state.errors.find(x=>x.id===b.dataset.resolve);if(e){e.resolved=!e.resolved;saveState();render()}});
+ if(document.querySelector("#globalSearch"))document.querySelector("#globalSearch").addEventListener("input",e=>renderGlobal(e.target.value));
+ if(document.querySelector("#saveSettings"))document.querySelector("#saveSettings").onclick=()=>{state.settings.targetBand=Number(targetBand.value);state.settings.preferredMinutes=Number(preferredMinutes.value);saveState();toast("Settings saved");render()};
+ if(document.querySelector("#exportBtn"))document.querySelector("#exportBtn").onclick=exportData;
+ if(document.querySelector("#importBtn"))document.querySelector("#importBtn").onclick=()=>document.querySelector("#importFile").click();
+}
+function startTimer(sec){clearInterval(timerHandle);timerSeconds=sec||60;drawTimer();if(!sec)return;timerHandle=setInterval(()=>{timerSeconds--;drawTimer();if(timerSeconds<=0){clearInterval(timerHandle);toast("Timer complete")}},1000)}
+function drawTimer(){const el=document.querySelector("#timer");if(!el)return;el.textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0")}
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`ielts-c1-progress-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href)}
+function validImport(x){return x&&typeof x==="object"&&typeof x.schemaVersion==="string"&&x.settings&&["en","uaen","uahelp"].includes(x.settings.languageMode)&&Array.isArray(x.errors)&&Array.isArray(x.savedResponses)&&Array.isArray(x.studyHistory)}
+function importData(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!validImport(x))throw new Error("Schema check failed");const backup=JSON.parse(JSON.stringify(state));x.backups=Array.isArray(x.backups)?x.backups:[];x.backups.unshift({createdAt:new Date().toISOString(),state:backup});state=x;saveState();toast("Import successful");render()}catch(e){toast("Import rejected: "+e.message)}};r.readAsText(file)}
+function openDrawer(){drawer.hidden=false;scrim.hidden=false;menuBtn.setAttribute("aria-expanded","true")}
+function closeDrawer(){drawer.hidden=true;scrim.hidden=true;menuBtn.setAttribute("aria-expanded","false")}
+function init(){
+ secondaryNav.innerHTML=APP_DATA.secondaryNav.map(([r,t])=>`<button data-route="${r}">${t}</button>`).join("");
+ menuBtn.onclick=()=>drawer.hidden?openDrawer():closeDrawer();scrim.onclick=closeDrawer;
+ languageMode.onchange=()=>{const y=window.scrollY;state.settings.languageMode=languageMode.value;saveState();render();requestAnimationFrame(()=>window.scrollTo(0,y));toast("Language support: "+MODES[state.settings.languageMode])};
+ importFile.onchange=e=>{if(e.target.files[0])importData(e.target.files[0]);e.target.value=""};
+ window.addEventListener("hashchange",()=>{route=location.hash.replace("#/","")||"today";render()});
+ render();
+}
+init();
+})();
+</script>
+</body>
+</html>
