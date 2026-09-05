@@ -2,6 +2,63 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-05 — G4 external review round 1: changes requested and made
+
+**Gate:** G4 Writing Task 1 — **INTERNAL PASS, EXTERNAL RE-REVIEW PENDING.**
+Candidate `g4-candidate-2`. See `docs/G4_EXTERNAL_REVIEW_PACKET.md` §12 for the
+finding-by-finding response.
+
+An external reviewer independently reran the whole suite against candidate `fe720d5`,
+found it green, and still returned **CHANGES REQUESTED** on five findings the suite could
+not see. All five are fixed here, and checking the fixes on a real 375px viewport turned
+up a sixth defect that had been in the stylesheet since G1.
+
+### Fixed
+- **R1-001 (P1)** eighteen of 21 band samples were under the 150-word Academic Task 1
+  minimum, four of them in the "Strong" position, so length was an uncontrolled variable
+  between the three levels. Every sample is now 158-202 words, written in its own voice,
+  and the generator refuses to emit a shorter one (D-022).
+- **R1-002 (P1)** mastery L4 and L5 could be reached with a 20-word response. Both now
+  require a response of at least 150 words as well as the timing and checklist conditions.
+  An underlength submission logs the new `underlength_response` error category instead
+  (D-022, amending D-015 and D-016).
+- **R1-003 (P2)** report-level grounding authorised a set of figures with no opinion about
+  which entity each belonged to, so two real values could be swapped between two series and
+  still pass. Canonical prose is now bound sentence by sentence: a figure may cite only a
+  fact whose subjects are named in its own clause (D-021).
+- **R1-004 (P2)** the packet named a candidate SHA that no commit in the repository has.
+  The candidate is now a git tag, and `tests/release_integrity.py` fails if it does not
+  resolve, if the packet inside the tagged commit names a different release, or if any
+  hash or path the packet cites does not exist (D-023).
+- **R1-005 (P3)** the Task 1 inventory printed `Completed 0+0`; it now reads
+  `Exercises done 0 / 70` and `Prompts answered 0 / 21`. Reading foundation modules printed
+  `foundation • undefined min`; the duration is now shown only where there is one.
+- **D4-008 (P2, found while verifying the above)** `.half`, `.third` and `.twoThird` only
+  received a column span at 760px and above. `.card` carries its own span, so cards were
+  fine and the bug stayed invisible — but every other grid child collapsed to one twelfth
+  of the row on a phone: the band-lab annotation blocks rendered as 28px slivers of
+  vertical text, and the four vocabulary filters on the Words screen as 14px slivers.
+
+### Added
+- `tests/g4_writing1_negative.py` — six seeded defects, each required to fail the guard
+  that should catch it, every file restored afterwards.
+- `tests/release_integrity.py` — the review packet must identify a release that resolves.
+- Sentence-level claim tuples in `web/writing1_data.js`, and an independent
+  re-implementation of the binder in `tests/g4_writing1_claims.py` that resolves fact keys
+  against the visual's label vocabulary rather than building them structurally.
+- Band samples carry `styleLabel` ("Illustrative Band N-style sample"), `wordMinimum` and
+  `meetsMinimum`; each set maps its compared aspects to the four public IELTS Writing
+  criteria and points at the published descriptors without reproducing them.
+- `tests/g4_writing1_responsive.py` now walks the band lab at all six widths;
+  `tests/responsive_check.py` measures every grid child on all five primary routes.
+- Screenshots `docs/qa_w1r2_*.png` at 1440, 375 and 320.
+- `DECISIONS.md` D-021, D-022, D-023.
+
+### Verified
+All 21 scripts pass, plus the seeded-defect proof: 6 of 6 defects caught and the restored
+artifact still passes.
+
+---
 ## 2026-09-04 — G4 closure audit
 
 **Gate:** G4 Writing Task 1 — **INTERNAL PASS, EXTERNAL REVIEW PENDING.**

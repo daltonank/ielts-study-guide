@@ -2,7 +2,7 @@
 
 **Updated:** 2026-09-04  
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 INTERNAL PASS — EXTERNAL REVIEW PENDING — see `docs/G4_EXTERNAL_REVIEW_PACKET.md`  
+**Candidate gate:** G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING — round 1 returned CHANGES REQUESTED; every finding is addressed in candidate 2 — see `docs/G4_EXTERNAL_REVIEW_PACKET.md`  
 **Next gate:** G5 Writing Task 2, blocked until G4 is independently reviewed  
 **Deployment:** local HTML only; public reconciliation deferred
 
@@ -39,10 +39,11 @@ Current Reading evidence:
 ---
 
 ### G4 — Writing Task 1
-**INTERNAL PASS — EXTERNAL REVIEW PENDING.** Every internal requirement passes with
-reproducible evidence, but the planned cross-provider review has not happened, so this
-is a candidate release rather than a closed gate. Review packet:
-`docs/G4_EXTERNAL_REVIEW_PACKET.md`.
+**INTERNAL PASS — EXTERNAL RE-REVIEW PENDING.** External review of the first
+candidate (`fe720d5`) returned **CHANGES REQUESTED** with two P1, two P2 and one P3
+finding. All five are fixed, and a sixth defect (D4-008) was found while checking the
+fixes on a real 375px viewport. The gate stays open until the re-review happens.
+Review packet: `docs/G4_EXTERNAL_REVIEW_PACKET.md`.
 
 | Benchmark | Required | Actual |
 |---|---:|---:|
@@ -50,6 +51,7 @@ is a candidate release rather than a closed gate. Review packet:
 | Micro-exercises | ≥60 | 70 |
 | Full timed prompts | ≥20 | 21 |
 | Band comparison sets | 1 per family | 7 |
+| Band samples at 150+ words | 21 | 21 |
 
 Also delivered: 21 original visuals, all 10 micro-exercise types in every family,
 guided/independent/timed/mastery progression per family, 4 foundation modules, 7 family
@@ -67,11 +69,16 @@ Current Writing Task 1 evidence:
 - `tests/g4_writing1_accessibility.py` — PASS across all 7 families
 - `tests/g4_writing1_persistence.py` — real HTTP, genuine reload, export/import, keyboard-only
 - `tests/g4_writing1_obstruction.py` — real viewport states at all six widths
+- `tests/g4_writing1_negative.py` — six seeded defects, all caught, artifact restored
+- `tests/release_integrity.py` — the packet names a release that resolves
 - G0–G3 regression re-run and passing
 - `docs/phase_4_report.md`, `docs/writing1_content_qa.md`
 
-Decisions: D-015 mastery thresholds, D-016 error taxonomy, D-017 grounding by re-derived
-facts, D-018 toolchain, D-019 the visual panel as the only new component.
+Decisions: D-015 mastery thresholds (amended by D-022), D-016 error taxonomy (13
+categories after D-022), D-017 grounding by re-derived facts, D-018 toolchain, D-019 the
+visual panel as the only new component, D-020 canonical claim manifest, D-021
+sentence-scoped binding of canonical prose, D-022 the 150-word Task 1 minimum enforced,
+D-023 release identity by tag.
 
 ---
 
@@ -108,6 +115,12 @@ sample. The `.w1-visual` panel does not apply; Task 2 has no graphic.
 | QA-G4-002 | P3 | **Fixed** | The literal string "Task 1" was read as the figure 1 during grounding checks. |
 | D4-006 | P2 | **Fixed** | Grounding authorised any arithmetically derivable figure, including column totals and pairwise sums, so an item could look supported without being correct. Replaced by the canonical claim manifest (D-020). |
 | D4-007 | P3 | **Fixed** | `.w1-chart{margin:0 -2px}` made every chart 4px wider than its parent's content box, so ancestors reported horizontal overflow. |
+| D4-008 | P2 | **Fixed** | `.half`, `.third` and `.twoThird` only received a column span at 760px and above, so any non-`.card` grid child collapsed to one twelfth of the row on a phone: the band-lab annotation blocks became 28px slivers and the four vocabulary filters on Words became 14px slivers. Found by looking at a 375px screenshot, not by an assertion. Fixed in `web/styles.css`; `tests/responsive_check.py` now measures every grid child on all five primary routes at all six widths. |
+| R1-001 | P1 | **Fixed** | Eighteen of 21 band samples were under the 150-word Academic Task 1 minimum, four of them labelled Strong (external review). All 21 are now 158-202 words. |
+| R1-002 | P1 | **Fixed** | Mastery L4 and L5 could be reached with a 20-word response (external review). Both now require a response of at least `wordMinimum` words; underlength submissions log an error instead. |
+| R1-003 | P2 | **Fixed** | Report-level grounding authorised a set of figures unbound to any entity, so two real values could be swapped between two series (external review). Replaced by sentence-scoped binding (D-021). |
+| R1-004 | P2 | **Fixed** | The review packet named a candidate SHA that does not exist (external review). The candidate is now a tag, checked by `tests/release_integrity.py` (D-023). |
+| R1-005 | P3 | **Fixed** | The Task 1 inventory printed `Completed 0+0` without naming its operands, and Reading foundation modules printed `foundation • undefined min` (external review). |
 
 Open P0: 0 · Open P1: 0 · Open P2: 0 · Open P3: 0
 

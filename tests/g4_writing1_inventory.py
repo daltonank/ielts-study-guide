@@ -62,6 +62,11 @@ row("Full timed prompts", len(prompts), 20, "web/writing1_data.js", "prompts[] (
 row("Band comparison sets", len(bands), 7, "web/writing1_data.js", "bandComparisons[] (ids W1B-*)")
 row("Band sample responses", sum(len(b["responses"]) for b in bands), 21,
     "web/writing1_data.js", "bandComparisons[].responses[]")
+row("Band samples at 150+ words",
+    sum(1 for b in bands for r in b["responses"]
+        if sum(len(p.split()) for p in r["text"]) >= 150),
+    sum(len(b["responses"]) for b in bands),
+    "web/writing1_data.js", "bandComparisons[].responses[].text (Academic Task 1 minimum)")
 row("Worked examples", sum(len(m.get("workedExamples", [])) for m in modules), 11,
     "web/writing1_data.js", "modules[].workedExamples[]")
 row("Annotated model responses",

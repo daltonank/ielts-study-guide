@@ -2,12 +2,16 @@
 
 **Phase:** 4 — Writing Task 1
 **Gate:** G4 Writing Task 1
-**Date:** 2026-09-04
-**Decision:** **G4 INTERNAL PASS — EXTERNAL REVIEW PENDING**
+**Date:** 2026-09-04, revised 2026-09-05 after external review round 1
+**Decision:** **G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING**
 
-> All internal requirements pass with reproducible evidence. The planned
-> cross-provider review has not occurred, so this is a candidate release. See
-> `docs/G4_EXTERNAL_REVIEW_PACKET.md`.
+> External review of candidate `fe720d5` independently reran the whole suite, found it
+> green, and returned **CHANGES REQUESTED** on five findings the suite could not see:
+> underlength band samples, a mastery path that did not require a real response,
+> report-level grounding unbound to entities, a packet naming a release that does not
+> exist, and two UI strings. All five are fixed in candidate `g4-candidate-2`, together
+> with D4-008, which was found while verifying the fixes on a real 375px viewport. See
+> `docs/G4_EXTERNAL_REVIEW_PACKET.md` §12.
 
 ---
 
@@ -51,10 +55,11 @@ criteria IELTS Writing rewards, and an annotated model response.
 - **L2** ≥50% across the family's four guided exercises.
 - **L3** ≥75% across the family's three independent exercises.
 - **L4** ≥75% across the timed exercises **and** one full prompt submitted inside its
-  20-minute limit with the checklist completed. The functional test explicitly asserts that
-  finishing the timed exercises alone leaves the learner at L3.
+  20-minute limit, **at least 150 words long**, with the checklist completed. The functional
+  test asserts that finishing the timed exercises alone leaves the learner at L3, and that a
+  20-word and a 149-word submission also leave the learner at L3 (D-022).
 - **L5** ≥85% across ≥3 distinct exercises on ≥2 dates, including the mastery exercise,
-  plus a timed full response.
+  plus a timed full response of at least 150 words.
 
 ## Error and review integration
 
@@ -77,7 +82,7 @@ queued for review.
 | `tests/g3_reading_responsive.py` | **PASS** | 320/375/430/768/1024/1440 |
 | `tests/g3_reading_accessibility.py` | **PASS** | Reading a11y after G4 integration |
 | `tests/g4_writing1_inventory.py` | **PASS** | Machine-derived counts; every benchmark, fails automatically if coverage drops |
-| `tests/g4_writing1_claims.py` | **PASS** | Canonical claim manifest over all 529 text blocks; totals and pairwise sums need explicit authorisation |
+| `tests/g4_writing1_claims.py` | **PASS** | Canonical claim manifest over all 531 text blocks, plus sentence-scoped binding of every figure in the 21 model responses and 21 band samples to an entity named in its clause (D-021), re-derived independently |
 | `tests/g4_writing1_persistence.py` | **PASS** | Real HTTP server: genuine reload, export/import round-trip, malformed rejection, backup retention, search, keyboard-only |
 | `tests/g4_writing1_obstruction.py` | **PASS** | Real viewport states at six widths: sticky overlap, skip-link focus state, contained scrolling |
 | `tests/g4_writing1_validation.py` | **PASS** | Counts, family and micro-type coverage as set equality, unique IDs, reference integrity, `schemas/` conformance, wrong-option reasoning, bilingual coverage, honest scoring, data grounding |
@@ -85,7 +90,9 @@ queued for review.
 | `tests/g4_writing1_functional.py` | **PASS** | Navigation, all three interaction types, mastery transitions, timing evidence, autosave, error/review integration, persistence across reload |
 | `tests/g4_writing1_responsive.py` | **PASS** | All 7 families × 6 widths |
 | `tests/g4_writing1_accessibility.py` | **PASS** | All 7 families: text equivalents, SVG naming, labelled controls, non-colour-only feedback, keyboard operability |
-| `tests/responsive_check.py` | **PASS** | Whole-app regression at 6 widths |
+| `tests/responsive_check.py` | **PASS** | Whole-app regression at 6 widths, now measuring every grid child on all five primary routes (D4-008) |
+| `tests/g4_writing1_negative.py` | **PASS** | Six seeded defects — underlength sample, band-labelled sample, swapped series value, undeclared column total, removed mastery word floor, unresolvable release tag — each required to fail its own guard; 6 of 6 caught |
+| `tests/release_integrity.py` | **PASS** | The review packet names a candidate tag that resolves, describes itself, and cites only hashes and paths that exist |
 
 Browser used: Microsoft Edge (Chromium), resolved by `tests/browser_env.py`.
 
@@ -157,6 +164,12 @@ reuses the existing component vocabulary. Primary navigation remains exactly fiv
 | D4-007 | P3 | Fixed | `.w1-chart{margin:0 -2px}` made every chart 4px wider than its parent's content box, so ancestors reported horizontal overflow. Found by `tests/g4_writing1_obstruction.py`. |
 | QA-G4-001 | P3 | Fixed | The fact engine could not derive differences between two readings of a series or two columns of a row, rejecting genuinely grounded claims. |
 | QA-G4-002 | P3 | Fixed | The literal string "Task 1" was read as the figure 1 during grounding checks. |
+| D4-008 | P2 | Fixed | `.half`, `.third` and `.twoThird` received a column span only at 760px and above, so every non-`.card` grid child collapsed to one twelfth of the row on a phone — 28px slivers in the band lab, 14px slivers for the vocabulary filters on Words. In the stylesheet since G1 and invisible to the assertions; found by looking at a 375px screenshot. `tests/responsive_check.py` now measures every grid child on all five primary routes at all six widths. |
+| R1-001 | P1 | Fixed | 18 of 21 band samples were under the 150-word Task 1 minimum, four of them labelled Strong (external review). All 21 are now 158-202 words; the generator refuses to emit a shorter one. |
+| R1-002 | P1 | Fixed | L4 and L5 could be reached with a 20-word response (external review). Both now require at least 150 words; underlength submissions log an error. |
+| R1-003 | P2 | Fixed | Report-level grounding authorised an unbound set of figures, so two real values could be swapped between two series (external review). Replaced by sentence-scoped binding (D-021). |
+| R1-004 | P2 | Fixed | The packet named a candidate SHA that does not exist (external review). The candidate is now a tag, checked by `tests/release_integrity.py` (D-023). |
+| R1-005 | P3 | Fixed | `Completed 0+0` and `foundation • undefined min` (external review). Both strings now name what they show. |
 
 Open P0: **0** · Open P1: **0** · Open P2: **0** · Open P3: **0**
 
@@ -177,10 +190,13 @@ A closure audit after the first candidate (`f2b3157`) found:
 
 ## Risks carried forward
 
-- Grounding proves a figure is *derivable* from the data, not that it is the *intended*
-  figure, because the support set legitimately includes column totals and pairwise sums.
-  `tests/g4_writing1_content_qa.py` closes that gap for the claims that matter, but it is a
-  fixed list rather than an exhaustive check.
+- Sentence-scoped binding (D-021) ties each figure in canonical prose to an entity named
+  in its clause, which catches a value swapped between two series. One construction escapes
+  it: two entities named inside a single clause with their figures not interleaved
+  ("A and B rose to 46 and 44 respectively") binds both figures to the clause rather than to
+  each other. Stated here rather than papered over.
+- Exercise stems, model notes and target-feature lists keep the declared-key set check of
+  D-020 rather than sentence binding, because that prose is commentary about language.
 - Full written responses cannot be auto-scored and are self-assessed against a checklist.
   This is deliberate (`PROJECT_CHARTER.md` §4.9) and is not a defect to fix later.
 - The 21 prompts are single-task timed responses, not multi-task exam simulations. Full
@@ -188,15 +204,16 @@ A closure audit after the first candidate (`f2b3157`) found:
 
 ## Gate
 
-**G4 INTERNAL PASS — EXTERNAL REVIEW PENDING.**
+**G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING.**
 
-All quantitative benchmarks exceeded and all nineteen validation scripts passing, with
-content QA recorded and responsive, accessibility, obstruction, persistence and
-keyboard evidence generated across all seven families at the six approved widths.
-G0–G3 regression re-run and passing after integration.
+All quantitative benchmarks exceeded and all twenty-one validation scripts passing, with
+content QA recorded and responsive, accessibility, obstruction, persistence and keyboard
+evidence generated across all seven families at the six approved widths. G0–G3 regression
+re-run and passing after integration. `tests/g4_writing1_negative.py` seeds six real
+defects and requires each guard to fail on its own: 6 of 6 caught.
 
-The gate is **not** recorded as an unconditional PASS because the planned cross-provider
-review has not happened. Two further defects were found by the closure audit and fixed:
-D4-006 (grounding authorised any derivable figure) and D4-007 (chart negative margin).
+The gate is **not** recorded as PASS. External review round 1 returned CHANGES REQUESTED;
+every finding is addressed, and the re-review has not happened yet. A green suite was not
+enough last time, which is the reason the seeded-defect proof now ships with it.
 REQ-019, the band comparison lab, was previously recorded as satisfied by argument
 rather than by implementation; it now exists and is verified.

@@ -203,23 +203,64 @@ with sync_playwright() as p:
     page.click(f'[data-w1-start-timer="{pid}"]')
     page.wait_for_timeout(40)
     check(st(page)['writing1']['timer']['promptId'] == pid, 'Timed draft did not start')
-    essay = ' '.join(['The line graph compares recycling rates in three cities between 2005 and 2025.'] * 8)
+    minimum = prompts[0]['wordMinimum']
+    check(minimum == 150, f'Prompt does not carry the 150-word Task 1 minimum (got {minimum})')
+
+    def words(n):
+        """A response of exactly n words."""
+        return ' '.join(['recycling'] * n)
+
+    # --- an underlength response must not buy a performance level -------
+    for length, label in ((20, 'twenty-word'), (minimum - 1, f'{minimum - 1}-word')):
+        if page.locator(f'[data-w1-start-timer="{pid}"]').count():
+            page.click(f'[data-w1-start-timer="{pid}"]')
+            page.wait_for_timeout(40)
+        page.fill(f'[data-w1-draft="{pid}"]', words(length))
+        page.wait_for_timeout(80)
+        for c in prompts[0]['checklist']:
+            page.check(f'[data-w1-check="{pid}:{c["id"]}"]')
+            page.wait_for_timeout(10)
+        page.click(f'[data-w1-submit-prompt="{pid}"]')
+        page.wait_for_timeout(120)
+        s = st(page)
+        subs = s['writing1']['submissions']
+        check(subs and subs[-1]['words'] == length,
+              f'{label} response was not recorded with its real length')
+        check(subs and subs[-1]['meetsLength'] is False,
+              f'{label} response was recorded as meeting the length minimum')
+        check(s['mastery'].get(mod_id, 0) == 3,
+              f'{label} response advanced mastery to L{s["mastery"].get(mod_id)} — '
+              f'a response under {minimum} words must not reach L4')
+        check(any(e.get('questionId') == pid and 'word' in str(e.get('learnerAnswer', ''))
+                  for e in s['errors']),
+              f'{label} response did not log an underlength error')
+
+    # --- a genuine full-length response does ----------------------------
+    if page.locator(f'[data-w1-start-timer="{pid}"]').count():
+        page.click(f'[data-w1-start-timer="{pid}"]')
+        page.wait_for_timeout(40)
+    check(st(page)['writing1']['timer']['promptId'] == pid, 'Timed draft did not restart')
+    essay = ' '.join(['The line graph compares recycling rates in three cities between 2005 and 2025.'] * 20)
     page.fill(f'[data-w1-draft="{pid}"]', essay)
     page.wait_for_timeout(80)
     saved = st(page)['writing1']['drafts'][pid]['text']
     check(len(saved) > 100, 'Draft did not autosave')
     check(page.text_content('#w1Words').strip().isdigit(), 'Word count not rendered')
+    check(int(page.text_content('#w1Words').strip()) >= minimum,
+          'The full-length probe is itself under the minimum')
     for c in prompts[0]['checklist']:
-        page.check(f'[data-w1-check="{pid}:{c["id"]}"]')
-        page.wait_for_timeout(15)
+        if not page.is_checked(f'[data-w1-check="{pid}:{c["id"]}"]'):
+            page.check(f'[data-w1-check="{pid}:{c["id"]}"]')
+            page.wait_for_timeout(10)
     page.click(f'[data-w1-submit-prompt="{pid}"]')
     page.wait_for_timeout(120)
     s = st(page)
     subs = s['writing1']['submissions']
-    check(len(subs) == 1, 'Full prompt submission not recorded')
-    check(subs[0]['withinLimit'], 'Submission inside the limit was not recorded as within limit')
-    check(subs[0]['checklistDone'] == subs[0]['checklistTotal'], 'Checklist ticks not recorded')
-    check(subs[0]['words'] >= 100, 'Word count not recorded on submission')
+    check(len(subs) == 3, f'Expected three submissions, found {len(subs)}')
+    check(subs[-1]['meetsLength'] is True, 'Full-length response not recorded as meeting the minimum')
+    check(subs[-1]['withinLimit'], 'Submission inside the limit was not recorded as within limit')
+    check(subs[-1]['checklistDone'] == subs[-1]['checklistTotal'], 'Checklist ticks not recorded')
+    check(subs[-1]['words'] >= 150, 'Word count not recorded on submission')
     check(any(r.get('promptId') == pid for r in s['savedResponses']), 'Response text not persisted')
     check(s['mastery'].get(mod_id, 0) >= 4,
           f'Timed exercises plus a completed timed response did not reach L4 (got {s["mastery"].get(mod_id)})')
@@ -263,7 +304,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(180)
     s = st(page)
     check(len(s['writing1']['results']) == before, 'Results did not survive reload')
-    check(len(s['writing1']['submissions']) == 1, 'Submission did not survive reload')
+    check(len(s['writing1']['submissions']) == 3, 'Submissions did not survive reload')
     check(s['writing1']['drafts'][pid]['text'].startswith('The line graph'), 'Draft did not survive reload')
     check(s['mastery'].get(mod_id, 0) >= 4, 'Mastery did not survive reload')
 

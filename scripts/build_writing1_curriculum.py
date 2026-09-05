@@ -109,6 +109,23 @@ ERROR_TAXONOMY = [
         "uaCorrection": "Приблизно 3 хвилини на план, 15 на письмо, 2 на перевірку.",
     },
     {
+        "id": "underlength_response",
+        "en": "Underlength response",
+        "ua": "Занадто коротка відповідь",
+        "description": (
+            "The response is shorter than the 150 words Academic Task 1 requires, so there is not "
+            "enough evidence of range, control or coverage for the answer to be judged at a high level."
+        ),
+        "correction": (
+            "Write an overview and two grouped body paragraphs; that structure reaches 150 to 190 "
+            "words without padding. Count once at 10 minutes, not at the end."
+        ),
+        "uaCorrection": (
+            "Overview і два згруповані body-абзаци дають 150-190 слів без \"води\". "
+            "Перевіряйте обсяг на 10-й хвилині, а не в кінці."
+        ),
+    },
+    {
         "id": "article_preposition_transfer",
         "en": "Article or preposition transfer error",
         "ua": "Помилка з артиклем або прийменником",
@@ -2718,7 +2735,7 @@ PROMPTS = [
         "modelResponse": [
             "The pie chart shows the main reasons students gave for choosing a postgraduate course in 2024.",
             "Overall, professional motivations were far more common than personal or external ones, with career advancement cited more often than any other reason by a wide margin.",
-            "Career advancement was the single most frequently given reason, accounting for 38 per cent of responses. Interest in the subject came second at 24 per cent, meaning that these two reasons together were given by well over half of those surveyed. The gap between first and second place was substantial, at 14 percentage points.",
+            "Career advancement was the single most frequently given reason, accounting for 38 per cent of responses. Interest in the subject came second at 24 per cent, meaning that these two reasons together were given by well over half of those surveyed. Career advancement therefore led interest in the subject by a substantial 14 percentage points.",
             "The remaining reasons were considerably less common. Employer sponsorship accounted for 14 per cent and the reputation of the institution for 12 per cent, so these two were close to each other in size. Family expectation was cited by just 7 per cent and other reasons by 5 per cent, making them the two smallest categories on the chart, and together they accounted for only around an eighth of all responses.",
         ],
         "modelNotes": [
@@ -2761,7 +2778,7 @@ PROMPTS = [
             "The table compares four components of a cost of living index in four cities, where 100 represents the national average.",
             "Overall, the four cities differed far more in housing and transport than in food, and only one city fell below the national average on every component measured.",
             "Metroport was the most expensive city for housing by a considerable margin, with an index of 142, and it was also slightly above average for food at 106. It was below the national figure for both transport, at 88, and utilities, at 97, so its high cost was concentrated in a single component. Rivergate showed a milder version of the same pattern, with housing at 118 and utilities the highest of the four cities at 112.",
-            "Southcliff was distinctive for transport, where its index of 120 was the highest recorded, although its other three components were all within a few points of the national average or below it. Northvale, by contrast, was under 100 on all four measures, and its transport index of 71 was the lowest figure anywhere in the table.",
+            "Southcliff was distinctive for transport, where its index of 120 was the highest recorded, although its other three components were all within a few points of the national average or below it. Northvale, by contrast, sat below the index base of 100 on all four measures, and its transport index of 71 was the lowest figure anywhere in the table.",
         ],
         "modelNotes": [
             "The index base of 100 gives every comparison a fixed reference point, so the report uses it rather than comparing cities to each other at random.",
@@ -2971,7 +2988,7 @@ PROMPTS = [
             "The bar chart shows the proportion of graduates in work within six months of finishing their course, by field of study, while the pie chart shows the destinations of all graduates in 2024.",
             "Overall, employment outcomes varied considerably by field, with health, computing and engineering graduates all performing strongly and humanities graduates trailing well behind. Across all graduates taken together, full-time employment was much the most common destination.",
             "Health recorded the highest employment rate, at 92 per cent, closely followed by computing at 90 per cent and engineering at 88 per cent. These three fields were separated by only a few percentage points. Business, at 81 per cent, sat some way below them, and humanities was the clear outlier at 68 per cent, roughly twenty-four points below the leading field.",
-            "The pie chart shows what happened to graduates overall. Just over half, 54 per cent, entered full-time employment, and a further 21 per cent went on to further study. Part-time employment accounted for 13 per cent, while 9 per cent were still seeking work and the remaining 3 per cent reported other destinations.",
+            "The pie chart shows what happened to graduates overall. Full-time employment took just over half of them at 54 per cent, and a further 21 per cent went on to further study. Part-time employment accounted for 13 per cent, while 9 per cent were still seeking work and the remaining 3 per cent reported other destinations.",
         ],
         "modelNotes": [
             "The three leading fields are grouped because they cluster, which is more useful than ranking them one by one.",
@@ -3123,20 +3140,23 @@ MASTERY_RULES = {
          "rule": "At least 75% accuracy across the three independent micro-exercises in this family.",
          "ua": "Щонайменше 75% у трьох independent-вправах."},
         {"level": 4, "name": "Timed",
-         "rule": "At least 75% across the timed micro-exercises, and at least one full prompt submitted inside its 20-minute limit with the self-review checklist completed.",
-         "ua": "Щонайменше 75% у timed-вправах і одна повна відповідь у межах 20 хвилин із заповненим чек-листом."},
+         "rule": "At least 75% across the timed micro-exercises, and at least one full prompt submitted inside its 20-minute limit, at least 150 words long, with the self-review checklist completed.",
+         "ua": "Щонайменше 75% у timed-вправах і одна повна відповідь щонайменше на 150 слів у межах 20 хвилин із заповненим чек-листом."},
         {"level": 5, "name": "Mastered",
-         "rule": "At least 85% across three or more distinct exercise sets on at least two different dates, including the mastery-mode exercise, plus at least one timed full response.",
-         "ua": "Щонайменше 85% у трьох різних наборах у два різні дні, включно з mastery-вправою, і щонайменше одна повна відповідь у часі."},
+         "rule": "At least 85% across three or more distinct exercise sets on at least two different dates, including the mastery-mode exercise, plus at least one timed full response of at least 150 words.",
+         "ua": "Щонайменше 85% у трьох різних наборах у два різні дні, включно з mastery-вправою, і щонайменше одна повна відповідь на 150+ слів у часі."},
     ],
+    "wordMinimum": TASK1_WORD_MINIMUM,
+    "lengthRule": "A response under 150 words cannot advance mastery to L4 or L5. IELTS states that Academic Task 1 requires at least 150 words, and an underlength answer does not provide enough evidence of range or coverage to be judged at a high level.",
     "note": "Opening a lesson never advances mastery beyond level 1. Full written responses are self-assessed against the checklist; they are training guidance and are never converted into an IELTS band.",
 }
 
 BAND_SCORING_NOTE = (
-    "These three sample responses illustrate the features that typically separate Task 1 "
-    "answers at different levels. The band labels describe the samples, not you, and they "
-    "are training guidance produced by this application: they are not an official IELTS "
-    "band, and only a qualified examiner can award one."
+    "These are illustrative Band-style samples written for this course. They show features "
+    "that typically separate Task 1 answers at different levels; the labels describe the "
+    "samples, not you, and they are not an official IELTS band, which only a qualified "
+    "examiner can award. All three are at least 150 words, the Academic Task 1 minimum, so "
+    "length is held constant and only the reporting differs."
 )
 
 SCORING_NOTE = (
@@ -3357,6 +3377,429 @@ def _unit_pattern(tok):
 
 
 # ---------------------------------------------------------------------------
+# Sentence-scoped claim model (external review finding R3, decision D-021).
+#
+# The first claim model authorised a SET of figures per item. A set has no
+# opinion about which entity a figure belongs to, so two real values could be
+# swapped between two series and the item would still pass. That is tolerable
+# for learner-authored free text; it is not tolerable for canonical teaching
+# content -- gold model responses and band samples are what the learner copies.
+#
+# This model binds every figure to the entity it is written about:
+#
+#   * a fact is indexed with its SUBJECTS (the series, slice, row or feature it
+#     is about) and its CONTEXTS (the year, column or category it holds at);
+#   * canonical prose is split into sentences and then into clauses;
+#   * a figure may cite only a fact whose subjects are all named in the scope
+#     of its own clause, and whose context does not contradict a year or
+#     category named in that clause;
+#   * a clause that names no entity inherits the scope of the clause before it,
+#     and a sentence that names none inherits the sentence before it, which is
+#     ordinary anaphora ("It then fell to 12 per cent");
+#   * where a clause interleaves entities and figures -- "Oslo reached 46 per
+#     cent and Bergen 44" -- each figure binds to the entity immediately before
+#     it, so a swap between the two fails;
+#   * a figure printed on the visual as a LABEL (an axis band, an index base, a
+#     stage number) is authorised only in a clause that names that label, not
+#     as a free numeric whitelist.
+#
+# The resulting entity/value/operation tuples are stored per sentence in the
+# artifact, and tests/g4_writing1_claims.py re-derives all of it independently.
+# ---------------------------------------------------------------------------
+
+SENTENCE_RE = re.compile(r"(?<=[.!?])\s+")
+CLAUSE_RE = re.compile(
+    r"\s*(?:[,;:]|\bwhile\b|\bwhereas\b|\bbut\b|\balthough\b|\bthough\b|"
+    r"\bhowever\b|\bmeanwhile\b|\bcompared with\b|\bcompared to\b|"
+    r"\bin contrast\b|\bby contrast\b|\bagainst\b|\band\b|\bwith\b|"
+    r"\bbefore\b|\bafter\b|\bthen\b)\s*", re.I)
+
+
+def _rec(key, value, subjects, contexts):
+    m = re.match(r"^(c\d+\.)", key)
+    return {"key": key, "value": _round(value), "op": fact_op(key),
+            "prefix": m.group(1) if m else "",
+            "subjects": frozenset(str(x) for x in subjects),
+            "contexts": frozenset(str(x) for x in contexts)}
+
+
+def _series_index(cats, series, prefix=""):
+    recs = []
+    for s in series:
+        n, vals = s["name"], s["values"]
+        for c, val in zip(cats, vals):
+            recs.append(_rec(f"{prefix}value.{n}.{c}", val, {n}, {c}))
+        hi, lo = max(vals), min(vals)
+        recs.append(_rec(f"{prefix}max.{n}", hi, {n}, {cats[vals.index(hi)]}))
+        recs.append(_rec(f"{prefix}min.{n}", lo, {n}, {cats[vals.index(lo)]}))
+        recs.append(_rec(f"{prefix}first.{n}", vals[0], {n}, {cats[0]}))
+        recs.append(_rec(f"{prefix}last.{n}", vals[-1], {n}, {cats[-1]}))
+        recs.append(_rec(f"{prefix}delta.{n}", vals[-1] - vals[0], {n}, {cats[0], cats[-1]}))
+        if vals[0]:
+            recs.append(_rec(f"{prefix}pct_change.{n}",
+                             _round((vals[-1] - vals[0]) / vals[0] * 100, 1), {n}, {cats[0], cats[-1]}))
+        for i in range(len(cats)):
+            for j in range(i + 1, len(cats)):
+                recs.append(_rec(f"{prefix}change.{n}.{cats[i]}.{cats[j]}", vals[j] - vals[i],
+                                 {n}, {cats[i], cats[j]}))
+    for i, c in enumerate(cats):
+        recs.append(_rec(f"{prefix}total.{c}", sum(s["values"][i] for s in series), set(), {c}))
+        for a in range(len(series)):
+            for b in range(a + 1, len(series)):
+                na, nb = series[a]["name"], series[b]["name"]
+                recs.append(_rec(f"{prefix}gap.{na}.{nb}.{c}",
+                                 series[a]["values"][i] - series[b]["values"][i], {na, nb}, {c}))
+    return recs
+
+
+def _pie_index(snapshots, prefix=""):
+    recs = []
+    for snap in snapshots:
+        lab, slices = snap["label"], snap["slices"]
+        for sl in slices:
+            recs.append(_rec(f"{prefix}share.{sl['label']}.{lab}", sl["value"], {sl["label"]}, {lab}))
+        recs.append(_rec(f"{prefix}total.{lab}", sum(s["value"] for s in slices), set(), {lab}))
+        for a in range(len(slices)):
+            for b in range(a + 1, len(slices)):
+                la, lb = slices[a]["label"], slices[b]["label"]
+                recs.append(_rec(f"{prefix}gap.{la}.{lb}.{lab}",
+                                 slices[a]["value"] - slices[b]["value"], {la, lb}, {lab}))
+                recs.append(_rec(f"{prefix}sum.{la}.{lb}.{lab}",
+                                 slices[a]["value"] + slices[b]["value"], {la, lb}, {lab}))
+    if len(snapshots) == 2:
+        a, b = snapshots
+        av = {s["label"]: s["value"] for s in a["slices"]}
+        for sl in b["slices"]:
+            if sl["label"] in av:
+                recs.append(_rec(f"{prefix}delta_share.{sl['label']}", sl["value"] - av[sl["label"]],
+                                 {sl["label"]}, {a["label"], b["label"]}))
+    return recs
+
+
+def _table_index(columns, rows, prefix=""):
+    recs = []
+    for r in rows:
+        for c, val in zip(columns, r["cells"]):
+            recs.append(_rec(f"{prefix}value.{r['label']}.{c}", val, {r["label"]}, {c}))
+        for i in range(len(columns)):
+            for j in range(i + 1, len(columns)):
+                recs.append(_rec(f"{prefix}delta.{r['label']}.{columns[i]}.{columns[j]}",
+                                 r["cells"][j] - r["cells"][i], {r["label"]}, {columns[i], columns[j]}))
+    for i, c in enumerate(columns):
+        recs.append(_rec(f"{prefix}total.{c}", sum(r["cells"][i] for r in rows), set(), {c}))
+    return recs
+
+
+def _map_index(v, prefix=""):
+    counts = {"added": 0, "removed": 0, "replaced": 0, "unchanged": 0}
+    for f in v["features"]:
+        counts[f["status"]] += 1
+    recs = [_rec(f"{prefix}count.{k}", n, set(), set()) for k, n in counts.items()]
+    recs.append(_rec(f"{prefix}feature_count", len(v["features"]), set(), set()))
+    return recs
+
+
+def fact_index(v):
+    """Every numeric fact of a visual, with the entities it is about."""
+    kind = v["kind"]
+    if kind in ("line", "bar"):
+        return _series_index(v["categories"], v["series"])
+    if kind == "pie":
+        return _pie_index(v["snapshots"])
+    if kind == "table":
+        return _table_index(v["columns"], v["rows"])
+    if kind == "process":
+        return [_rec("stage_count", len(v["stages"]), set(), set())]
+    if kind == "map":
+        return _map_index(v)
+    if kind == "mixed":
+        recs = []
+        for i, comp in enumerate(v["components"]):
+            p = f"c{i}."
+            if comp["kind"] in ("line", "bar"):
+                recs += _series_index(comp["categories"], comp["series"], p)
+            elif comp["kind"] == "pie":
+                recs += _pie_index(comp["snapshots"], p)
+            elif comp["kind"] == "table":
+                recs += _table_index(comp["columns"], comp["rows"], p)
+        return recs
+    raise ValueError(f"unknown visual kind {kind}")
+
+
+def _component_entities(c):
+    subjects, contexts = set(), set()
+    for s in c.get("series", []) or []:
+        subjects.add(s["name"])
+    for snap in c.get("snapshots", []) or []:
+        contexts.add(str(snap["label"]))
+        for sl in snap["slices"]:
+            subjects.add(sl["label"])
+    for r in c.get("rows", []) or []:
+        subjects.add(r["label"])
+    for f in c.get("features", []) or []:
+        subjects.add(f["label"])
+    for st in c.get("stages", []) or []:
+        subjects.add(st["label"])
+    contexts |= {str(x) for x in (c.get("categories") or [])}
+    contexts |= {str(x) for x in (c.get("columns") or [])}
+    contexts |= {str(x) for x in (c.get("periods") or [])}
+    return subjects, contexts
+
+
+def visual_entities(v):
+    """Named subjects (what a claim is about) and contexts (when or where),
+    kept per component so a mixed visual cannot borrow the other chart's
+    labels to justify a figure."""
+    out = {}
+    if v["kind"] == "mixed":
+        for i, comp in enumerate(v["components"]):
+            out[f"c{i}."] = _component_entities(comp)
+    else:
+        out[""] = _component_entities(v)
+    return out
+
+
+def label_claims(v):
+    """Typed label figures. Each is authorised only inside a clause that names
+    the label it is printed on, never as a bare number."""
+    out = []
+
+    def add(text, kind, requires):
+        for tok in NUM_RE.findall(str(text)):
+            out.append({"value": _round(float(tok)), "kind": kind,
+                        "requires": sorted({_normalise(r) for r in requires if str(r).strip()})})
+
+    for c in [v] + list(v.get("components", []) or []):
+        for cat in c.get("categories", []) or []:
+            add(cat, "category", [cat])
+        for col in c.get("columns", []) or []:
+            add(col, "column", [col] + re.findall(r"[A-Za-z]{4,}", str(col)))
+        for r in c.get("rows", []) or []:
+            add(r.get("label", ""), "row", [r.get("label", "")])
+        for snap in c.get("snapshots", []) or []:
+            add(snap.get("label", ""), "snapshot", [snap.get("label", "")])
+        for field in ("unit", "axisLabel"):
+            add(c.get(field, ""), field, re.findall(r"[A-Za-z]{4,}", str(c.get(field, ""))))
+    for per in v.get("periods", []) or []:
+        add(per, "period", [per])
+    if v["kind"] == "process":
+        for st in v["stages"]:
+            out.append({"value": _round(st["n"]), "kind": "stage number",
+                        "requires": sorted({"stage", "step", _normalise(st["label"])})})
+    return out
+
+
+ENTITY_STOPWORDS = {"the", "and", "of", "to", "in", "per", "for", "or", "at", "on", "a", "an"}
+BAND_LABEL_RE = re.compile(r"^(\d+)\s*-\s*(\d+)$")
+
+
+def _normalise(text):
+    return str(text).lower()
+
+
+def _label_pattern(name):
+    """The regex a label is recognised by. A banded label accepts the ordinary
+    English form as well: "18-29" is also written "18 to 29"."""
+    m = BAND_LABEL_RE.match(str(name).strip())
+    if m:
+        return r"(?<![a-z0-9])" + m.group(1) + r"\s*(?:-|--|to)\s*" + m.group(2) + r"(?![a-z0-9])"
+    return r"(?<![a-z0-9])" + re.escape(_normalise(name)) + r"(?![a-z0-9])"
+
+
+def _content_words(name):
+    return [w for w in re.findall(r"[a-z0-9][a-z0-9.-]*", _normalise(name))
+            if w not in ENTITY_STOPWORDS]
+
+
+def _named_in(text, name):
+    """An entity counts as named when prose gives its full label, or gives all
+    of its content words -- "total electricity consumption" names "Total
+    consumption", and "the Coastal and Valley lines" names "Coastal Line".
+    A bare pronoun never counts."""
+    low = _normalise(text)
+    if not str(name).strip():
+        return False
+    if re.search(_label_pattern(name), low):
+        return True
+    words = _content_words(name)
+    if not words:
+        return False
+    return all(re.search(r"(?<![a-z0-9])" + re.escape(w) + r"(?:s|es)?(?![a-z0-9])", low)
+               for w in words)
+
+
+def _mentions(text, names):
+    return {n for n in names if _named_in(text, n)}
+
+
+def _positions(text, names):
+    """Entity mentions with their character positions, longest name first."""
+    low = _normalise(text)
+    found = []
+    for n in sorted(names, key=lambda x: -len(str(x))):
+        for m in re.finditer(_label_pattern(n), low):
+            if not any(m.start() >= a and m.end() <= b for a, b, _ in found):
+                found.append((m.start(), m.end(), n))
+    return sorted(found)
+
+
+def _figure_positions(text):
+    return [(m.start(), _round(float(m.group(0)))) for m in NUM_RE.finditer(strip_labels(str(text)))]
+
+
+
+def _clauses(sentence, vocabulary):
+    """Cut a sentence into clauses without cutting a label in half: "50 and
+    over" and "Bathing and showering" are masked before the split."""
+    masked, saved = _normalise(sentence), []
+    for name in vocabulary:
+        pat = _label_pattern(name)
+
+        def keep(m, saved=saved):
+            saved.append(m.group(0))
+            return "\x01%d\x01" % (len(saved) - 1)
+
+        masked = re.sub(pat, keep, masked)
+    parts = []
+    for part in CLAUSE_RE.split(masked):
+        for i, text in enumerate(saved):
+            part = part.replace("\x01%d\x01" % i, text)
+        parts.append(part)
+    return parts
+
+def _interleaved(ent_pos, fig_pos):
+    """True when entity and figure mentions alternate E N E N ..."""
+    seq = sorted([(p, "E") for p, _, _ in ent_pos] + [(p, "N") for p, _ in fig_pos])
+    kinds = [k for _, k in seq]
+    if len(kinds) < 4 or kinds[0] != "E":
+        return False
+    return all(kinds[i] != kinds[i + 1] for i in range(len(kinds) - 1))
+
+
+def scope_claims(where, v, paragraphs, problems, extra_ops=(), structural=(),
+                 declared_keys=None, deliberate=()):
+    """Bind every figure in a canonical text to the entity it is written about,
+    and return the per-sentence claim tuples that go into the artifact."""
+    index = fact_index(v)
+    if declared_keys is not None:
+        allowed_keys = set(declared_keys)
+        index = [r for r in index if r["key"] in allowed_keys]
+    ents = visual_entities(v)
+    labels = label_claims(v)
+    times = visual_time_labels(v)
+    units = unit_tokens_of(v)
+    structural = {_round(n) for n in structural}
+    deliberate = {_round(n) for n in deliberate}
+    extra_ops = set(extra_ops)
+    label_vocabulary = sorted({str(x) for s, c in ents.values() for x in (s | c)},
+                              key=lambda t: -len(t))
+    out = []
+
+    for pi, para in enumerate(paragraphs):
+        carry = {pfx: set() for pfx in ents}
+        for si, sent in enumerate(SENTENCE_RE.split(str(para).strip())):
+            if not sent.strip():
+                continue
+            sent_subjects = {pfx: _mentions(sent, ents[pfx][0]) for pfx in ents}
+            running = {pfx: set() for pfx in ents}
+            running_ctx = {pfx: set() for pfx in ents}
+            used = []
+            for clause in _clauses(sent, label_vocabulary):
+                if not clause.strip():
+                    continue
+                cl_subjects = {pfx: _mentions(clause, ents[pfx][0]) for pfx in ents}
+                cl_contexts = {pfx: {str(x) for x in _mentions(clause, ents[pfx][1])} for pfx in ents}
+                cl_years = years_in(clause)
+                scope = {pfx: (cl_subjects[pfx] or running[pfx] or
+                               (carry[pfx] if not sent_subjects[pfx] else set())) for pfx in ents}
+                ctx_scope = {pfx: (cl_contexts[pfx] or running_ctx[pfx]) for pfx in ents}
+                named = set().union(*cl_subjects.values()) if cl_subjects else set()
+                ent_pos = _positions(clause, named)
+                fig_pos = _figure_positions(clause)
+                interleaved = len(named) > 1 and len(fig_pos) > 1 and _interleaved(ent_pos, fig_pos)
+                for fpos, n in fig_pos:
+                    if n in times or n in structural or n in deliberate:
+                        continue
+                    local = {pfx: {str(x) for x in scope[pfx]} for pfx in ents}
+                    if interleaved:
+                        before = [e for e in ent_pos if e[0] < fpos]
+                        if before:
+                            pick = str(before[-1][2])
+                            local = {pfx: ({pick} if pick in {str(x) for x in ents[pfx][0]} else set())
+                                     for pfx in ents}
+                    same_value = [r for r in index if abs(r["value"]) == n or r["value"] == n]
+                    ok = []
+                    for r in same_value:
+                        pfx = r["prefix"]
+                        lsub = local.get(pfx, set())
+                        lctx = cl_contexts.get(pfx, set())        # constrains
+                        actx = ctx_scope.get(pfx, set())          # anchors only
+                        # A gap or a sum is about two entities. One of them must be
+                        # named in this clause; the other may have been named
+                        # earlier in the same sentence.
+                        if len(r["subjects"]) > 1:
+                            wider = lsub | {str(x) for x in running[pfx]}
+                            if not (r["subjects"] <= wider and
+                                    (r["subjects"] & {str(x) for x in cl_subjects[pfx]})):
+                                continue
+                            lsub = r["subjects"]
+                        # Axis consistency: where the clause names entities on an
+                        # axis of this component, the fact's entity on that axis
+                        # must be one of them.
+                        if lsub and r["subjects"] and not r["subjects"] <= lsub:
+                            continue
+                        if lctx and r["contexts"] and not (r["contexts"] & lctx):
+                            continue
+                        if cl_years and r["contexts"]:
+                            ctx_years = {y for c in r["contexts"] for y in years_in(c)}
+                            if ctx_years and not (ctx_years & cl_years):
+                                continue
+                        # Anchoring: the figure must be about something the clause
+                        # actually names, on one axis or the other.
+                        anchored = bool(r["subjects"] and lsub and r["subjects"] <= lsub) or \
+                                   bool(r["contexts"] and actx and (r["contexts"] & actx))
+                        if not anchored and (r["subjects"] or r["op"] not in extra_ops):
+                            continue
+                        ok.append(r)
+                    if ok:
+                        used.append({"figure": n,
+                                     "keys": sorted(r["key"] for r in ok),
+                                     "subjects": sorted({x for r in ok for x in r["subjects"]}),
+                                     "operations": sorted({r["op"] for r in ok})})
+                        continue
+                    low = _normalise(clause)
+                    lab = [l for l in labels if l["value"] == n and
+                           any(re.search(_label_pattern(t), low) for t in l["requires"])]
+                    if lab:
+                        used.append({"figure": n, "keys": [], "subjects": [],
+                                     "operations": ["label:" + lab[0]["kind"]]})
+                        continue
+                    near = sorted({r["key"] for r in same_value})[:4]
+                    scope_txt = sorted({x for s in local.values() for x in s})
+                    problems.append(
+                        f"{where}.p{pi}.s{si}: {n} is not bound to an entity named in its clause "
+                        f"(scope={scope_txt or 'none'}) in {clause.strip()[:90]!r}" +
+                        (f" -- that value belongs to {near}" if near else
+                         " -- no fact of this visual has that value"))
+                for pfx in ents:
+                    running[pfx] |= cl_subjects[pfx]
+                    running_ctx[pfx] |= cl_contexts[pfx]
+            for y in years_in(sent):
+                if y not in times and y not in deliberate:
+                    problems.append(f"{where}.p{pi}.s{si}: refers to {y}, "
+                                    f"which is not a time label of {v['id']}")
+            for u in units_in(sent):
+                if u not in units:
+                    problems.append(f"{where}.p{pi}.s{si}: uses unit {u!r}, "
+                                    f"which {v['id']} does not measure in")
+            out.append({"paragraph": pi, "sentence": si,
+                        "entities": sorted({str(x) for s in sent_subjects.values() for x in s}),
+                        "figures": used})
+            for pfx in ents:
+                carry[pfx] = sent_subjects[pfx] or carry[pfx]
+    return out
+
+# ---------------------------------------------------------------------------
 # Band comparison lab (REQ-019). One set per visual family: the same task
 # answered three ways, so the learner can see what actually separates the
 # levels.
@@ -3373,14 +3816,36 @@ def _unit_pattern(tok):
 # ---------------------------------------------------------------------------
 BAND_LEVELS = [
     {"id": "b6", "level": "Band 6", "label": "Developing",
+     "styleLabel": "Illustrative Band 6-style sample",
      "ua": "Дані є, але немає структури: перелік замість звіту."},
     {"id": "b7", "level": "Band 7", "label": "Competent",
+     "styleLabel": "Illustrative Band 7-style sample",
      "ua": "Є overview і групування, але формулювання ще базові."},
     {"id": "b8", "level": "Band 8", "label": "Strong",
+     "styleLabel": "Illustrative Band 8-style sample",
      "ua": "Overview без цифр, впевнене групування, точна мова кількості."},
 ]
 
 BAND_ASPECTS = ["Overview", "Selection and grouping", "Quantity language", "Cohesion", "Grammar and tense"]
+
+# Each compared aspect is tied to the publicly published IELTS Writing criterion
+# it belongs to. The criterion names are the public headings; no descriptor text
+# is reproduced anywhere in this product.
+BAND_ASPECT_CRITERIA = {
+    "Overview": "Task Achievement",
+    "Selection and grouping": "Task Achievement",
+    "Quantity language": "Lexical Resource",
+    "Cohesion": "Coherence and Cohesion",
+    "Grammar and tense": "Grammatical Range and Accuracy",
+}
+
+BAND_DESCRIPTOR_REFERENCE = (
+    "Aspects are grouped under the four public IELTS Writing assessment criteria "
+    "(Task Achievement, Coherence and Cohesion, Lexical Resource, Grammatical Range and "
+    "Accuracy). The published Task 1 band descriptors are available from ielts.org at "
+    "https://ielts.org/cdn/ielts-guides/ielts-writing-band-descriptors.pdf; no descriptor "
+    "text is reproduced here."
+)
 
 BAND_SETS = [
     # ------------------------------- line graph -------------------------------
@@ -3393,7 +3858,7 @@ BAND_SETS = [
                     "The line graph shows the recycling of household waste in three cities from 2005 to 2025.",
                     "In 2005, Oslo was 28 per cent, Bergen was 31 per cent and Tromso was 18 per cent. In 2010, Oslo was 34 per cent, Bergen was 36 per cent and Tromso was 27 per cent. In 2015, Oslo was 39 per cent, Bergen was 40 per cent and Tromso was 41 per cent.",
                     "In 2020, Oslo was 43 per cent, Bergen was 42 per cent and Tromso was 52 per cent. In 2025, Oslo was 46 per cent, Bergen was 44 per cent and Tromso was 61 per cent.",
-                    "So we can see that all the cities increased their recycling and Tromso increased the most.",
+                    "So we can see that all the cities increased their recycling and Tromso increased the most. Bergen was more than Oslo in 2005 and also in 2010. Tromso was less than Oslo and Bergen in 2005 and in 2010, but in 2015 Tromso was 41 per cent and this was more than the other two cities. In 2020 and in 2025 Tromso was the highest city every time. Oslo was more than Bergen in 2020 and in 2025. All three cities had more recycling at the end than at the beginning and no city went down.",
                 ],
                 "does": ["Reports accurate figures.", "Covers the whole period."],
                 "missing": ["No separate overview; the general statement is buried at the end.",
@@ -3406,7 +3871,7 @@ BAND_SETS = [
                     "The line graph compares the percentage of household waste that was recycled in Oslo, Bergen and Tromso between 2005 and 2025.",
                     "Overall, recycling increased in all three cities during the period, and Tromso increased the most, rising from 18 per cent to 61 per cent.",
                     "Oslo and Bergen were quite similar. Oslo rose steadily from 28 per cent in 2005 to 46 per cent in 2025, while Bergen rose from 31 per cent to 44 per cent. Bergen was higher than Oslo at the start but lower at the end.",
-                    "Tromso was different. It started at the lowest point of 18 per cent, but it grew quickly and passed the other two cities by 2015, when it reached 41 per cent. After that it continued to rise to 61 per cent.",
+                    "Tromso was different. It started at the lowest point of 18 per cent, but it grew quickly and passed the other two cities by 2015, when it reached 41 per cent. After that it continued to rise to 61 per cent. The difference between Oslo and Bergen stayed small in every year, and in 2025 Oslo was ahead of Bergen by only 2 percentage points. Tromso, by contrast, finished 15 percentage points above Oslo, which is a much bigger difference than anything between the other two cities.",
                 ],
                 "does": ["Has a clearly separate overview.", "Groups the two similar cities together and contrasts the outlier.",
                          "Reports the crossover."],
@@ -3419,7 +3884,7 @@ BAND_SETS = [
                     "The line graph compares the proportion of household waste recycled in Oslo, Bergen and Tromso at regular intervals between 2005 and 2025.",
                     "Overall, recycling rates improved in all three cities, but the increase in Tromso was far steeper than elsewhere, and the city moved from last place to first.",
                     "Oslo and Bergen followed closely comparable paths. Bergen began marginally ahead, at 31 per cent against Oslo's 28 per cent, and both climbed gradually throughout, so that by 2025 the small gap between them had reversed rather than widened, at 46 and 44 per cent respectively.",
-                    "Tromso behaved quite differently. Starting from the lowest figure of 18 per cent, it rose without interruption, had already overtaken both other cities by 2015, and finished at 61 per cent, more than three times its opening figure.",
+                    "Tromso behaved quite differently. Starting from the lowest figure of 18 per cent, it rose without interruption, had already overtaken both other cities by 2015, and finished at 61 per cent, more than three times its opening figure. By 2020 Tromso had already reached 52 per cent, nine percentage points clear of Oslo, and the order established at that point remained unchanged for the rest of the period. The contrast is therefore not only one of level but one of pace: Tromso gained more than twice as much ground as either of its neighbours.",
                 ],
                 "does": ["Overview states the shared pattern, the contrast and the change of rank, with no figures.",
                          "Grouping is announced and then delivered.",
@@ -3435,8 +3900,8 @@ BAND_SETS = [
             {"aspect": "Cohesion", "b6": "'In 2005... In 2010... In 2015...'", "b7": "'while', 'but', 'After that'.", "b8": "'so that', 'rather than', 'had already', referencing across sentences."},
             {"aspect": "Grammar and tense", "b6": "Correct but very limited range.", "b7": "Correct, mostly simple sentences.", "b8": "Past perfect used deliberately to sequence the overtaking."},
         ],
-        "takeaway": "The figures are identical in all three responses. What changes is whether the report is organised by time or by behaviour, and whether the overview earns its place.",
-        "ua": "Цифри в усіх трьох відповідях однакові. Різниця — в структурі: організація за роками чи за поведінкою ліній, і чи є справжнє overview.",
+        "takeaway": "Every figure in all three responses is accurate, and all three run to at least 150 words, so length and data are held constant. What changes is whether the report is organised by time or by behaviour, and whether the overview earns its place.",
+        "ua": "Усі цифри в трьох відповідях правильні, і всі три мають щонайменше 150 слів. Різниця — в структурі: організація за роками чи за поведінкою ліній, і чи є справжнє overview.",
     },
     # ------------------------------- bar chart -------------------------------
     {
@@ -3448,7 +3913,7 @@ BAND_SETS = [
                     "The bar chart gives information about the spending on leisure of three age groups.",
                     "The 18-29 group spent 42 pounds on eating out, 27 pounds on live events, 9 pounds on cultural visits and 15 pounds on streaming services.",
                     "The 30-49 group spent 38 pounds on eating out, 18 pounds on live events, 14 pounds on cultural visits and 12 pounds on streaming services.",
-                    "The 50 and over group spent 31 pounds on eating out, 8 pounds on live events, 22 pounds on cultural visits and 6 pounds on streaming services. Eating out is the biggest in all the groups.",
+                    "The 50 and over group spent 31 pounds on eating out, 8 pounds on live events, 22 pounds on cultural visits and 6 pounds on streaming services. Eating out is the biggest in all the groups. Cultural visits was the smallest category for the 18-29 group at 9 pounds. Live events was the smallest category for the 50 and over group at 8 pounds. The 18-29 group spent more than the other two groups on eating out, on live events and on streaming services. The 50 and over group spent more than the other two groups on cultural visits. Streaming services was 15 pounds for the 18-29 group and 6 pounds for the 50 and over group, so it went down with the age.",
                 ],
                 "does": ["Every figure is accurate.", "Covers all twelve bars."],
                 "missing": ["No overview paragraph.",
@@ -3461,7 +3926,7 @@ BAND_SETS = [
                     "The bar chart compares how much three age groups spent each week on four leisure activities.",
                     "Overall, eating out was the highest category for every age group, at 42, 38 and 31 pounds, and most categories fell as people got older.",
                     "Eating out, live events and streaming services all decreased with age. Live events fell the most, from 27 pounds in the youngest group to 8 pounds in the oldest, and streaming services fell from 15 pounds to 6 pounds.",
-                    "Cultural visits was the opposite. It was only 9 pounds for the 18-29 group, but it rose to 14 pounds and then 22 pounds, so it became bigger than live events in the oldest group.",
+                    "Cultural visits was the opposite. Cultural visits was only 9 pounds for the 18-29 group, but the figure rose to 14 pounds for the 30-49 group and then to 22 pounds for the oldest group, so cultural visits became bigger than live events among those aged 50 and over. Streaming services was 15 pounds for the youngest group and 12 pounds for the 30-49 group, before falling to 6 pounds for the oldest group. Eating out was still the biggest category for the 50 and over group at 31 pounds, even though it was the category that fell the least.",
                 ],
                 "does": ["Separate overview.", "Groups the three falling categories together and contrasts the riser.",
                          "Reports the change of rank."],
@@ -3474,7 +3939,7 @@ BAND_SETS = [
                     "The bar chart compares average weekly spending on four leisure activities across three age groups.",
                     "Overall, eating out attracted the highest expenditure in every age group, but the relative position of the other three activities changed considerably with age, as most fell while one rose.",
                     "Three categories declined as respondents got older. Eating out fell from 42 pounds a week among those aged 18 to 29 to 31 pounds among those aged 50 and over, while live events dropped far more steeply, from 27 pounds to 8 pounds, ending at under a third of its original level. Streaming services followed the same direction, falling from 15 pounds to 6 pounds.",
-                    "Cultural visits moved the other way, rising from 9 pounds among the youngest respondents to 22 pounds among the oldest, and overtaking live events in the process.",
+                    "Cultural visits moved the other way, rising from 9 pounds among the youngest respondents to 22 pounds among the oldest, and overtaking live events in the process. Streaming services remained the smallest of the four categories for the 30-49 group, at 12 pounds, and its 6 pounds among those aged 50 and over was the lowest figure recorded anywhere in the chart.",
                 ],
                 "does": ["Overview holds the constant and the variation together, with no figures.",
                          "Grouping by behaviour, so four descriptions become two comparisons.",
@@ -3503,7 +3968,7 @@ BAND_SETS = [
                     "The pie charts show the municipal waste of a city in 2000 and 2020.",
                     "In 2000 organic was 42 per cent, paper was 24 per cent, plastics was 12 per cent, glass was 9 per cent, metal was 7 per cent and other was 6 per cent.",
                     "In 2020 organic was 31 per cent, paper was 15 per cent, plastics was 26 per cent, glass was 10 per cent, metal was 8 per cent and other was 10 per cent.",
-                    "We can see that the city produced much more plastic waste in 2020 and less organic waste, so the situation became worse for the environment.",
+                    "We can see that the city produced much more plastic waste in 2020 and less organic waste, so the situation became worse for the environment. Organic was the biggest in 2000 and organic was also the biggest in 2020. Paper was the second biggest in 2000 but plastics was the second biggest in 2020. Other was the smallest in 2000 at 6 per cent and metal was the smallest in 2020 at 8 per cent. Glass and metal did not change very much between the two years. So plastics went up a lot and paper and organic went down a lot.",
                 ],
                 "does": ["All twelve percentages are accurate."],
                 "missing": ["No overview; one paragraph per chart means the reader has to work out the changes.",
@@ -3516,7 +3981,7 @@ BAND_SETS = [
                     "The two pie charts compare the composition of municipal waste in one city in 2000 and 2020.",
                     "Overall, the share of organic waste fell from 42 per cent to 31 per cent while the share of plastics rose from 12 per cent to 26 per cent, so the composition became more balanced.",
                     "Organic material was the largest category in both years, but it lost 11 percentage points. Paper also fell, from 24 per cent to 15 per cent. Plastics more than doubled its share and became the second largest category in 2020.",
-                    "The other categories did not change much. Glass went from 9 to 10 per cent, metal from 7 to 8 per cent and other waste from 6 to 10 per cent.",
+                    "The other categories did not change much. Glass went from 9 to 10 per cent, metal from 7 to 8 per cent and other waste from 6 to 10 per cent. Metal was still the smallest category in 2020 at 8 per cent, and glass stayed close to a tenth of the waste in both years. The three biggest categories in 2020 were organic, plastics and paper, which are the same three as in 2000 but in a different order.",
                 ],
                 "does": ["Separate overview.", "Keeps every claim inside 'share', never 'amount'.",
                          "Uses 'percentage points' correctly.", "Groups the stable categories."],
@@ -3558,7 +4023,7 @@ BAND_SETS = [
                     "The table is about tourists in five destinations in 2019 and 2023.",
                     "Coastal Bay had 4.2 million arrivals in 2019 and 5.1 million in 2023, and the stay was 6.8 nights and then 5.9 nights. Lakeside had 2.7 million and 3.4 million, with 5.2 and 4.6 nights.",
                     "Old Harbour had 6.5 million and 7.2 million, with 4.1 and 3.7 nights. Highland Park had 1.8 million and 2.3 million, with 7.4 and 7.6 nights.",
-                    "Riverford had 3.9 million and 3.1 million, with 3.6 and 3.2 nights. Old Harbour had the most arrivals.",
+                    "Riverford had 3.9 million and 3.1 million, with 3.6 and 3.2 nights. Old Harbour had the most arrivals. Coastal Bay had more arrivals in 2023 than in 2019 but the stay was shorter. Lakeside also had more arrivals in 2023 and a shorter stay. Old Harbour had 4.1 nights in 2019 and 3.7 nights in 2023, so the stay was shorter there too. Highland Park had the longest stay in both years, with 7.4 nights in 2019 and 7.6 nights in 2023. Riverford was the only one where the arrivals went down, and Riverford also had the shortest stay in the table.",
                 ],
                 "does": ["Every one of the twenty cells is accurate."],
                 "missing": ["No overview.",
@@ -3571,7 +4036,7 @@ BAND_SETS = [
                     "The table shows the number of tourist arrivals and the average length of stay in five destinations in 2019 and 2023.",
                     "Overall, arrivals rose in four of the five destinations, but the average stay became shorter in four of them, so the two measures moved in different directions.",
                     "Arrivals increased in Coastal Bay, Lakeside, Old Harbour and Highland Park. Old Harbour had the most arrivals in both years, with 6.5 million and then 7.2 million. Riverford was the only destination where arrivals fell, from 3.9 million to 3.1 million.",
-                    "For length of stay, Coastal Bay had the biggest fall, from 6.8 nights to 5.9 nights. Highland Park was the only destination where the stay became longer, from 7.4 to 7.6 nights.",
+                    "For length of stay, Coastal Bay had the biggest fall, from 6.8 nights to 5.9 nights. Highland Park was the only destination where the stay became longer, from 7.4 to 7.6 nights. Highland Park also had the fewest arrivals in both years, with 1.8 million in 2019 and 2.3 million in 2023. Lakeside grew from 2.7 million to 3.4 million, and the stay in Lakeside fell from 5.2 nights to 4.6 nights, which is the same pattern as Coastal Bay.",
                 ],
                 "does": ["Separate overview that relates the two measures.",
                          "Organised by measure, not by destination.",
@@ -3585,7 +4050,7 @@ BAND_SETS = [
                     "The table compares tourist arrivals and the average length of stay in five destinations in 2019 and 2023.",
                     "Overall, most destinations received more visitors in 2023 than in 2019, but those visitors tended to stay for shorter periods, so the two measures generally moved in opposite directions. Each measure had a single exception.",
                     "Arrivals increased in all but one destination. Old Harbour remained the busiest, rising from 6.5 to 7.2 million, while Coastal Bay grew from 4.2 to 5.1 million and Lakeside from 2.7 to 3.4 million. Riverford was the only destination to lose visitors, falling from 3.9 to 3.1 million.",
-                    "Length of stay moved the other way almost everywhere, with Coastal Bay recording the largest reduction, from 6.8 to 5.9 nights. Highland Park was the exception, edging up from 7.4 to 7.6 nights and retaining the longest average stay of any destination.",
+                    "Length of stay moved the other way almost everywhere, with Coastal Bay recording the largest reduction, from 6.8 to 5.9 nights. Highland Park was the exception, edging up from 7.4 to 7.6 nights and retaining the longest average stay of any destination. Riverford recorded the shortest average stay of the five destinations in 2023, at 3.2 nights, having also been the only destination to lose visitors over the period.",
                 ],
                 "does": ["Figure-free overview that names the relationship and flags that each measure has an exception.",
                          "Twenty cells covered in two paragraphs by reporting direction plus exception.",
@@ -3614,7 +4079,7 @@ BAND_SETS = [
                     "First people collected the used bottles from the bins. Then a lorry transported them to a plant. Then workers removed the items which were not glass by hand.",
                     "Then they separated the glass into clear, green and brown. Then they crushed it into cullet. Then they melted the cullet in a furnace.",
                     "Then they moulded the molten glass into new bottles. Then the bottles were filled and they were sold in the shops.",
-                    "Then the empty bottles came back to the collection again and the whole process started one more time from the beginning. So it is a circle with eight steps in total.",
+                    "Then the empty bottles came back to the collection again and the whole process started one more time from the beginning. So it is a circle with eight steps in total. The bottles are made of glass and the process makes new bottles from the old bottles. The last stage goes back to the first stage, so the process does not have an end. Machines do the crushing and the melting and the moulding, and the people do the sorting by hand at the third stage.",
                 ],
                 "does": ["The sequence is complete and in the right order.", "Notices that the process returns to the start."],
                 "missing": ["No overview: no stage count, no input or output, no statement that the process is cyclical.",
@@ -3627,7 +4092,7 @@ BAND_SETS = [
                     "The diagram shows the process of recycling glass bottles.",
                     "Overall, there are eight stages in the process. It starts with the collection of used bottles and ends with new bottles, which go back to the collection stage, so it is a cycle.",
                     "At the first stage, used bottles are collected from household and public bins, and they are transported by lorry to a processing plant. After that, items which are not glass are removed by hand, and the glass is separated into clear, green and brown.",
-                    "The separated glass is then crushed into cullet and melted in a furnace. The molten glass is moulded into new bottles, and finally these bottles are filled, distributed and returned to the collection stage.",
+                    "The separated glass is then crushed into cullet and melted in a furnace. The molten glass is moulded into new bottles, and finally these bottles are filled, distributed and returned to the collection stage. The process is therefore continuous rather than linear, because the final stage returns the bottles to the point where the diagram begins. Four of the eight stages prepare the material, and the remaining four turn it back into a product and put it into circulation again.",
                 ],
                 "does": ["Overview gives the stage count, the input, the output and the cyclical shape.",
                          "Present simple passive, correct for an undated man-made process.",
@@ -3671,7 +4136,7 @@ BAND_SETS = [
                     "Here there was farmland before and now there are houses. This building was the shop and now it is a supermarket.",
                     "The cattle market is not here any more, they demolished it and made a car park. There is a new road on this side of the village now.",
                     "The woodland is still there and the school also, they did not change them at all.",
-                    "So the village had farms before and now it has houses instead, and there are more shops and roads than before. The village is much more modern now and it is better for the people who live there.",
+                    "So the village had farms before and now it has houses instead, and there are more shops and roads than before. The village is much more modern now and it is better for the people who live there. In the west there is the school and it is the same as before, they did not change it. The woodland on the north side is also the same and nobody cut it down. The new houses are in the south where the farmland was, and the new road is on the east side. So the village changed a lot in the south and in the centre, but in the north and in the west it did not change at all.",
                 ],
                 "does": ["Identifies most of the changes.", "Notices that the woodland and the school were retained."],
                 "missing": ["'Here', 'this side', 'this building' are unusable for a reader who cannot see the map.",
@@ -3684,7 +4149,7 @@ BAND_SETS = [
                     "The two maps show how the village of Whitmore changed between 1985 and the present day.",
                     "Overall, Whitmore changed from a farming village into a residential village, and most of the changes happened in the south and in the centre.",
                     "In the south, the farmland was removed and a housing estate was built in its place. A new bypass road was also built on the eastern side of the village.",
-                    "In the centre, the village shop became a supermarket and the cattle market was demolished and replaced by a car park. In the north the woodland was not changed, and the primary school in the west also stayed the same.",
+                    "In the centre, the village shop became a supermarket and the cattle market was demolished and replaced by a car park. In the north the woodland was not changed, and the primary school in the west also stayed the same. The housing estate now occupies the whole area in the south where the farmland used to be, and the bypass road runs along the eastern edge of the village. The supermarket stands in the same central position as the old village shop, so the centre was redeveloped rather than extended. Only two features of the village are exactly as they were in 1985.",
                 ],
                 "does": ["Overview names the change in character and locates it broadly.",
                          "Every change is located with a compass direction.",
@@ -3698,7 +4163,7 @@ BAND_SETS = [
                     "The two maps compare the village of Whitmore as it appeared in 1985 with the village as it is today.",
                     "Overall, Whitmore has changed from a largely agricultural settlement into a residential one. The most substantial redevelopment has taken place in the south and in the centre, while the woodland along the northern boundary and the school in the west have been left as they were.",
                     "The greatest change is in the south. The farmland that once bordered the village on that side has been cleared entirely and a housing estate now occupies the site. A bypass road has also been constructed along the eastern edge of the village.",
-                    "The centre has been redeveloped rather than expanded. The village shop has been converted into a supermarket occupying the same footprint, and the cattle market that stood nearby has been demolished and replaced by a car park.",
+                    "The centre has been redeveloped rather than expanded. The village shop has been converted into a supermarket occupying the same footprint, and the cattle market that stood nearby has been demolished and replaced by a car park. Only two features survive the redevelopment untouched, and both lie away from the reconstructed south and centre.",
                 ],
                 "does": ["Overview names the change in character and what survived, in one sentence.",
                          "Present perfect throughout, correct for a dated map against today.",
@@ -3727,7 +4192,7 @@ BAND_SETS = [
                     "The line graph shows the electricity consumption and the pie chart shows the sources.",
                     "Overall, the consumption of electricity increased a lot during the period. It was 310 terawatt-hours in 2010, 335 in 2013, 356 in 2016, 372 in 2019, 374 in 2022 and 376 in 2024.",
                     "Now I will describe the second chart. Overall, renewables were the biggest source of electricity in 2024.",
-                    "Renewables were 38 per cent, natural gas was 27 per cent, nuclear was 19 per cent, coal was 11 per cent and other sources were 5 per cent.",
+                    "Renewables were 38 per cent, natural gas was 27 per cent, nuclear was 19 per cent, coal was 11 per cent and other sources were 5 per cent. The consumption went up every time in the line graph and it never went down. The biggest number is 376 terawatt-hours in 2024 and the smallest number is 310 terawatt-hours in 2010. In the pie chart the biggest part is renewables and the smallest part is other sources. Coal is smaller than nuclear. So the country used more electricity than before and renewables were the main source of it in 2024.",
                 ],
                 "does": ["All figures are accurate.", "Both graphics are covered."],
                 "missing": ["Two separate overviews, one per chart, instead of one covering both.",
@@ -3740,7 +4205,7 @@ BAND_SETS = [
                     "The line graph shows total electricity consumption between 2010 and 2024, and the pie chart shows where that electricity came from in 2024.",
                     "Overall, consumption increased during the period but stopped growing near the end, and by 2024 renewables provided more electricity than any other source.",
                     "Consumption rose from 310 terawatt-hours in 2010 to 372 terawatt-hours in 2019. After 2019 the increase was very small, and the figure only reached 376 terawatt-hours in 2024.",
-                    "In 2024, renewables provided 38 per cent of the electricity, which was more than natural gas at 27 per cent and nuclear at 19 per cent. Coal provided only 11 per cent and other sources 5 per cent.",
+                    "In 2024, renewables provided 38 per cent of the electricity, which was more than natural gas at 27 per cent and nuclear at 19 per cent. Coal provided only 11 per cent and other sources 5 per cent. Total consumption rose from 310 terawatt-hours in 2010 to 356 terawatt-hours in 2016, which was the fastest part of the increase. Nuclear and coal together provided less electricity than renewables did on their own, and the gap between renewables and natural gas was 11 percentage points.",
                 ],
                 "does": ["One overview that reaches into both graphics.",
                          "Notices that the line flattens.",
@@ -3876,11 +4341,19 @@ def build_band_sets():
         responses = []
         for lv in BAND_LEVELS:
             r = spec["responses"][lv["id"]]
+            words = sum(len(p.split()) for p in r["text"])
+            if words < TASK1_WORD_MINIMUM:
+                raise SystemExit(
+                    f"BUILD FAIL: band sample {fam}/{lv['level']} is {words} words, under the "
+                    f"{TASK1_WORD_MINIMUM}-word Academic Task 1 minimum")
             responses.append({
                 "id": f"W1B-{FAMILY_CODE[fam]}-{lv['id']}",
                 "level": lv["level"], "label": lv["label"], "levelUa": lv["ua"],
+                "styleLabel": lv["styleLabel"],
                 "text": r["text"],
-                "wordCount": sum(len(p.split()) for p in r["text"]),
+                "wordCount": words,
+                "wordMinimum": TASK1_WORD_MINIMUM,
+                "meetsMinimum": words >= TASK1_WORD_MINIMUM,
                 "does": r["does"], "missing": r["missing"],
             })
         out.append({
@@ -3888,6 +4361,9 @@ def build_band_sets():
             "questionFamily": fam, "visualFamily": fam,
             "difficulty": FAMILY_META[fam]["difficulty"], "visualId": v["id"],
             "focus": spec["focus"], "aspects": BAND_ASPECTS, "comparison": spec["comparison"],
+            "aspectCriteria": BAND_ASPECT_CRITERIA,
+            "descriptorReference": BAND_DESCRIPTOR_REFERENCE,
+            "wordMinimum": TASK1_WORD_MINIMUM,
             "responses": responses, "takeaway": spec["takeaway"], "uaSupport": spec["ua"],
             "prompt": f"Three responses to the same task, compared: {v['taskStatement']}",
             "explanation": spec["takeaway"], "errorCategory": "missing_overview",
@@ -3924,6 +4400,7 @@ def attach_claims(exercises, prompts, bands):
                        e.get("deliberateErrorFigures") or ())
         e["claim"] = {
             "intent": e["skillFocus"],
+            "model": "declared-key set (D-020)",
             "groundingKeys": e["grounding"],
             "datasetFields": sorted({".".join(k.split(".")[1:3]) for k in e["grounding"]}),
             "permittedOperations": sorted({fact_op(k) for k in e["grounding"]} | set(extra)),
@@ -3950,13 +4427,19 @@ def attach_claims(exercises, prompts, bands):
             check_text(f"{p['id']}.note[{i}]", v, n, auth, structural, units, times, problems)
         for i, t in enumerate(p["targetFeatures"]):
             check_text(f"{p['id']}.target[{i}]", v, t, auth, structural, units, times, problems)
+        # Canonical teaching content is additionally bound sentence by sentence:
+        # every figure must belong to an entity named in its own clause.
+        sentences = scope_claims(f"{p['id']}.model", v, p["modelResponse"], problems,
+                                 extra_ops=extra, structural=structural)
         p["claim"] = {
             "intent": "Full report of this visual.",
+            "model": "sentence-scoped (D-021)",
             "permittedOperations": sorted(ALLOWED_REPORT_OPS | set(extra)),
             "restrictedOperationsAuthorised": sorted(set(extra) & RESTRICTED_OPS),
             "authorisedFigures": sorted(auth - times),
             "structuralNumbers": sorted(structural),
             "unit": v["unit"], "period": v["timeframe"], "timeReferences": sorted(times),
+            "sentences": sentences,
         }
 
     for b in bands:
@@ -3967,8 +4450,11 @@ def attach_claims(exercises, prompts, bands):
         for r in b["responses"]:
             for i, par in enumerate(r["text"]):
                 check_text(f"{b['id']}.{r['level']}[{i}]", v, par, auth, set(), units, times, problems)
+            r["claimSentences"] = scope_claims(f"{b['id']}.{r['id']}", v, r["text"], problems,
+                                               extra_ops=extra)
         b["claim"] = {
             "intent": "Three reports of the same visual at different quality levels.",
+            "model": "sentence-scoped (D-021)",
             "permittedOperations": sorted(ALLOWED_REPORT_OPS | set(extra)),
             "authorisedFigures": sorted(auth - times),
             "unit": v["unit"], "period": v["timeframe"], "timeReferences": sorted(times),

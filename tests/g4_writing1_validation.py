@@ -512,10 +512,21 @@ for b in bands:
         fail(f"{bid}: visual belongs to {bv['family']}, not {b['questionFamily']}")
     if [r["level"] for r in b["responses"]] != band_levels:
         fail(f"{bid}: responses do not cover every declared band level in order")
+    band_minimum = b.get("wordMinimum")
+    if band_minimum != 150:
+        fail(f"{bid}: band set does not record the 150-word Academic Task 1 minimum")
     for r in b["responses"]:
         words = sum(len(p.split()) for p in r["text"])
-        if words < 90:
-            fail(f"{bid}/{r['level']}: sample response is only {words} words")
+        # IELTS Academic Task 1 asks for at least 150 words. A sample under that
+        # is underlength writing presented as a model, and it also makes length
+        # an uncontrolled variable between the three levels.
+        if words < 150:
+            fail(f"{bid}/{r['level']}: sample response is {words} words, under the 150-word "
+                 f"Academic Task 1 minimum")
+        if r.get("wordMinimum") != 150 or not r.get("meetsMinimum"):
+            fail(f"{bid}/{r['level']}: sample does not record meeting the Task 1 minimum")
+        if not re.match(r"illustrative band \d-style sample$", str(r.get("styleLabel", "")).strip(), re.I):
+            fail(f"{bid}/{r['level']}: sample is not labelled as an illustrative Band-style sample")
         if r["wordCount"] != words:
             fail(f"{bid}/{r['level']}: stated word count does not match the text")
         if not r["does"]:
@@ -528,6 +539,14 @@ for b in bands:
             fail(f"{bid}/{r['level']}: the target sample models no overview")
     if len(b["comparison"]) < 4:
         fail(f"{bid}: fewer than four compared aspects")
+    criteria = b.get("aspectCriteria") or {}
+    official = {"Task Achievement", "Coherence and Cohesion", "Lexical Resource",
+                "Grammatical Range and Accuracy"}
+    for aspect in b.get("aspects", []):
+        if criteria.get(aspect) not in official:
+            fail(f"{bid}: aspect {aspect!r} is not mapped to a published IELTS Writing criterion")
+    if "ielts.org" not in str(b.get("descriptorReference", "")):
+        fail(f"{bid}: no pointer to the published IELTS Writing band descriptors")
     for rowc in b["comparison"]:
         for k in ("aspect", "b6", "b7", "b8"):
             if not str(rowc.get(k, "")).strip():
@@ -661,6 +680,15 @@ if levels != {1, 2, 3, 4, 5}:
 for lv in mastery.get("levels", []):
     if not str(lv.get("rule", "")).strip() or not str(lv.get("ua", "")).strip():
         fail(f"mastery level {lv.get('level')}: missing rule or Ukrainian gloss")
+# L4 and L5 are performance levels, so the response that earns them has to be a
+# real Task 1 answer and not twenty words submitted inside the time limit.
+if mastery.get("wordMinimum") != 150:
+    fail("mastery rules do not record the 150-word minimum for a full response")
+if "150" not in str(mastery.get("lengthRule", "")):
+    fail("mastery rules do not state that an underlength response cannot advance mastery")
+for lv in mastery.get("levels", []):
+    if lv.get("level") in (4, 5) and "150 words" not in str(lv.get("rule", "")):
+        fail(f"mastery level {lv.get('level')} does not require a 150-word response")
 
 # --- 10. Meta counts must match the artifact --------------------------------
 meta = data["meta"]
@@ -707,6 +735,8 @@ print("Modules         :", len(modules), f"({len(foundation_modules)} foundation
 print("Error categories:", len(taxonomy))
 print("Band comparison :", len(bands), "sets,", sum(len(b["responses"]) for b in bands), "sample responses")
 print("Model responses :", f"{len(prompts)} annotated, all >= {WORD_MINIMUM} words with an overview")
+print("Band samples    :", f"{sum(len(b['responses']) for b in bands)} illustrative samples, "
+      f"all >= {WORD_MINIMUM} words, aspects mapped to the public IELTS criteria")
 
 if errors:
     for e in errors[:120]:

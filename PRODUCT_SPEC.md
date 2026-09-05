@@ -408,7 +408,7 @@ Passed:
 
 Candidate, not yet closed:
 
-- G4 Writing Task 1 — G4 INTERNAL PASS — EXTERNAL REVIEW PENDING
+- G4 Writing Task 1 — G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING
 
 Current implementation baseline:
 

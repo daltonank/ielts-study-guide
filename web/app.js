@@ -97,7 +97,7 @@ function renderSkills(){
  const route={"Reading":"reading","Writing Task 1":"task1"}[skill];
  const open=route?`<button class="btn" data-route="${route}" style="margin-bottom:10px">Open ${escapeHTML(skill)}</button>`:"";
  const shown=mods.slice(0,6);
- return card(skill,`${open}<div class="module-list">${mods.length?shown.map(m=>`<div class="module-item"><div class="mastery-dot">${state.mastery[m.id]??0}</div><div><strong>${escapeHTML(m.title)}</strong><div class="small muted">${escapeHTML(m.difficulty)} • ${m.minutes} min</div></div>${masteryBadge(m.id)}</div>`).join(""):`<p class="muted">Curriculum content is assigned to a later gated phase.</p>`}</div>${mods.length>shown.length?`<p class="small muted">+ ${mods.length-shown.length} more inside the academy.</p>`:""}`,"half")
+ return card(skill,`${open}<div class="module-list">${mods.length?shown.map(m=>`<div class="module-item"><div class="mastery-dot">${state.mastery[m.id]??0}</div><div><strong>${escapeHTML(m.title)}</strong><div class="small muted">${escapeHTML(m.difficulty)}${m.minutes?` • ${m.minutes} min`:""}</div></div>${masteryBadge(m.id)}</div>`).join(""):`<p class="muted">Curriculum content is assigned to a later gated phase.</p>`}</div>${mods.length>shown.length?`<p class="small muted">+ ${mods.length-shown.length} more inside the academy.</p>`:""}`,"half")
  }).join("")}</div>`;
 }
 function renderPractice(){
@@ -374,14 +374,15 @@ function w1UpdateMastery(family){
  const vals=Object.values(latest);
  const rate=mode=>{const set=vals.filter(r=>r.mode===mode);return set.length?set.filter(r=>r.correct).length/set.length:null};
  const subs=(state.writing1.submissions||[]).filter(s=>s.family===family);
- const timedSub=subs.some(s=>s.withinLimit&&s.checklistDone>=s.checklistTotal);
+ const fullLength=s=>s.meetsLength??(s.words>=(w1Prompt(s.promptId)?.wordMinimum??150));
+ const timedSub=subs.some(s=>s.withinLimit&&s.checklistDone>=s.checklistTotal&&fullLength(s));
  let level=state.mastery[mod.id]??0;
  const guided=rate("guided");if(guided!==null&&guided>=.5&&vals.filter(r=>r.mode==="guided").length>=exs.filter(e=>e.mode==="guided").length)level=Math.max(level,2);
  const indep=rate("independent");if(indep!==null&&indep>=.75&&vals.filter(r=>r.mode==="independent").length>=exs.filter(e=>e.mode==="independent").length)level=Math.max(level,3);
  const timed=rate("timed");if(timed!==null&&timed>=.75&&timedSub)level=Math.max(level,4);
  const dates=new Set(vals.map(r=>r.date)),masteryEx=vals.find(r=>r.mode==="mastery"&&r.correct);
  const overall=vals.length?vals.filter(r=>r.correct).length/vals.length:0;
- if(vals.length>=3&&dates.size>=2&&masteryEx&&overall>=.85&&subs.some(s=>s.withinLimit))level=5;
+ if(vals.length>=3&&dates.size>=2&&masteryEx&&overall>=.85&&subs.some(s=>s.withinLimit&&fullLength(s)))level=5;
  state.mastery[mod.id]=level;
 }
 function w1FamilyProgress(family){
@@ -481,7 +482,8 @@ function w1SubmitPrompt(pid){
  const ticks=state.writing1.checklists?.[pid]||{},done=p.checklist.filter(c=>ticks[c.id]).length;
  const sub={id:uid("W1SUB"),date:new Date().toISOString().slice(0,10),createdAt:new Date().toISOString(),
   promptId:pid,moduleId:w1Module(p.questionFamily)?.id||"",family:p.questionFamily,mode:p.mode,
-  words,elapsedSeconds:elapsed,withinLimit:elapsed!==null&&elapsed<=p.estimatedMinutes*60,
+  words,wordMinimum:p.wordMinimum,meetsLength:words>=p.wordMinimum,
+  elapsedSeconds:elapsed,withinLimit:elapsed!==null&&elapsed<=p.estimatedMinutes*60,
   checklistDone:done,checklistTotal:p.checklist.length,timed:elapsed!==null};
  state.writing1.submissions.push(sub);
  state.savedResponses.push({id:"W1-"+pid+"-"+sub.id,type:"writing",promptId:pid,text:d.text,plan:d.plan,updatedAt:sub.createdAt});
@@ -489,6 +491,13 @@ function w1SubmitPrompt(pid){
   if(!state.reviews.some(r=>r.questionId===pid+":"+c.id))state.reviews.push({id:uid("REV"),type:"Writing Task 1",
    title:`Self-review gap: ${c.text}`,priority:3,module:sub.moduleId,questionId:pid+":"+c.id,
    dueDate:new Date(Date.now()+2*86400000).toISOString().slice(0,10)})});
+ if(!sub.meetsLength){
+  const uc=(w1()?.errorTaxonomy||[]).find(c=>c.id==="underlength_response");
+  state.errors.unshift({id:uid("ERR"),date:sub.date,skill:"Writing Task 1",module:sub.moduleId,questionId:pid,
+   learnerAnswer:`${words} words`,correctAnswer:`at least ${p.wordMinimum} words`,
+   category:uc?.en||"Underlength response",explanation:uc?.description||"",correction:uc?.correction||"",
+   repeated:false,reviewDate:new Date(Date.now()+2*86400000).toISOString().slice(0,10),resolved:false});
+ }
  if(elapsed!==null&&elapsed>p.estimatedMinutes*60){
   const cat=(w1()?.errorTaxonomy||[]).find(c=>c.id==="timing_failure");
   state.errors.unshift({id:uid("ERR"),date:sub.date,skill:"Writing Task 1",module:sub.moduleId,questionId:pid,
@@ -498,7 +507,9 @@ function w1SubmitPrompt(pid){
  }
  w1UpdateMastery(p.questionFamily);
  state.studyHistory.unshift({date:sub.date,minutes:p.estimatedMinutes,skill:"Writing Task 1",module:sub.moduleId});
- state.writing1.timer=null;saveState();render();toast(`Response recorded — ${words} words`);
+ state.writing1.timer=null;saveState();render();
+ toast(sub.meetsLength?`Response recorded — ${words} words`
+  :`Recorded, but ${words} words is under the ${p.wordMinimum}-word minimum — an underlength answer cannot count towards L4 or L5`);
 }
 
 /* --- views --- */
@@ -517,7 +528,8 @@ function renderWriting1(){
   <div class="kpi"><span class="muted">Visual families</span><strong>${d.meta.familyCount}</strong></div>
   <div class="kpi"><span class="muted">Micro-exercises</span><strong>${d.meta.microExerciseCount}</strong></div>
   <div class="kpi"><span class="muted">Full prompts</span><strong>${d.meta.promptCount}</strong></div>
-  <div class="kpi"><span class="muted">Completed</span><strong>${doneEx}+${doneP}</strong></div></div>
+  <div class="kpi"><span class="muted">Exercises done</span><strong>${doneEx} / ${d.meta.microExerciseCount}</strong></div>
+  <div class="kpi"><span class="muted">Prompts answered</span><strong>${doneP} / ${d.meta.promptCount}</strong></div></div>
   <p class="small muted">${escapeHTML(d.meta.scoringNote)}</p>`)}
  ${card("Foundation",`<div class="module-list">${d.modules.filter(m=>m.kind==="foundation").map(m=>`<div class="module-item"><div class="mastery-dot">${state.mastery[m.id]??0}</div><div><strong>${escapeHTML(m.title)}</strong><div class="small muted">${escapeHTML(m.objectives[0])}</div><details><summary>Learn the strategy</summary><ol>${m.lesson.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ol>${m.workedExamples?.[0]?`<div class="strategy-block"><span class="badge">Worked example</span><p><strong>${escapeHTML(m.workedExamples[0].title)}</strong></p><p>${escapeHTML(m.workedExamples[0].analysis)}</p></div>`:""}${ua("",escapeHTML(m.uaSupport))}</details></div><button class="btn secondary" data-w1-foundation="${m.id}">Mark introduced</button></div>`).join("")}</div>`)}
  ${card("Visual families",`<div class="family-grid">${d.familyOrder.map(f=>{const meta=d.familyMeta[f],mod=w1Module(f),pg=w1FamilyProgress(f);
@@ -538,7 +550,7 @@ function renderW1Band(id){
   <div class="notice">${escapeHTML(b.scoringNote)}</div>
   <div class="segmented" style="margin-top:12px">${b.responses.map(r=>`<button class="btn ${r.level===active?"":"secondary"}" data-w1-band-level="${escapeHTML(r.level)}">${escapeHTML(r.level)}</button>`).join("")}</div>
   <div class="w1-bandcard" style="margin-top:12px">
-   <div class="row"><span class="badge warn">${escapeHTML(shown.level)}</span><strong>${escapeHTML(shown.label)}</strong><span class="small muted">${shown.wordCount} words</span></div>
+   <div class="row"><span class="badge warn">${escapeHTML(shown.styleLabel||shown.level+"-style sample")}</span><strong>${escapeHTML(shown.label)}</strong><span class="small muted">${shown.wordCount} words (Task 1 minimum ${shown.wordMinimum??150})</span></div>
    <div class="w1-model" style="margin-top:10px">${shown.text.map(p=>`<p>${escapeHTML(p)}</p>`).join("")}</div>
    <div class="grid" style="margin-top:10px">
     <div class="strategy-block half"><span class="badge good">What it does</span><ul>${shown.does.length?shown.does.map(x=>`<li>${escapeHTML(x)}</li>`).join(""):"<li>—</li>"}</ul></div>
@@ -546,9 +558,10 @@ function renderW1Band(id){
    </div>
    ${ua("",escapeHTML((w1().bandLevels.find(l=>l.level===shown.level)||{}).ua||""))}
   </div>`,"half")}
- ${card("What actually separates them",`<div class="table-wrap"><table><thead><tr><th>Aspect</th>${b.responses.map(r=>`<th>${escapeHTML(r.level)}</th>`).join("")}</tr></thead><tbody>
-  ${b.comparison.map(row=>`<tr><td><strong>${escapeHTML(row.aspect)}</strong></td><td>${escapeHTML(row.b6)}</td><td>${escapeHTML(row.b7)}</td><td>${escapeHTML(row.b8)}</td></tr>`).join("")}
+ ${card("What actually separates them",`<div class="table-wrap"><table><thead><tr><th>Aspect</th><th>IELTS criterion</th>${b.responses.map(r=>`<th>${escapeHTML(r.level)}</th>`).join("")}</tr></thead><tbody>
+  ${b.comparison.map(row=>`<tr><td><strong>${escapeHTML(row.aspect)}</strong></td><td class="small muted">${escapeHTML((b.aspectCriteria||{})[row.aspect]||"—")}</td><td>${escapeHTML(row.b6)}</td><td>${escapeHTML(row.b7)}</td><td>${escapeHTML(row.b8)}</td></tr>`).join("")}
   </tbody></table></div>
+  ${b.descriptorReference?`<p class="small muted" style="margin-top:8px">${escapeHTML(b.descriptorReference)}</p>`:""}
   <div class="notice" style="margin-top:12px"><strong>Takeaway.</strong> ${escapeHTML(b.takeaway)}</div>
   ${ua("",escapeHTML(b.uaSupport))}
   <div class="row" style="margin-top:12px"><button class="btn" data-w1-band-read="${b.id}">${w1BandOpened(b.id)?"Reviewed":"Mark as reviewed"}</button><button class="btn ghost" data-w1-back-family="${b.questionFamily}">Back to module</button></div>`)}
@@ -578,7 +591,7 @@ function renderW1Family(f){
   ${w1FamilyBands(f).map(b=>`<div class="session-item" style="border-color:var(--ua)"><div><span class="badge">Band comparison lab</span><strong>Three responses to the same task, compared</strong><div class="small muted">${b.responses.length} sample responses · ${b.estimatedMinutes} min${w1BandOpened(b.id)?" · reviewed":""}</div></div><button class="btn secondary" data-w1-band="${b.id}">Open</button></div>`).join("")}
   <div class="w1-subtitle">Full timed prompts · ${prompts.length}</div>
   ${prompts.map(p=>{const s=w1LatestSubmission(p.id);
-   return `<div class="session-item" style="border-color:var(--yellow)"><div><span class="badge warn">${escapeHTML(p.modeLabel)}</span><strong>${escapeHTML(w1Visual(p.visualId).title)}</strong><div class="small muted">${p.estimatedMinutes} min · ≥${p.wordMinimum} words</div>${s?`<div class="small"><strong>${s.words} words</strong> · ${s.withinLimit?"within time":"over time"} · checklist ${s.checklistDone}/${s.checklistTotal}</div>`:""}</div><button class="btn" data-w1-prompt="${p.id}">${s?"Reopen":"Open"}</button></div>`}).join("")}
+   return `<div class="session-item" style="border-color:var(--yellow)"><div><span class="badge warn">${escapeHTML(p.modeLabel)}</span><strong>${escapeHTML(w1Visual(p.visualId).title)}</strong><div class="small muted">${p.estimatedMinutes} min · ≥${p.wordMinimum} words</div>${s?`<div class="small"><strong>${s.words} words</strong> (min ${p.wordMinimum})${s.words>=p.wordMinimum?"":" — underlength"} · ${s.withinLimit?"within time":"over time"} · checklist ${s.checklistDone}/${s.checklistTotal}</div>`:""}</div><button class="btn" data-w1-prompt="${p.id}">${s?"Reopen":"Open"}</button></div>`}).join("")}
   </div>`,"half")}
  ${card("Mastery",`<div class="row"><span class="badge">L${state.mastery[mod.id]??0} · ${escapeHTML(APP_DATA.masteryLevels[state.mastery[mod.id]??0].en)}</span><div class="progress" style="flex:1" aria-label="Mastery"><span style="width:${(state.mastery[mod.id]??0)/5*100}%"></span></div></div>
   <p style="margin-top:10px">${w1().masteryRules.levels.map(l=>`<strong>L${l.level} ${l.name}:</strong> ${escapeHTML(l.rule)}`).join(" ")}</p>

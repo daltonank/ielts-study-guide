@@ -104,6 +104,28 @@ with sync_playwright() as p:
 
             page.click(f'[data-w1-back-family="{fam}"]')
             page.wait_for_timeout(50)
+
+            # The band comparison lab (REQ-019): its annotation blocks and its
+            # five-row comparison table are the widest thing in the academy.
+            page.locator('[data-w1-band]').first.click()
+            page.wait_for_timeout(90)
+            overflow(page, f'{w}px {fam} band lab')
+            check(page.locator('.w1-bandcard').count() == 1, f'{w}px {fam}: no band card')
+            slivers = page.evaluate('''()=>[...document.querySelectorAll('#main .grid>*')]
+                .map(e=>({cls:e.className,w:Math.round(e.getBoundingClientRect().width),
+                          gw:Math.round(e.parentElement.getBoundingClientRect().width),
+                          t:(e.innerText||'').trim().length}))
+                .filter(o=>o.t>0 && o.w < Math.min(120, o.gw*0.4))''')
+            check(not slivers, f'{w}px {fam} band lab: block collapsed to a sliver {slivers}')
+            contained = page.evaluate('''()=>{const t=document.querySelector('#main table');
+                if(!t) return 'no comparison table';
+                let n=t.parentElement,ok=false;
+                while(n&&n.id!=='main'){if(['auto','scroll'].includes(getComputedStyle(n).overflowX)){ok=true;break}
+                  n=n.parentElement}
+                return ok?'':'comparison table has no scroll container'}''')
+            check(not contained, f'{w}px {fam} band lab: {contained}')
+            page.click(f'[data-w1-back-family="{fam}"]')
+            page.wait_for_timeout(50)
             page.click('[data-w1-home]')
             page.wait_for_timeout(50)
 

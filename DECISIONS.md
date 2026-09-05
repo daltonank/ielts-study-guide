@@ -182,3 +182,92 @@ pedagogically wrong. Logged as defect D4-006.
 - `tests/g4_writing1_claims.py` was proven against eight seeded defects, including a
   smuggled column total and a smuggled pairwise sum; all eight were caught.
 - G5–G8 should adopt this shape rather than the looser D-017 rule.
+
+---
+
+## D-021 — Canonical teaching prose is bound sentence by sentence
+**Date:** 2026-09-05 · **Status:** Approved · **Supersedes part of D-020
+
+### Decision
+A figure in a model response or a band sample must belong to an entity that the sentence
+names in the same clause. The claim manifest records, per sentence, the entities named and
+the fact keys each figure resolves to.
+
+- a fact is indexed with its **subjects** (series, slice, row, feature) and its **contexts**
+  (year, column, category);
+- a figure may cite only a fact whose subjects are all named in its clause, whose context
+  does not contradict a year or category named there, and which is anchored by a name on
+  one axis or the other;
+- a comparison between two entities may take its second entity from earlier in the same
+  sentence, never both;
+- an entity carried by ordinary anaphora ("It then fell to 12 per cent") inherits the
+  scope of the previous clause or sentence, and nothing else does;
+- a figure printed on the visual as a label is authorised only in a clause that names that
+  label, rather than through a flat numeric whitelist.
+
+Exercise stems, model notes and target-feature lists keep the declared-key set check of
+D-020: that prose is commentary about language, and a rule written for reports misreads it.
+
+### Rationale
+External review of candidate `fe720d5` found that report-level authorisation was a set of
+numbers with no opinion about which entity each belonged to, so two real values could be
+swapped between two series and still pass. That is tolerable for learner-authored free
+text and not tolerable for the prose the learner is asked to copy.
+
+### Implications
+- `tests/g4_writing1_claims.py` re-implements the binder from the specification by
+  resolving fact keys against the visual's label vocabulary, which is the opposite
+  direction from the generator; both must agree, figure by figure.
+- Authoring canonical prose now means naming the subject near the figure. Four sentences
+  were rewritten for this reason, none of them for accuracy.
+- Known limit, stated rather than papered over: two entities named inside one clause with
+  the figures not interleaved ("A and B rose to 46 and 44 respectively") are bound to the
+  clause, not to each other, so a swap inside that one construction is not detected.
+
+---
+
+## D-022 — The 150-word Task 1 minimum is enforced, not assumed
+**Date:** 2026-09-05 · **Status:** Approved · **Amends D-015
+
+### Decision
+IELTS Academic Task 1 asks for at least 150 words, so:
+
+- every band comparison sample is at least 150 words, and the generator refuses to emit a
+  shorter one;
+- mastery L4 and L5 require a full response of at least `wordMinimum` words, in addition to
+  the timing and self-review checklist conditions of D-015;
+- an underlength submission is logged against a new error category,
+  `underlength_response`, taking the Writing Task 1 taxonomy from twelve categories to
+  thirteen (D-016 amended);
+- band samples are labelled "Illustrative Band N-style sample", and each compared aspect is
+  mapped to the public IELTS Writing criterion it belongs to, with a pointer to the
+  published descriptors. No descriptor text is reproduced.
+
+### Rationale
+External review found eighteen of twenty-one samples under 150 words, four of them in the
+"Strong" position, and a mastery path that reached L4 and L5 from a twenty-word response.
+Both taught the wrong lesson: length became an invisible variable between the levels, and
+performance levels could be earned without performance.
+
+### Implications
+- All 21 samples were extended in their own voice; every added figure is accurate and
+  bound under D-021.
+- `tests/g4_writing1_functional.py` submits 20 words and 149 words in the browser and
+  requires mastery to stay at L3, then submits a full-length response and requires L4.
+
+---
+
+## D-023 — A release is identified by a tag, not by a hash inside itself
+**Date:** 2026-09-05 · **Status:** Approved
+
+### Decision
+The external review packet names its candidate by a git tag. `tests/release_integrity.py`
+requires that the tag resolves, that the packet stored inside the tagged commit names the
+same tag, that every commit hash the packet cites exists, and that every path it cites
+exists.
+
+### Rationale
+At candidate `fe720d5` the packet named a SHA that no commit in the repository has: the
+hash was stamped by a following commit and then rewritten. The durable handoff pointed at
+nothing. A commit cannot contain its own hash; a tag is created afterwards, so it can
+always be checked.

@@ -1,23 +1,36 @@
 # G4 External Review Packet — Writing Task 1
 
-**Gate status: `G4 INTERNAL PASS — EXTERNAL REVIEW PENDING`.**
+**Gate status: `G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING`.**
 
-Every internal requirement passes with reproducible evidence. The planned
-cross-provider review has not happened, so G4 is **not** recorded as an
-unconditional PASS. This packet is the durable handoff: everything a reviewer
-needs is in this repository, not in Slack.
+**Round 1 happened and returned CHANGES REQUESTED.** A reviewer independently
+reran the whole suite against candidate `fe720d5`, found it green, and still
+raised two P1, two P2 and one P3 finding that the suite could not see. All five
+are fixed here, along with D4-008, a stylesheet defect from G1 that surfaced
+while the fixes were being checked on a real 375px viewport. §12 answers the
+findings one by one.
+
+This packet is the durable handoff: everything a reviewer needs is in this
+repository, not in Slack.
 
 ---
 
 ## 1. Candidate release
 
+The candidate is identified by a **git tag**, not by a hash written into the
+commit it describes. That is what went wrong last cycle: the packet at the first
+candidate named a SHA that never existed in the repository, because the hash was
+stamped by a later commit and the commit was then rewritten. A tag is created
+after the commit exists, so it always resolves, and `tests/release_integrity.py`
+now fails the build if it does not.
+
 | | |
 |---|---|
 | Repository | `github.com/daltonank/ielts-study-guide` |
 | Branch | `main` |
-| Candidate commit | `fe720d5` (`fe720d581e6a610044ac64cf8beedf1d29ff56f4`), tagged `g4-candidate` |
-| Note on the SHA | The line above is stamped by the commit immediately after the audit commit, because a commit cannot contain its own hash. `g4-candidate` tags the audit commit; the stamp commit changes only this table. |
-| Previous candidate | `f2b3157` (superseded — see §7, it did not satisfy REQ-019) |
+| Candidate | the commit tagged `g4-candidate-2` |
+| Resolve it with | `git rev-parse g4-candidate-2` |
+| Verify the packet | `python tests/release_integrity.py` |
+| Superseded candidates | `f2b3157` (did not satisfy REQ-019), `fe720d5` (this cycle's review found the six items in §12) |
 | Toolchain | Python 3.13.15 with `jsonschema`, `playwright`; Microsoft Edge (Chromium) resolved by `tests/browser_env.py`; Node 24 only for design mockups |
 | Application runtime | dependency-free static HTML/CSS/JS, local only (D-014) |
 
@@ -31,7 +44,27 @@ python scripts/build_writing1_curriculum.py && python tests/g4_writing1_inventor
 
 ## 2. Changed-file inventory
 
-### Added this audit cycle
+### Added in review round 2
+| File | Lines | Purpose |
+|---|---:|---|
+| `tests/g4_writing1_negative.py` | 167 | Six seeded defects, each required to fail its own guard; restores every file it touches |
+| `tests/release_integrity.py` | 109 | The packet must name a release that resolves and describes itself |
+
+### Modified in review round 2
+| File | Change |
+|---|---|
+| `scripts/build_writing1_curriculum.py` | Sentence-scoped claim engine (D-021); band samples extended to 150+ words and refused below it; `styleLabel`, `aspectCriteria`, `descriptorReference`, `wordMinimum`; `underlength_response` error category; mastery rules carry the length floor |
+| `web/writing1_data.js` | Regenerated: per-sentence claim tuples, band sample lengths and labels, 13-category taxonomy |
+| `web/app.js` | Mastery length floor in `w1UpdateMastery` and `w1SubmitPrompt`; underlength error logging; KPI operands named; module duration rendered only where it exists; band card shows the illustrative label, word count and criterion column |
+| `web/styles.css` | D4-008: grid children span the full row below 760px |
+| `tests/g4_writing1_claims.py` | Independent re-implementation of the sentence-scoped binder, cross-checked against the stored manifest; band length, labelling and criterion checks |
+| `tests/g4_writing1_validation.py` | 150-word floor, illustrative labelling, criterion mapping, mastery length rules |
+| `tests/g4_writing1_functional.py` | 20-word and 149-word negative submissions; full-length positive case |
+| `tests/g4_writing1_responsive.py` | Walks the band lab at all six widths; sliver and scroll-container checks |
+| `tests/g4_writing1_inventory.py` | Band samples at 150+ words as a hard row |
+| `tests/responsive_check.py` | Measures every grid child on all five primary routes |
+
+### Added in the closure audit cycle
 | File | Lines | Purpose |
 |---|---:|---|
 | `tests/g4_writing1_inventory.py` | 174 | Machine-derived counts; fails if any benchmark regresses |
@@ -78,11 +111,12 @@ to reproduce; it exits non-zero if any row regresses.
 | Full timed prompts | **21** | ≥20 | `prompts[]`, ids `W1P-*` |
 | Band comparison sets | **7** | ≥7 (one per family) | `bandComparisons[]`, ids `W1B-*` |
 | Band sample responses | **21** | 21 | `bandComparisons[].responses[]` |
+| Band samples at 150+ words | **21** | 21 | `bandComparisons[].responses[].text` — 158 to 202 words |
 | Worked examples | 11 | 11 | `modules[].workedExamples[]` |
 | Annotated model responses | 21 | ≥20 | `prompts[]` with `modelResponse` and `modelNotes` |
 | Foundation modules | 4 | 4 | `modules[]` where `kind=foundation`, ids `W1F-*` |
 | Visual-family modules | 7 | 7 | `modules[]` where `kind=visual_family`, ids `W1M-*` |
-| Error taxonomy categories | 12 | ≥10 | `errorTaxonomy[].id` |
+| Error taxonomy categories | 13 | ≥10 | `errorTaxonomy[].id` — `underlength_response` added (D-022) |
 | Timed activities — exercises | 21 | ≥14 | `exercises[]` where `mode ∈ {timed, mastery}` |
 | Timed activities — prompts | 21 | ≥20 | `prompts[].estimatedMinutes` |
 | **Timed activities — total** | **42** | ≥34 | the two rows above |
@@ -117,7 +151,7 @@ plus 3 prompts and 1 band set. Interaction split is identical in every family:
 | Ukrainian support on band sets | 7/7 | all | `bandComparisons[].uaSupport` |
 | Ukrainian support on modules | 11/11 | all | `modules[].uaSupport` |
 | Ukrainian transfer notes | 7/7 | all family modules | `modules[].uaTransferNote` |
-| Ukrainian error taxonomy | 12/12 | all | `errorTaxonomy[].ua`, `.uaCorrection` |
+| Ukrainian error taxonomy | 13/13 | all | `errorTaxonomy[].ua`, `.uaCorrection` |
 | English instruction on exercises | 70/70 | all | `exercises[].prompt`, `.explanation` |
 | English lesson content on modules | 11/11 | all | `modules[].lesson[]` |
 
@@ -134,9 +168,11 @@ All 26 phase-4 requirements. "Result" is what the named check actually printed.
 |---|---|---|---|---|---|---|
 | REQ-017 | Writing Task 1 academy | `web/app.js` `renderWriting1`, `renderW1Family`, `renderW1Exercise`, `renderW1Prompt`, `renderW1Band`; `web/writing1_data.js` | full suite | 7 families, 70 exercises, 21 prompts, 7 band sets, 11 modules, all reachable in the UI | PASS | — |
 | REQ-018 | Task 1 exercise types | `build_exercise`, `MICRO_TYPES`; UI `select`/`cloze`/`order` renderers | `g4_writing1_inventory.py`, `g4_writing1_functional.py` | 10 types × 7 families; all three interactions scored in-browser | PASS | — |
-| REQ-019 | Task 1 band comparison lab | `BAND_SETS`, `build_band_sets`, `renderW1Band` | `g4_writing1_validation.py` §6b, `g4_writing1_claims.py` | 7 sets, 21 samples, per-aspect comparison table, disclaimed labels | PASS | Was previously mis-recorded as satisfied — see §7 |
-| REQ-020 | Task 1 quality gate | whole G4 build | all 19 scripts | 19/19 pass | PASS | — |
-| REQ-053 | Phase 4 Writing Task 1 | — | `docs/phase_4_report.md` | Internal pass; external review pending | **PENDING** | Awaiting independent review |
+| REQ-019 | Task 1 band comparison lab | `BAND_SETS`, `build_band_sets`, `renderW1Band` | `g4_writing1_validation.py` §6b, `g4_writing1_claims.py` | 7 sets, 21 samples of 158–202 words, per-aspect comparison mapped to the four public IELTS criteria | PASS | Mis-recorded once (§7.2); samples were underlength until round 1 (§12.1) |
+| REQ-019B | Band samples meet the 150-word Task 1 minimum | `build_band_sets` refuses a shorter sample | `g4_writing1_validation.py`, `g4_writing1_inventory.py`, `g4_writing1_negative.py` | 21/21 at 158–202 words; cutting one below 150 fails the validator | PASS | — |
+| REQ-019C | Illustrative labelling and criterion mapping | `styleLabel`, `aspectCriteria`, `descriptorReference`; `renderW1Band` | `g4_writing1_validation.py`, `g4_writing1_claims.py` | every sample labelled "Illustrative Band N-style sample"; every aspect mapped to one of the four public criteria | PASS | Criterion names only; no descriptor text reproduced |
+| REQ-020 | Task 1 quality gate | whole G4 build | all 21 scripts + the seeded-defect proof | 21/21 pass; 6/6 seeded defects caught | PASS | — |
+| REQ-053 | Phase 4 Writing Task 1 | — | `docs/phase_4_report.md` | Internal pass; round 1 returned CHANGES REQUESTED, all findings addressed | **PENDING** | Awaiting re-review |
 | REQ-017A | Seven families with instructional depth | `FAMILY_META` (whatItTests, howIeltsConstructs, 6-step strategy, trap, 3–4 common errors, worked example, language bank, tense rule, UA transfer note) | `g4_writing1_validation.py` module checks | every field present and non-blank on all 7 | PASS | — |
 | REQ-017B | ≥60 micro-exercises | `exercises[]` | `g4_writing1_inventory.py` | 70 | PASS | — |
 | REQ-017C | ≥20 full prompts | `prompts[]` | `g4_writing1_inventory.py` | 21 | PASS | — |
@@ -148,15 +184,16 @@ All 26 phase-4 requirements. "Result" is what the named check actually printed.
 | REQ-017I | Ukrainian transfer support | `article_preposition_transfer`; `uaTransferNote`; per-item `uaSupport` | `g4_writing1_inventory.py` | 70/70 exercises, 7/7 transfer notes, Cyrillic asserted | PASS | — |
 | REQ-018A | Ten micro-types in every family | `build()` loop over `MICRO_TYPE_IDS` | `g4_writing1_inventory.py`, `g4_writing1_validation.py` | set equality, not a count | PASS | — |
 | REQ-018B | Explanation, error category, wrong-option reasoning | `distractorReasoning`, `errorCategory` | `g4_writing1_claims.py` | every wrong option has ≥30 chars of reasoning | PASS | Reasons are prose, not coded per option |
-| REQ-018C | Answers and model responses grounded | canonical claim model | `g4_writing1_claims.py` | 529 text blocks; every figure traces to a declared derivation | PASS | See D4-006 resolution, §6 |
+| REQ-018C | Answers and model responses grounded | canonical claim model (D-020) + sentence-scoped binding of canonical prose (D-021) | `g4_writing1_claims.py`, `g4_writing1_negative.py` | 531 text blocks; 368 figures in model responses and band samples each bound to an entity named in their clause; a swapped series value is caught | PASS | One construction escapes it — §7.8 |
 | REQ-019A | Self-review checklist, not official scoring | `BASE_CHECKLIST` + per-family extras; `SCORING_NOTE`, `BAND_SCORING_NOTE` | `g4_writing1_validation.py`, `g4_writing1_accessibility.py` | disclaimer asserted on every prompt, band set and meta; band-claim grep clean | PASS | — |
 | REQ-020A | Original visuals and datasets | `VISUALS` | `g4_writing1_validation.py` | `originality == "original"` on all visuals, exercises, prompts | PASS | — |
-| REQ-020B | Mastery only on demonstrated performance | `w1UpdateMastery` (D-015) | `g4_writing1_functional.py` | opening grants nothing; timed exercises alone stay L3 until a timed response is submitted | PASS | — |
+| REQ-020B | Mastery only on demonstrated performance | `w1UpdateMastery` (D-015 as amended by D-022) | `g4_writing1_functional.py`, `g4_writing1_negative.py` | opening grants nothing; timed exercises alone stay L3; 20-word and 149-word submissions stay L3; 150+ words with the checklist reaches L4; removing the floor fails the suite | PASS | — |
 | REQ-020C | Errors feed error log and review queue | `w1SubmitExercise`, `w1SubmitPrompt` | `g4_writing1_functional.py`, `g4_writing1_persistence.py` | error record with all fields; review item; both re-render after reload | PASS | — |
 | REQ-020D | Autosave and persistence across reload | `w1SaveDraft`, `saveState`, `loadState` | `g4_writing1_persistence.py` | genuine `page.reload()` over HTTP; results, mastery, drafts, timer, errors, reviews all survive | PASS | — |
 | REQ-020E | Responsive at six widths | `.w1-visual`, `.w1-chart` | `g4_writing1_responsive.py`, `g4_writing1_obstruction.py` | 7 families × 6 widths; no overflow, no label under 9px, no sticky overlap | PASS | — |
 | REQ-020F | Text equivalents for every visual | `w1VisualPanel` `.w1-alt` | `g4_writing1_accessibility.py` | all 7 families: labelled section, `role="img"` + name, >80-char equivalent, data table | PASS | — |
-| REQ-020G | G0–G3 regression preserved | — | 9 pre-existing scripts | all pass after G4 integration | PASS | — |
+| REQ-020G | G0–G3 regression preserved | — | 9 pre-existing scripts | all pass after G4 integration | PASS | Round 1 found two visible platform defects the scripts did not assert (`undefined min`, slivered vocabulary filters); both fixed and now measured — §12.5, §12.6 |
+| REQ-020H | The packet identifies a release that resolves | tag `g4-candidate-2`; `tests/release_integrity.py` | `release_integrity.py`, `g4_writing1_negative.py` | tag resolves, packet inside the tag names the same tag, 4 cited hashes and 28 cited paths all exist | PASS | D-023 |
 | REQ-048B | Portable Chromium resolution | `tests/browser_env.py` | all 8 browser suites | resolves Edge on Windows; all launch | PASS | — |
 
 ---
@@ -177,7 +214,7 @@ python tests/g3_reading_responsive.py            # G3 READING RESPONSIVE PASS: 3
 python tests/g3_reading_accessibility.py         # G3 READING A11Y PASS
 python tests/g4_writing1_inventory.py            # PASS: every approved G4 benchmark met or exceeded
 python tests/g4_writing1_validation.py           # PASS: inventory, coverage, IDs, references, grounding, honest scoring
-python tests/g4_writing1_claims.py               # PASS: 529 text blocks trace to a declared derivation
+python tests/g4_writing1_claims.py               # PASS: 531 text blocks; 368 figures bound to an entity
 python tests/g4_writing1_content_qa.py           # 115 prose claims checked, 0 failed
 python tests/g4_writing1_functional.py           # G4 WRITING TASK 1 FUNCTIONAL PASS
 python tests/g4_writing1_persistence.py          # PASS (real HTTP, genuine reload, export/import, keyboard-only)
@@ -185,9 +222,11 @@ python tests/g4_writing1_responsive.py           # PASS: 320, 375, 430, 768, 102
 python tests/g4_writing1_accessibility.py        # G4 WRITING TASK 1 A11Y PASS
 python tests/g4_writing1_obstruction.py          # PASS: 320…1440, no sticky overlap, skip link hidden until focused
 python tests/responsive_check.py                 # RESPONSIVE PASS: 320, 375, 430, 768, 1024, 1440
+python tests/g4_writing1_negative.py             # PASS: 6 of 6 seeded defects caught, artifact restored
+python tests/release_integrity.py                # PASS: the packet names a release that exists
 ```
 
-**19 of 19 pass. 0 failing.**
+**21 of 21 pass. 0 failing.**
 
 ### Preserved-platform regression, itemised
 
@@ -230,6 +269,21 @@ passes:
 | Band sample citing an invented figure | `cites 16, not authorised for W1V-LINE-01` |
 | Distractor stripped of its reason | `distractor has no substantive reason it is wrong` |
 
+**Round 2: `tests/g4_writing1_negative.py`** — six defects, each required to fail
+the guard that should catch it, every file restored afterwards. 6 of 6 caught:
+
+| Seeded defect | Guard | Caught as |
+|---|---|---|
+| Band sample cut under 150 words | `g4_writing1_validation.py` | `W1B-LINE-01/Band 8: sample response is 95 words, under the 150-word Academic Task 1 minimum` |
+| Sample labelled as an awarded band | `g4_writing1_validation.py` | `sample is not labelled as an illustrative Band-style sample` |
+| One series given another's real value | `g4_writing1_claims.py` | `W1P-LINE-01.model.p2.s1: 31 is not bound to an entity named in its clause -- "oslo's 31 per cent"` |
+| Undeclared column total in a model response | `g4_writing1_claims.py` | `cites 77, not authorised for W1V-LINE-01` |
+| Mastery word floor removed from `web/app.js` | `g4_writing1_functional.py` | mastery reached L4 on a 20-word response |
+| Packet naming a release that does not exist | `release_integrity.py` | `candidate tag 'g4-candidate-does-not-exist' does not resolve` |
+
+The third row is the one that matters most: it is the exact defect the previous
+set-based model could not see.
+
 ---
 
 ## 6. Defect ledger
@@ -245,16 +299,27 @@ passes:
 | **D4-007** | **P3** | **Fixed** | `.w1-chart{margin:0 -2px}` made every chart 4px wider than its parent's content box, so ancestors reported horizontal overflow | Negative margin removed |
 | QA-G4-001 | P3 | Fixed | Fact engine could not derive pairwise differences, rejecting genuinely grounded claims | Pairwise differences computed in generator and validator independently |
 | QA-G4-002 | P3 | Fixed | The literal string "Task 1" was read as the figure 1 | Exam labels stripped before figure extraction |
+| **R1-001** | **P1** | **Fixed** | 18 of 21 band samples were under the 150-word Academic Task 1 minimum, four of them labelled Strong, so length was an uncontrolled variable between the levels *(external review)* | All 21 rewritten to 158–202 words in their own voice; `build_band_sets` refuses a shorter one; validator and inventory both check it (D-022) |
+| **R1-002** | **P1** | **Fixed** | L4 and L5 could be reached with a 20-word response *(external review)* | Both now require `words >= wordMinimum`; underlength submissions log the new `underlength_response` category; browser tests at 20 and 149 words (D-022) |
+| **R1-003** | **P2** | **Fixed** | Report-level grounding authorised an unbound set of figures, so two real values could be swapped between two series *(external review)* | Sentence-scoped binding of canonical prose, recorded per sentence and re-derived independently (D-021) |
+| **R1-004** | **P2** | **Fixed** | The packet named candidate SHA `53e986d1…`, which does not exist; the hash was stamped by a later commit and then rewritten *(external review)* | The candidate is a tag; `tests/release_integrity.py` fails if it does not resolve, if the tagged commit's packet names a different release, or if any cited hash or path is missing (D-023) |
+| **R1-005** | **P3** | **Fixed** | `Completed 0+0` named neither operand; Reading foundation modules printed `foundation • undefined min` *(external review)* | `Exercises done 0 / 70` and `Prompts answered 0 / 21`; the duration is shown only where the module has one |
+| **D4-008** | **P2** | **Fixed** | `.half`, `.third`, `.twoThird` received a column span only at ≥760px. `.card` carries its own span, so cards were fine and the bug was invisible — every other grid child collapsed to one twelfth of the row on a phone: 28px slivers in the band lab, 14px slivers for the four vocabulary filters on Words. Present since G1 | Mobile-first default added in `web/styles.css`; `tests/responsive_check.py` now measures every grid child on all five primary routes at all six widths, and `g4_writing1_responsive.py` walks the band lab |
 
 Open **P0: 0 · P1: 0 · P2: 0 · P3: 0**.
+
+D4-008 is the one to weigh when judging the suite. It was found by looking at a
+screenshot, exactly as D4-004 was. Both times the assertions were green on a
+broken layout, which is why the responsive checks now measure rendered geometry
+rather than only overflow.
 
 ---
 
 ## 7. Known limitations and honest caveats
 
-1. **The cross-provider review did not happen.** The request was posted to
-   `#proj-ielts` on 2026-09-04 and received no reply. Gate status is therefore
-   `INTERNAL PASS — EXTERNAL REVIEW PENDING`, not `PASS`.
+1. **Round 1 happened; round 2 has not.** The reviewer returned CHANGES
+   REQUESTED on five findings, all addressed here (§12). Gate status is
+   `INTERNAL PASS — EXTERNAL RE-REVIEW PENDING`, not `PASS`.
 
 2. **REQ-019 was previously mis-recorded.** In commit `f2b3157` the band
    comparison lab was marked Passed with the note "Band comparison sets are a G5
@@ -265,10 +330,13 @@ Open **P0: 0 · P1: 0 · P2: 0 · P3: 0**.
    "Passed" row that was justified by argument rather than by a check**, which is
    why §4 now names a specific verification for every row.
 
-3. **Band sample responses keep all figures accurate.** The three levels differ
-   structurally and linguistically, not by data errors. This is deliberate — band
-   differences in Task 1 rarely come from wrong numbers, and inventing wrong ones
-   would defeat the grounding model. A reviewer may disagree with this pedagogy.
+3. **Band sample responses keep all figures accurate and all lengths legal.**
+   The three levels differ structurally and linguistically; every sample is now at
+   least 150 words, so length is held constant rather than varying invisibly. Data
+   errors are not used to distinguish the levels, because band differences in Task 1
+   rarely come from wrong numbers and inventing wrong ones would defeat the
+   grounding model. Underlength writing is taught as a fault in its own right — it
+   is an error category and it blocks mastery — rather than being modelled.
 
 4. **Distractor reasoning is prose, not a coded taxonomy.** Every wrong option
    carries an authored reason, and each item carries one taxonomy error category.
@@ -277,20 +345,33 @@ Open **P0: 0 · P1: 0 · P2: 0 · P3: 0**.
 5. **Written responses are not scored.** They are self-assessed against a 13-item
    checklist. Deliberate under `PROJECT_CHARTER.md` §4.9.
 
-6. **The claim model authorises figures printed as labels** — axis categories,
-   column headings, an index base of 100, stage numbers. These are labels on the
-   visual rather than derived claims. A reviewer should confirm that is the right
-   line to draw.
+6. **Label figures are typed and scoped, not whitelisted.** A figure printed on
+   the visual — an axis band, a column heading, an index base of 100, a stage
+   number — is authorised only inside a clause that names the label it belongs to.
+   "was under the index base of 100" is authorised; a bare "100" is not. This
+   replaces the flat numeric whitelist round 1 objected to.
 
 7. **`tests/g4_writing1_content_qa.py` is a fixed list of 115 claims.** It checks
    linguistic assertions ("less than a third", "the only mode to fall") that no
    mechanical rule can derive. It is not exhaustive and is not intended to be;
    `g4_writing1_claims.py` is the exhaustive layer.
 
-8. **Prompts and band responses use report-level authorisation.** They may cite
-   any fact of their own visual whose operation is in `ALLOWED_REPORT_OPS`. That
-   is looser than the per-exercise rule, because a full report legitimately
-   reports the whole visual. `total` and `sum` remain excluded.
+8. **Sentence-scoped binding has one blind spot, stated rather than papered
+   over.** Two entities named inside a single clause whose figures are not
+   interleaved — "A and B rose to 46 and 44 respectively" — bind to the clause
+   rather than to each other, so a swap inside that one construction is not
+   detected. Interleaved forms ("A reached 46 and B 44") are bound individually
+   and a swap there does fail. Every other cross-clause and cross-sentence swap is
+   caught, as `tests/g4_writing1_negative.py` demonstrates.
+
+9. **Exercise stems, model notes and target-feature lists keep the D-020
+   declared-key set check** rather than sentence binding. That prose is commentary
+   about language ("'Until' would turn 22.1 million into a point in time"), where
+   a rule written for reports misreads the sentence. Exercises remain the strictest
+   layer: they may cite only the values of the fact keys they declare.
+
+10. **`total` and `sum` remain excluded** from report authorisation and must be
+    declared per item.
 
 ---
 
@@ -306,6 +387,16 @@ Real viewport captures (not stitched full-page), produced by
 | `docs/qa_w1_viewport_line_graph_375.png`, `_1440.png` | Scrolled to a chart visual |
 | `docs/qa_w1_viewport_map_plan_375.png`, `_1440.png` | Scrolled to a map visual |
 | `docs/qa_w1_viewport_writing_375.png`, `_1440.png` | Scrolled to the drafting textarea |
+
+Round 2 captures, real viewports, smooth scrolling pinned off:
+
+| File | What it shows |
+|---|---|
+| `docs/qa_w1r2_home_desktop.png`, `_mobile.png`, `_narrow.png` | Task 1 inventory with the renamed KPIs (`Exercises done 0 / 70`) |
+| `docs/qa_w1r2_band_desktop.png`, `_mobile.png`, `_narrow.png` | A band sample with its illustrative label and word count |
+| `docs/qa_w1r2_bandtable_desktop.png`, `_mobile.png`, `_narrow.png` | The comparison table with its IELTS-criterion column and the descriptor pointer |
+| `docs/qa_w1r2_skills_desktop.png`, `_mobile.png`, `_narrow.png` | Skills, with Reading foundation modules no longer printing `undefined min` |
+| `docs/qa_w1r2_words_mobile.png` | The Words filters at 375px, full width after D4-008 |
 
 Full-page captures from the build cycle (retained; note they render sticky and
 fixed elements at scroll position, which is what created the apparent
@@ -331,7 +422,10 @@ python -m http.server 8000 --directory web
 - [ ] Check a chart against its data table. Do they agree?
 - [ ] Open "Describe this visual in words". Could you answer the task from the text alone?
 - [ ] Answer wrongly. Is the feedback specific and criteria-relevant, and never presented as a band?
-- [ ] Open the band comparison lab. Do the three samples genuinely differ in the ways the comparison table claims?
+- [ ] Open the band comparison lab. Do the three samples genuinely differ in the ways the comparison table claims — now that all three are the same length?
+- [ ] Check a band sample's word count against the stated Task 1 minimum, and read the label: does it read as an illustration rather than as an awarded band?
+- [ ] Submit a 20-word response to a prompt. Does mastery refuse to move, and is the reason clear?
+- [ ] At 375px, open Words and check the four filter selects are usable (D4-008).
 - [ ] Do a full prompt end to end under the 20-minute timer. Does the plan and draft survive a reload?
 - [ ] Export, clear site data, import. Is everything back?
 - [ ] Read five Ukrainian notes. Natural? Genuinely helpful rather than mirrored?
@@ -340,31 +434,42 @@ python -m http.server 8000 --directory web
 
 ---
 
-## 10. Questions for the external reviewer
+## 10. Questions for round 2
 
-1. **Is 70 / 21 / 7 the right shape?** Depth per family was chosen over more
-   families' worth of volume. Would breadth serve the learner better?
-2. **Is the band-comparison pedagogy right** given samples keep accurate figures
-   and differ only structurally (§7.3)?
-3. **Is the label-figure authorisation the right line** (§7.6)?
-4. **Is report-level authorisation for prompts too loose** (§7.8)? Should model
-   responses also be restricted to declared keys?
-5. **Are the D-015 mastery thresholds right** — specifically, should L4 require a
-   *completed checklist* as well as a within-limit response, or is that too strict?
-6. **Is the Ukrainian support at the right density?** It is one note per item plus
-   per-family transfer notes. Too much, too little, or wrongly placed?
-7. **Are the visuals authentic enough to IELTS?** They are original by
-   requirement; the question is whether they construct tasks the way IELTS does.
-8. **Does anything here read as an official band judgement?** The disclaimers are
-   asserted mechanically, but tone is a human judgement.
-9. **Given §7.2, is there another requirement recorded as satisfied by argument
-   rather than by a check?**
+Round 1's answers are recorded in §12 next to the finding each one settled. What
+is genuinely open now:
+
+1. **Is sentence-scoped binding the right strictness for canonical prose?** It
+   forced four sentences to name their subject explicitly. Does that constrain the
+   writing in ways that hurt the model responses as teaching material?
+2. **Is the blind spot in §7.8 acceptable**, or should the "respectively"
+   construction be banned from canonical prose so every figure binds individually?
+3. **Is keeping the D-020 set check for exercise stems and model notes right**, or
+   should commentary carry declared keys too?
+4. **Do the extended band samples still read as their level?** Each was lengthened
+   in its own voice; a Band 6 sample that is now 188 words should still read as
+   Band 6 work, not as padded Band 7 work. This is a human judgement.
+5. **Is "Illustrative Band N-style sample" plus a criterion mapping the right
+   calibration**, or does naming bands at all still imply more than the evidence
+   supports?
+6. **Should underlength writing be modelled as well as taught?** Currently no
+   sample is underlength, and underlength is an error category. The alternative —
+   one deliberately underlength sample, labelled as a fault — was not taken.
+7. **Are the visuals authentic enough to IELTS?** Unchanged from round 1 and
+   answered yes; re-ask only if the extended samples changed your view.
+8. **Is the Ukrainian support still right** after the samples grew? A native
+   editorial spot-check remains outstanding and automation cannot substitute for it.
+9. **Is any row in §4 still satisfied by argument rather than by a check?** Round 1
+   found REQ-020B was; §4 now names a specific verification and a seeded-defect
+   proof for every row that moved.
 
 ---
 
 ## 11. What happens after review
 
 - Any defect the reviewer raises is logged in §6 and fixed before the gate moves.
+- Round 1's findings are answered one by one in §12; a round-2 reviewer should start
+  at §13.
 - When the reviewer approves, `CURRENT_STATE.md`, `PROJECT_CHARTER.md` §8,
   `VALIDATION_SPEC.md` §11 and `docs/phase_4_report.md` move to `G4 PASS`.
 - **G5 does not start until then.** When it does, it must follow its own
@@ -374,3 +479,112 @@ python -m http.server 8000 --directory web
   independent validator → claim manifest → functional/responsive/accessibility/
   obstruction suites) is reusable; the curriculum is not a mechanical conversion
   of Task 1, and `.w1-visual` does not apply because Task 2 has no graphic.
+
+
+---
+
+## 12. External review round 1 — findings and responses
+
+Reviewer verdict on candidate `fe720d5`: **CHANGES REQUESTED**. The suite was
+independently rerun and passed; every finding below is something a green suite
+did not see.
+
+### 12.1 P1 — Band samples violated the Task 1 minimum
+**Finding.** 18 of 21 samples under 150 words; four labelled Band 8 / Strong at
+133, 137, 143 and 146 words. The validator accepted samples from 90 words. The
+packet's claim that samples differ "only structurally and linguistically" was
+therefore untrue: length was another variable.
+
+**Accepted in full.** All 21 samples were extended in their own voice and are now
+158–202 words. `build_band_sets` raises if a sample falls under
+`TASK1_WORD_MINIMUM`; `g4_writing1_validation.py` fails on one; the inventory
+reports the count; the seeded-defect proof cuts a sample and requires the failure.
+The line-graph takeaway, which claimed the figures were identical across the three
+responses, was corrected to what is actually true — every figure is accurate and
+all three are at least 150 words.
+
+### 12.2 P1 — REQ-020B was not satisfied by demonstrated performance
+**Finding.** `w1SubmitPrompt` accepted any response of 20+ words, and
+`w1UpdateMastery` granted L4 from `withinLimit` plus checked boxes, L5 from any
+within-limit submission. A learner could reach timed/mastered status with 20 words.
+
+**Accepted in full.** Submissions record `wordMinimum` and `meetsLength`; L4 and
+L5 both require a full-length response as well as their existing conditions; an
+underlength submission logs the new `underlength_response` error category and
+tells the learner why it does not count. `g4_writing1_functional.py` submits 20
+words and 149 words in the browser and requires mastery to stay at L3, then a
+150+ word response and requires L4. Removing the floor fails that suite.
+
+### 12.3 P2 — Report-level grounding was too loose
+**Finding.** The validator authorised a set of numbers derivable anywhere in the
+visual without binding each to its series or category, so two real values could be
+swapped between entities and still pass. Broad permission is reasonable for
+learner free text, not for canonical teaching content.
+
+**Accepted for canonical content; scoped deliberately.** Model responses and band
+samples are now bound sentence by sentence (D-021): a figure may cite only a fact
+whose subjects are named in its own clause, whose context does not contradict a
+year or category named there. The manifest stores the entity/value/operation
+tuples per sentence, and `g4_writing1_claims.py` re-derives them by resolving fact
+keys against the visual's label vocabulary — the opposite direction from the
+generator — and requires both to agree, figure by figure. `In 2005 Oslo recorded
+31 per cent` (Bergen's value) now fails.
+
+Exercise stems, model notes and target lists keep the D-020 declared-key check.
+That prose is commentary about language rather than a report of the data, and a
+report rule misreads it. Exercises were already the strictest layer. §7.8 states
+the one construction the binder still cannot separate.
+
+### 12.4 P2 — The durable handoff named a nonexistent candidate
+**Finding.** At `fe720d5`, §1 named the SHA 53e986d12d8942defcc90e19b4cb33c267e418c3
+(written here without backticks precisely because it is not a citation), which GitHub
+cannot resolve. It exists in the local object store as an orphan left by an amended
+commit, which is why a local check that only asked "does this object exist" would have
+passed it.
+
+**Accepted in full.** The candidate is now identified by a tag, and
+`tests/release_integrity.py` checks that the tag resolves, that the packet inside
+the tagged commit names the same tag, and that every hash and path the packet
+cites exists. The seeded-defect proof points the packet at a nonexistent tag and
+requires the failure.
+
+### 12.5 P3 — Manual UI cleanup
+**Finding.** `Completed 0+0` without naming its operands; `foundation ·
+undefined min` on the Skills screen for Reading foundation modules.
+
+**Accepted in full.** The inventory card now reads `Exercises done 0 / 70` and
+`Prompts answered 0 / 21`. Reading foundation modules carry no duration, so the
+duration is now rendered only when there is one. Screenshots in §8.
+
+### 12.6 Found while verifying the above — D4-008
+The `undefined min` fix meant looking at the Skills screen at 375px. That is when
+the band lab's annotation blocks turned out to be 28px slivers of vertical text,
+and the four vocabulary filters on the Words screen 14px slivers. The cause was in
+the stylesheet from G1: `.half`, `.third` and `.twoThird` only receive a column
+span at 760px and above, and `.card` carries its own span, so every card looked
+right and nothing else did. Fixed, and now measured on all five primary routes at
+all six widths.
+
+### 12.7 Reviewer answers adopted
+- Aspects are mapped to the four public IELTS Writing criteria, with a pointer to
+  the published descriptors and no descriptor text reproduced.
+- Samples are labelled "Illustrative Band N-style sample" rather than as bands.
+- Label figures are typed and scoped to their context rather than whitelisted.
+- The completed-checklist requirement for L4 is kept, with the length floor added.
+- The Ukrainian editorial spot-check by a native speaker remains outstanding and
+  is recorded as such; automation proves presence, not naturalness.
+- Volume was not increased: 70 / 21 / 7 stands.
+
+---
+
+## 13. What a re-review should check first
+
+1. Run `python tests/g4_writing1_negative.py`. If a guard stops failing on its own
+   defect, nothing else in this packet is worth reading.
+2. Read three band samples end to end and judge whether the extended text still
+   reads as its level.
+3. Try to smuggle a swapped value into a model response in `web/writing1_data.js`
+   and confirm `tests/g4_writing1_claims.py` catches it — then try the
+   "respectively" construction in §7.8, which it will not.
+4. Submit a 149-word response in the browser and confirm mastery does not move.
+5. Open the app at 375px and look at it, rather than trusting this document.

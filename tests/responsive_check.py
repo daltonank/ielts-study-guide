@@ -31,6 +31,20 @@ with sync_playwright() as p:
       if dims["sw"]>dims["cw"]+1:fails.append(f"{w}px horizontal overflow {dims}")
       if dims["nav"]!=5:fails.append(f"{w}px nav count {dims['nav']}")
       if dims["main"]<100:fails.append(f"{w}px main content did not render")
+      # D4-008: a grid child that never receives a column span collapses to one
+      # twelfth of the row. Walk the routes and measure what actually rendered.
+      for route in ("today","skills","practice","words","progress"):
+          page.click(f'button[data-route="{route}"]')
+          page.wait_for_timeout(60)
+          slivers=page.evaluate("""()=>[...document.querySelectorAll('#main .grid>*')]
+              .map(e=>({cls:e.className,w:Math.round(e.getBoundingClientRect().width),
+                        gw:Math.round(e.parentElement.getBoundingClientRect().width),
+                        text:(e.innerText||'').trim().length}))
+              .filter(o=>o.text>0 && o.w < Math.min(120, o.gw*0.4))""")
+          for s in slivers:
+              fails.append(f"{w}px {route}: '{s['cls']}' rendered {s['w']}px wide inside a {s['gw']}px grid")
+      page.click('button[data-route="today"]')
+      page.wait_for_timeout(40)
       page.select_option("#languageMode","uahelp")
       page.wait_for_timeout(20)
       if page.locator(".ua-note").count()<1:fails.append(f"{w}px UA Help rendered no Ukrainian support block")
@@ -41,5 +55,5 @@ with sync_playwright() as p:
     browser.close()
 if fails:
   print("RESPONSIVE FAIL")
-  print("\\n".join(fails));sys.exit(1)
+  print("\n".join(fails));sys.exit(1)
 print("RESPONSIVE PASS:",", ".join(map(str,widths)))

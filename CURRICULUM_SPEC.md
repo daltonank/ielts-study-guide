@@ -144,8 +144,8 @@ Focused training extracts are intentionally shorter than full mocks. Three-secti
 - 70 micro-exercises
 - 21 full timed prompts
 - 4 foundation modules, 7 family modules
-- 7 band comparison sets, 21 sample responses
-- 12-category error taxonomy
+- 7 band comparison sets, 21 illustrative samples, every one at least 150 words
+- 13-category error taxonomy
 
 ### Visual families
 
