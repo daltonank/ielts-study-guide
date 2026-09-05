@@ -15,7 +15,8 @@ needs is in this repository, not in Slack.
 |---|---|
 | Repository | `github.com/daltonank/ielts-study-guide` |
 | Branch | `main` |
-| Candidate commit | `53e986d12d8942defcc90e19b4cb33c267e418c3` |
+| Candidate commit | `fe720d5` (`fe720d581e6a610044ac64cf8beedf1d29ff56f4`), tagged `g4-candidate` |
+| Note on the SHA | The line above is stamped by the commit immediately after the audit commit, because a commit cannot contain its own hash. `g4-candidate` tags the audit commit; the stamp commit changes only this table. |
 | Previous candidate | `f2b3157` (superseded — see §7, it did not satisfy REQ-019) |
 | Toolchain | Python 3.13.15 with `jsonschema`, `playwright`; Microsoft Edge (Chromium) resolved by `tests/browser_env.py`; Node 24 only for design mockups |
 | Application runtime | dependency-free static HTML/CSS/JS, local only (D-014) |
