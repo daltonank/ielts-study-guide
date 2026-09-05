@@ -8,8 +8,8 @@
 **Target:** Band 7.0–8.0, operating target around 7.5  
 **Language model:** English-first with strategic Ukrainian support  
 **Runtime direction:** local-first static HTML/CSS/JavaScript during the build  
-**Current canonical gate:** G4 Writing Task 1 — PASS  
-**Next gate:** G5 Writing Task 2  
+**Current canonical gate:** G4 INTERNAL PASS — EXTERNAL REVIEW PENDING  
+**Next gate:** G5 Writing Task 2, blocked pending that review  
 **Public deployment:** deferred until the local build reaches release readiness
 
 ---
@@ -219,8 +219,8 @@ The build process should converge on:
 - **G1:** Foundation & Design System — PASS
 - **G2:** Legacy Integration & Vocabulary Migration — PASS
 - **G3:** Reading Academy — PASS
-- **G4:** Writing Task 1 — PASS
-- **G5:** Writing Task 2 — NEXT
+- **G4:** Writing Task 1 — G4 INTERNAL PASS — EXTERNAL REVIEW PENDING
+- **G5:** Writing Task 2 — BLOCKED pending G4 external review
 - **G6:** Grammar, Paraphrasing & Pronunciation
 - **G7:** Speaking & Practice Together
 - **G8:** Listening
@@ -246,6 +246,7 @@ Completed:
 - 7 / 7 visual families
 - 70 micro-exercises (minimum 60)
 - 21 full timed prompts (minimum 20)
+- 7 band comparison sets, one per family (REQ-019)
 - 21 original visuals
 - all 10 micro-exercise types in every family
 

@@ -405,7 +405,10 @@ Passed:
 - G1 Foundation & Design System
 - G2 Vocabulary/Legacy Integration
 - G3 Reading Academy
-- G4 Writing Task 1
+
+Candidate, not yet closed:
+
+- G4 Writing Task 1 — G4 INTERNAL PASS — EXTERNAL REVIEW PENDING
 
 Current implementation baseline:
 

@@ -91,7 +91,7 @@ textarea{min-height:130px;resize:vertical}
 .w1-workspace{align-items:start}
 .w1-visual{border:1px solid var(--line);border-radius:14px;background:#fbfcff;padding:13px;margin-top:12px;overflow:hidden}
 .w1-visual svg{display:block;max-width:100%;height:auto}
-.w1-chart{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -2px}
+.w1-chart{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 .w1-chart svg{min-width:300px}
 .w1-rubric{font-size:.95rem;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;margin:0 0 12px}
 .w1-subvisual+.w1-subvisual{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
@@ -143,3 +143,8 @@ textarea{min-height:130px;resize:vertical}
 .w1-model .w1-overview{background:#eef3ff;border-radius:8px;padding:6px 8px}
 .timer.over{color:var(--danger)}
 @media(max-width:759px){.w1-visual{padding:10px}.w1-cloze{font-size:.95rem;line-height:2}.w1-stepper{gap:4px}.w1-step span:not(.w1-dot){font-size:.75rem}}
+
+.w1-bandcard{border:1px solid var(--line);border-left:5px solid var(--ua);border-radius:14px;padding:14px;background:#fbfcff}
+.w1-bandcard ul{margin:.4em 0;padding-left:1.15em}
+.w1-bandcard li{font-size:.88rem;margin:.25em 0}
+.w1-bandcard .strategy-block{background:#fff}

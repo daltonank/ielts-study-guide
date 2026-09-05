@@ -1275,6 +1275,8 @@ EXERCISES = [
         "explanation": "The graph is plotted at five-year intervals, so a crossing can only be located between two plotted points, never at a year the graph never measures. The second fault is the reason: the lines show that wind overtook hydroelectric power, not why. A correction has to remove both, which is what makes this a timed-practice item rather than a spotting exercise.",
         "errorCategory": "unsupported_causal_claim",
         "grounding": ["value.Wind.2010", "value.Hydroelectric.2010", "value.Wind.2015", "value.Hydroelectric.2015"],
+        "deliberateErrorFigures": [2012],
+        "deliberateErrorReason": "The faulty sentence the learner has to repair names 2012, a year the graph never plots. That invented year is the fault being trained, so it is declared rather than authorised as data.",
         "ua": "Графік показує, що сталося, а не чому. І подія між позначками не має точного року.",
     },
     {
@@ -1402,7 +1404,7 @@ EXERCISES = [
         },
         "explanation": "Amsterdam at 48 and Copenhagen at 44 per cent are four points apart, while Copenhagen to Munich is a drop of 23 points, larger than any other step in the ranking. Identifying where the ranking breaks is far more valuable than reciting the order, and it is directly checkable against the bars.",
         "errorCategory": "invalid_comparison",
-        "grounding": ["value.Cycle to work.Amsterdam", "value.Cycle to work.Copenhagen", "value.Cycle to work.Munich", "value.Cycle to work.Dublin", "value.Cycle to work.Naples"],
+        "grounding": ["value.Cycle to work.Amsterdam", "value.Cycle to work.Copenhagen", "value.Cycle to work.Munich", "value.Cycle to work.Dublin", "value.Cycle to work.Naples", "change.Cycle to work.Amsterdam.Copenhagen", "change.Cycle to work.Copenhagen.Munich"],
         "ua": "Одна діаграма за один рік не дозволяє говорити про зміну в часі. І шість міст — це не 'Європа'.",
     },
     {
@@ -1479,7 +1481,7 @@ EXERCISES = [
         "order": ["p-intro", "p-overview", "p-body-fall", "p-body-rise"],
         "explanation": "The introduction paraphrases the task, the overview states the constant and the split without figures, and the two body paragraphs then follow the grouping the overview promised: the declining categories together, the rising one in contrast. Note that the contrast paragraph comes second, so the report ends on the feature that makes the chart interesting.",
         "errorCategory": "paragraph_organisation",
-        "grounding": ["value.Eating out.18-29", "value.Eating out.50 and over", "value.Live events.18-29", "value.Live events.50 and over", "value.Cultural visits.18-29", "value.Cultural visits.50 and over"],
+        "grounding": ["value.Eating out.18-29", "value.Eating out.50 and over", "value.Live events.18-29", "value.Live events.50 and over", "value.Cultural visits.18-29", "value.Cultural visits.50 and over", "value.Streaming services.18-29", "value.Streaming services.50 and over"],
         "ua": "Абзац із винятком ставте останнім — так звіт завершується найважливішою ознакою.",
     },
 
@@ -1658,7 +1660,7 @@ EXERCISES = [
         "order": ["p-intro", "p-overview", "p-body-movers", "p-body-stable"],
         "explanation": "Introduction, then an overview describing the distribution as a whole with no figures, then the detail split by how much each category moved. The movers come before the stable categories because a reader who has just been told the mixture flattened wants to see the evidence for that first; the stable group then closes the report by confirming the contrast.",
         "errorCategory": "paragraph_organisation",
-        "grounding": ["share.Organic.2000", "share.Organic.2020", "share.Paper.2000", "share.Paper.2020", "share.Plastics.2000", "share.Plastics.2020", "share.Glass.2000", "share.Glass.2020"],
+        "grounding": ["share.Organic.2000", "share.Organic.2020", "share.Paper.2000", "share.Paper.2020", "share.Plastics.2000", "share.Plastics.2020", "share.Glass.2000", "share.Glass.2020", "share.Metal.2000", "share.Metal.2020", "share.Other.2000", "share.Other.2020"],
         "ua": "Спершу категорії, що змінилися найбільше, потім стабільні. Так звіт підтверджує overview у правильному порядку.",
     },
 
@@ -1744,7 +1746,7 @@ EXERCISES = [
         },
         "explanation": "Riverford drops from 3.9 to 3.1 million, a fall of 0.8 million, and it is the only destination to fall at all. What makes the figure worth reporting is its uniqueness, so the description has to carry that as well as the size. Note also how easily two adjacent columns invite an invented cause.",
         "errorCategory": "imprecise_quantity",
-        "grounding": ["value.Riverford.Arrivals 2019 (m)", "value.Riverford.Arrivals 2023 (m)", "min.Arrivals 2023 (m)"],
+        "grounding": ["value.Riverford.Arrivals 2019 (m)", "value.Riverford.Arrivals 2023 (m)", "min.Arrivals 2023 (m)", "delta.Riverford.Arrivals 2019 (m).Arrivals 2023 (m)"],
         "ua": "Сусідні стовпці в таблиці спокушають вигадати причину. Опишіть величину і винятковість — і зупиніться.",
     },
     {
@@ -3130,11 +3132,648 @@ MASTERY_RULES = {
     "note": "Opening a lesson never advances mastery beyond level 1. Full written responses are self-assessed against the checklist; they are training guidance and are never converted into an IELTS band.",
 }
 
+BAND_SCORING_NOTE = (
+    "These three sample responses illustrate the features that typically separate Task 1 "
+    "answers at different levels. The band labels describe the samples, not you, and they "
+    "are training guidance produced by this application: they are not an official IELTS "
+    "band, and only a qualified examiner can award one."
+)
+
 SCORING_NOTE = (
     "Feedback in this academy describes performance against the kinds of thing IELTS Writing "
     "criteria reward. It is training guidance produced by this application. It is not an official "
     "IELTS band and only a qualified examiner can award one."
 )
+
+
+
+# ---------------------------------------------------------------------------
+# Canonical claim manifest (defect D4-006).
+#
+# The first version of this pipeline authorised any figure "derivable from the
+# visual", which included every column total and every pairwise sum. That is
+# too permissive: a figure can be arithmetically derivable and still not be the
+# figure the item intends, so an item could look grounded while being
+# pedagogically wrong.
+#
+# This model replaces it:
+#   - an EXERCISE may cite only the values of the fact keys it declares in
+#     `grounding` (plus explicitly declared structural numbers). Nothing else.
+#   - a PROMPT or BAND RESPONSE reports a whole visual, so it may cite any fact
+#     whose operation is in ALLOWED_REPORT_OPS. `total` and `sum` are NOT in
+#     that set and must be authorised per item in `extraOps`.
+#   - every year mentioned must be a real time label of that visual.
+#   - every unit word mentioned must be compatible with that visual's unit.
+#
+# The generator refuses to build if any of this fails, and
+# tests/g4_writing1_claims.py re-derives all of it independently.
+# ---------------------------------------------------------------------------
+
+# Operations a full report may perform on its own visual without extra
+# authorisation. Deliberately excludes total/sum.
+ALLOWED_REPORT_OPS = {
+    "value", "first", "last", "max", "min", "max_at", "min_at", "delta",
+    "pct_change", "change", "gap", "share", "delta_share", "largest",
+    "smallest", "rank", "top", "bottom", "stage", "stage_count",
+    "first_stage", "last_stage", "input", "output", "cyclical",
+    "status", "area", "count", "feature_count",
+}
+RESTRICTED_OPS = {"total", "sum"}
+
+# Structural numbers a text may use that are not data at all. Capped at 10 and
+# each one has to be declared on the item.
+MAX_STRUCTURAL_NUMBER = 10
+
+UNIT_LEXICON = [
+    (r"percentage points?", "%"),
+    (r"per cent|percent\b|%", "%"),
+    (r"million", "million"),
+    (r"thousand", "thousand"),
+    (r"terawatt-hours?|TWh", "terawatt-hour"),
+    (r"pounds?\b", "pound"),
+    (r"nights?\b", "night"),
+    (r"index", "index"),
+    (r"tonnes?\b", "tonne"),
+    (r"stages?\b", "stage"),
+]
+
+TASK_LABEL_RE = re.compile(r"\bTask\s*[12]\b|\bBand\s*[0-9]\b", re.I)
+YEAR_RE = re.compile(r"\b(19|20)\d{2}\b")
+NUM_RE = re.compile(r"\d+(?:\.\d+)?")
+
+
+def strip_labels(text):
+    """Remove exam-vocabulary labels that are names, not data claims."""
+    return TASK_LABEL_RE.sub("Task", str(text))
+
+
+def figures_in(text):
+    return {_round(float(t)) for t in NUM_RE.findall(strip_labels(text))}
+
+
+def years_in(text):
+    return {int(m.group(0)) for m in YEAR_RE.finditer(strip_labels(text))}
+
+
+def fact_op(key):
+    k = key.split(".", 1)[1] if re.match(r"^c\d+\.", key) else key
+    return k.split(".", 1)[0]
+
+
+def visual_time_labels(v):
+    """Every time reference this visual legitimately contains."""
+    out = set()
+
+    def scan(s):
+        for m in YEAR_RE.finditer(str(s)):
+            out.add(int(m.group(0)))
+
+    scan(v.get("timeframe", ""))
+    for c in [v] + list(v.get("components", [])):
+        for cat in c.get("categories", []) or []:
+            scan(cat)
+        for col in c.get("columns", []) or []:
+            scan(col)
+        for snap in c.get("snapshots", []) or []:
+            scan(snap.get("label", ""))
+        for per in c.get("periods", []) or []:
+            scan(per)
+    return out
+
+
+def visual_label_figures(v):
+    """Figures printed on the visual itself: axis categories, column and row
+    headings, snapshot labels, periods, the declared unit (an index base, say)
+    and stage numbers. These are labels, not derived claims."""
+    out = set()
+
+    def scan(x):
+        for t in NUM_RE.findall(str(x)):
+            out.add(_round(float(t)))
+
+    for c in [v] + list(v.get("components", []) or []):
+        for cat in c.get("categories", []) or []:
+            scan(cat)
+        for col in c.get("columns", []) or []:
+            scan(col)
+        for r in c.get("rows", []) or []:
+            scan(r.get("label", ""))
+        for snap in c.get("snapshots", []) or []:
+            scan(snap.get("label", ""))
+        scan(c.get("unit", ""))
+        scan(c.get("axisLabel", ""))
+    for per in v.get("periods", []) or []:
+        scan(per)
+    scan(v.get("timeframe", ""))
+    if v["kind"] == "process":
+        out.update(range(1, len(v["stages"]) + 1))
+    return out
+
+
+def visual_unit_corpus(v):
+    parts = [v.get("unit", ""), v.get("axisLabel", "")]
+    for c in v.get("components", []) or []:
+        parts += [c.get("unit", ""), c.get("axisLabel", "")]
+        parts += list(c.get("columns", []) or [])
+    parts += list(v.get("columns", []) or [])
+    if v["kind"] in ("process",):
+        parts.append("stages")
+    return " ".join(str(x) for x in parts).lower()
+
+
+def units_in(text):
+    found = set()
+    low = str(text).lower()
+    for pattern, token in UNIT_LEXICON:
+        if re.search(pattern, low):
+            found.add(token)
+    return found
+
+
+def report_figures(v, extra_ops=()):
+    """Figures a whole-visual report may cite without further authorisation."""
+    allowed = set(ALLOWED_REPORT_OPS) | set(extra_ops)
+    nums = set()
+    for key, val in compute_facts(v).items():
+        if fact_op(key) in allowed and isinstance(val, (int, float)) and not isinstance(val, bool):
+            nums.add(_round(val))
+            nums.add(_round(abs(val)))
+    nums |= visual_time_labels(v) | visual_label_figures(v)
+    return nums
+
+
+def grounded_figures(v, keys, extra_ops=()):
+    """Figures an exercise may cite: only the values of the keys it declares."""
+    facts = compute_facts(v)
+    nums = set()
+    for k in keys:
+        if k not in facts:
+            raise SystemExit(f"BUILD FAIL: grounding key {k!r} is not derivable from {v['id']}")
+        val = facts[k]
+        if isinstance(val, (int, float)) and not isinstance(val, bool):
+            nums.add(_round(val))
+            nums.add(_round(abs(val)))
+    # Any op the item explicitly authorises beyond its declared keys.
+    if extra_ops:
+        for key, val in facts.items():
+            if fact_op(key) in set(extra_ops) and isinstance(val, (int, float)) and not isinstance(val, bool):
+                nums.add(_round(val))
+                nums.add(_round(abs(val)))
+    nums |= visual_time_labels(v) | visual_label_figures(v)
+    return nums
+
+
+def check_text(where, v, text, authorised, structural, unit_corpus, time_labels, problems, deliberate=()):
+    facts = compute_facts(v)
+    deliberate = {_round(x) for x in deliberate}
+    for n in figures_in(text):
+        if n in authorised or n in structural or n in deliberate:
+            continue
+        # Name the keys that would authorise it, so the fix is to declare the
+        # intended derivation rather than to widen the rule.
+        cands = [k for k, val in facts.items()
+                 if isinstance(val, (int, float)) and not isinstance(val, bool) and _round(abs(val)) == n][:4]
+        hint = f" — declare one of {cands}" if cands else " — no fact of this visual has that value"
+        problems.append(f"{where}: cites {n}, which is not an authorised figure for {v['id']}{hint}")
+    for y in years_in(text):
+        if y in deliberate:
+            continue
+        if y not in time_labels:
+            problems.append(f"{where}: refers to {y}, which is not a time label of {v['id']}")
+    for u in units_in(text):
+        if u not in unit_corpus:
+            problems.append(f"{where}: uses unit {u!r}, which {v['id']} does not measure in")
+
+
+def unit_tokens_of(v):
+    corpus = visual_unit_corpus(v)
+    return {tok for _, tok in UNIT_LEXICON if re.search(_unit_pattern(tok), corpus)}
+
+
+def _unit_pattern(tok):
+    return {"%": r"%|per cent|percent", "million": "million", "thousand": "thousand",
+            "terawatt-hour": r"terawatt|twh", "pound": "pound", "night": "night",
+            "index": "index", "tonne": "tonne", "stage": "stage"}[tok]
+
+
+# ---------------------------------------------------------------------------
+# Band comparison lab (REQ-019). One set per visual family: the same task
+# answered three ways, so the learner can see what actually separates the
+# levels.
+#
+# Deliberate design rule: EVERY FIGURE IN EVERY SAMPLE IS ACCURATE. The
+# differences between the three responses are structural and linguistic --
+# overview, grouping, quantity language, tense, cohesion -- because that is
+# what genuinely separates Task 1 responses. Inventing wrong numbers for the
+# weaker sample would teach the wrong lesson and would also make the grounding
+# check meaningless.
+#
+# The band labels describe the sample responses, not the learner. Nothing here
+# scores anyone (PROJECT_CHARTER.md section 4.9).
+# ---------------------------------------------------------------------------
+BAND_LEVELS = [
+    {"id": "b6", "level": "Band 6", "label": "Developing",
+     "ua": "Дані є, але немає структури: перелік замість звіту."},
+    {"id": "b7", "level": "Band 7", "label": "Competent",
+     "ua": "Є overview і групування, але формулювання ще базові."},
+    {"id": "b8", "level": "Band 8", "label": "Strong",
+     "ua": "Overview без цифр, впевнене групування, точна мова кількості."},
+]
+
+BAND_ASPECTS = ["Overview", "Selection and grouping", "Quantity language", "Cohesion", "Grammar and tense"]
+
+BAND_SETS = [
+    # ------------------------------- line graph -------------------------------
+    {
+        "family": "line_graph", "visual": "W1V-LINE-01",
+        "focus": "What separates a year-by-year list from a report about shape.",
+        "responses": {
+            "b6": {
+                "text": [
+                    "The line graph shows the recycling of household waste in three cities from 2005 to 2025.",
+                    "In 2005, Oslo was 28 per cent, Bergen was 31 per cent and Tromso was 18 per cent. In 2010, Oslo was 34 per cent, Bergen was 36 per cent and Tromso was 27 per cent. In 2015, Oslo was 39 per cent, Bergen was 40 per cent and Tromso was 41 per cent.",
+                    "In 2020, Oslo was 43 per cent, Bergen was 42 per cent and Tromso was 52 per cent. In 2025, Oslo was 46 per cent, Bergen was 44 per cent and Tromso was 61 per cent.",
+                    "So we can see that all the cities increased their recycling and Tromso increased the most.",
+                ],
+                "does": ["Reports accurate figures.", "Covers the whole period."],
+                "missing": ["No separate overview; the general statement is buried at the end.",
+                            "Organised by year, so the three cities are never compared with each other.",
+                            "The crossover, which is the point of the graph, is never mentioned.",
+                            "Repetitive sentence pattern throughout."],
+            },
+            "b7": {
+                "text": [
+                    "The line graph compares the percentage of household waste that was recycled in Oslo, Bergen and Tromso between 2005 and 2025.",
+                    "Overall, recycling increased in all three cities during the period, and Tromso increased the most, rising from 18 per cent to 61 per cent.",
+                    "Oslo and Bergen were quite similar. Oslo rose steadily from 28 per cent in 2005 to 46 per cent in 2025, while Bergen rose from 31 per cent to 44 per cent. Bergen was higher than Oslo at the start but lower at the end.",
+                    "Tromso was different. It started at the lowest point of 18 per cent, but it grew quickly and passed the other two cities by 2015, when it reached 41 per cent. After that it continued to rise to 61 per cent.",
+                ],
+                "does": ["Has a clearly separate overview.", "Groups the two similar cities together and contrasts the outlier.",
+                         "Reports the crossover."],
+                "missing": ["The overview spends figures that belong in the body.",
+                            "Quantity language stays general: 'grew quickly', 'quite similar'.",
+                            "Sentence openings are simple and repeat."],
+            },
+            "b8": {
+                "text": [
+                    "The line graph compares the proportion of household waste recycled in Oslo, Bergen and Tromso at regular intervals between 2005 and 2025.",
+                    "Overall, recycling rates improved in all three cities, but the increase in Tromso was far steeper than elsewhere, and the city moved from last place to first.",
+                    "Oslo and Bergen followed closely comparable paths. Bergen began marginally ahead, at 31 per cent against Oslo's 28 per cent, and both climbed gradually throughout, so that by 2025 the small gap between them had reversed rather than widened, at 46 and 44 per cent respectively.",
+                    "Tromso behaved quite differently. Starting from the lowest figure of 18 per cent, it rose without interruption, had already overtaken both other cities by 2015, and finished at 61 per cent, more than three times its opening figure.",
+                ],
+                "does": ["Overview states the shared pattern, the contrast and the change of rank, with no figures.",
+                         "Grouping is announced and then delivered.",
+                         "Adverbs are sized to the movement: 'marginally', 'gradually', 'far steeper'.",
+                         "Varied structures, including a participle opening and 'respectively'."],
+                "missing": [],
+            },
+        },
+        "comparison": [
+            {"aspect": "Overview", "b6": "Absent; a conclusion-like sentence at the end.", "b7": "Present but carries figures.", "b8": "Present, figure-free, states pattern plus change of rank."},
+            {"aspect": "Selection and grouping", "b6": "Organised by year, so nothing is compared.", "b7": "Two similar cities grouped, outlier contrasted.", "b8": "Same grouping, but the contrast is signposted and sustained."},
+            {"aspect": "Quantity language", "b6": "'Increased the most' only.", "b7": "'Grew quickly', 'steadily'.", "b8": "'Marginally', 'gradually', 'far steeper', 'more than three times'."},
+            {"aspect": "Cohesion", "b6": "'In 2005... In 2010... In 2015...'", "b7": "'while', 'but', 'After that'.", "b8": "'so that', 'rather than', 'had already', referencing across sentences."},
+            {"aspect": "Grammar and tense", "b6": "Correct but very limited range.", "b7": "Correct, mostly simple sentences.", "b8": "Past perfect used deliberately to sequence the overtaking."},
+        ],
+        "takeaway": "The figures are identical in all three responses. What changes is whether the report is organised by time or by behaviour, and whether the overview earns its place.",
+        "ua": "Цифри в усіх трьох відповідях однакові. Різниця — в структурі: організація за роками чи за поведінкою ліній, і чи є справжнє overview.",
+    },
+    # ------------------------------- bar chart -------------------------------
+    {
+        "family": "bar_chart", "visual": "W1V-BAR-01",
+        "focus": "What separates reading four bars per group from reporting a ranking and its exception.",
+        "responses": {
+            "b6": {
+                "text": [
+                    "The bar chart gives information about the spending on leisure of three age groups.",
+                    "The 18-29 group spent 42 pounds on eating out, 27 pounds on live events, 9 pounds on cultural visits and 15 pounds on streaming services.",
+                    "The 30-49 group spent 38 pounds on eating out, 18 pounds on live events, 14 pounds on cultural visits and 12 pounds on streaming services.",
+                    "The 50 and over group spent 31 pounds on eating out, 8 pounds on live events, 22 pounds on cultural visits and 6 pounds on streaming services. Eating out is the biggest in all the groups.",
+                ],
+                "does": ["Every figure is accurate.", "Covers all twelve bars."],
+                "missing": ["No overview paragraph.",
+                            "One paragraph per age group means each category is described three separate times.",
+                            "The reversal, which is the feature the chart was built around, is never stated.",
+                            "'Is' for a dated survey; tense is inconsistent with the rest."],
+            },
+            "b7": {
+                "text": [
+                    "The bar chart compares how much three age groups spent each week on four leisure activities.",
+                    "Overall, eating out was the highest category for every age group, at 42, 38 and 31 pounds, and most categories fell as people got older.",
+                    "Eating out, live events and streaming services all decreased with age. Live events fell the most, from 27 pounds in the youngest group to 8 pounds in the oldest, and streaming services fell from 15 pounds to 6 pounds.",
+                    "Cultural visits was the opposite. It was only 9 pounds for the 18-29 group, but it rose to 14 pounds and then 22 pounds, so it became bigger than live events in the oldest group.",
+                ],
+                "does": ["Separate overview.", "Groups the three falling categories together and contrasts the riser.",
+                         "Reports the change of rank."],
+                "missing": ["Overview carries three figures.",
+                            "'Bigger than' and 'fell the most' are imprecise where a proportion would be sharper.",
+                            "Limited range of comparative structures."],
+            },
+            "b8": {
+                "text": [
+                    "The bar chart compares average weekly spending on four leisure activities across three age groups.",
+                    "Overall, eating out attracted the highest expenditure in every age group, but the relative position of the other three activities changed considerably with age, as most fell while one rose.",
+                    "Three categories declined as respondents got older. Eating out fell from 42 pounds a week among those aged 18 to 29 to 31 pounds among those aged 50 and over, while live events dropped far more steeply, from 27 pounds to 8 pounds, ending at under a third of its original level. Streaming services followed the same direction, falling from 15 pounds to 6 pounds.",
+                    "Cultural visits moved the other way, rising from 9 pounds among the youngest respondents to 22 pounds among the oldest, and overtaking live events in the process.",
+                ],
+                "does": ["Overview holds the constant and the variation together, with no figures.",
+                         "Grouping by behaviour, so four descriptions become two comparisons.",
+                         "'Under a third' is checked arithmetic, not an impression.",
+                         "The change of rank closes the report."],
+                "missing": [],
+            },
+        },
+        "comparison": [
+            {"aspect": "Overview", "b6": "None.", "b7": "Present, but spends three figures.", "b8": "Present, figure-free, names the constant and the exception."},
+            {"aspect": "Selection and grouping", "b6": "One paragraph per age group; every category described three times.", "b7": "Grouped by direction of change.", "b8": "Same grouping, with the exception deliberately placed last."},
+            {"aspect": "Quantity language", "b6": "'Biggest'.", "b7": "'Fell the most', 'bigger than'.", "b8": "'Far more steeply', 'under a third of its original level'."},
+            {"aspect": "Cohesion", "b6": "Three parallel paragraphs with no linking.", "b7": "'but', 'so', 'the opposite'.", "b8": "'while', 'followed the same direction', 'in the process'."},
+            {"aspect": "Grammar and tense", "b6": "Slips into present ('is the biggest') for dated data.", "b7": "Consistent past simple.", "b8": "Consistent past simple with participle and comparative structures."},
+        ],
+        "takeaway": "A grouped bar chart is scored on comparison. Organising by age group guarantees a list; organising by behaviour guarantees a comparison.",
+        "ua": "Згрупована діаграма оцінюється за порівнянням. Абзац на вікову групу гарантує перелік; абзац на поведінку категорії гарантує порівняння.",
+    },
+    # ------------------------------- pie charts -------------------------------
+    {
+        "family": "pie_chart", "visual": "W1V-PIE-02",
+        "focus": "What separates a share claim from an unsupported claim about quantity.",
+        "responses": {
+            "b6": {
+                "text": [
+                    "The pie charts show the municipal waste of a city in 2000 and 2020.",
+                    "In 2000 organic was 42 per cent, paper was 24 per cent, plastics was 12 per cent, glass was 9 per cent, metal was 7 per cent and other was 6 per cent.",
+                    "In 2020 organic was 31 per cent, paper was 15 per cent, plastics was 26 per cent, glass was 10 per cent, metal was 8 per cent and other was 10 per cent.",
+                    "We can see that the city produced much more plastic waste in 2020 and less organic waste, so the situation became worse for the environment.",
+                ],
+                "does": ["All twelve percentages are accurate."],
+                "missing": ["No overview; one paragraph per chart means the reader has to work out the changes.",
+                            "'Produced much more plastic waste' converts a share into a quantity the charts never show.",
+                            "'The situation became worse' is an evaluation, which Task 1 does not make.",
+                            "No grouping of the categories that barely moved."],
+            },
+            "b7": {
+                "text": [
+                    "The two pie charts compare the composition of municipal waste in one city in 2000 and 2020.",
+                    "Overall, the share of organic waste fell from 42 per cent to 31 per cent while the share of plastics rose from 12 per cent to 26 per cent, so the composition became more balanced.",
+                    "Organic material was the largest category in both years, but it lost 11 percentage points. Paper also fell, from 24 per cent to 15 per cent. Plastics more than doubled its share and became the second largest category in 2020.",
+                    "The other categories did not change much. Glass went from 9 to 10 per cent, metal from 7 to 8 per cent and other waste from 6 to 10 per cent.",
+                ],
+                "does": ["Separate overview.", "Keeps every claim inside 'share', never 'amount'.",
+                         "Uses 'percentage points' correctly.", "Groups the stable categories."],
+                "missing": ["Overview carries four figures.",
+                            "'Did not change much' is vaguer than the data allows.",
+                            "The change of rank between paper and plastics is implied rather than stated."],
+            },
+            "b8": {
+                "text": [
+                    "The two pie charts compare the composition of municipal waste in one city in 2000 and in 2020.",
+                    "Overall, the mixture became noticeably more evenly distributed over the twenty years. Organic material remained the largest component in both years but lost a substantial part of its share, while plastics grew rapidly to become the second largest category.",
+                    "The three categories that changed most were organic waste, paper and plastics. Organic material fell from 42 per cent of the total in 2000 to 31 per cent in 2020, and paper declined even more steeply in proportional terms, from 24 per cent to 15 per cent. Plastics moved in the opposite direction, more than doubling its share from 12 per cent to 26 per cent and displacing paper from second place.",
+                    "The remaining categories were far more stable. Glass edged up from 9 to 10 per cent and metal from 7 to 8 per cent, while other waste rose from 6 to 10 per cent. None of these three shifted by more than four percentage points.",
+                ],
+                "does": ["Figure-free overview describing the distribution as a whole.",
+                         "Grouped by size of movement, which is what paired pies reward.",
+                         "'In proportional terms' makes the comparison between two falls valid.",
+                         "The change of rank is stated explicitly."],
+                "missing": [],
+            },
+        },
+        "comparison": [
+            {"aspect": "Overview", "b6": "None; a conclusion that evaluates.", "b7": "Present, but four figures in it.", "b8": "Present, figure-free, describes the whole distribution."},
+            {"aspect": "Selection and grouping", "b6": "One paragraph per chart.", "b7": "Movers and stable categories separated.", "b8": "Same split, with the threshold made explicit."},
+            {"aspect": "Quantity language", "b6": "'Much more plastic waste' — a quantity claim the chart cannot support.", "b7": "Correct 'share' language and 'percentage points'.", "b8": "Adds 'in proportional terms' to compare two unequal falls."},
+            {"aspect": "Cohesion", "b6": "Two parallel lists.", "b7": "'but', 'also', 'did not change much'.", "b8": "'while', 'in the opposite direction', 'displacing', 'None of these three'."},
+            {"aspect": "Grammar and tense", "b6": "Evaluative language; 'we can see'.", "b7": "Consistent past simple.", "b8": "Consistent past simple with participle clauses."},
+        ],
+        "takeaway": "A pie chart shows shares. Unless the total is given, a bigger slice never proves a bigger quantity, and this is the single most common way Task 1 pie responses lose marks.",
+        "ua": "Кругова діаграма показує частки. Якщо загальна сума не вказана, більший сектор не доводить більший обсяг — це найчастіша втрата балів у цій родині.",
+    },
+    # --------------------------------- table ---------------------------------
+    {
+        "family": "table", "visual": "W1V-TAB-01",
+        "focus": "What separates reciting twenty cells from selecting the pattern and its exception.",
+        "responses": {
+            "b6": {
+                "text": [
+                    "The table is about tourists in five destinations in 2019 and 2023.",
+                    "Coastal Bay had 4.2 million arrivals in 2019 and 5.1 million in 2023, and the stay was 6.8 nights and then 5.9 nights. Lakeside had 2.7 million and 3.4 million, with 5.2 and 4.6 nights.",
+                    "Old Harbour had 6.5 million and 7.2 million, with 4.1 and 3.7 nights. Highland Park had 1.8 million and 2.3 million, with 7.4 and 7.6 nights.",
+                    "Riverford had 3.9 million and 3.1 million, with 3.6 and 3.2 nights. Old Harbour had the most arrivals.",
+                ],
+                "does": ["Every one of the twenty cells is accurate."],
+                "missing": ["No overview.",
+                            "One paragraph per destination, so nothing is selected and nothing is compared.",
+                            "Neither exception is identified.",
+                            "The relationship between the two measures is never noticed."],
+            },
+            "b7": {
+                "text": [
+                    "The table shows the number of tourist arrivals and the average length of stay in five destinations in 2019 and 2023.",
+                    "Overall, arrivals rose in four of the five destinations, but the average stay became shorter in four of them, so the two measures moved in different directions.",
+                    "Arrivals increased in Coastal Bay, Lakeside, Old Harbour and Highland Park. Old Harbour had the most arrivals in both years, with 6.5 million and then 7.2 million. Riverford was the only destination where arrivals fell, from 3.9 million to 3.1 million.",
+                    "For length of stay, Coastal Bay had the biggest fall, from 6.8 nights to 5.9 nights. Highland Park was the only destination where the stay became longer, from 7.4 to 7.6 nights.",
+                ],
+                "does": ["Separate overview that relates the two measures.",
+                         "Organised by measure, not by destination.",
+                         "Both exceptions named."],
+                "missing": ["The overview states the counts, which is body detail.",
+                            "'Biggest fall' is accurate but unquantified.",
+                            "Several destinations are listed rather than grouped."],
+            },
+            "b8": {
+                "text": [
+                    "The table compares tourist arrivals and the average length of stay in five destinations in 2019 and 2023.",
+                    "Overall, most destinations received more visitors in 2023 than in 2019, but those visitors tended to stay for shorter periods, so the two measures generally moved in opposite directions. Each measure had a single exception.",
+                    "Arrivals increased in all but one destination. Old Harbour remained the busiest, rising from 6.5 to 7.2 million, while Coastal Bay grew from 4.2 to 5.1 million and Lakeside from 2.7 to 3.4 million. Riverford was the only destination to lose visitors, falling from 3.9 to 3.1 million.",
+                    "Length of stay moved the other way almost everywhere, with Coastal Bay recording the largest reduction, from 6.8 to 5.9 nights. Highland Park was the exception, edging up from 7.4 to 7.6 nights and retaining the longest average stay of any destination.",
+                ],
+                "does": ["Figure-free overview that names the relationship and flags that each measure has an exception.",
+                         "Twenty cells covered in two paragraphs by reporting direction plus exception.",
+                         "'Edging up' sized to a 0.2-night movement."],
+                "missing": [],
+            },
+        },
+        "comparison": [
+            {"aspect": "Overview", "b6": "None.", "b7": "Present, but counts belong in the body.", "b8": "Present, figure-free, and predicts the structure of the body."},
+            {"aspect": "Selection and grouping", "b6": "Row by row; nothing left out.", "b7": "By measure, with exceptions named.", "b8": "By measure, with destinations grouped inside each."},
+            {"aspect": "Quantity language", "b6": "'The most arrivals'.", "b7": "'Biggest fall', 'only destination'.", "b8": "'Largest reduction', 'edging up', 'retaining the longest'."},
+            {"aspect": "Cohesion", "b6": "'and then', repeated.", "b7": "'For length of stay', 'was the only'.", "b8": "'while', 'the other way almost everywhere', 'the exception'."},
+            {"aspect": "Grammar and tense", "b6": "Simple past throughout, very limited range.", "b7": "Correct, some variety.", "b8": "Participle clauses and a non-finite closing structure."},
+        ],
+        "takeaway": "A table over-supplies data on purpose. Leaving cells out is not laziness; it is the skill being scored.",
+        "ua": "Таблиця навмисно дає надлишок даних. Відкидати зайве — це не лінощі, а саме те вміння, яке оцінюється.",
+    },
+    # ---------------------------- process diagram ----------------------------
+    {
+        "family": "process_diagram", "visual": "W1V-PROC-01",
+        "focus": "What separates a chain of 'then' from a sequenced report with the right voice.",
+        "responses": {
+            "b6": {
+                "text": [
+                    "The diagram showed how the glass bottles were recycled.",
+                    "First people collected the used bottles from the bins. Then a lorry transported them to a plant. Then workers removed the items which were not glass by hand.",
+                    "Then they separated the glass into clear, green and brown. Then they crushed it into cullet. Then they melted the cullet in a furnace.",
+                    "Then they moulded the molten glass into new bottles. Then the bottles were filled and they were sold in the shops.",
+                    "Then the empty bottles came back to the collection again and the whole process started one more time from the beginning. So it is a circle with eight steps in total.",
+                ],
+                "does": ["The sequence is complete and in the right order.", "Notices that the process returns to the start."],
+                "missing": ["No overview: no stage count, no input or output, no statement that the process is cyclical.",
+                            "Past tense throughout for a diagram that carries no dates.",
+                            "Seven consecutive sentences begin with 'Then'.",
+                            "Active voice with an invented agent ('people', 'workers') where the diagram names none."],
+            },
+            "b7": {
+                "text": [
+                    "The diagram shows the process of recycling glass bottles.",
+                    "Overall, there are eight stages in the process. It starts with the collection of used bottles and ends with new bottles, which go back to the collection stage, so it is a cycle.",
+                    "At the first stage, used bottles are collected from household and public bins, and they are transported by lorry to a processing plant. After that, items which are not glass are removed by hand, and the glass is separated into clear, green and brown.",
+                    "The separated glass is then crushed into cullet and melted in a furnace. The molten glass is moulded into new bottles, and finally these bottles are filled, distributed and returned to the collection stage.",
+                ],
+                "does": ["Overview gives the stage count, the input, the output and the cyclical shape.",
+                         "Present simple passive, correct for an undated man-made process.",
+                         "Varied sequencing linkers."],
+                "missing": ["The two paragraphs split at an arbitrary point rather than a real boundary in the process.",
+                            "'It is a cycle' is plainer than the sentence needs to be.",
+                            "Some clauses are joined with 'and' where subordination would be tighter."],
+            },
+            "b8": {
+                "text": [
+                    "The diagram illustrates the process by which used glass bottles are recycled and returned to use.",
+                    "Overall, the process consists of eight stages and forms a closed loop, beginning with the collection of used bottles and ending with new bottles that re-enter the same collection system. It can be divided into a preparation phase and a remanufacturing phase.",
+                    "In the first phase, the material is made ready. Used bottles are collected from household and public bins and transported by lorry to a processing plant. There, non-glass items are removed by hand, after which the glass is separated into clear, green and brown streams. The sorted glass is then crushed into small fragments known as cullet.",
+                    "The second phase creates the new product. The cullet is melted in a furnace until it becomes molten glass, which is moulded into the shape of new bottles. Once these bottles have been filled and distributed, they are eventually returned to the collection stage, at which point the cycle begins again.",
+                ],
+                "does": ["Overview adds the structural split the body then delivers.",
+                         "Paragraph break falls at the furnace, a real boundary in the process.",
+                         "Present simple passive throughout, with present perfect passive to sequence.",
+                         "No temperature, duration or purpose is invented."],
+                "missing": [],
+            },
+        },
+        "comparison": [
+            {"aspect": "Overview", "b6": "None.", "b7": "Count, input, output and cycle.", "b8": "Same, plus the structural split that organises the body."},
+            {"aspect": "Selection and grouping", "b6": "Stage by stage, no grouping.", "b7": "Two paragraphs, arbitrary split.", "b8": "Two phases divided at a real boundary."},
+            {"aspect": "Quantity language", "b6": "Not applicable; no data in a process.", "b7": "'Eight stages'.", "b8": "'Eight stages', 'closed loop', phase naming."},
+            {"aspect": "Cohesion", "b6": "'Then' seven times.", "b7": "'At the first stage', 'After that', 'finally'.", "b8": "'after which', 'Once... have been', 'at which point'."},
+            {"aspect": "Grammar and tense", "b6": "Past simple for an undated process; invented human agents.", "b7": "Present simple passive, correct.", "b8": "Present simple passive plus present perfect passive for sequence."},
+        ],
+        "takeaway": "A diagram with no dates has no past tense, and the agent is almost never shown, which is why the passive is the default. Varying the linkers is what stops the report reading as a chain of 'then'.",
+        "ua": "Схема без дат не має минулого часу, а виконавця зазвичай не показано — тому пасив є типовим. Різні сполучники рятують текст від ланцюжка 'then'.",
+    },
+    # ------------------------------- map / plan -------------------------------
+    {
+        "family": "map_plan", "visual": "W1V-MAP-01",
+        "focus": "What separates pointing at a map from describing it to someone who cannot see it.",
+        "responses": {
+            "b6": {
+                "text": [
+                    "The maps show the village of Whitmore in 1985 and now.",
+                    "Here there was farmland before and now there are houses. This building was the shop and now it is a supermarket.",
+                    "The cattle market is not here any more, they demolished it and made a car park. There is a new road on this side of the village now.",
+                    "The woodland is still there and the school also, they did not change them at all.",
+                    "So the village had farms before and now it has houses instead, and there are more shops and roads than before. The village is much more modern now and it is better for the people who live there.",
+                ],
+                "does": ["Identifies most of the changes.", "Notices that the woodland and the school were retained."],
+                "missing": ["'Here', 'this side', 'this building' are unusable for a reader who cannot see the map.",
+                            "No overview stating what the village became.",
+                            "No compass directions anywhere.",
+                            "'Better for the people who live there' is an evaluation."],
+            },
+            "b7": {
+                "text": [
+                    "The two maps show how the village of Whitmore changed between 1985 and the present day.",
+                    "Overall, Whitmore changed from a farming village into a residential village, and most of the changes happened in the south and in the centre.",
+                    "In the south, the farmland was removed and a housing estate was built in its place. A new bypass road was also built on the eastern side of the village.",
+                    "In the centre, the village shop became a supermarket and the cattle market was demolished and replaced by a car park. In the north the woodland was not changed, and the primary school in the west also stayed the same.",
+                ],
+                "does": ["Overview names the change in character and locates it broadly.",
+                         "Every change is located with a compass direction.",
+                         "Retained features are reported."],
+                "missing": ["Two dated maps, one of which is 'the present day', so present perfect would be more accurate than past simple.",
+                            "'Was not changed' and 'stayed the same' are plainer than needed.",
+                            "The supermarket occupying the same footprint is not distinguished from a rebuild."],
+            },
+            "b8": {
+                "text": [
+                    "The two maps compare the village of Whitmore as it appeared in 1985 with the village as it is today.",
+                    "Overall, Whitmore has changed from a largely agricultural settlement into a residential one. The most substantial redevelopment has taken place in the south and in the centre, while the woodland along the northern boundary and the school in the west have been left as they were.",
+                    "The greatest change is in the south. The farmland that once bordered the village on that side has been cleared entirely and a housing estate now occupies the site. A bypass road has also been constructed along the eastern edge of the village.",
+                    "The centre has been redeveloped rather than expanded. The village shop has been converted into a supermarket occupying the same footprint, and the cattle market that stood nearby has been demolished and replaced by a car park.",
+                ],
+                "does": ["Overview names the change in character and what survived, in one sentence.",
+                         "Present perfect throughout, correct for a dated map against today.",
+                         "Distinguishes conversion on the same footprint from demolition and rebuilding.",
+                         "'Redeveloped rather than expanded' characterises the centre before describing it."],
+                "missing": [],
+            },
+        },
+        "comparison": [
+            {"aspect": "Overview", "b6": "None; an evaluation instead.", "b7": "Present, names the change in character.", "b8": "Present, and adds what was retained."},
+            {"aspect": "Selection and grouping", "b6": "Random order.", "b7": "Grouped by area.", "b8": "Grouped by area, largest change first."},
+            {"aspect": "Quantity language", "b6": "Not applicable; classification language instead.", "b7": "'Removed', 'built', 'demolished'.", "b8": "'Cleared entirely', 'converted', 'occupying the same footprint', 'left as they were'."},
+            {"aspect": "Cohesion", "b6": "'Here', 'this', 'also'.", "b7": "'In the south', 'In the centre', 'In the north'.", "b8": "'that once bordered', 'rather than', 'while'."},
+            {"aspect": "Grammar and tense", "b6": "Present and past mixed; evaluative closing.", "b7": "Past simple, though the second map is the present day.", "b8": "Present perfect, correct for a dated map against today."},
+        ],
+        "takeaway": "The reader cannot see the map. Every change needs a compass direction or a named neighbour, and every feature needs classifying as added, removed, replaced or unchanged.",
+        "ua": "Читач не бачить карти. Кожна зміна потребує сторони світу або орієнтира, а кожен об'єкт — класифікації: додано, прибрано, замінено чи збережено.",
+    },
+    # ------------------------------ mixed visuals ------------------------------
+    {
+        "family": "mixed_visual", "visual": "W1V-MIX-01",
+        "focus": "What separates two mini-reports from one report about two graphics.",
+        "responses": {
+            "b6": {
+                "text": [
+                    "The line graph shows the electricity consumption and the pie chart shows the sources.",
+                    "Overall, the consumption of electricity increased a lot during the period. It was 310 terawatt-hours in 2010, 335 in 2013, 356 in 2016, 372 in 2019, 374 in 2022 and 376 in 2024.",
+                    "Now I will describe the second chart. Overall, renewables were the biggest source of electricity in 2024.",
+                    "Renewables were 38 per cent, natural gas was 27 per cent, nuclear was 19 per cent, coal was 11 per cent and other sources were 5 per cent.",
+                ],
+                "does": ["All figures are accurate.", "Both graphics are covered."],
+                "missing": ["Two separate overviews, one per chart, instead of one covering both.",
+                            "No sentence uses both graphics in the same claim.",
+                            "'Increased a lot' misses that the line flattens after 2019.",
+                            "'Now I will describe' announces the structure instead of using it."],
+            },
+            "b7": {
+                "text": [
+                    "The line graph shows total electricity consumption between 2010 and 2024, and the pie chart shows where that electricity came from in 2024.",
+                    "Overall, consumption increased during the period but stopped growing near the end, and by 2024 renewables provided more electricity than any other source.",
+                    "Consumption rose from 310 terawatt-hours in 2010 to 372 terawatt-hours in 2019. After 2019 the increase was very small, and the figure only reached 376 terawatt-hours in 2024.",
+                    "In 2024, renewables provided 38 per cent of the electricity, which was more than natural gas at 27 per cent and nuclear at 19 per cent. Coal provided only 11 per cent and other sources 5 per cent.",
+                ],
+                "does": ["One overview that reaches into both graphics.",
+                         "Notices that the line flattens.",
+                         "Keeps terawatt-hours and percentages separate."],
+                "missing": ["No sentence explicitly links the demand in chart one to the mix in chart two.",
+                            "'Only 11 per cent' is a small evaluative slip.",
+                            "'Very small' is vaguer than the figures allow."],
+            },
+            "b8": {
+                "text": [
+                    "The line graph shows total electricity consumption in one country between 2010 and 2024, while the pie chart breaks down the sources of that electricity in 2024.",
+                    "Overall, consumption grew considerably during the first part of the period before levelling off, and by the end renewables supplied a larger share of that electricity than any other single source.",
+                    "Consumption climbed steadily in the earlier years, rising from 310 terawatt-hours in 2010 to 335 in 2013 and 356 in 2016, before reaching 372 terawatt-hours in 2019. After that point growth almost stopped: the figure stood at 374 in 2022 and only 376 in 2024.",
+                    "The pie chart shows how that demand was met at the end of the period. Renewables were the largest single source, at 38 per cent of supply, ahead of natural gas at 27 per cent and nuclear at 19 per cent. Coal, at 11 per cent, had become a minor contributor, and other sources supplied the remaining 5 per cent.",
+                ],
+                "does": ["One overview covering both graphics and no figures in it.",
+                         "'That electricity' and 'that demand' tie the pie chart back to the line graph.",
+                         "'Levelling off' names where the line changes character.",
+                         "Units are never mixed in a single comparison."],
+                "missing": [],
+            },
+        },
+        "comparison": [
+            {"aspect": "Overview", "b6": "Two overviews, one per chart.", "b7": "One overview covering both.", "b8": "One overview covering both, with no figures."},
+            {"aspect": "Selection and grouping", "b6": "Every data point listed.", "b7": "One paragraph per graphic.", "b8": "One per graphic, plus an explicit link between them."},
+            {"aspect": "Quantity language", "b6": "'Increased a lot'.", "b7": "'Very small' increase.", "b8": "'Climbed steadily', 'levelling off', 'growth almost stopped'."},
+            {"aspect": "Cohesion", "b6": "'Now I will describe the second chart'.", "b7": "'After 2019', 'In 2024'.", "b8": "'while', 'that electricity', 'that demand', 'After that point'."},
+            {"aspect": "Grammar and tense", "b6": "Correct but announced structure.", "b7": "Correct; one evaluative 'only'.", "b8": "Past simple with past perfect to mark the end state."},
+        ],
+        "takeaway": "Two visuals do not mean two reports and do not double the word count. One overview, and at least one sentence that uses both graphics together.",
+        "ua": "Два візуали — це не два звіти і не подвійний обсяг. Одне overview і хоча б одне речення, яке використовує обидва джерела разом.",
+    },
+]
 
 
 def build_exercise(spec, index):
@@ -3168,6 +3807,11 @@ def build_exercise(spec, index):
     if spec.get("allowedNumbers"):
         ex["allowedNumbers"] = spec["allowedNumbers"]
         ex["allowedNumbersReason"] = spec["allowedNumbersReason"]
+    if spec.get("deliberateErrorFigures"):
+        ex["deliberateErrorFigures"] = spec["deliberateErrorFigures"]
+        ex["deliberateErrorReason"] = spec["deliberateErrorReason"]
+    if spec.get("extraOps"):
+        ex["extraOps"] = spec["extraOps"]
     if meta["interaction"] == "select":
         ex["options"] = spec["options"]
         ex["correctAnswer"] = spec["answer"]
@@ -3222,6 +3866,121 @@ def build_prompt(spec, index):
     }
 
 
+def build_band_sets():
+    out = []
+    for spec in BAND_SETS:
+        v = VISUALS_BY_ID[spec["visual"]]
+        fam = spec["family"]
+        if v["family"] != fam:
+            raise SystemExit(f"BUILD FAIL: band set for {fam} points at a {v['family']} visual")
+        responses = []
+        for lv in BAND_LEVELS:
+            r = spec["responses"][lv["id"]]
+            responses.append({
+                "id": f"W1B-{FAMILY_CODE[fam]}-{lv['id']}",
+                "level": lv["level"], "label": lv["label"], "levelUa": lv["ua"],
+                "text": r["text"],
+                "wordCount": sum(len(p.split()) for p in r["text"]),
+                "does": r["does"], "missing": r["missing"],
+            })
+        out.append({
+            "id": f"W1B-{FAMILY_CODE[fam]}-01", "type": "band_comparison", "skill": SKILL,
+            "questionFamily": fam, "visualFamily": fam,
+            "difficulty": FAMILY_META[fam]["difficulty"], "visualId": v["id"],
+            "focus": spec["focus"], "aspects": BAND_ASPECTS, "comparison": spec["comparison"],
+            "responses": responses, "takeaway": spec["takeaway"], "uaSupport": spec["ua"],
+            "prompt": f"Three responses to the same task, compared: {v['taskStatement']}",
+            "explanation": spec["takeaway"], "errorCategory": "missing_overview",
+            "estimatedMinutes": 8, "originality": "original",
+            "scoringNote": BAND_SCORING_NOTE, "tags": [fam, "band_comparison"],
+        })
+    return out
+
+
+def attach_claims(exercises, prompts, bands):
+    """Build the canonical claim manifest and refuse to ship if it fails."""
+    problems = []
+
+    for e in exercises:
+        v = VISUALS_BY_ID[e["visualId"]]
+        structural = {_round(n) for n in (e.get("allowedNumbers") or [])}
+        extra = list(e.get("extraOps") or [])
+        auth = grounded_figures(v, e["grounding"], extra)
+        units, times = unit_tokens_of(v), visual_time_labels(v)
+        opt_figs = set()
+        for o in (e.get("options") or []):
+            opt_figs |= figures_in(o)
+        texts = [("prompt", e["prompt"]), ("explanation", e["explanation"])]
+        if e["type"] == "select":
+            texts.append(("correctAnswer", e["correctAnswer"]))
+        if e["type"] == "cloze":
+            texts.append(("sentence", e["sentence"]))
+        if e["type"] == "order":
+            texts += [(f"item[{i}]", it["text"]) for i, it in enumerate(e["items"])]
+        for label, t in texts:
+            # Only an explanation may quote a figure a wrong option offered.
+            allowed = auth | (opt_figs if label == "explanation" else set())
+            check_text(f"{e['id']}.{label}", v, t, allowed, structural, units, times, problems,
+                       e.get("deliberateErrorFigures") or ())
+        e["claim"] = {
+            "intent": e["skillFocus"],
+            "groundingKeys": e["grounding"],
+            "datasetFields": sorted({".".join(k.split(".")[1:3]) for k in e["grounding"]}),
+            "permittedOperations": sorted({fact_op(k) for k in e["grounding"]} | set(extra)),
+            "authorisedFigures": sorted(auth - visual_time_labels(v)),
+            "structuralNumbers": sorted(structural),
+            "unit": v["unit"], "period": v["timeframe"],
+            "timeReferences": sorted(times),
+            "acceptedResponses": (e.get("acceptableAnswers") or
+                                  ([e["correctAnswer"]] if e["type"] == "select" else e["correctAnswer"])),
+            "distractorFaults": e.get("distractorReasoning", {}),
+            "deliberateErrorFigures": e.get("deliberateErrorFigures") or [],
+            "deliberateErrorReason": e.get("deliberateErrorReason", ""),
+        }
+
+    for p in prompts:
+        v = VISUALS_BY_ID[p["visualId"]]
+        extra = list(p.get("extraOps") or [])
+        auth = report_figures(v, extra)
+        structural = {_round(n) for n in (p.get("allowedNumbers") or [])}
+        units, times = unit_tokens_of(v), visual_time_labels(v)
+        for i, par in enumerate(p["modelResponse"]):
+            check_text(f"{p['id']}.model[{i}]", v, par, auth, structural, units, times, problems)
+        for i, n in enumerate(p["modelNotes"]):
+            check_text(f"{p['id']}.note[{i}]", v, n, auth, structural, units, times, problems)
+        for i, t in enumerate(p["targetFeatures"]):
+            check_text(f"{p['id']}.target[{i}]", v, t, auth, structural, units, times, problems)
+        p["claim"] = {
+            "intent": "Full report of this visual.",
+            "permittedOperations": sorted(ALLOWED_REPORT_OPS | set(extra)),
+            "restrictedOperationsAuthorised": sorted(set(extra) & RESTRICTED_OPS),
+            "authorisedFigures": sorted(auth - times),
+            "structuralNumbers": sorted(structural),
+            "unit": v["unit"], "period": v["timeframe"], "timeReferences": sorted(times),
+        }
+
+    for b in bands:
+        v = VISUALS_BY_ID[b["visualId"]]
+        extra = list(b.get("extraOps") or [])
+        auth = report_figures(v, extra)
+        units, times = unit_tokens_of(v), visual_time_labels(v)
+        for r in b["responses"]:
+            for i, par in enumerate(r["text"]):
+                check_text(f"{b['id']}.{r['level']}[{i}]", v, par, auth, set(), units, times, problems)
+        b["claim"] = {
+            "intent": "Three reports of the same visual at different quality levels.",
+            "permittedOperations": sorted(ALLOWED_REPORT_OPS | set(extra)),
+            "authorisedFigures": sorted(auth - times),
+            "unit": v["unit"], "period": v["timeframe"], "timeReferences": sorted(times),
+        }
+
+    if problems:
+        print(f"BUILD FAIL: {len(problems)} canonical-claim violations")
+        for pr in problems[:60]:
+            print("  ", pr)
+        raise SystemExit(1)
+
+
 def build():
     exercises = []
     for fam in FAMILY_ORDER:
@@ -3238,6 +3997,9 @@ def build():
         fam = VISUALS_BY_ID[spec["visual"]]["family"]
         per_family_index[fam] += 1
         prompts.append(build_prompt(spec, per_family_index[fam]))
+
+    bands = build_band_sets()
+    attach_claims(exercises, prompts, bands)
 
     modules = []
     foundation_ids = [m["id"] for m in FOUNDATION_MODULES]
@@ -3300,6 +4062,7 @@ def build():
             "uaSupport": meta["uaSupport"],
             "exercises": [e["id"] for e in fam_exercises],
             "prompts": [p["id"] for p in fam_prompts],
+            "bandComparisons": [b["id"] for b in bands if b["questionFamily"] == fam],
             "visuals": fam_visuals,
             "masteryCheck": mastery_exercise + timed_prompt,
             "prerequisites": foundation_ids,
@@ -3341,6 +4104,10 @@ def build():
             "microExerciseCount": len(exercises),
             "promptCount": len(prompts),
             "moduleCount": len(modules),
+            "bandComparisonCount": len(bands),
+            "bandResponseCount": sum(len(b["responses"]) for b in bands),
+            "workedExampleCount": sum(len(m.get("workedExamples", [])) for m in modules),
+            "annotatedModelCount": sum(1 for p in prompts if p.get("modelResponse") and p.get("modelNotes")),
             "foundationModuleCount": len(FOUNDATION_MODULES),
             "microTypeCount": len(MICRO_TYPES),
             "errorCategoryCount": len(ERROR_TAXONOMY),
@@ -3350,6 +4117,7 @@ def build():
                 "familiesRequired": 7,
                 "microExercisesRequired": 60,
                 "promptsRequired": 20,
+                "bandComparisonsRequired": 7,
             },
             "originality": "All visuals, datasets and text are original to this product.",
             "scoringNote": SCORING_NOTE,
@@ -3364,6 +4132,9 @@ def build():
         "visuals": visuals,
         "exercises": exercises,
         "prompts": prompts,
+        "bandComparisons": bands,
+        "bandLevels": BAND_LEVELS,
+        "bandAspects": BAND_ASPECTS,
     }
     return data
 
@@ -3380,6 +4151,8 @@ def main():
     print(f"Micro-exercises : {m['microExerciseCount']} (benchmark {m['benchmarks']['microExercisesRequired']})")
     print(f"Full prompts    : {m['promptCount']} (benchmark {m['benchmarks']['promptsRequired']})")
     print(f"Modules         : {m['moduleCount']} ({m['foundationModuleCount']} foundation)")
+    print(f"Band comparisons: {m['bandComparisonCount']} sets, {m['bandResponseCount']} sample responses")
+    print(f"Worked examples : {m['workedExampleCount']}")
     print(f"Error categories: {m['errorCategoryCount']}")
     print(f"Written to      : {OUT.relative_to(ROOT)}")
 

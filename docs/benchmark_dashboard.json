@@ -1,8 +1,9 @@
 {
   "requirements_total": 131,
   "requirements_by_status": {
-    "Passed": 88,
-    "Not Started": 43
+    "Passed": 87,
+    "Not Started": 43,
+    "In Progress": 1
   },
   "vocabulary_loaded": 1784,
   "vocabulary_expected": 1784,

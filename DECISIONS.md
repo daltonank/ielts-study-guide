@@ -138,3 +138,47 @@ The family grid and card selectors G3 introduced as `.reading-family-grid` / `.r
 - A new visual kind must be added to the panel's renderer, not given its own component.
 - The panel's obligations are enforced by `tests/g4_writing1_accessibility.py` and `tests/g4_writing1_responsive.py`, which check every one of the seven families rather than a sample.
 - G5–G8 should extend `.w1-visual` if they need graphics, or state why they cannot.
+
+
+---
+
+## D-020 — Canonical claim manifest for generated curriculum data
+
+**Date:** 2026-09-04
+**Status:** Active
+**Supersedes the grounding rule established by D-017 for scored items.**
+
+### Decision
+Every scored item in a generated curriculum bank carries a `claim` manifest declaring the
+intended claim, the fact keys it derives from, the permitted operations, the dataset
+fields, the unit and period, the accepted responses, and the reason each distractor is
+wrong.
+
+Authorisation is then strict:
+
+- an **exercise** may cite only the values of the fact keys it declares;
+- a **full report** (a prompt or a band sample) may cite any fact of its own visual whose
+  operation is in an approved set;
+- `total` and `sum` are **not** in that set and must be authorised per item;
+- figures printed on the visual as labels — axis categories, column headings, an index
+  base, stage numbers — are authorised as labels;
+- a deliberately faulty figure quoted for the learner to repair must be declared with a
+  reason;
+- any year mentioned must be a real time label of that visual, and any unit mentioned must
+  be one that visual measures in.
+
+The generator refuses to emit if any of this fails, and the paired validator re-derives all
+of it independently.
+
+### Rationale
+D-017 authorised any figure "derivable from the visual". Because the fact engine computes
+column totals and pairwise sums, a figure could be arithmetically derivable and still not
+be the figure the item intended — so an item could pass grounding while being
+pedagogically wrong. Logged as defect D4-006.
+
+### Implications
+- Adding a figure to an item's text now requires declaring the derivation that produces it,
+  which is a deliberate authoring step rather than an automatic allowance.
+- `tests/g4_writing1_claims.py` was proven against eight seeded defects, including a
+  smuggled column total and a smuggled pairwise sum; all eight were caught.
+- G5–G8 should adopt this shape rather than the looser D-017 rule.

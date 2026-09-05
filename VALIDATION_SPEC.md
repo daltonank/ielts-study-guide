@@ -312,9 +312,13 @@ Actual result:
 - 7 visual families
 - 70 micro-exercises
 - 21 full timed prompts
+- 7 band comparison sets, one per visual family
 - responsive and accessibility evidence for all seven families at the six required widths
+- obstruction, persistence, export/import and keyboard-only evidence
 
-Current status: PASS.
+Current status: **G4 INTERNAL PASS — EXTERNAL REVIEW PENDING**. All internal requirements pass; see
+`docs/G4_EXTERNAL_REVIEW_PACKET.md`. A gate is not recorded as PASS until the planned
+cross-provider review has actually occurred.
 
 ### G5 — Writing Task 2
 Requires at minimum:

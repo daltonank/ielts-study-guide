@@ -57,6 +57,7 @@ MODULE_REQUIRED_FIELDS = [
 ]
 DIFFICULTY_ENUM = {"foundation", "6.5", "7", "7.5", "8"}
 
+cyrillic = re.compile(r"[Ѐ-ӿ]")
 errors = []
 
 
@@ -488,9 +489,57 @@ for p in prompts:
     if "not an official" not in p["scoringNote"].lower():
         fail(f"{pid}: scoring note does not disclaim official IELTS scoring")
 
+# --- 6b. Band comparison lab (REQ-019) --------------------------------------
+bands = data.get("bandComparisons", [])
+if len(bands) < MIN_FAMILIES:
+    fail(f"band comparison sets {len(bands)} < one per visual family ({MIN_FAMILIES})")
+if {b["questionFamily"] for b in bands} != REQUIRED_FAMILIES:
+    fail("band comparison lab does not cover the seven families exactly")
+band_levels = [lv["level"] for lv in data.get("bandLevels", [])]
+if len(band_levels) < 3:
+    fail("fewer than three band levels defined")
+for b in bands:
+    bid = b["id"]
+    for field in ("id", "type", "skill", "questionFamily", "visualId", "focus", "aspects",
+                  "comparison", "responses", "takeaway", "uaSupport", "scoringNote", "prompt"):
+        if not b.get(field):
+            fail(f"{bid}: missing {field}")
+    if b.get("visualId") not in visual_by_id:
+        fail(f"{bid}: visualId does not exist")
+        continue
+    bv = visual_by_id[b["visualId"]]
+    if bv["family"] != b["questionFamily"]:
+        fail(f"{bid}: visual belongs to {bv['family']}, not {b['questionFamily']}")
+    if [r["level"] for r in b["responses"]] != band_levels:
+        fail(f"{bid}: responses do not cover every declared band level in order")
+    for r in b["responses"]:
+        words = sum(len(p.split()) for p in r["text"])
+        if words < 90:
+            fail(f"{bid}/{r['level']}: sample response is only {words} words")
+        if r["wordCount"] != words:
+            fail(f"{bid}/{r['level']}: stated word count does not match the text")
+        if not r["does"]:
+            fail(f"{bid}/{r['level']}: no annotation of what the response does")
+        if r["level"] != band_levels[-1] and not r["missing"]:
+            fail(f"{bid}/{r['level']}: a non-target sample must say what holds it back")
+        if r["level"] == band_levels[-1] and r["missing"]:
+            fail(f"{bid}/{r['level']}: the target sample should have nothing holding it back")
+        if not any(par.strip().startswith("Overall,") for par in r["text"]) and r["level"] == band_levels[-1]:
+            fail(f"{bid}/{r['level']}: the target sample models no overview")
+    if len(b["comparison"]) < 4:
+        fail(f"{bid}: fewer than four compared aspects")
+    for rowc in b["comparison"]:
+        for k in ("aspect", "b6", "b7", "b8"):
+            if not str(rowc.get(k, "")).strip():
+                fail(f"{bid}: comparison row missing {k}")
+    if "not an official" not in b["scoringNote"].lower():
+        fail(f"{bid}: band labels are not disclaimed as non-official")
+    if not cyrillic.search(b.get("uaSupport", "")):
+        fail(f"{bid}: no Ukrainian support")
+
 # --- 7. Honest scoring language across all learner-facing text --------------
 band_claim = re.compile(r"\b(you|your)\b[^.]{0,60}\bband\s*\d", re.I)
-for rec in exercises + prompts:
+for rec in exercises + prompts + bands:
     blob = json.dumps(rec, ensure_ascii=False)
     if band_claim.search(blob):
         fail(f"{rec['id']}: text appears to award the learner an IELTS band")
@@ -563,6 +612,8 @@ for mod in family_modules:
         fail(f"module {mod['id']}: no language bank")
     if len(mod.get("prompts", [])) < 3:
         fail(f"module {mod['id']}: fewer than three full prompts attached")
+    if not mod.get("bandComparisons"):
+        fail(f"module {mod['id']}: no band comparison set attached")
 
 # Every exercise and prompt must be reachable from exactly one family module.
 listed_ex = [x for mod in family_modules for x in mod.get("exercises", [])]
@@ -620,6 +671,8 @@ checks = [
     ("promptCount", len(prompts)),
     ("moduleCount", len(modules)),
     ("errorCategoryCount", len(taxonomy)),
+    ("bandComparisonCount", len(bands)),
+    ("bandResponseCount", sum(len(b["responses"]) for b in bands)),
 ]
 for key, actual in checks:
     if meta.get(key) != actual:
@@ -631,7 +684,6 @@ if "not an official" not in str(meta.get("scoringNote", "")).lower():
 missing_ua = [e["id"] for e in exercises if not str(e.get("uaSupport", "")).strip()]
 if missing_ua:
     fail(f"{len(missing_ua)} exercises have no Ukrainian support note")
-cyrillic = re.compile(r"[Ѐ-ӿ]")
 for e in exercises:
     if not cyrillic.search(e.get("uaSupport", "")):
         fail(f"{e['id']}: uaSupport contains no Cyrillic text")
@@ -653,6 +705,7 @@ print("Micro-types     :", len(REQUIRED_MICRO_TYPES), "in every family")
 print("Full prompts    :", len(prompts), f"(benchmark {MIN_PROMPTS})")
 print("Modules         :", len(modules), f"({len(foundation_modules)} foundation, {len(family_modules)} family)")
 print("Error categories:", len(taxonomy))
+print("Band comparison :", len(bands), "sets,", sum(len(b["responses"]) for b in bands), "sample responses")
 print("Model responses :", f"{len(prompts)} annotated, all >= {WORD_MINIMUM} words with an overview")
 
 if errors:

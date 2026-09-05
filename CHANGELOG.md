@@ -2,9 +2,35 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-04 — G4 closure audit
+
+**Gate:** G4 Writing Task 1 — **INTERNAL PASS, EXTERNAL REVIEW PENDING.**
+See `docs/G4_EXTERNAL_REVIEW_PACKET.md`.
+
+### Corrected
+- **REQ-019, the Task 1 band comparison lab, had been recorded as satisfied by argument** rather than by implementation: the ledger note claimed band comparison was a G5 concern. REQ-019 is a phase-4 row. The lab now exists — 7 sets (one per visual family), 21 sample responses, a per-aspect comparison table, and labels disclaimed as describing the samples rather than the learner.
+- Gate status corrected from `PASS` to `INTERNAL PASS — EXTERNAL REVIEW PENDING` in `CURRENT_STATE.md`, `PROJECT_CHARTER.md`, `VALIDATION_SPEC.md`, `PRODUCT_SPEC.md`, `CURRICULUM_SPEC.md`, `docs/phase_4_report.md` and the dashboards, because the planned cross-provider review did not occur.
+
+### Added
+- `tests/g4_writing1_inventory.py` — machine-derived counts with every benchmark as a hard failure.
+- `tests/g4_writing1_claims.py` — exhaustive canonical-claim validation across all 529 text blocks.
+- `tests/g4_writing1_persistence.py` — real HTTP server: genuine browser reload, export/import round-trip, malformed-import rejection, backup retention, search, keyboard-only operation.
+- `tests/g4_writing1_obstruction.py` — real viewport states at six widths: sticky overlap, skip-link focus state, contained scrolling.
+- `docs/G4_EXTERNAL_REVIEW_PACKET.md`; `DECISIONS.md` D-020.
+- Real-viewport screenshots `docs/qa_w1_viewport_*.png`, `docs/qa_w1_skiplink_*.png`.
+
+### Fixed
+- **D4-006 (P2)** grounding authorised any arithmetically derivable figure, including column totals and pairwise sums, so an item could look supported without being the intended claim. Replaced by the canonical claim manifest.
+- **D4-007 (P3)** `.w1-chart{margin:0 -2px}` made every chart 4px wider than its parent's content box.
+
+### Resolved as not-a-defect
+The apparent header obstruction in the earlier full-page screenshots was a capture artifact: full-page screenshots render sticky and fixed elements at scroll position. Real viewport captures confirm nothing sticky covers content at any of the six widths, and that the skip link is hidden until focused.
+
+---
+
 ## 2026-09-04 — G4 Writing Task 1: learner-facing UI
 
-**Gate:** G4 Writing Task 1 — **PASS.** See `docs/phase_4_report.md`.
+**Gate:** G4 Writing Task 1 — UI delivered (gate decision superseded by the audit above).
 
 ### Added
 - Writing Task 1 academy in `web/app.js`, reached from Skills → Writing Task 1 and the drawer. Family list, family module page, micro-exercise workspace and the plan → timed draft → self-review flow.

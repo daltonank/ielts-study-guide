@@ -9,7 +9,7 @@ const defaultState=()=>({
  diagnostic:{completed:false,familiarity:{},baseline:{},weakAreas:[]},
  mastery:{}, vocabulary:{}, errors:[], reviews:[], savedResponses:[], practiceResults:[], mockResults:[], studyHistory:[],
  recommendationState:{lastActivity:null,lastRecommendation:null},reading:{activeFamily:null,activePassageId:null,answers:{},results:[],timer:null},
- writing1:{activeFamily:null,activeExerciseId:null,activePromptId:null,answers:{},results:[],drafts:{},checklists:{},submissions:[],timer:null,exerciseTimer:null},backups:[]
+ writing1:{activeFamily:null,activeExerciseId:null,activePromptId:null,activeBandId:null,activeBandLevel:null,bandsOpened:{},answers:{},results:[],drafts:{},checklists:{},submissions:[],timer:null,exerciseTimer:null},backups:[]
 });
 let state=loadState();
 let route=location.hash.replace("#/","")||"today";
@@ -17,7 +17,7 @@ let timerHandle=null, timerSeconds=60;
 let readingTimerHandle=null;
 let w1TimerHandle=null, w1ExTimerHandle=null;
 
-function loadState(){try{const x=JSON.parse(localStorage.getItem(STORE));const d=defaultState();return {...d,...x,settings:{...d.settings,...(x?.settings||{})},reading:{...d.reading,...(x?.reading||{}),answers:{...(x?.reading?.answers||{})},results:[...(x?.reading?.results||[])]},writing1:{...d.writing1,...(x?.writing1||{}),answers:{...(x?.writing1?.answers||{})},drafts:{...(x?.writing1?.drafts||{})},checklists:{...(x?.writing1?.checklists||{})},results:[...(x?.writing1?.results||[])],submissions:[...(x?.writing1?.submissions||[])]}}}catch(e){return defaultState()}}
+function loadState(){try{const x=JSON.parse(localStorage.getItem(STORE));const d=defaultState();return {...d,...x,settings:{...d.settings,...(x?.settings||{})},reading:{...d.reading,...(x?.reading||{}),answers:{...(x?.reading?.answers||{})},results:[...(x?.reading?.results||[])]},writing1:{...d.writing1,...(x?.writing1||{}),answers:{...(x?.writing1?.answers||{})},drafts:{...(x?.writing1?.drafts||{})},checklists:{...(x?.writing1?.checklists||{})},bandsOpened:{...(x?.writing1?.bandsOpened||{})},results:[...(x?.writing1?.results||[])],submissions:[...(x?.writing1?.submissions||[])]}}}catch(e){return defaultState()}}
 function saveState(){localStorage.setItem(STORE,JSON.stringify(state))}
 function escapeHTML(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function uid(p="ID"){return p+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7)}
@@ -505,6 +505,7 @@ function w1SubmitPrompt(pid){
 function renderWriting1(){
  const d=w1();
  if(!d)return genericLab("Writing Task 1","Writing Task 1 curriculum data failed to load.","Дані Writing Task 1 не завантажилися.");
+ if(state.writing1.activeBandId)return renderW1Band(state.writing1.activeBandId);
  if(state.writing1.activePromptId)return renderW1Prompt(state.writing1.activePromptId);
  if(state.writing1.activeExerciseId)return renderW1Exercise(state.writing1.activeExerciseId);
  if(state.writing1.activeFamily)return renderW1Family(state.writing1.activeFamily);
@@ -524,6 +525,36 @@ function renderWriting1(){
  ${card("Mastery rule",`<p>${d.masteryRules.levels.map(l=>`<strong>L${l.level} ${l.name}:</strong> ${escapeHTML(l.rule)}`).join(" ")}</p><p class="small muted">${escapeHTML(d.masteryRules.note)}</p>`)}
  </div>`;
 }
+function w1Band(id){return (w1()?.bandComparisons||[]).find(b=>b.id===id)}
+function w1FamilyBands(f){return (w1()?.bandComparisons||[]).filter(b=>b.questionFamily===f)}
+function w1BandOpened(id){return !!(state.writing1.bandsOpened||{})[id]}
+function renderW1Band(id){
+ const b=w1Band(id),v=w1Visual(b.visualId),meta=w1Meta(b.questionFamily);
+ const active=state.writing1.activeBandLevel||"Band 8";
+ const shown=b.responses.find(r=>r.level===active)||b.responses[0];
+ return pageHero("BAND COMPARISON LAB",meta.title,b.focus,b.uaSupport)+`<div class="grid w1-workspace">
+ ${card("The task",`<div class="row"><button class="btn ghost" data-w1-back-family="${b.questionFamily}">← Module</button></div>${w1VisualPanel(v)}`,"half")}
+ ${card("Three responses to the same task",`
+  <div class="notice">${escapeHTML(b.scoringNote)}</div>
+  <div class="segmented" style="margin-top:12px">${b.responses.map(r=>`<button class="btn ${r.level===active?"":"secondary"}" data-w1-band-level="${escapeHTML(r.level)}">${escapeHTML(r.level)}</button>`).join("")}</div>
+  <div class="w1-bandcard" style="margin-top:12px">
+   <div class="row"><span class="badge warn">${escapeHTML(shown.level)}</span><strong>${escapeHTML(shown.label)}</strong><span class="small muted">${shown.wordCount} words</span></div>
+   <div class="w1-model" style="margin-top:10px">${shown.text.map(p=>`<p>${escapeHTML(p)}</p>`).join("")}</div>
+   <div class="grid" style="margin-top:10px">
+    <div class="strategy-block half"><span class="badge good">What it does</span><ul>${shown.does.length?shown.does.map(x=>`<li>${escapeHTML(x)}</li>`).join(""):"<li>—</li>"}</ul></div>
+    <div class="strategy-block half"><span class="badge ${shown.missing.length?"warn":"good"}">${shown.missing.length?"What holds it back":"Nothing holding it back"}</span><ul>${shown.missing.length?shown.missing.map(x=>`<li>${escapeHTML(x)}</li>`).join(""):"<li>This response models the target.</li>"}</ul></div>
+   </div>
+   ${ua("",escapeHTML((w1().bandLevels.find(l=>l.level===shown.level)||{}).ua||""))}
+  </div>`,"half")}
+ ${card("What actually separates them",`<div class="table-wrap"><table><thead><tr><th>Aspect</th>${b.responses.map(r=>`<th>${escapeHTML(r.level)}</th>`).join("")}</tr></thead><tbody>
+  ${b.comparison.map(row=>`<tr><td><strong>${escapeHTML(row.aspect)}</strong></td><td>${escapeHTML(row.b6)}</td><td>${escapeHTML(row.b7)}</td><td>${escapeHTML(row.b8)}</td></tr>`).join("")}
+  </tbody></table></div>
+  <div class="notice" style="margin-top:12px"><strong>Takeaway.</strong> ${escapeHTML(b.takeaway)}</div>
+  ${ua("",escapeHTML(b.uaSupport))}
+  <div class="row" style="margin-top:12px"><button class="btn" data-w1-band-read="${b.id}">${w1BandOpened(b.id)?"Reviewed":"Mark as reviewed"}</button><button class="btn ghost" data-w1-back-family="${b.questionFamily}">Back to module</button></div>`)}
+ </div>`;
+}
+
 function renderW1Family(f){
  const meta=w1Meta(f),mod=w1Module(f),exs=w1FamilyExercises(f),prompts=w1FamilyPrompts(f);
  const modeGroup=m=>exs.filter(e=>e.mode===m);
@@ -544,6 +575,7 @@ function renderW1Family(f){
  ${card("Language bank",`<div class="stack">${Object.entries(mod.languageBank).map(([k,v])=>`<div class="strategy-block"><div class="w1-subtitle">${escapeHTML(k)}</div><div class="row" style="margin-top:8px">${v.map(x=>`<span class="badge">${escapeHTML(x)}</span>`).join("")}</div></div>`).join("")}${ua("",escapeHTML(meta.uaTransferNote))}</div>`,"half")}
  ${card("Practice progression",`<div class="stack">
   ${["guided","independent","timed","mastery"].map(m=>modeGroup(m).length?`<div class="w1-subtitle">${escapeHTML(w1().modeLabels[m])} · ${modeGroup(m).length}</div>`+modeGroup(m).map(exRow).join(""):"").join("")}
+  ${w1FamilyBands(f).map(b=>`<div class="session-item" style="border-color:var(--ua)"><div><span class="badge">Band comparison lab</span><strong>Three responses to the same task, compared</strong><div class="small muted">${b.responses.length} sample responses · ${b.estimatedMinutes} min${w1BandOpened(b.id)?" · reviewed":""}</div></div><button class="btn secondary" data-w1-band="${b.id}">Open</button></div>`).join("")}
   <div class="w1-subtitle">Full timed prompts · ${prompts.length}</div>
   ${prompts.map(p=>{const s=w1LatestSubmission(p.id);
    return `<div class="session-item" style="border-color:var(--yellow)"><div><span class="badge warn">${escapeHTML(p.modeLabel)}</span><strong>${escapeHTML(w1Visual(p.visualId).title)}</strong><div class="small muted">${p.estimatedMinutes} min · ≥${p.wordMinimum} words</div>${s?`<div class="small"><strong>${s.words} words</strong> · ${s.withinLimit?"within time":"over time"} · checklist ${s.checklistDone}/${s.checklistTotal}</div>`:""}</div><button class="btn" data-w1-prompt="${p.id}">${s?"Reopen":"Open"}</button></div>`}).join("")}
@@ -713,11 +745,11 @@ function bindPage(){
  document.querySelectorAll('[data-reading-submit]').forEach(b=>b.onclick=()=>submitReading(b.dataset.readingSubmit));
  document.querySelectorAll('[data-reading-start-timer]').forEach(b=>b.onclick=()=>readingStartTimer(b.dataset.readingStartTimer));
  if(state.reading.activePassageId)readingDrawTimer(state.reading.activePassageId);
- document.querySelectorAll('[data-w1-family]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=b.dataset.w1Family;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;saveState();render()});
- document.querySelectorAll('[data-w1-home]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=null;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;saveState();render()});
- document.querySelectorAll('[data-w1-back-family]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=b.dataset.w1BackFamily;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;saveState();render()});
- document.querySelectorAll('[data-w1-exercise]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Exercise;state.writing1.activeExerciseId=id;state.writing1.activePromptId=null;state.writing1.activeFamily=w1Exercise(id).questionFamily;state.writing1.exerciseTimer=null;saveState();render()});
- document.querySelectorAll('[data-w1-prompt]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Prompt;state.writing1.activePromptId=id;state.writing1.activeExerciseId=null;state.writing1.activeFamily=w1Prompt(id).questionFamily;saveState();render()});
+ document.querySelectorAll('[data-w1-family]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=b.dataset.w1Family;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;state.writing1.activeBandId=null;saveState();render()});
+ document.querySelectorAll('[data-w1-home]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=null;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;state.writing1.activeBandId=null;saveState();render()});
+ document.querySelectorAll('[data-w1-back-family]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=b.dataset.w1BackFamily;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;state.writing1.activeBandId=null;saveState();render()});
+ document.querySelectorAll('[data-w1-exercise]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Exercise;state.writing1.activeExerciseId=id;state.writing1.activePromptId=null;state.writing1.activeBandId=null;state.writing1.activeFamily=w1Exercise(id).questionFamily;state.writing1.exerciseTimer=null;saveState();render()});
+ document.querySelectorAll('[data-w1-prompt]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Prompt;state.writing1.activePromptId=id;state.writing1.activeExerciseId=null;state.writing1.activeBandId=null;state.writing1.activeFamily=w1Prompt(id).questionFamily;saveState();render()});
  document.querySelectorAll('[data-w1-foundation]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Foundation;state.mastery[id]=Math.max(state.mastery[id]??0,1);saveState();toast('Introduced — mastery now requires performance evidence');render()});
  document.querySelectorAll('[data-w1-answer]').forEach(el=>el.addEventListener(el.type==='radio'?'change':'input',e=>w1SetAnswer(e.target.dataset.w1Answer,e.target.value)));
  document.querySelectorAll('[data-w1-up]').forEach(b=>b.onclick=()=>{const[id,i]=b.dataset.w1Up.split(':');w1MoveOrder(id,Number(i),-1)});
@@ -729,6 +761,9 @@ function bindPage(){
  document.querySelectorAll('[data-w1-start-timer]').forEach(b=>b.onclick=()=>w1StartPromptTimer(b.dataset.w1StartTimer));
  document.querySelectorAll('[data-w1-check]').forEach(c=>c.onchange=()=>{const[pid,cid]=c.dataset.w1Check.split(':');w1ToggleCheck(pid,cid)});
  document.querySelectorAll('[data-w1-submit-prompt]').forEach(b=>b.onclick=()=>w1SubmitPrompt(b.dataset.w1SubmitPrompt));
+ document.querySelectorAll('[data-w1-band]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Band;state.writing1.activeBandId=id;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;state.writing1.activeFamily=w1Band(id).questionFamily;state.writing1.activeBandLevel=state.writing1.activeBandLevel||'Band 8';saveState();render()});
+ document.querySelectorAll('[data-w1-band-level]').forEach(b=>b.onclick=()=>{state.writing1.activeBandLevel=b.dataset.w1BandLevel;saveState();render()});
+ document.querySelectorAll('[data-w1-band-read]').forEach(b=>b.onclick=()=>{state.writing1.bandsOpened=state.writing1.bandsOpened||{};state.writing1.bandsOpened[b.dataset.w1BandRead]=true;saveState();toast('Marked as reviewed');render()});
  if(state.writing1.activePromptId){w1DrawTimer(state.writing1.activePromptId);if(state.writing1.timer?.promptId===state.writing1.activePromptId){clearInterval(w1TimerHandle);w1TimerHandle=setInterval(()=>w1DrawTimer(state.writing1.activePromptId),250)}}
  if(state.writing1.activeExerciseId){w1DrawExerciseTimer(state.writing1.activeExerciseId);if(state.writing1.exerciseTimer?.exerciseId===state.writing1.activeExerciseId){clearInterval(w1ExTimerHandle);w1ExTimerHandle=setInterval(()=>w1DrawExerciseTimer(state.writing1.activeExerciseId),250)}}
  if(document.querySelector("#globalSearch"))document.querySelector("#globalSearch").addEventListener("input",e=>renderGlobal(e.target.value));

@@ -129,7 +129,7 @@ Focused training extracts are intentionally shorter than full mocks. Three-secti
 
 ---
 
-## 6. G4 Writing Task 1 — COMPLETE
+## 6. G4 Writing Task 1 — CONTENT COMPLETE, GATE PENDING EXTERNAL REVIEW
 
 ### Quantitative minimum
 
@@ -144,6 +144,7 @@ Focused training extracts are intentionally shorter than full mocks. Three-secti
 - 70 micro-exercises
 - 21 full timed prompts
 - 4 foundation modules, 7 family modules
+- 7 band comparison sets, 21 sample responses
 - 12-category error taxonomy
 
 ### Visual families
@@ -207,7 +208,7 @@ Practice feedback may describe performance relative to IELTS criteria but must b
 
 ---
 
-## 7. G5 Writing Task 2 — NEXT
+## 7. G5 Writing Task 2 — BLOCKED PENDING G4 REVIEW
 
 ### Minimum inventory
 

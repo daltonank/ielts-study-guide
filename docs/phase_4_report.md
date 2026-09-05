@@ -3,7 +3,11 @@
 **Phase:** 4 — Writing Task 1
 **Gate:** G4 Writing Task 1
 **Date:** 2026-09-04
-**Decision:** **PASS**
+**Decision:** **G4 INTERNAL PASS — EXTERNAL REVIEW PENDING**
+
+> All internal requirements pass with reproducible evidence. The planned
+> cross-provider review has not occurred, so this is a candidate release. See
+> `docs/G4_EXTERNAL_REVIEW_PACKET.md`.
 
 ---
 
@@ -14,6 +18,7 @@
 | Visual families | 7 | **7** |
 | Micro-exercises | ≥60 | **70** |
 | Full timed prompts | ≥20 | **21** |
+| Band comparison sets (REQ-019) | 1 per family | **7** |
 
 Also delivered: 21 original visuals (3 per family), all 10 micro-exercise types in every
 family, guided/independent/timed/mastery progression in every family, 4 foundation
@@ -71,6 +76,10 @@ queued for review.
 | `tests/g3_reading_functional.py` | **PASS** | Reading flow after G4 integration |
 | `tests/g3_reading_responsive.py` | **PASS** | 320/375/430/768/1024/1440 |
 | `tests/g3_reading_accessibility.py` | **PASS** | Reading a11y after G4 integration |
+| `tests/g4_writing1_inventory.py` | **PASS** | Machine-derived counts; every benchmark, fails automatically if coverage drops |
+| `tests/g4_writing1_claims.py` | **PASS** | Canonical claim manifest over all 529 text blocks; totals and pairwise sums need explicit authorisation |
+| `tests/g4_writing1_persistence.py` | **PASS** | Real HTTP server: genuine reload, export/import round-trip, malformed rejection, backup retention, search, keyboard-only |
+| `tests/g4_writing1_obstruction.py` | **PASS** | Real viewport states at six widths: sticky overlap, skip-link focus state, contained scrolling |
 | `tests/g4_writing1_validation.py` | **PASS** | Counts, family and micro-type coverage as set equality, unique IDs, reference integrity, `schemas/` conformance, wrong-option reasoning, bilingual coverage, honest scoring, data grounding |
 | `tests/g4_writing1_content_qa.py` | **PASS** | 115 quantified prose claims re-derived from the data, 0 failed |
 | `tests/g4_writing1_functional.py` | **PASS** | Navigation, all three interaction types, mastery transitions, timing evidence, autosave, error/review integration, persistence across reload |
@@ -144,10 +153,27 @@ reuses the existing component vocabulary. Primary navigation remains exactly fiv
 | D4-003 | P3 | Fixed | `.field textarea` out-specified `.w1-draft`, leaving the drafting box 73px tall at every width. Caught by `g4_writing1_responsive.py`. |
 | D4-004 | P3 | Fixed | `.question-card label{display:grid}` out-specified `.w1-opt`, stacking each radio above its option text. Caught by visual inspection, not by the assertions. |
 | D4-005 | P3 | Fixed | The chart axis caption collided with the top tick label; the caption now has its own band. |
+| D4-006 | P2 | Fixed | Grounding authorised any arithmetically derivable figure, including column totals and pairwise sums, so an item could look supported without being the intended claim. Replaced by the canonical claim manifest (D-020), verified exhaustively by `tests/g4_writing1_claims.py`. |
+| D4-007 | P3 | Fixed | `.w1-chart{margin:0 -2px}` made every chart 4px wider than its parent's content box, so ancestors reported horizontal overflow. Found by `tests/g4_writing1_obstruction.py`. |
 | QA-G4-001 | P3 | Fixed | The fact engine could not derive differences between two readings of a series or two columns of a row, rejecting genuinely grounded claims. |
 | QA-G4-002 | P3 | Fixed | The literal string "Task 1" was read as the figure 1 during grounding checks. |
 
 Open P0: **0** · Open P1: **0** · Open P2: **0** · Open P3: **0**
+
+## Closure audit
+
+A closure audit after the first candidate (`f2b3157`) found:
+
+- **REQ-019, the band comparison lab, had been recorded as satisfied by argument** — the
+  note claimed band comparison was a G5 concern — rather than by implementation. It is a
+  phase-4 ledger row. The lab now exists: 7 sets, 21 sample responses, per-aspect
+  comparison, disclaimed labels.
+- **D4-006** and **D4-007** above.
+- The apparent header obstruction in the earlier screenshots was an artifact of full-page
+  capture rendering sticky and fixed elements at scroll position.
+  `tests/g4_writing1_obstruction.py` settles it with real viewport states and confirms
+  nothing sticky covers content at any of the six widths, and that the skip link is hidden
+  until focused.
 
 ## Risks carried forward
 
@@ -162,8 +188,15 @@ Open P0: **0** · Open P1: **0** · Open P2: **0** · Open P3: **0**
 
 ## Gate
 
-**PASS — G4 Writing Task 1 Complete.**
+**G4 INTERNAL PASS — EXTERNAL REVIEW PENDING.**
 
-All quantitative benchmarks exceeded, all fourteen validation scripts passing, content QA
-recorded, responsive and accessibility evidence generated at the six approved widths across
-all seven families, and G0–G3 regression re-run and passing after integration.
+All quantitative benchmarks exceeded and all nineteen validation scripts passing, with
+content QA recorded and responsive, accessibility, obstruction, persistence and
+keyboard evidence generated across all seven families at the six approved widths.
+G0–G3 regression re-run and passing after integration.
+
+The gate is **not** recorded as an unconditional PASS because the planned cross-provider
+review has not happened. Two further defects were found by the closure audit and fixed:
+D4-006 (grounding authorised any derivable figure) and D4-007 (chart negative margin).
+REQ-019, the band comparison lab, was previously recorded as satisfied by argument
+rather than by implementation; it now exists and is verified.
