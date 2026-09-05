@@ -109,3 +109,24 @@ REQ-016A,3,Reading mobile readability validated across required widths,Passed,we
 REQ-016B,3,Reading accessibility primitives validated,Passed,web/index.html; web/app.js; web/styles.css,tests/g3_reading_accessibility.py,"Semantic article/form, labelled controls, focus rules, UA support"
 REQ-016C,3,Reading content is original and self-contained,Passed,web/reading_data.js,tests/g3_reading_validation.py,No external context required; originality flag on all passages/questions
 REQ-016D,3,Reading regression preserves previous platform and vocabulary functions,Passed,full build,tests/responsive_check.py; tests/g2_vocabulary_validation.py; tests/ui_vocabulary_static.py; scripts/validate_build.py,G0-G2 regression pass after G3 integration
+REQ-017A,4,"All seven Writing Task 1 visual families represented with full instructional depth",In Progress,,,
+REQ-017B,4,Task 1 micro-exercise benchmark (>=60),In Progress,,,
+REQ-017C,4,Task 1 full timed prompt benchmark (>=20),In Progress,,,
+REQ-017D,4,Key-feature identification and overview construction training,In Progress,,,
+REQ-017E,4,"Data language precision: trend, quantity, proportion, approximation and tense",In Progress,,,
+REQ-017F,4,Grouping and comparison rather than list-like description,In Progress,,,
+REQ-017G,4,Planning then timed drafting then self-review flow,In Progress,,,
+REQ-017H,4,"Task 1 progression modes guided, independent, timed and mastery in every family",In Progress,,,
+REQ-017I,4,Ukrainian-speaker transfer support for articles prepositions and agreement,In Progress,,,
+REQ-018A,4,All ten micro-exercise types represented in every visual family,In Progress,,,
+REQ-018B,4,Every scored Task 1 item carries explanation error category and wrong-option reasoning,In Progress,,,
+REQ-018C,4,Task 1 answers and model responses grounded in the item's own visual data,In Progress,,,
+REQ-019A,4,Task 1 self-review checklist labelled as training guidance not official scoring,In Progress,,,
+REQ-020A,4,Task 1 visuals and datasets are original to the product,In Progress,,,
+REQ-020B,4,Task 1 mastery advances only on demonstrated performance,In Progress,,,
+REQ-020C,4,Task 1 errors feed the shared error log and review queue,In Progress,,,
+REQ-020D,4,Task 1 autosave and persistence across reload,In Progress,,,
+REQ-020E,4,Task 1 responsive visual rendering validated at six widths,In Progress,,,
+REQ-020F,4,Task 1 accessibility includes text equivalents for every visual,In Progress,,,
+REQ-020G,4,G0-G3 regression preserved after G4 integration,In Progress,,,
+REQ-048B,4,Browser-driven validation scripts resolve a Chromium binary on any supported OS,Passed,tests/browser_env.py,tests/responsive_check.py; tests/g3_reading_responsive.py; tests/g3_reading_functional.py; tests/g3_reading_accessibility.py,"Defect D4-001: scripts hard-coded /usr/bin/chromium and could not launch off Linux. Resolver added; all four browser checks now pass."

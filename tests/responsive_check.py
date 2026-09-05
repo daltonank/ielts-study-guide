@@ -2,6 +2,8 @@
 from pathlib import Path
 import sys
 from playwright.sync_api import sync_playwright
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from browser_env import launch_chromium, describe
 ROOT=Path(__file__).resolve().parents[1]/"web"
 widths=[320,375,430,768,1024,1440]
 # Inline local assets so the sandboxed browser never navigates or fetches.
@@ -18,7 +20,7 @@ html=html.replace('<script src="reading_data.js"></script>',f'<script>{reading}<
 html=html.replace('<script src="app.js"></script>',f'<script>{app}</script>')
 fails=[]
 with sync_playwright() as p:
-    browser=p.chromium.launch(headless=True, executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+    browser=launch_chromium(p)
     for w in widths:
       page=browser.new_page(viewport={"width":w,"height":900})
       page.set_content(html, wait_until="load")

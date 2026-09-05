@@ -2,6 +2,8 @@
 from pathlib import Path
 import sys
 from playwright.sync_api import sync_playwright
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from browser_env import launch_chromium, describe
 ROOT=Path(__file__).resolve().parents[1]/'web'
 html=(ROOT/'index.html').read_text(encoding='utf-8')
 shim="<script>const __ls={};Object.defineProperty(window,'localStorage',{value:{getItem:k=>Object.prototype.hasOwnProperty.call(__ls,k)?__ls[k]:null,setItem:(k,v)=>{__ls[k]=String(v)},removeItem:k=>{delete __ls[k]},clear:()=>{Object.keys(__ls).forEach(k=>delete __ls[k])}}});</script>"
@@ -12,7 +14,7 @@ for name in ['styles.css','vocabulary.js','data.js','reading_data.js','app.js']:
     else: html=html.replace(f'<script src="{name}"></script>',f'<script>{content}</script>')
 fails=[]
 with sync_playwright() as p:
-    browser=p.chromium.launch(headless=True, executable_path='/usr/bin/chromium', args=['--no-sandbox'])
+    browser=launch_chromium(p)
     page=browser.new_page(viewport={'width':390,'height':900})
     page.set_content(html,wait_until='load');page.click('#menuBtn');page.click('#secondaryNav button[data-route="reading"]');page.click('[data-reading-family="tfng"]');page.click('[data-reading-passage$="P01"]');page.wait_for_timeout(30)
     # Inputs are nested in labels and therefore receive programmatic names.
