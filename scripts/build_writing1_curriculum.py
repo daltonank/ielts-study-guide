@@ -3847,6 +3847,8 @@ BAND_DESCRIPTOR_REFERENCE = (
     "text is reproduced here."
 )
 
+CANONICAL_BANNED_WORDS = ("respectively",)
+
 BAND_SETS = [
     # ------------------------------- line graph -------------------------------
     {
@@ -3860,11 +3862,18 @@ BAND_SETS = [
                     "In 2020, Oslo was 43 per cent, Bergen was 42 per cent and Tromso was 52 per cent. In 2025, Oslo was 46 per cent, Bergen was 44 per cent and Tromso was 61 per cent.",
                     "So we can see that all the cities increased their recycling and Tromso increased the most. Bergen was more than Oslo in 2005 and also in 2010. Tromso was less than Oslo and Bergen in 2005 and in 2010, but in 2015 Tromso was 41 per cent and this was more than the other two cities. In 2020 and in 2025 Tromso was the highest city every time. Oslo was more than Bergen in 2020 and in 2025. All three cities had more recycling at the end than at the beginning and no city went down.",
                 ],
-                "does": ["Reports accurate figures.", "Covers the whole period."],
+                "does": ["Reports accurate figures.", "Covers the whole period.",
+                         "Makes several isolated point-by-point comparisons."],
                 "missing": ["No separate overview; the general statement is buried at the end.",
-                            "Organised by year, so the three cities are never compared with each other.",
-                            "The crossover, which is the point of the graph, is never mentioned.",
+                            "Organised by year, so comparisons are isolated rather than grouped by behaviour.",
+                            "The crossover is implied by yearly positions but never named or summarised.",
                             "Repetitive sentence pattern throughout."],
+                "diagnosticChecks": [
+                    {"claim": "Makes several isolated point-by-point comparisons.",
+                     "mustContain": ["Bergen was more than Oslo", "Oslo was more than Bergen"]},
+                    {"claim": "The crossover is implied by yearly positions but never named or summarised.",
+                     "mustNotContain": ["crossover", "crossed", "overtook", "passed"]},
+                ],
             },
             "b7": {
                 "text": [
@@ -3883,19 +3892,19 @@ BAND_SETS = [
                 "text": [
                     "The line graph compares the proportion of household waste recycled in Oslo, Bergen and Tromso at regular intervals between 2005 and 2025.",
                     "Overall, recycling rates improved in all three cities, but the increase in Tromso was far steeper than elsewhere, and the city moved from last place to first.",
-                    "Oslo and Bergen followed closely comparable paths. Bergen began marginally ahead, at 31 per cent against Oslo's 28 per cent, and both climbed gradually throughout, so that by 2025 the small gap between them had reversed rather than widened, at 46 and 44 per cent respectively.",
+                    "Oslo and Bergen followed closely comparable paths. Bergen began marginally ahead, at 31 per cent against Oslo's 28 per cent, and both climbed gradually throughout. By 2025, however, Oslo stood at 46 per cent compared with Bergen at 44 per cent, so the small gap between them had reversed rather than widened.",
                     "Tromso behaved quite differently. Starting from the lowest figure of 18 per cent, it rose without interruption, had already overtaken both other cities by 2015, and finished at 61 per cent, more than three times its opening figure. By 2020 Tromso had already reached 52 per cent, nine percentage points clear of Oslo, and the order established at that point remained unchanged for the rest of the period. The contrast is therefore not only one of level but one of pace: Tromso gained more than twice as much ground as either of its neighbours.",
                 ],
                 "does": ["Overview states the shared pattern, the contrast and the change of rank, with no figures.",
                          "Grouping is announced and then delivered.",
                          "Adverbs are sized to the movement: 'marginally', 'gradually', 'far steeper'.",
-                         "Varied structures, including a participle opening and 'respectively'."],
+                         "Varied structures, including a participle opening and a direct end-point comparison."],
                 "missing": [],
             },
         },
         "comparison": [
             {"aspect": "Overview", "b6": "Absent; a conclusion-like sentence at the end.", "b7": "Present but carries figures.", "b8": "Present, figure-free, states pattern plus change of rank."},
-            {"aspect": "Selection and grouping", "b6": "Organised by year, so nothing is compared.", "b7": "Two similar cities grouped, outlier contrasted.", "b8": "Same grouping, but the contrast is signposted and sustained."},
+            {"aspect": "Selection and grouping", "b6": "Organised by year; comparisons are isolated rather than grouped by behaviour.", "b7": "Two similar cities grouped, outlier contrasted.", "b8": "Same grouping, but the contrast is signposted and sustained."},
             {"aspect": "Quantity language", "b6": "'Increased the most' only.", "b7": "'Grew quickly', 'steadily'.", "b8": "'Marginally', 'gradually', 'far steeper', 'more than three times'."},
             {"aspect": "Cohesion", "b6": "'In 2005... In 2010... In 2015...'", "b7": "'while', 'but', 'After that'.", "b8": "'so that', 'rather than', 'had already', referencing across sentences."},
             {"aspect": "Grammar and tense", "b6": "Correct but very limited range.", "b7": "Correct, mostly simple sentences.", "b8": "Past perfect used deliberately to sequence the overtaking."},
@@ -3915,11 +3924,18 @@ BAND_SETS = [
                     "The 30-49 group spent 38 pounds on eating out, 18 pounds on live events, 14 pounds on cultural visits and 12 pounds on streaming services.",
                     "The 50 and over group spent 31 pounds on eating out, 8 pounds on live events, 22 pounds on cultural visits and 6 pounds on streaming services. Eating out is the biggest in all the groups. Cultural visits was the smallest category for the 18-29 group at 9 pounds. Live events was the smallest category for the 50 and over group at 8 pounds. The 18-29 group spent more than the other two groups on eating out, on live events and on streaming services. The 50 and over group spent more than the other two groups on cultural visits. Streaming services was 15 pounds for the 18-29 group and 6 pounds for the 50 and over group, so it went down with the age.",
                 ],
-                "does": ["Every figure is accurate.", "Covers all twelve bars."],
+                "does": ["Every figure is accurate.", "Covers all twelve bars.",
+                         "Makes direct comparisons between age groups."],
                 "missing": ["No overview paragraph.",
-                            "One paragraph per age group means each category is described three separate times.",
-                            "The reversal, which is the feature the chart was built around, is never stated.",
+                            "The age-group structure describes each category repeatedly instead of grouping categories by direction.",
+                            "The reversal is shown through separate comparisons but is never named or synthesised.",
                             "'Is' for a dated survey; tense is inconsistent with the rest."],
+                "diagnosticChecks": [
+                    {"claim": "Makes direct comparisons between age groups.",
+                     "mustContain": ["spent more than the other two groups"]},
+                    {"claim": "The reversal is shown through separate comparisons but is never named or synthesised.",
+                     "mustNotContain": ["reversal", "opposite direction", "overtook", "change of rank"]},
+                ],
             },
             "b7": {
                 "text": [
@@ -3950,9 +3966,9 @@ BAND_SETS = [
         },
         "comparison": [
             {"aspect": "Overview", "b6": "None.", "b7": "Present, but spends three figures.", "b8": "Present, figure-free, names the constant and the exception."},
-            {"aspect": "Selection and grouping", "b6": "One paragraph per age group; every category described three times.", "b7": "Grouped by direction of change.", "b8": "Same grouping, with the exception deliberately placed last."},
+            {"aspect": "Selection and grouping", "b6": "Age-group listing followed by comparisons; categories are not grouped by direction.", "b7": "Grouped by direction of change.", "b8": "Same grouping, with the exception deliberately placed last."},
             {"aspect": "Quantity language", "b6": "'Biggest'.", "b7": "'Fell the most', 'bigger than'.", "b8": "'Far more steeply', 'under a third of its original level'."},
-            {"aspect": "Cohesion", "b6": "Three parallel paragraphs with no linking.", "b7": "'but', 'so', 'the opposite'.", "b8": "'while', 'followed the same direction', 'in the process'."},
+            {"aspect": "Cohesion", "b6": "Parallel age-group listing with a late string of loosely linked comparisons.", "b7": "'but', 'so', 'the opposite'.", "b8": "'while', 'followed the same direction', 'in the process'."},
             {"aspect": "Grammar and tense", "b6": "Slips into present ('is the biggest') for dated data.", "b7": "Consistent past simple.", "b8": "Consistent past simple with participle and comparative structures."},
         ],
         "takeaway": "A grouped bar chart is scored on comparison. Organising by age group guarantees a list; organising by behaviour guarantees a comparison.",
@@ -4025,11 +4041,18 @@ BAND_SETS = [
                     "Old Harbour had 6.5 million and 7.2 million, with 4.1 and 3.7 nights. Highland Park had 1.8 million and 2.3 million, with 7.4 and 7.6 nights.",
                     "Riverford had 3.9 million and 3.1 million, with 3.6 and 3.2 nights. Old Harbour had the most arrivals. Coastal Bay had more arrivals in 2023 than in 2019 but the stay was shorter. Lakeside also had more arrivals in 2023 and a shorter stay. Old Harbour had 4.1 nights in 2019 and 3.7 nights in 2023, so the stay was shorter there too. Highland Park had the longest stay in both years, with 7.4 nights in 2019 and 7.6 nights in 2023. Riverford was the only one where the arrivals went down, and Riverford also had the shortest stay in the table.",
                 ],
-                "does": ["Every one of the twenty cells is accurate."],
+                "does": ["Every one of the twenty cells is accurate.",
+                         "Compares 2019 with 2023 and identifies Riverford and Highland Park as exceptions."],
                 "missing": ["No overview.",
-                            "One paragraph per destination, so nothing is selected and nothing is compared.",
-                            "Neither exception is identified.",
-                            "The relationship between the two measures is never noticed."],
+                            "One paragraph per destination keeps selection row by row instead of grouping by measure.",
+                            "The two exceptions are buried in row-by-row detail rather than synthesised in an overview.",
+                            "The general inverse relationship between arrivals and length of stay is not stated as a pattern."],
+                "diagnosticChecks": [
+                    {"claim": "Compares 2019 with 2023 and identifies Riverford and Highland Park as exceptions.",
+                     "mustContain": ["Riverford was the only one", "Highland Park had the longest stay"]},
+                    {"claim": "The general inverse relationship between arrivals and length of stay is not stated as a pattern.",
+                     "mustNotContain": ["opposite directions", "inverse relationship"]},
+                ],
             },
             "b7": {
                 "text": [
@@ -4081,11 +4104,18 @@ BAND_SETS = [
                     "Then they moulded the molten glass into new bottles. Then the bottles were filled and they were sold in the shops.",
                     "Then the empty bottles came back to the collection again and the whole process started one more time from the beginning. So it is a circle with eight steps in total. The bottles are made of glass and the process makes new bottles from the old bottles. The last stage goes back to the first stage, so the process does not have an end. Machines do the crushing and the melting and the moulding, and the people do the sorting by hand at the third stage.",
                 ],
-                "does": ["The sequence is complete and in the right order.", "Notices that the process returns to the start."],
-                "missing": ["No overview: no stage count, no input or output, no statement that the process is cyclical.",
+                "does": ["The sequence is complete and in the right order.",
+                         "States the eight-stage cyclical shape, but only after the stage list."],
+                "missing": ["The stage count and cycle are buried in a repetitive closing paragraph rather than presented as a concise overview; the input and output are not summarised.",
                             "Past tense throughout for a diagram that carries no dates.",
                             "Seven consecutive sentences begin with 'Then'.",
                             "Active voice with an invented agent ('people', 'workers') where the diagram names none."],
+                "diagnosticChecks": [
+                    {"claim": "States the eight-stage cyclical shape, but only after the stage list.",
+                     "mustContain": ["circle with eight steps", "last stage goes back to the first stage"]},
+                    {"claim": "The stage count and cycle are buried in a repetitive closing paragraph rather than presented as a concise overview; the input and output are not summarised.",
+                     "mustNotContain": ["overall,"]},
+                ],
             },
             "b7": {
                 "text": [
@@ -4116,7 +4146,7 @@ BAND_SETS = [
             },
         },
         "comparison": [
-            {"aspect": "Overview", "b6": "None.", "b7": "Count, input, output and cycle.", "b8": "Same, plus the structural split that organises the body."},
+            {"aspect": "Overview", "b6": "Stage count and cycle buried after the sequence; no concise overview of input and output.", "b7": "Count, input, output and cycle.", "b8": "Same, plus the structural split that organises the body."},
             {"aspect": "Selection and grouping", "b6": "Stage by stage, no grouping.", "b7": "Two paragraphs, arbitrary split.", "b8": "Two phases divided at a real boundary."},
             {"aspect": "Quantity language", "b6": "Not applicable; no data in a process.", "b7": "'Eight stages'.", "b8": "'Eight stages', 'closed loop', phase naming."},
             {"aspect": "Cohesion", "b6": "'Then' seven times.", "b7": "'At the first stage', 'After that', 'finally'.", "b8": "'after which', 'Once... have been', 'at which point'."},
@@ -4138,11 +4168,18 @@ BAND_SETS = [
                     "The woodland is still there and the school also, they did not change them at all.",
                     "So the village had farms before and now it has houses instead, and there are more shops and roads than before. The village is much more modern now and it is better for the people who live there. In the west there is the school and it is the same as before, they did not change it. The woodland on the north side is also the same and nobody cut it down. The new houses are in the south where the farmland was, and the new road is on the east side. So the village changed a lot in the south and in the centre, but in the north and in the west it did not change at all.",
                 ],
-                "does": ["Identifies most of the changes.", "Notices that the woodland and the school were retained."],
+                "does": ["Identifies most of the changes.", "Notices that the woodland and the school were retained.",
+                         "Uses compass directions in the final recap after relying on pointing words."],
                 "missing": ["'Here', 'this side', 'this building' are unusable for a reader who cannot see the map.",
-                            "No overview stating what the village became.",
-                            "No compass directions anywhere.",
+                            "The summary is buried at the end and becomes an evaluation rather than a separate overview.",
+                            "Location is inconsistent: early changes use pointing words, while compass directions appear only in the appended recap.",
                             "'Better for the people who live there' is an evaluation."],
+                "diagnosticChecks": [
+                    {"claim": "Uses compass directions in the final recap after relying on pointing words.",
+                     "mustContain": ["Here there was farmland", "this side of the village", "In the west", "in the south", "east side"]},
+                    {"claim": "The summary is buried at the end and becomes an evaluation rather than a separate overview.",
+                     "mustContain": ["better for the people who live there"], "mustNotContain": ["overall,"]},
+                ],
             },
             "b7": {
                 "text": [
@@ -4173,8 +4210,8 @@ BAND_SETS = [
             },
         },
         "comparison": [
-            {"aspect": "Overview", "b6": "None; an evaluation instead.", "b7": "Present, names the change in character.", "b8": "Present, and adds what was retained."},
-            {"aspect": "Selection and grouping", "b6": "Random order.", "b7": "Grouped by area.", "b8": "Grouped by area, largest change first."},
+            {"aspect": "Overview", "b6": "A late evaluative summary, not a separate overview.", "b7": "Present, names the change in character.", "b8": "Present, and adds what was retained."},
+            {"aspect": "Selection and grouping", "b6": "Random order; compass references arrive only in the late recap.", "b7": "Grouped by area.", "b8": "Grouped by area, largest change first."},
             {"aspect": "Quantity language", "b6": "Not applicable; classification language instead.", "b7": "'Removed', 'built', 'demolished'.", "b8": "'Cleared entirely', 'converted', 'occupying the same footprint', 'left as they were'."},
             {"aspect": "Cohesion", "b6": "'Here', 'this', 'also'.", "b7": "'In the south', 'In the centre', 'In the north'.", "b8": "'that once bordered', 'rather than', 'while'."},
             {"aspect": "Grammar and tense", "b6": "Present and past mixed; evaluative closing.", "b7": "Past simple, though the second map is the present day.", "b8": "Present perfect, correct for a dated map against today."},
@@ -4341,6 +4378,24 @@ def build_band_sets():
         responses = []
         for lv in BAND_LEVELS:
             r = spec["responses"][lv["id"]]
+            text_blob = " ".join(r["text"]).lower()
+            annotations = set(r["does"] + r["missing"])
+            for check in r.get("diagnosticChecks", []):
+                claim = check.get("claim", "")
+                if claim not in annotations:
+                    raise SystemExit(
+                        f"BUILD FAIL: {fam}/{lv['level']} diagnostic claim is not a displayed annotation: {claim!r}")
+                if not check.get("mustContain") and not check.get("mustNotContain"):
+                    raise SystemExit(
+                        f"BUILD FAIL: {fam}/{lv['level']} diagnostic check has no evidence rule: {claim!r}")
+                for phrase in check.get("mustContain", []):
+                    if phrase.lower() not in text_blob:
+                        raise SystemExit(
+                            f"BUILD FAIL: {fam}/{lv['level']} diagnostic evidence missing from prose: {phrase!r}")
+                for phrase in check.get("mustNotContain", []):
+                    if phrase.lower() in text_blob:
+                        raise SystemExit(
+                            f"BUILD FAIL: {fam}/{lv['level']} diagnostic contradicts prose containing {phrase!r}")
             words = sum(len(p.split()) for p in r["text"])
             if words < TASK1_WORD_MINIMUM:
                 raise SystemExit(
@@ -4355,6 +4410,7 @@ def build_band_sets():
                 "wordMinimum": TASK1_WORD_MINIMUM,
                 "meetsMinimum": words >= TASK1_WORD_MINIMUM,
                 "does": r["does"], "missing": r["missing"],
+                "diagnosticChecks": r.get("diagnosticChecks", []),
             })
         out.append({
             "id": f"W1B-{FAMILY_CODE[fam]}-01", "type": "band_comparison", "skill": SKILL,
@@ -4422,6 +4478,10 @@ def attach_claims(exercises, prompts, bands):
         structural = {_round(n) for n in (p.get("allowedNumbers") or [])}
         units, times = unit_tokens_of(v), visual_time_labels(v)
         for i, par in enumerate(p["modelResponse"]):
+            for banned in CANONICAL_BANNED_WORDS:
+                if re.search(rf"\b{re.escape(banned)}\b", par, re.I):
+                    problems.append(
+                        f"{p['id']}.model[{i}]: canonical prose uses banned ordered-pair word {banned!r}")
             check_text(f"{p['id']}.model[{i}]", v, par, auth, structural, units, times, problems)
         for i, n in enumerate(p["modelNotes"]):
             check_text(f"{p['id']}.note[{i}]", v, n, auth, structural, units, times, problems)
@@ -4449,6 +4509,10 @@ def attach_claims(exercises, prompts, bands):
         units, times = unit_tokens_of(v), visual_time_labels(v)
         for r in b["responses"]:
             for i, par in enumerate(r["text"]):
+                for banned in CANONICAL_BANNED_WORDS:
+                    if re.search(rf"\b{re.escape(banned)}\b", par, re.I):
+                        problems.append(
+                            f"{b['id']}.{r['level']}[{i}]: canonical prose uses banned ordered-pair word {banned!r}")
                 check_text(f"{b['id']}.{r['level']}[{i}]", v, par, auth, set(), units, times, problems)
             r["claimSentences"] = scope_claims(f"{b['id']}.{r['id']}", v, r["text"], problems,
                                                extra_ops=extra)

@@ -304,8 +304,11 @@ Requires at minimum:
 - autosave/persistence;
 - error/mastery/review integration;
 - responsive chart/visual validation;
+- document-level overflow checks after navigation to every primary route at every target width;
 - accessibility;
 - content QA;
+- band-sample annotation/prose consistency checks backed by explicit evidence rules;
+- rejection of canonical non-interleaved multi-entity `respectively` constructions until ordered-pair binding exists;
 - G0–G3 regression.
 
 Actual result:

@@ -271,3 +271,48 @@ At candidate `fe720d5` the packet named a SHA that no commit in the repository h
 hash was stamped by a following commit and then rewritten. The durable handoff pointed at
 nothing. A commit cannot contain its own hash; a tag is created afterwards, so it can
 always be checked.
+
+---
+
+## D-024 — Canonical prose bans non-interleaved `respectively` constructions
+**Date:** 2026-09-05 · **Status:** Approved · **Amends D-021**
+
+### Decision
+Until the canonical-claim engine binds ordered entity/value pairs, model responses and
+band samples must not use `respectively`. Canonical comparisons name each entity next to
+its value instead, for example: "Oslo stood at 46 per cent, compared with Bergen at 44
+per cent."
+
+### Rationale
+External re-review proved that sentence-scoped binding could accept a silent value swap
+when one clause named several entities followed by several non-interleaved values. Both
+values belonged to the clause, but the validator could not prove their order.
+
+### Implications
+- the generator refuses to emit canonical prose containing `respectively`;
+- `tests/g4_writing1_claims.py` independently enforces the same ban;
+- `tests/g4_writing1_negative.py` seeds the actual multi-entity sentence shape and
+  requires the claims validator to reject it;
+- learner-authored free text is unaffected because the app does not claim to score it.
+
+---
+
+## D-025 — Band-sample diagnostics carry executable prose evidence
+**Date:** 2026-09-05 · **Status:** Approved
+
+### Decision
+A band-sample diagnostic that depends on the presence or absence of concrete wording
+must carry a `diagnosticChecks` evidence rule. Each rule names one displayed annotation
+and lists phrases that must occur or must not occur in the adjacent response. The
+generator and the independent G4 validator both enforce these rules.
+
+### Rationale
+External re-review found five Band 6 samples whose lengthening pass changed the prose but
+left older teaching annotations in place. The resulting tables denied comparisons,
+exceptions, cycle language, or compass directions that the learner could see directly.
+
+### Implications
+- the five affected annotation sets now describe the final prose accurately;
+- future edits that reintroduce an explicit crossover against an annotation saying it is
+  only implied, for example, fail validation;
+- the seeded-defect suite proves the check by introducing that exact contradiction.

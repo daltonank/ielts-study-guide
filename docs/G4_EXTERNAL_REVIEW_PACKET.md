@@ -2,12 +2,11 @@
 
 **Gate status: `G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING`.**
 
-**Round 1 happened and returned CHANGES REQUESTED.** A reviewer independently
-reran the whole suite against candidate `fe720d5`, found it green, and still
-raised two P1, two P2 and one P3 finding that the suite could not see. All five
-are fixed here, along with D4-008, a stylesheet defect from G1 that surfaced
-while the fixes were being checked on a real 375px viewport. §12 answers the
-findings one by one.
+**Two external reviews happened and both returned CHANGES REQUESTED.** Candidate
+`fe720d5` produced the round-1 repairs in **g4-candidate-2**. Re-review of candidate 2
+found one P1, two P2 and one P3 gap outside the assertions. All four are fixed in
+candidate 3. §12 preserves the first review and §14 answers the re-review findings
+one by one.
 
 This packet is the durable handoff: everything a reviewer needs is in this
 repository, not in Slack.
@@ -26,11 +25,11 @@ now fails the build if it does not.
 | | |
 |---|---|
 | Repository | `github.com/daltonank/ielts-study-guide` |
-| Branch | `main` |
-| Candidate | the commit tagged `g4-candidate-2` |
-| Resolve it with | `git rev-parse g4-candidate-2` |
+| Branch | `codex/g4-external-re-review-round-2` |
+| Candidate | the commit tagged `g4-candidate-3` |
+| Resolve it with | `git rev-parse g4-candidate-3` |
 | Verify the packet | `python tests/release_integrity.py` |
-| Superseded candidates | `f2b3157` (did not satisfy REQ-019), `fe720d5` (this cycle's review found the six items in §12) |
+| Superseded candidates | `f2b3157` (did not satisfy REQ-019), `fe720d5` (round 1), **g4-candidate-2** / `d5eae47929ace2a47eaa507235d438aa66b15063` (external re-review changes requested) |
 | Toolchain | Python 3.13.15 with `jsonschema`, `playwright`; Microsoft Edge (Chromium) resolved by `tests/browser_env.py`; Node 24 only for design mockups |
 | Application runtime | dependency-free static HTML/CSS/JS, local only (D-014) |
 
@@ -44,10 +43,23 @@ python scripts/build_writing1_curriculum.py && python tests/g4_writing1_inventor
 
 ## 2. Changed-file inventory
 
+### External re-review repair
+| File | Change |
+|---|---|
+| `scripts/build_writing1_curriculum.py` | Reconciled five Band 6 annotation sets; validates diagnostic evidence and rejects canonical `respectively` |
+| `web/writing1_data.js` | Regenerated with executable `diagnosticChecks` and safe ordered comparisons |
+| `web/app.js` | Bounded target-sample wording tied to the annotated criteria |
+| `web/styles.css` | Long notice text wraps safely at mobile widths |
+| `tests/g4_writing1_claims.py` | Independent canonical `respectively` ban |
+| `tests/g4_writing1_validation.py` | Independent annotation/prose consistency and bounded-copy checks |
+| `tests/g4_writing1_negative.py` | Two new seeded defects; 8 of 8 required to be caught |
+| `tests/responsive_check.py` | Document and body overflow checked after every primary-route navigation |
+| `DECISIONS.md`, `VALIDATION_SPEC.md`, `CURRENT_STATE.md`, `CHANGELOG.md`, `docs/phase_4_report.md`, `docs/requirements_ledger.csv` | Canonical state and traceability for the re-review repairs |
+
 ### Added in review round 2
 | File | Lines | Purpose |
 |---|---:|---|
-| `tests/g4_writing1_negative.py` | 167 | Six seeded defects, each required to fail its own guard; restores every file it touches |
+| `tests/g4_writing1_negative.py` | 197 | Eight seeded defects, each required to fail its own guard; restores every file it touches |
 | `tests/release_integrity.py` | 109 | The packet must name a release that resolves and describes itself |
 
 ### Modified in review round 2
@@ -171,8 +183,8 @@ All 26 phase-4 requirements. "Result" is what the named check actually printed.
 | REQ-019 | Task 1 band comparison lab | `BAND_SETS`, `build_band_sets`, `renderW1Band` | `g4_writing1_validation.py` §6b, `g4_writing1_claims.py` | 7 sets, 21 samples of 158–202 words, per-aspect comparison mapped to the four public IELTS criteria | PASS | Mis-recorded once (§7.2); samples were underlength until round 1 (§12.1) |
 | REQ-019B | Band samples meet the 150-word Task 1 minimum | `build_band_sets` refuses a shorter sample | `g4_writing1_validation.py`, `g4_writing1_inventory.py`, `g4_writing1_negative.py` | 21/21 at 158–202 words; cutting one below 150 fails the validator | PASS | — |
 | REQ-019C | Illustrative labelling and criterion mapping | `styleLabel`, `aspectCriteria`, `descriptorReference`; `renderW1Band` | `g4_writing1_validation.py`, `g4_writing1_claims.py` | every sample labelled "Illustrative Band N-style sample"; every aspect mapped to one of the four public criteria | PASS | Criterion names only; no descriptor text reproduced |
-| REQ-020 | Task 1 quality gate | whole G4 build | all 21 scripts + the seeded-defect proof | 21/21 pass; 6/6 seeded defects caught | PASS | — |
-| REQ-053 | Phase 4 Writing Task 1 | — | `docs/phase_4_report.md` | Internal pass; round 1 returned CHANGES REQUESTED, all findings addressed | **PENDING** | Awaiting re-review |
+| REQ-020 | Task 1 quality gate | whole G4 build | all 21 scripts + the seeded-defect proof | 21/21 pass; 8/8 seeded defects caught | PASS | — |
+| REQ-053 | Phase 4 Writing Task 1 | — | `docs/phase_4_report.md` | Internal pass; external re-review of candidate 2 returned CHANGES REQUESTED, all findings addressed in candidate 3 | **PENDING** | Awaiting another independent review |
 | REQ-017A | Seven families with instructional depth | `FAMILY_META` (whatItTests, howIeltsConstructs, 6-step strategy, trap, 3–4 common errors, worked example, language bank, tense rule, UA transfer note) | `g4_writing1_validation.py` module checks | every field present and non-blank on all 7 | PASS | — |
 | REQ-017B | ≥60 micro-exercises | `exercises[]` | `g4_writing1_inventory.py` | 70 | PASS | — |
 | REQ-017C | ≥20 full prompts | `prompts[]` | `g4_writing1_inventory.py` | 21 | PASS | — |
@@ -184,7 +196,9 @@ All 26 phase-4 requirements. "Result" is what the named check actually printed.
 | REQ-017I | Ukrainian transfer support | `article_preposition_transfer`; `uaTransferNote`; per-item `uaSupport` | `g4_writing1_inventory.py` | 70/70 exercises, 7/7 transfer notes, Cyrillic asserted | PASS | — |
 | REQ-018A | Ten micro-types in every family | `build()` loop over `MICRO_TYPE_IDS` | `g4_writing1_inventory.py`, `g4_writing1_validation.py` | set equality, not a count | PASS | — |
 | REQ-018B | Explanation, error category, wrong-option reasoning | `distractorReasoning`, `errorCategory` | `g4_writing1_claims.py` | every wrong option has ≥30 chars of reasoning | PASS | Reasons are prose, not coded per option |
-| REQ-018C | Answers and model responses grounded | canonical claim model (D-020) + sentence-scoped binding of canonical prose (D-021) | `g4_writing1_claims.py`, `g4_writing1_negative.py` | 531 text blocks; 368 figures in model responses and band samples each bound to an entity named in their clause; a swapped series value is caught | PASS | One construction escapes it — §7.8 |
+| REQ-018C | Answers and model responses grounded | canonical claim model (D-020) + sentence-scoped binding of canonical prose (D-021) | `g4_writing1_claims.py`, `g4_writing1_negative.py` | 531 text blocks; 368 figures bound to named entities; swapped series values are caught | PASS | — |
+| REQ-018D | Ordered multi-entity values are safe | D-024 canonical `respectively` ban | `g4_writing1_claims.py`, `g4_writing1_negative.py` | actual blind-spot sentence shape is rejected | PASS | Ordered-pair parsing may replace the ban later |
+| REQ-019D | Band diagnostics match their prose | `diagnosticChecks` on affected samples (D-025) | `g4_writing1_validation.py`, `g4_writing1_negative.py` | five annotation sets carry required/forbidden phrase evidence; a contradictory edit fails | PASS | Evidence rules cover concrete wording claims, not subjective band calibration |
 | REQ-019A | Self-review checklist, not official scoring | `BASE_CHECKLIST` + per-family extras; `SCORING_NOTE`, `BAND_SCORING_NOTE` | `g4_writing1_validation.py`, `g4_writing1_accessibility.py` | disclaimer asserted on every prompt, band set and meta; band-claim grep clean | PASS | — |
 | REQ-020A | Original visuals and datasets | `VISUALS` | `g4_writing1_validation.py` | `originality == "original"` on all visuals, exercises, prompts | PASS | — |
 | REQ-020B | Mastery only on demonstrated performance | `w1UpdateMastery` (D-015 as amended by D-022) | `g4_writing1_functional.py`, `g4_writing1_negative.py` | opening grants nothing; timed exercises alone stay L3; 20-word and 149-word submissions stay L3; 150+ words with the checklist reaches L4; removing the floor fails the suite | PASS | — |
@@ -193,7 +207,8 @@ All 26 phase-4 requirements. "Result" is what the named check actually printed.
 | REQ-020E | Responsive at six widths | `.w1-visual`, `.w1-chart` | `g4_writing1_responsive.py`, `g4_writing1_obstruction.py` | 7 families × 6 widths; no overflow, no label under 9px, no sticky overlap | PASS | — |
 | REQ-020F | Text equivalents for every visual | `w1VisualPanel` `.w1-alt` | `g4_writing1_accessibility.py` | all 7 families: labelled section, `role="img"` + name, >80-char equivalent, data table | PASS | — |
 | REQ-020G | G0–G3 regression preserved | — | 9 pre-existing scripts | all pass after G4 integration | PASS | Round 1 found two visible platform defects the scripts did not assert (`undefined min`, slivered vocabulary filters); both fixed and now measured — §12.5, §12.6 |
-| REQ-020H | The packet identifies a release that resolves | tag `g4-candidate-2`; `tests/release_integrity.py` | `release_integrity.py`, `g4_writing1_negative.py` | tag resolves, packet inside the tag names the same tag, 4 cited hashes and 28 cited paths all exist | PASS | D-023 |
+| REQ-020H | The packet identifies a release that resolves | tag `g4-candidate-3`; `tests/release_integrity.py` | `release_integrity.py`, `g4_writing1_negative.py` | tag resolves, packet inside the tag names the same tag, and every cited hash/path exists | PASS | D-023 |
+| REQ-020I | Whole-page overflow is checked on every route | safe notice wrapping; route-level document/body measurements | `responsive_check.py` | Today, Skills, Practice, Words and Progress pass at all six widths | PASS | — |
 | REQ-048B | Portable Chromium resolution | `tests/browser_env.py` | all 8 browser suites | resolves Edge on Windows; all launch | PASS | — |
 
 ---
@@ -222,7 +237,7 @@ python tests/g4_writing1_responsive.py           # PASS: 320, 375, 430, 768, 102
 python tests/g4_writing1_accessibility.py        # G4 WRITING TASK 1 A11Y PASS
 python tests/g4_writing1_obstruction.py          # PASS: 320…1440, no sticky overlap, skip link hidden until focused
 python tests/responsive_check.py                 # RESPONSIVE PASS: 320, 375, 430, 768, 1024, 1440
-python tests/g4_writing1_negative.py             # PASS: 6 of 6 seeded defects caught, artifact restored
+python tests/g4_writing1_negative.py             # PASS: 8 of 8 seeded defects caught, artifact restored
 python tests/release_integrity.py                # PASS: the packet names a release that exists
 ```
 
@@ -269,8 +284,8 @@ passes:
 | Band sample citing an invented figure | `cites 16, not authorised for W1V-LINE-01` |
 | Distractor stripped of its reason | `distractor has no substantive reason it is wrong` |
 
-**Round 2: `tests/g4_writing1_negative.py`** — six defects, each required to fail
-the guard that should catch it, every file restored afterwards. 6 of 6 caught:
+**`tests/g4_writing1_negative.py`** — eight defects, each required to fail the
+guard that should catch it, every file restored afterwards. 8 of 8 caught:
 
 | Seeded defect | Guard | Caught as |
 |---|---|---|
@@ -280,9 +295,11 @@ the guard that should catch it, every file restored afterwards. 6 of 6 caught:
 | Undeclared column total in a model response | `g4_writing1_claims.py` | `cites 77, not authorised for W1V-LINE-01` |
 | Mastery word floor removed from `web/app.js` | `g4_writing1_functional.py` | mastery reached L4 on a 20-word response |
 | Packet naming a release that does not exist | `release_integrity.py` | `candidate tag 'g4-candidate-does-not-exist' does not resolve` |
+| Canonical non-interleaved multi-entity `respectively` sentence | `g4_writing1_claims.py` | canonical prose uses banned ordered-pair word `respectively` |
+| Band prose changed to contradict its diagnostic | `g4_writing1_validation.py` | diagnostic contradicts prose containing `crossed` |
 
-The third row is the one that matters most: it is the exact defect the previous
-set-based model could not see.
+The seventh and eighth rows are the external re-review regressions: both defects
+passed the prior candidate's assertions and both now fail independently.
 
 ---
 
@@ -295,7 +312,7 @@ set-based model could not see.
 | D4-003 | P3 | Fixed | `.field textarea` out-specified `.w1-draft`; drafting box was 73px tall | `.field .w1-draft` |
 | D4-004 | P3 | Fixed | `.question-card label{display:grid}` out-specified `.w1-opt`; radios stacked above their text | `.question-card label.w1-opt` |
 | D4-005 | P3 | Fixed | Chart axis caption collided with the top tick label | Caption given its own band |
-| **D4-006** | **P2** | **Fixed** | Grounding authorised any arithmetically derivable figure, including column totals and pairwise sums, so an item could be "supported" without being correct | Canonical claim manifest: exercises may cite only the values of their declared fact keys; `total`/`sum` require explicit authorisation; verified by `tests/g4_writing1_claims.py` over all 529 text blocks |
+| **D4-006** | **P2** | **Fixed** | Grounding authorised any arithmetically derivable figure, including column totals and pairwise sums, so an item could be "supported" without being correct | Canonical claim manifest: exercises may cite only the values of their declared fact keys; `total`/`sum` require explicit authorisation; verified by `tests/g4_writing1_claims.py` over all 531 text blocks |
 | **D4-007** | **P3** | **Fixed** | `.w1-chart{margin:0 -2px}` made every chart 4px wider than its parent's content box, so ancestors reported horizontal overflow | Negative margin removed |
 | QA-G4-001 | P3 | Fixed | Fact engine could not derive pairwise differences, rejecting genuinely grounded claims | Pairwise differences computed in generator and validator independently |
 | QA-G4-002 | P3 | Fixed | The literal string "Task 1" was read as the figure 1 | Exam labels stripped before figure extraction |
@@ -305,6 +322,11 @@ set-based model could not see.
 | **R1-004** | **P2** | **Fixed** | The packet named candidate SHA `53e986d1…`, which does not exist; the hash was stamped by a later commit and then rewritten *(external review)* | The candidate is a tag; `tests/release_integrity.py` fails if it does not resolve, if the tagged commit's packet names a different release, or if any cited hash or path is missing (D-023) |
 | **R1-005** | **P3** | **Fixed** | `Completed 0+0` named neither operand; Reading foundation modules printed `foundation • undefined min` *(external review)* | `Exercises done 0 / 70` and `Prompts answered 0 / 21`; the duration is shown only where the module has one |
 | **D4-008** | **P2** | **Fixed** | `.half`, `.third`, `.twoThird` received a column span only at ≥760px. `.card` carries its own span, so cards were fine and the bug was invisible — every other grid child collapsed to one twelfth of the row on a phone: 28px slivers in the band lab, 14px slivers for the four vocabulary filters on Words. Present since G1 | Mobile-first default added in `web/styles.css`; `tests/responsive_check.py` now measures every grid child on all five primary routes at all six widths, and `g4_writing1_responsive.py` walks the band lab |
+| **R2-001** | **P1** | **Fixed** | Five Band 6 annotations contradicted the final extended prose *(external re-review)* | Reconciled annotations plus executable evidence rules (D-025) |
+| **R2-002** | **P2** | **Fixed** | Canonical `respectively` allowed a silent ordered value swap *(external re-review)* | Construction banned until ordered-pair parsing exists; actual shape seeded as a negative (D-024) |
+| **R2-003** | **P2** | **Fixed** | Words had whole-page overflow at 320px and 375px; document overflow was checked only on Today *(external re-review)* | Notices wrap; document and body measured after every route navigation |
+| **R2-004** | **P3** | **Fixed** | `Nothing holding it back` was an absolute claim *(external re-review)* | Bounded criteria-specific and non-official wording |
+| **D4-009** | **P2** | **Fixed** | Chromium exposed a 3px overflow on the 320px Task 1 family list during the full packet run | Mobile `.module-item` uses two shrinkable columns and a full-row action button |
 
 Open **P0: 0 · P1: 0 · P2: 0 · P3: 0**.
 
@@ -317,8 +339,8 @@ rather than only overflow.
 
 ## 7. Known limitations and honest caveats
 
-1. **Round 1 happened; round 2 has not.** The reviewer returned CHANGES
-   REQUESTED on five findings, all addressed here (§12). Gate status is
+1. **Two reviews happened; the next independent review has not.** Both returned
+   CHANGES REQUESTED, and their findings are addressed in §12 and §14. Gate status is
    `INTERNAL PASS — EXTERNAL RE-REVIEW PENDING`, not `PASS`.
 
 2. **REQ-019 was previously mis-recorded.** In commit `f2b3157` the band
@@ -356,13 +378,10 @@ rather than only overflow.
    mechanical rule can derive. It is not exhaustive and is not intended to be;
    `g4_writing1_claims.py` is the exhaustive layer.
 
-8. **Sentence-scoped binding has one blind spot, stated rather than papered
-   over.** Two entities named inside a single clause whose figures are not
-   interleaved — "A and B rose to 46 and 44 respectively" — bind to the clause
-   rather than to each other, so a swap inside that one construction is not
-   detected. Interleaved forms ("A reached 46 and B 44") are bound individually
-   and a swap there does fail. Every other cross-clause and cross-sentence swap is
-   caught, as `tests/g4_writing1_negative.py` demonstrates.
+8. **The known ordered-pair blind spot is closed by an authoring ban.** Until the
+   binder can parse entity/value order, canonical model responses and band samples
+   may not use `respectively` (D-024). The actual multi-entity sentence shape is a
+   seeded negative case. Interleaved forms remain individually bound.
 
 9. **Exercise stems, model notes and target-feature lists keep the D-020
    declared-key set check** rather than sentence binding. That prose is commentary
@@ -434,7 +453,7 @@ python -m http.server 8000 --directory web
 
 ---
 
-## 10. Questions for round 2
+## 10. Questions for the next re-review
 
 Round 1's answers are recorded in §12 next to the finding each one settled. What
 is genuinely open now:
@@ -442,8 +461,8 @@ is genuinely open now:
 1. **Is sentence-scoped binding the right strictness for canonical prose?** It
    forced four sentences to name their subject explicitly. Does that constrain the
    writing in ways that hurt the model responses as teaching material?
-2. **Is the blind spot in §7.8 acceptable**, or should the "respectively"
-   construction be banned from canonical prose so every figure binds individually?
+2. **Is the D-024 authoring ban sufficient for this gate**, with ordered-pair
+   parsing deferred until canonical prose needs `respectively`?
 3. **Is keeping the D-020 set check for exercise stems and model notes right**, or
    should commentary carry declared keys too?
 4. **Do the extended band samples still read as their level?** Each was lengthened
@@ -468,8 +487,8 @@ is genuinely open now:
 ## 11. What happens after review
 
 - Any defect the reviewer raises is logged in §6 and fixed before the gate moves.
-- Round 1's findings are answered one by one in §12; a round-2 reviewer should start
-  at §13.
+- Round 1's findings are answered in §12 and the external re-review findings in §14;
+  the next reviewer should start at §13.
 - When the reviewer approves, `CURRENT_STATE.md`, `PROJECT_CHARTER.md` §8,
   `VALIDATION_SPEC.md` §11 and `docs/phase_4_report.md` move to `G4 PASS`.
 - **G5 does not start until then.** When it does, it must follow its own
@@ -583,8 +602,49 @@ all six widths.
    defect, nothing else in this packet is worth reading.
 2. Read three band samples end to end and judge whether the extended text still
    reads as its level.
-3. Try to smuggle a swapped value into a model response in `web/writing1_data.js`
-   and confirm `tests/g4_writing1_claims.py` catches it — then try the
-   "respectively" construction in §7.8, which it will not.
-4. Submit a 149-word response in the browser and confirm mastery does not move.
-5. Open the app at 375px and look at it, rather than trusting this document.
+3. Insert the original multi-entity `respectively` sentence shape and confirm
+   `tests/g4_writing1_claims.py` rejects it.
+4. Add an explicit crossover statement to the Band 6 line sample without changing
+   its diagnostic and confirm `tests/g4_writing1_validation.py` rejects the drift.
+5. Open Words at 320px and 375px and inspect both document width and the workbook
+   filename notice rather than trusting this document.
+6. Submit a 149-word response in the browser and confirm mastery does not move.
+
+---
+
+## 14. External re-review — findings and responses
+
+Reviewer verdict on `g4-candidate-2` / `d5eae47929ace2a47eaa507235d438aa66b15063`:
+**CHANGES REQUESTED**. The reviewer independently reran all 21 commands and the six
+seeded negatives before identifying four gaps outside those assertions.
+
+### 14.1 P1 — Five Band 6 annotation sets contradicted their samples
+**Accepted in full.** The line, bar, table, process and map annotations now describe
+the final prose: isolated comparisons are not called absent; the table's exceptions,
+the process cycle/stage count and the map's late compass directions are acknowledged.
+Each concrete presence/absence diagnosis carries `diagnosticChecks` evidence enforced
+both by the generator and the independent validator (D-025). A seeded edit that adds an
+explicit crossover against the displayed diagnostic now fails.
+
+### 14.2 P2 — The canonical `respectively` blind spot was active
+**Accepted in full.** The Band 8 line sample now names each city beside its end value.
+Canonical model responses and band samples reject `respectively` until ordered-pair
+parsing is implemented (D-024). The negative suite uses the actual two-entity/two-value
+sentence shape with the values swapped; the claims validator rejects it independently.
+
+### 14.3 P2 — Words overflowed the whole page at 320px and 375px
+**Accepted in full.** `.notice` permits emergency wrapping for long filenames.
+`tests/responsive_check.py` now measures both `documentElement` and `body` widths after
+navigating to Today, Skills, Practice, Words and Progress at every target width. Words
+passes at 320px and 375px with the canonical workbook filename rendered.
+
+### 14.4 P3 — Band 8 wording was overconfident
+**Accepted in full.** `Nothing holding it back` and `This response models the target`
+were removed. The card now says `Annotated criteria demonstrated` and states that no
+major weakness is identified *within the criteria annotated here*, while retaining the
+illustrative, non-official qualification. Static validation rejects the old wording.
+
+### 14.5 Still open
+The native-Ukrainian editorial spot-check remains a human gate and is not represented as
+an automation PASS. G4 and G5 status are unchanged until candidate 3 is independently
+reviewed.
