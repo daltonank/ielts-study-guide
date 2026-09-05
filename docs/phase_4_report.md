@@ -2,16 +2,15 @@
 
 **Phase:** 4 — Writing Task 1
 **Gate:** G4 Writing Task 1
-**Date:** 2026-09-04, revised 2026-09-05 after external review round 1
+**Date:** 2026-09-04, revised 2026-09-05 after external re-review
 **Decision:** **G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING**
 
-> External review of candidate `fe720d5` independently reran the whole suite, found it
-> green, and returned **CHANGES REQUESTED** on five findings the suite could not see:
-> underlength band samples, a mastery path that did not require a real response,
-> report-level grounding unbound to entities, a packet naming a release that does not
-> exist, and two UI strings. All five are fixed in candidate `g4-candidate-2`, together
-> with D4-008, which was found while verifying the fixes on a real 375px viewport. See
-> `docs/G4_EXTERNAL_REVIEW_PACKET.md` §12.
+> External review of candidate `fe720d5` produced candidate 2. External re-review of
+> `g4-candidate-2` independently reran all 21 commands and returned **CHANGES REQUESTED**
+> on four remaining gaps: five Band 6 annotation/prose contradictions, the active
+> `respectively` ordered-pair blind spot, whole-page overflow on Words, and overconfident
+> Band 8 UI copy. All four are fixed in `g4-candidate-3`; G4 remains pending another
+> independent review. See `docs/G4_EXTERNAL_REVIEW_PACKET.md` §14.
 
 ---
 
@@ -26,7 +25,7 @@
 
 Also delivered: 21 original visuals (3 per family), all 10 micro-exercise types in every
 family, guided/independent/timed/mastery progression in every family, 4 foundation
-modules, 7 family modules, and a 12-category Writing Task 1 error taxonomy.
+modules, 7 family modules, and a 13-category Writing Task 1 error taxonomy.
 
 ## Curriculum coverage
 
@@ -91,7 +90,7 @@ queued for review.
 | `tests/g4_writing1_responsive.py` | **PASS** | All 7 families × 6 widths |
 | `tests/g4_writing1_accessibility.py` | **PASS** | All 7 families: text equivalents, SVG naming, labelled controls, non-colour-only feedback, keyboard operability |
 | `tests/responsive_check.py` | **PASS** | Whole-app regression at 6 widths, now measuring every grid child on all five primary routes (D4-008) |
-| `tests/g4_writing1_negative.py` | **PASS** | Six seeded defects — underlength sample, band-labelled sample, swapped series value, undeclared column total, removed mastery word floor, unresolvable release tag — each required to fail its own guard; 6 of 6 caught |
+| `tests/g4_writing1_negative.py` | **PASS** | Eight seeded defects, including the actual `respectively` blind spot and annotation/prose drift; each required to fail its own guard; 8 of 8 caught |
 | `tests/release_integrity.py` | **PASS** | The review packet names a candidate tag that resolves, describes itself, and cites only hashes and paths that exist |
 
 Browser used: Microsoft Edge (Chromium), resolved by `tests/browser_env.py`.
@@ -170,6 +169,11 @@ reuses the existing component vocabulary. Primary navigation remains exactly fiv
 | R1-003 | P2 | Fixed | Report-level grounding authorised an unbound set of figures, so two real values could be swapped between two series (external review). Replaced by sentence-scoped binding (D-021). |
 | R1-004 | P2 | Fixed | The packet named a candidate SHA that does not exist (external review). The candidate is now a tag, checked by `tests/release_integrity.py` (D-023). |
 | R1-005 | P3 | Fixed | `Completed 0+0` and `foundation • undefined min` (external review). Both strings now name what they show. |
+| R2-001 | P1 | Fixed | Five Band 6 teaching annotations contradicted the extended samples. Annotations were reconciled and now carry executable prose-evidence rules (D-025). |
+| R2-002 | P2 | Fixed | A non-interleaved `respectively` construction allowed a silent ordered value swap in canonical content. The construction is banned in canonical prose until ordered-pair parsing exists (D-024). |
+| R2-003 | P2 | Fixed | The Words route overflowed at 320px and 375px because the workbook filename could not wrap and document overflow was checked only on Today. Notices now wrap; document and body widths are measured on every primary route. |
+| R2-004 | P3 | Fixed | `Nothing holding it back` was stronger than the annotated evidence. The target card now uses bounded criteria-specific and explicitly non-official language. |
+| D4-009 | P2 | Fixed | Full-suite verification exposed a 3px overflow on the 320px Task 1 family list: the three-column foundation `.module-item` could not shrink around its action button. At ≤430px it now uses two columns and the action spans the full row. |
 
 Open P0: **0** · Open P1: **0** · Open P2: **0** · Open P3: **0**
 
@@ -191,10 +195,8 @@ A closure audit after the first candidate (`f2b3157`) found:
 ## Risks carried forward
 
 - Sentence-scoped binding (D-021) ties each figure in canonical prose to an entity named
-  in its clause, which catches a value swapped between two series. One construction escapes
-  it: two entities named inside a single clause with their figures not interleaved
-  ("A and B rose to 46 and 44 respectively") binds both figures to the clause rather than to
-  each other. Stated here rather than papered over.
+  in its clause. Until ordered-pair parsing exists, canonical model responses and band
+  samples reject `respectively` (D-024), closing the known non-interleaved value-swap path.
 - Exercise stems, model notes and target-feature lists keep the declared-key set check of
   D-020 rather than sentence binding, because that prose is commentary about language.
 - Full written responses cannot be auto-scored and are self-assessed against a checklist.
@@ -206,14 +208,15 @@ A closure audit after the first candidate (`f2b3157`) found:
 
 **G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING.**
 
-All quantitative benchmarks exceeded and all twenty-one validation scripts passing, with
+All quantitative benchmarks exceeded and all twenty-one validation commands passing, with
 content QA recorded and responsive, accessibility, obstruction, persistence and keyboard
 evidence generated across all seven families at the six approved widths. G0–G3 regression
-re-run and passing after integration. `tests/g4_writing1_negative.py` seeds six real
-defects and requires each guard to fail on its own: 6 of 6 caught.
+re-run and passing after integration. `tests/g4_writing1_negative.py` seeds eight real
+defects and requires each guard to fail on its own: 8 of 8 caught.
 
-The gate is **not** recorded as PASS. External review round 1 returned CHANGES REQUESTED;
-every finding is addressed, and the re-review has not happened yet. A green suite was not
-enough last time, which is the reason the seeded-defect proof now ships with it.
+The gate is **not** recorded as PASS. External re-review of candidate 2 returned CHANGES
+REQUESTED; every finding is addressed in candidate 3, and the next independent review has
+not happened yet. A green suite was not enough last time, which is the reason the
+seeded-defect proof now ships with it.
 REQ-019, the band comparison lab, was previously recorded as satisfied by argument
 rather than by implementation; it now exists and is verified.

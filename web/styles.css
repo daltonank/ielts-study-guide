@@ -44,7 +44,7 @@ h1,h2,h3{line-height:1.18}h2{font-size:clamp(1.45rem,4vw,2.15rem);margin:.25em 0
 .btn.secondary{background:#eef3ff;color:var(--blue)}.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}.btn.danger{background:#fff1f1;color:var(--danger);border:1px solid #f0caca}
 label{font-weight:650}.field{display:grid;gap:6px}.field input,.field select,.field textarea,.search{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:10px 12px}
 textarea{min-height:130px;resize:vertical}
-.notice{padding:12px 14px;border-radius:13px;background:#fff8de;border-left:4px solid var(--yellow)}
+.notice{padding:12px 14px;border-radius:13px;background:#fff8de;border-left:4px solid var(--yellow);overflow-wrap:anywhere;word-break:break-word}
 .ua-note{padding:12px 14px;border-radius:13px;background:#edf5ff;border-left:4px solid var(--ua);margin-top:10px}
 .ua-note[data-hide="true"]{display:none}
 .trap{padding:12px;border-radius:13px;background:#fff0ef;border-left:4px solid #c94b43}
@@ -67,7 +67,7 @@ textarea{min-height:130px;resize:vertical}
 .toast{position:fixed;z-index:120;left:50%;bottom:92px;transform:translateX(-50%) translateY(30px);opacity:0;pointer-events:none;background:#14213a;color:#fff;padding:10px 14px;border-radius:12px;transition:.2s}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .dev-note{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:#101827;color:#d7e0ef;padding:12px;border-radius:12px;overflow:auto}
-@media(max-width:430px){main{padding:12px}.hero{border-radius:20px}.card{padding:14px}.brand small{font-size:.7rem}.mode-select{max-width:105px}.session-item{display:grid}}
+@media(max-width:430px){main{padding:12px}.hero{border-radius:20px}.card{padding:14px}.brand small{font-size:.7rem}.mode-select{max-width:105px}.session-item{display:grid}.module-item{grid-template-columns:auto minmax(0,1fr)}.module-item>.btn{grid-column:1/-1;width:100%}}
 @media(max-width:340px){.brand strong{font-size:.86rem}.brand small{display:none}.brand-mark{width:38px;height:38px}.header-actions{gap:4px}.mode-select{width:80px;padding:0 5px}.mobile-nav button{font-size:.67rem}}
 @media(min-width:1024px){body{padding-bottom:0}.mobile-nav{position:sticky;top:69px;bottom:auto;max-width:var(--max);margin:0 auto;border:1px solid var(--line);border-radius:14px;overflow:hidden}.mobile-nav button{min-height:54px}.drawer{right:calc((100vw - var(--max))/2)}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}

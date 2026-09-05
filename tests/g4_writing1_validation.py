@@ -535,6 +535,20 @@ for b in bands:
             fail(f"{bid}/{r['level']}: a non-target sample must say what holds it back")
         if r["level"] == band_levels[-1] and r["missing"]:
             fail(f"{bid}/{r['level']}: the target sample should have nothing holding it back")
+        annotations = set(r.get("does", []) + r.get("missing", []))
+        text_blob = " ".join(r["text"]).lower()
+        for check in r.get("diagnosticChecks", []):
+            claim = check.get("claim", "")
+            if claim not in annotations:
+                fail(f"{bid}/{r['level']}: diagnostic claim is not one of the displayed annotations")
+            if not check.get("mustContain") and not check.get("mustNotContain"):
+                fail(f"{bid}/{r['level']}: diagnostic check has no evidence rule")
+            for phrase in check.get("mustContain", []):
+                if phrase.lower() not in text_blob:
+                    fail(f"{bid}/{r['level']}: diagnostic evidence {phrase!r} is absent from the prose")
+            for phrase in check.get("mustNotContain", []):
+                if phrase.lower() in text_blob:
+                    fail(f"{bid}/{r['level']}: diagnostic contradicts prose containing {phrase!r}")
         if not any(par.strip().startswith("Overall,") for par in r["text"]) and r["level"] == band_levels[-1]:
             fail(f"{bid}/{r['level']}: the target sample models no overview")
     if len(b["comparison"]) < 4:
@@ -555,6 +569,15 @@ for b in bands:
         fail(f"{bid}: band labels are not disclaimed as non-official")
     if not cyrillic.search(b.get("uaSupport", "")):
         fail(f"{bid}: no Ukrainian support")
+
+app_text = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
+for overclaim in ("Nothing holding it back", "This response models the target."):
+    if overclaim in app_text:
+        fail(f"Band comparison UI retains overconfident wording: {overclaim!r}")
+for bounded in ("Annotated criteria demonstrated",
+                "No major weakness is identified within the criteria annotated here"):
+    if bounded not in app_text:
+        fail(f"Band comparison UI is missing bounded wording: {bounded!r}")
 
 # --- 7. Honest scoring language across all learner-facing text --------------
 band_claim = re.compile(r"\b(you|your)\b[^.]{0,60}\bband\s*\d", re.I)

@@ -36,6 +36,13 @@ with sync_playwright() as p:
       for route in ("today","skills","practice","words","progress"):
           page.click(f'button[data-route="{route}"]')
           page.wait_for_timeout(60)
+          route_dims=page.evaluate("""()=>({
+              document:{sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth},
+              body:{sw:document.body.scrollWidth,cw:document.body.clientWidth}
+          })""")
+          for surface, size in route_dims.items():
+              if size["sw"]>size["cw"]+1:
+                  fails.append(f"{w}px {route}: {surface} horizontal overflow {size}")
           slivers=page.evaluate("""()=>[...document.querySelectorAll('#main .grid>*')]
               .map(e=>({cls:e.className,w:Math.round(e.getBoundingClientRect().width),
                         gw:Math.round(e.parentElement.getBoundingClientRect().width),

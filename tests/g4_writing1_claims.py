@@ -276,6 +276,8 @@ V = {v["id"]: v for v in data["visuals"]}
 exercises, prompts = data["exercises"], data["prompts"]
 bands = data.get("bandComparisons", [])
 
+CANONICAL_BANNED_WORDS = ("respectively",)
+
 checked = {"bound": 0, "exercise": 0, "prompt": 0, "band": 0, "texts": 0}
 
 # ---------------- exercises: strict, declared derivations only ---------------
@@ -666,6 +668,9 @@ for p in prompts:
     structural = {rnd(n) for n in (p.get("allowedNumbers") or [])}
     units, times = unit_tokens(v), time_labels(v)
     for i, par in enumerate(p["modelResponse"]):
+        for banned in CANONICAL_BANNED_WORDS:
+            if re.search(rf"\b{re.escape(banned)}\b", par, re.I):
+                fail(f"{p['id']}.model[{i}]: canonical prose uses banned ordered-pair word {banned!r}")
         check(f"{p['id']}.model[{i}]", v, par, auth, structural, set(), units, times)
         checked["texts"] += 1
     for i, n in enumerate(p["modelNotes"]):
@@ -710,6 +715,9 @@ for b in bands:
     minimum = b.get("wordMinimum", 150)
     for r in b["responses"]:
         for i, par in enumerate(r["text"]):
+            for banned in CANONICAL_BANNED_WORDS:
+                if re.search(rf"\b{re.escape(banned)}\b", par, re.I):
+                    fail(f"{b['id']}.{r['level']}[{i}]: canonical prose uses banned ordered-pair word {banned!r}")
             check(f"{b['id']}.{r['level']}[{i}]", v, par, auth, set(), set(), units, times)
             checked["texts"] += 1
         words = sum(len(par.split()) for par in r["text"])

@@ -14,6 +14,8 @@ Cases
   4  a model response citing a column total it never declared
   5  the mastery word floor removed from web/app.js
   6  the review packet pointed at a tag that does not exist
+  7  a canonical non-interleaved multi-entity ``respectively`` construction
+  8  band-sample prose contradicting its displayed diagnostic
 """
 from pathlib import Path
 import json
@@ -142,6 +144,34 @@ def break_tag():
 
 case("packet naming a release that does not exist", "tests/release_integrity.py",
      break_tag, source=PACKET)
+
+
+# 7 -- the actual canonical respectively sentence shape ----------------------
+def add_respectively_blind_spot():
+    d = load_data()
+    b = next(x for x in d["bandComparisons"] if x["visualId"] == "W1V-LINE-01")
+    r = next(x for x in b["responses"] if x["level"] == "Band 8")
+    r["text"].append(
+        "By 2025 the small gap between Oslo and Bergen stood at 44 and 46 per cent respectively.")
+    write_data(d)
+
+
+case("canonical respectively blind spot", "tests/g4_writing1_claims.py",
+     add_respectively_blind_spot)
+
+
+# 8 -- prose changed after its teaching annotation was finalised -------------
+def contradict_diagnostic():
+    d = load_data()
+    b = next(x for x in d["bandComparisons"] if x["visualId"] == "W1V-LINE-01")
+    r = next(x for x in b["responses"] if x["level"] == "Band 6")
+    r["text"].append("The lines crossed during the period.")
+    r["wordCount"] = sum(len(p.split()) for p in r["text"])
+    write_data(d)
+
+
+case("band prose contradicts diagnostic", "tests/g4_writing1_validation.py",
+     contradict_diagnostic)
 
 
 print("G4 SEEDED-DEFECT PROOF")

@@ -2,6 +2,45 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-05 — G4 external re-review: four findings addressed
+
+**Gate:** G4 Writing Task 1 — **INTERNAL PASS, EXTERNAL RE-REVIEW PENDING.**
+Candidate `g4-candidate-3`. The next independent review must approve it before G4 PASS;
+G5 remains blocked.
+
+### Fixed
+- **R2-001 (P1)** reconciled five Band 6 annotation sets with their final extended
+  responses. Diagnostics now acknowledge the comparisons, exceptions, cycle language and
+  compass directions actually present while explaining why they remain weakly organised.
+- **R2-002 (P2)** removed the canonical Band 8 `respectively` construction. Canonical
+  model responses and band samples now reject `respectively` until ordered entity/value
+  binding exists (D-024).
+- **R2-003 (P2)** made long notice text, including
+  `IELTS_Academic_C1_Ukrainian_Vocabulary_Bank.xlsx`, wrap safely. The whole-app responsive
+  test now measures document and body overflow after navigating to every primary route.
+- **R2-004 (P3)** replaced `Nothing holding it back` with bounded, criteria-specific copy:
+  `Annotated criteria demonstrated` and an explicit non-official-sample qualification.
+- **D4-009 (P2, found during full-suite verification)** fixed a 3px overflow on the
+  320px Task 1 family list. Mobile foundation module cards now use two shrinkable columns
+  and place their action button across the full row.
+
+### Added
+- Machine-readable `diagnosticChecks` linking displayed Band 6 annotations to required or
+  forbidden phrases in the adjacent response (D-025).
+- Two seeded negative cases: the actual non-interleaved multi-entity `respectively` shape,
+  and a prose edit that contradicts its teaching diagnostic. The negative suite now catches
+  **8 of 8** defects independently and restores the artifact.
+- Requirements `REQ-018D`, `REQ-019D` and `REQ-020I` for ordered value safety,
+  annotation/prose consistency and per-route whole-document overflow.
+
+### Verified
+All 21 packet commands pass after the changes. Browser checks ran against Chromium at
+320/375/430/768/1024/1440; the Words route has no document or body overflow at 320px or
+375px. The gate remains pending external re-review rather than being promoted from an
+executor completion statement.
+
+---
+
 ## 2026-09-05 — G4 external review round 1: changes requested and made
 
 **Gate:** G4 Writing Task 1 — **INTERNAL PASS, EXTERNAL RE-REVIEW PENDING.**

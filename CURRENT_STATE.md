@@ -1,8 +1,8 @@
 # CURRENT_STATE.md
 
-**Updated:** 2026-09-04  
+**Updated:** 2026-09-05
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING — round 1 returned CHANGES REQUESTED; every finding is addressed in candidate 2 — see `docs/G4_EXTERNAL_REVIEW_PACKET.md`  
+**Candidate gate:** G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING — external re-review returned CHANGES REQUESTED; all four findings are addressed in candidate 3 — see `docs/G4_EXTERNAL_REVIEW_PACKET.md`
 **Next gate:** G5 Writing Task 2, blocked until G4 is independently reviewed  
 **Deployment:** local HTML only; public reconciliation deferred
 
@@ -40,9 +40,10 @@ Current Reading evidence:
 
 ### G4 — Writing Task 1
 **INTERNAL PASS — EXTERNAL RE-REVIEW PENDING.** External review of the first
-candidate (`fe720d5`) returned **CHANGES REQUESTED** with two P1, two P2 and one P3
-finding. All five are fixed, and a sixth defect (D4-008) was found while checking the
-fixes on a real 375px viewport. The gate stays open until the re-review happens.
+candidate (`fe720d5`) returned **CHANGES REQUESTED** and produced candidate 2.
+External re-review of `g4-candidate-2` returned **CHANGES REQUESTED** with one P1,
+two P2 and one P3 finding. All four are fixed in candidate 3. The gate stays open
+until the next independent re-review succeeds.
 Review packet: `docs/G4_EXTERNAL_REVIEW_PACKET.md`.
 
 | Benchmark | Required | Actual |
@@ -55,21 +56,21 @@ Review packet: `docs/G4_EXTERNAL_REVIEW_PACKET.md`.
 
 Also delivered: 21 original visuals, all 10 micro-exercise types in every family,
 guided/independent/timed/mastery progression per family, 4 foundation modules, 7 family
-modules, a 12-category error taxonomy, and the learner-facing UI under
+modules, a 13-category error taxonomy, and the learner-facing UI under
 Skills → Writing Task 1.
 
 Current Writing Task 1 evidence:
 
 - `tests/g4_writing1_inventory.py` — every benchmark met, fails automatically if coverage drops
 - `tests/g4_writing1_validation.py` — PASS
-- `tests/g4_writing1_claims.py` — 529 text blocks, every figure traced to a declared derivation
+- `tests/g4_writing1_claims.py` — 531 text blocks, every figure traced to a declared derivation; canonical `respectively` constructions rejected
 - `tests/g4_writing1_content_qa.py` — 115 prose claims re-derived, 0 failed
 - `tests/g4_writing1_functional.py` — PASS (scoring, mastery, timing, autosave, error/review, reload)
 - `tests/g4_writing1_responsive.py` — PASS at 320/375/430/768/1024/1440 across all 7 families
 - `tests/g4_writing1_accessibility.py` — PASS across all 7 families
 - `tests/g4_writing1_persistence.py` — real HTTP, genuine reload, export/import, keyboard-only
 - `tests/g4_writing1_obstruction.py` — real viewport states at all six widths
-- `tests/g4_writing1_negative.py` — six seeded defects, all caught, artifact restored
+- `tests/g4_writing1_negative.py` — eight seeded defects, all caught, including the ordered-pair blind spot and annotation/prose drift
 - `tests/release_integrity.py` — the packet names a release that resolves
 - G0–G3 regression re-run and passing
 - `docs/phase_4_report.md`, `docs/writing1_content_qa.md`
@@ -78,7 +79,8 @@ Decisions: D-015 mastery thresholds (amended by D-022), D-016 error taxonomy (13
 categories after D-022), D-017 grounding by re-derived facts, D-018 toolchain, D-019 the
 visual panel as the only new component, D-020 canonical claim manifest, D-021
 sentence-scoped binding of canonical prose, D-022 the 150-word Task 1 minimum enforced,
-D-023 release identity by tag.
+D-023 release identity by tag, D-024 canonical `respectively` ban, D-025 executable
+band-diagnostic evidence.
 
 ---
 
@@ -121,6 +123,11 @@ sample. The `.w1-visual` panel does not apply; Task 2 has no graphic.
 | R1-003 | P2 | **Fixed** | Report-level grounding authorised a set of figures unbound to any entity, so two real values could be swapped between two series (external review). Replaced by sentence-scoped binding (D-021). |
 | R1-004 | P2 | **Fixed** | The review packet named a candidate SHA that does not exist (external review). The candidate is now a tag, checked by `tests/release_integrity.py` (D-023). |
 | R1-005 | P3 | **Fixed** | The Task 1 inventory printed `Completed 0+0` without naming its operands, and Reading foundation modules printed `foundation • undefined min` (external review). |
+| R2-001 | P1 | **Fixed** | Five Band 6 teaching annotations contradicted the extended prose. The annotations now describe the final samples and carry executable presence/absence evidence rules (D-025). |
+| R2-002 | P2 | **Fixed** | The canonical Band 8 line sample used a non-interleaved multi-entity `respectively` construction that allowed an ordered value swap. Canonical prose now bans the construction until ordered-pair parsing exists (D-024). |
+| R2-003 | P2 | **Fixed** | Words overflowed the whole page at 320px and 375px because the migration filename could not wrap and the regression test measured document overflow only on Today. Notices now wrap; document and body widths are asserted after every route navigation. |
+| R2-004 | P3 | **Fixed** | `Nothing holding it back` made an absolute claim stronger than the annotated evidence. The UI now says `Annotated criteria demonstrated` and explicitly bounds the statement to the criteria shown. |
+| D4-009 | P2 | **Fixed** | Chromium exposed a 3px overflow on the 320px Task 1 family list: the three-column foundation `.module-item` could not shrink around its action button. Mobile module items now use two columns and place the action across the full row. |
 
 Open P0: 0 · Open P1: 0 · Open P2: 0 · Open P3: 0
 

@@ -554,7 +554,7 @@ function renderW1Band(id){
    <div class="w1-model" style="margin-top:10px">${shown.text.map(p=>`<p>${escapeHTML(p)}</p>`).join("")}</div>
    <div class="grid" style="margin-top:10px">
     <div class="strategy-block half"><span class="badge good">What it does</span><ul>${shown.does.length?shown.does.map(x=>`<li>${escapeHTML(x)}</li>`).join(""):"<li>—</li>"}</ul></div>
-    <div class="strategy-block half"><span class="badge ${shown.missing.length?"warn":"good"}">${shown.missing.length?"What holds it back":"Nothing holding it back"}</span><ul>${shown.missing.length?shown.missing.map(x=>`<li>${escapeHTML(x)}</li>`).join(""):"<li>This response models the target.</li>"}</ul></div>
+    <div class="strategy-block half"><span class="badge ${shown.missing.length?"warn":"good"}">${shown.missing.length?"What holds it back":"Annotated criteria demonstrated"}</span><ul>${shown.missing.length?shown.missing.map(x=>`<li>${escapeHTML(x)}</li>`).join(""):"<li>No major weakness is identified within the criteria annotated here. This remains an illustrative, non-official sample.</li>"}</ul></div>
    </div>
    ${ua("",escapeHTML((w1().bandLevels.find(l=>l.level===shown.level)||{}).ua||""))}
   </div>`,"half")}
