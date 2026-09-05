@@ -72,10 +72,10 @@ textarea{min-height:130px;resize:vertical}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
 /* Phase 3 • Reading Academy */
-.reading-family-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
-.reading-family-card{min-height:132px;text-align:left;border:1px solid var(--line);border-radius:15px;background:#fff;padding:14px;color:var(--ink);display:grid;align-content:start;gap:6px}
-.reading-family-card:hover,.reading-family-card:focus-visible{background:#f5f8ff;border-color:#a9bcef}
-.reading-family-card strong{font-size:1rem}.reading-family-card span:not(.badge),.reading-family-card small{color:var(--muted)}
+.reading-family-grid,.family-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
+.reading-family-card,.family-card{min-height:132px;text-align:left;border:1px solid var(--line);border-radius:15px;background:#fff;padding:14px;color:var(--ink);display:grid;align-content:start;gap:6px}
+.reading-family-card:hover,.reading-family-card:focus-visible,.family-card:hover,.family-card:focus-visible{background:#f5f8ff;border-color:#a9bcef}
+.reading-family-card strong,.family-card strong{font-size:1rem}.reading-family-card span:not(.badge),.reading-family-card small,.family-card span:not(.badge),.family-card small{color:var(--muted)}
 .lesson-objective,.strategy-block{border:1px solid var(--line);border-radius:14px;padding:13px;background:#fbfcff}
 .reading-workspace{align-items:start}
 .reading-passage{font-size:1.02rem;line-height:1.76;max-width:72ch;margin-top:16px}
@@ -85,4 +85,61 @@ textarea{min-height:130px;resize:vertical}
 .answer-feedback{margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}.answer-feedback p{margin:.35rem 0}
 .reading-timer-panel{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fbfcff}
 .score-summary{text-align:center;padding:8px 0}.score-summary .big{font-size:clamp(2.4rem,8vw,4.2rem)}
-@media(max-width:759px){.reading-passage{font-size:1rem;line-height:1.72}.reading-family-grid{grid-template-columns:1fr}.question-card{padding:12px}}
+@media(max-width:759px){.reading-passage{font-size:1rem;line-height:1.72}.reading-family-grid,.family-grid{grid-template-columns:1fr}.question-card{padding:12px}}
+
+/* Phase 4 • Writing Task 1 */
+.w1-workspace{align-items:start}
+.w1-visual{border:1px solid var(--line);border-radius:14px;background:#fbfcff;padding:13px;margin-top:12px;overflow:hidden}
+.w1-visual svg{display:block;max-width:100%;height:auto}
+.w1-chart{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -2px}
+.w1-chart svg{min-width:300px}
+.w1-rubric{font-size:.95rem;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;margin:0 0 12px}
+.w1-subvisual+.w1-subvisual{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+.w1-subtitle{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.w1-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:10px}
+.w1-lg{display:flex;align-items:center;gap:6px;font-size:.85rem}
+.w1-sw{width:12px;height:12px;border-radius:3px;flex:none;display:inline-block;vertical-align:-1px;margin-right:6px}
+.w1-alt{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+.w1-alt summary{cursor:pointer;font-size:.88rem;color:var(--blue);font-weight:750;min-height:32px;display:flex;align-items:center}
+.w1-alt p{font-size:.88rem;color:var(--muted);margin:8px 0 0}
+.w1-src{font-size:.78rem;color:var(--muted);margin:8px 0 0}
+.w1-narrow-table{margin-top:10px}
+.w1-narrow-table table{min-width:280px}
+.w1-narrow-table th:first-child,.w1-narrow-table td:first-child{white-space:nowrap}
+.w1-flowhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:.9rem;margin-bottom:10px}
+.w1-stages{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.w1-stage{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff}
+.w1-stage-n{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:#edf2ff;color:var(--blue);font-weight:850;font-size:.9rem}
+.w1-loop{margin:10px 0 0;padding:9px 11px;border:1px dashed var(--blue);border-radius:12px;background:#f5f8ff;color:#24479b;font-size:.88rem}
+.w1-features{display:grid;gap:8px;margin-top:10px}
+.w1-feature{border:1px solid var(--line);border-left:5px solid var(--muted);border-radius:12px;padding:11px;background:#fff}
+.w1-options{border:0;margin:0;padding:0;display:grid;gap:8px}
+.w1-opt,.question-card label.w1-opt{display:flex;gap:10px;align-items:flex-start;min-height:44px;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff;font-weight:450;line-height:1.45;cursor:pointer}
+.w1-opt:hover{background:#f5f8ff}
+.w1-opt input{margin:3px 0 0;flex:none;width:18px;height:18px}
+.w1-opt.correct{border-color:var(--good);background:#f5fcf8;border-width:2px}
+.w1-opt.wrong{border-color:var(--danger);background:#fff5f5;border-width:2px}
+.w1-opt.faded{opacity:.6}
+.w1-cloze{font-size:1rem;line-height:2.1;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.w1-cloze input{display:inline-block;width:auto;min-width:120px;max-width:100%;min-height:40px;border:0;border-bottom:2px solid var(--blue);border-radius:0;background:transparent;padding:2px 6px;font-weight:700;color:var(--blue)}
+.w1-order{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:w1o}
+.w1-order-item{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff}
+.w1-order-item p{margin:0;font-size:.92rem;line-height:1.5}
+.w1-order-item.correct{border-left:5px solid var(--good);background:#f5fcf8}
+.w1-order-item.wrong{border-left:5px solid var(--yellow);background:#fffaf0}
+.w1-order-ctl{display:grid;gap:4px}
+.w1-order-ctl .btn{min-height:44px;min-width:44px;padding:2px 8px;font-size:.8rem}
+.w1-order-ctl .btn[disabled]{opacity:.35}
+.w1-stepper{display:flex;align-items:center;gap:8px}
+.w1-step{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--muted);flex:1}
+.w1-step .w1-dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:850;background:#edf2ff;color:var(--muted);flex:none}
+.w1-step.on{color:var(--ink);font-weight:750}
+.w1-step.on .w1-dot{background:var(--blue);color:#fff}
+.w1-chk{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fbfcff;font-size:.9rem;font-weight:450;line-height:1.45;min-height:44px;cursor:pointer}
+.w1-chk input{margin:3px 0 0;flex:none;width:18px;height:18px}
+.field .w1-draft{min-height:220px;line-height:1.7}
+.field textarea[data-w1-plan]{min-height:110px}
+.w1-model p{margin:0 0 .7em}
+.w1-model .w1-overview{background:#eef3ff;border-radius:8px;padding:6px 8px}
+.timer.over{color:var(--danger)}
+@media(max-width:759px){.w1-visual{padding:10px}.w1-cloze{font-size:.95rem;line-height:2}.w1-stepper{gap:4px}.w1-step span:not(.w1-dot){font-size:.75rem}}

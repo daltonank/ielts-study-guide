@@ -129,13 +129,22 @@ Focused training extracts are intentionally shorter than full mocks. Three-secti
 
 ---
 
-## 6. G4 Writing Task 1 — NEXT
+## 6. G4 Writing Task 1 — COMPLETE
 
 ### Quantitative minimum
 
 - 7 visual families
 - ≥60 micro-exercises
 - ≥20 full Task 1 prompts
+
+### Completed inventory
+
+- 7 / 7 visual families
+- 21 original visuals
+- 70 micro-exercises
+- 21 full timed prompts
+- 4 foundation modules, 7 family modules
+- 12-category error taxonomy
 
 ### Visual families
 
@@ -198,7 +207,7 @@ Practice feedback may describe performance relative to IELTS criteria but must b
 
 ---
 
-## 7. G5 Writing Task 2
+## 7. G5 Writing Task 2 — NEXT
 
 ### Minimum inventory
 

@@ -12,11 +12,13 @@ css=(ROOT/"styles.css").read_text(encoding="utf-8")
 vocab=(ROOT/"vocabulary.js").read_text(encoding="utf-8")
 data=(ROOT/"data.js").read_text(encoding="utf-8")
 reading=(ROOT/"reading_data.js").read_text(encoding="utf-8")
+writing1=(ROOT/"writing1_data.js").read_text(encoding="utf-8")
 app=(ROOT/"app.js").read_text(encoding="utf-8")
 html=html.replace('<link rel="stylesheet" href="styles.css">',f'<style>{css}</style>')
 html=html.replace('<script src="vocabulary.js"></script>',f'<script>{vocab}</script>')
 html=html.replace('<script src="data.js"></script>',f'<script>{data}</script>')
 html=html.replace('<script src="reading_data.js"></script>',f'<script>{reading}</script>')
+html=html.replace('<script src="writing1_data.js"></script>',f'<script>{writing1}</script>')
 html=html.replace('<script src="app.js"></script>',f'<script>{app}</script>')
 fails=[]
 with sync_playwright() as p:

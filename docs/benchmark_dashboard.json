@@ -1,9 +1,8 @@
 {
   "requirements_total": 131,
   "requirements_by_status": {
-    "Passed": 77,
-    "Not Started": 43,
-    "In Progress": 11
+    "Passed": 88,
+    "Not Started": 43
   },
   "vocabulary_loaded": 1784,
   "vocabulary_expected": 1784,
@@ -24,7 +23,7 @@
   "speaking_part3": 0,
   "p0_defects": 0,
   "p1_defects": 0,
-  "regression_status": "PASS through G3; G4 content layer validated, G4 UI not built",
+  "regression_status": "PASS through G4",
   "accessibility_score": null,
   "performance_score": null
 }

@@ -8,14 +8,16 @@ const defaultState=()=>({
  settings:{languageMode:"uaen",targetBand:7.5,targetDate:null,preferredMinutes:30},
  diagnostic:{completed:false,familiarity:{},baseline:{},weakAreas:[]},
  mastery:{}, vocabulary:{}, errors:[], reviews:[], savedResponses:[], practiceResults:[], mockResults:[], studyHistory:[],
- recommendationState:{lastActivity:null,lastRecommendation:null},reading:{activeFamily:null,activePassageId:null,answers:{},results:[],timer:null},backups:[]
+ recommendationState:{lastActivity:null,lastRecommendation:null},reading:{activeFamily:null,activePassageId:null,answers:{},results:[],timer:null},
+ writing1:{activeFamily:null,activeExerciseId:null,activePromptId:null,answers:{},results:[],drafts:{},checklists:{},submissions:[],timer:null,exerciseTimer:null},backups:[]
 });
 let state=loadState();
 let route=location.hash.replace("#/","")||"today";
 let timerHandle=null, timerSeconds=60;
 let readingTimerHandle=null;
+let w1TimerHandle=null, w1ExTimerHandle=null;
 
-function loadState(){try{const x=JSON.parse(localStorage.getItem(STORE));const d=defaultState();return {...d,...x,settings:{...d.settings,...(x?.settings||{})},reading:{...d.reading,...(x?.reading||{}),answers:{...(x?.reading?.answers||{})},results:[...(x?.reading?.results||[])]}}}catch(e){return defaultState()}}
+function loadState(){try{const x=JSON.parse(localStorage.getItem(STORE));const d=defaultState();return {...d,...x,settings:{...d.settings,...(x?.settings||{})},reading:{...d.reading,...(x?.reading||{}),answers:{...(x?.reading?.answers||{})},results:[...(x?.reading?.results||[])]},writing1:{...d.writing1,...(x?.writing1||{}),answers:{...(x?.writing1?.answers||{})},drafts:{...(x?.writing1?.drafts||{})},checklists:{...(x?.writing1?.checklists||{})},results:[...(x?.writing1?.results||[])],submissions:[...(x?.writing1?.submissions||[])]}}}catch(e){return defaultState()}}
 function saveState(){localStorage.setItem(STORE,JSON.stringify(state))}
 function escapeHTML(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function uid(p="ID"){return p+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7)}
@@ -32,7 +34,7 @@ function pageHero(kicker,title,desc,uaDesc=""){
 function card(title,body,cls=""){return `<section class="card ${cls}"><h2>${title}</h2>${body}</section>`}
 function masteryBadge(id){const l=state.mastery[id]??0;const x=APP_DATA.masteryLevels[l];return `<span class="badge">L${l} • ${x.en}</span>`}
 function progressPct(){const vals=Object.values(state.mastery);return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/(vals.length*5)*100):0}
-function allModules(){return [...APP_DATA.modules,...((window.READING_DATA?.modules)||[])]}
+function allModules(){return [...APP_DATA.modules,...((window.READING_DATA?.modules)||[]),...((window.WRITING1_DATA?.modules)||[])]}
 function readingModuleId(family){return "READ-"+family.toUpperCase().replaceAll("_","-")}
 function readingPassage(id){return (window.READING_DATA?.passages||[]).find(p=>p.id===id)}
 function readingFamilyPassages(family){return (window.READING_DATA?.passages||[]).filter(p=>p.family===family)}
@@ -92,7 +94,10 @@ function renderSkills(){
  return pageHero("CORE SKILLS","The IELTS training map","Phase 1 establishes the module/mastery shell. Later gated phases populate the complete Reading, Writing, Speaking and Listening banks.","Кожен модуль має рівень опанування 0–5. Відкриття сторінки саме по собі не підвищує mastery.")+
  `<div class="grid">${["Reading","Listening","Writing Task 1","Writing Task 2","Speaking","Grammar"].map(skill=>{
  const mods=allModules().filter(m=>m.skill===skill);
- return card(skill,`<div class="module-list">${mods.length?mods.map(m=>`<div class="module-item"><div class="mastery-dot">${state.mastery[m.id]??0}</div><div><strong>${m.title}</strong><div class="small muted">${m.difficulty} • ${m.minutes} min</div></div>${masteryBadge(m.id)}</div>`).join(""):`<p class="muted">Curriculum content is assigned to a later gated phase.</p>`}</div>`,"half")
+ const route={"Reading":"reading","Writing Task 1":"task1"}[skill];
+ const open=route?`<button class="btn" data-route="${route}" style="margin-bottom:10px">Open ${escapeHTML(skill)}</button>`:"";
+ const shown=mods.slice(0,6);
+ return card(skill,`${open}<div class="module-list">${mods.length?shown.map(m=>`<div class="module-item"><div class="mastery-dot">${state.mastery[m.id]??0}</div><div><strong>${escapeHTML(m.title)}</strong><div class="small muted">${escapeHTML(m.difficulty)} • ${m.minutes} min</div></div>${masteryBadge(m.id)}</div>`).join(""):`<p class="muted">Curriculum content is assigned to a later gated phase.</p>`}</div>${mods.length>shown.length?`<p class="small muted">+ ${mods.length-shown.length} more inside the academy.</p>`:""}`,"half")
  }).join("")}</div>`;
 }
 function renderPractice(){
@@ -237,6 +242,392 @@ function submitReading(pid){
  wrong.forEach(({qx,given})=>{const prior=state.errors.some(e=>e.skill==='Reading'&&e.category===qx.errorCategory&&!e.resolved);state.errors.unshift({id:uid('ERR'),date:result.date,skill:'Reading',module:p.moduleId,questionId:qx.id,learnerAnswer:String(given),correctAnswer:String(qx.correctAnswer),category:qx.errorCategory,explanation:qx.explanation,correction:`Review ${window.READING_DATA.familyMeta[p.family].title} evidence strategy.`,repeated:prior,reviewDate:new Date(Date.now()+3*86400000).toISOString().slice(0,10),resolved:false});if(!state.reviews.some(r=>r.questionId===qx.id))state.reviews.push({id:uid('REV'),type:'Reading',title:`Review: ${window.READING_DATA.familyMeta[p.family].title}`,priority:prior?5:4,module:p.moduleId,questionId:qx.id,dueDate:new Date(Date.now()+3*86400000).toISOString().slice(0,10)})});
  updateReadingMastery(p.moduleId);state.studyHistory.unshift({date:result.date,minutes:p.estimatedMinutes,skill:'Reading',module:p.moduleId,accuracy:result.accuracy});state.reading.timer=null;saveState();render();toast(`${score}/${p.questions.length} correct`)
 }
+/* ---------------- Phase 4 • Writing Task 1 ---------------- */
+const W1_SERIES=["#2754c5","#b45309","#009e8e","#a21caf"];
+const W1_RAMP=["#173a8c","#2754c5","#4a72d8","#7b98e4","#a9bcef","#d5e0f8"];
+const W1_STATUS={added:{c:"#207357",label:"Added"},removed:{c:"#a33838",label:"Removed"},replaced:{c:"#875d00",label:"Replaced"},unchanged:{c:"#66738b",label:"Unchanged"}};
+function w1(){return window.WRITING1_DATA}
+function w1Meta(f){return w1()?.familyMeta?.[f]}
+function w1Module(f){return (w1()?.modules||[]).find(m=>m.subskill===f)}
+function w1Visual(id){return (w1()?.visuals||[]).find(v=>v.id===id)}
+function w1Exercise(id){return (w1()?.exercises||[]).find(e=>e.id===id)}
+function w1Prompt(id){return (w1()?.prompts||[]).find(p=>p.id===id)}
+function w1FamilyExercises(f){return (w1()?.exercises||[]).filter(e=>e.questionFamily===f)}
+function w1FamilyPrompts(f){return (w1()?.prompts||[]).filter(p=>p.questionFamily===f)}
+function w1LatestResult(id){return [...(state.writing1.results||[])].reverse().find(r=>r.exerciseId===id)}
+function w1LatestSubmission(id){return [...(state.writing1.submissions||[])].reverse().find(s=>s.promptId===id)}
+function w1Words(t){return String(t||"").trim().split(/\s+/).filter(Boolean).length}
+function w1Colour(i){return W1_SERIES[i%W1_SERIES.length]}
+function w1Num(v){return Number.isInteger(v)?String(v):String(v)}
+function w1NiceMax(v){
+ if(!(v>0))return 1;
+ const mag=Math.pow(10,Math.floor(Math.log10(v)));const n=v/mag;
+ let step;if(n<=1)step=1;else if(n<=1.5)step=1.5;else if(n<=2)step=2;else if(n<=2.5)step=2.5;else if(n<=5)step=5;else step=10;
+ return step*mag;
+}
+
+/* --- visual renderers: every family draws from its own data --- */
+function w1LineSvg(cats,series,axisLabel){
+ const X0=36,X1=272,Y0=28,Y1=170,max=w1NiceMax(Math.max(...series.flatMap(s=>s.values))*1.08);
+ const x=i=>cats.length<2?X0:X0+i*(X1-X0)/(cats.length-1), y=v=>Y1-(v/max)*(Y1-Y0);
+ const ticks=[0,.25,.5,.75,1].map(t=>t*max);
+ const grid=ticks.map(t=>`<line x1="${X0}" y1="${y(t).toFixed(1)}" x2="${X1}" y2="${y(t).toFixed(1)}"/>`).join("");
+ const yLab=ticks.map(t=>`<text x="${X0-6}" y="${(y(t)+3.5).toFixed(1)}">${w1Num(Math.round(t*10)/10)}</text>`).join("");
+ const step=Math.ceil(cats.length/5);
+ const xLab=cats.map((c,i)=>i%step===0||i===cats.length-1?`<text x="${x(i).toFixed(1)}" y="${Y1+18}">${escapeHTML(c)}</text>`:"").join("");
+ const lines=series.map((s,si)=>`<polyline points="${s.values.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}" fill="none" stroke="${w1Colour(si)}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`).join("");
+ const dots=series.map((s,si)=>s.values.map((v,i)=>`<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="4" fill="${w1Colour(si)}"/>`).join("")).join("");
+ const ends=series.map((s,si)=>({si,v:s.values.at(-1)})).sort((a,b)=>a.v-b.v)
+   .map((e,idx,arr)=>{let ly=y(e.v);const prev=arr[idx-1];if(prev&&Math.abs(ly-prev._ly)<13)ly=prev._ly-13;e._ly=ly;
+     return `<text x="${X1+8}" y="${(ly+4).toFixed(1)}" fill="${w1Colour(e.si)}" font-size="12" font-weight="700">${w1Num(e.v)}</text>`}).join("");
+ return `<svg viewBox="0 0 320 196" width="100%" role="img" aria-label="${escapeHTML(axisLabel||"Line graph")}">
+ <g stroke="var(--line)" stroke-width="1">${grid}</g>
+ <g fill="var(--muted)" font-size="11" text-anchor="end">${yLab}</g>
+ <g fill="var(--muted)" font-size="11" text-anchor="middle">${xLab}</g>
+ <text x="2" y="12" fill="var(--muted)" font-size="11">${escapeHTML(axisLabel||"")}</text>
+ ${lines}<g stroke="#fff" stroke-width="2">${dots}</g>${ends}</svg>`;
+}
+function w1BarSvg(cats,series,axisLabel){
+ const X0=38,X1=304,Y0=28,Y1=170,max=w1NiceMax(Math.max(...series.flatMap(s=>s.values))*1.08);
+ const y=v=>Y1-(v/max)*(Y1-Y0), gw=(X1-X0)/cats.length, bw=Math.max(6,Math.min(22,(gw-10)/series.length-2));
+ const ticks=[0,.25,.5,.75,1].map(t=>t*max);
+ const grid=ticks.map(t=>`<line x1="${X0}" y1="${y(t).toFixed(1)}" x2="${X1}" y2="${y(t).toFixed(1)}"/>`).join("");
+ const yLab=ticks.map(t=>`<text x="${X0-6}" y="${(y(t)+3.5).toFixed(1)}">${w1Num(Math.round(t*10)/10)}</text>`).join("");
+ let bars="";
+ cats.forEach((c,ci)=>{const inner=series.length*bw+(series.length-1)*2, sx=X0+ci*gw+(gw-inner)/2;
+  series.forEach((s,si)=>{const v=s.values[ci],bx=sx+si*(bw+2),by=y(v),r=Math.min(4,bw/2);
+   bars+=`<path d="M${bx.toFixed(1)} ${Y1} L${bx.toFixed(1)} ${(by+r).toFixed(1)} Q${bx.toFixed(1)} ${by.toFixed(1)} ${(bx+r).toFixed(1)} ${by.toFixed(1)} L${(bx+bw-r).toFixed(1)} ${by.toFixed(1)} Q${(bx+bw).toFixed(1)} ${by.toFixed(1)} ${(bx+bw).toFixed(1)} ${(by+r).toFixed(1)} L${(bx+bw).toFixed(1)} ${Y1} Z" fill="${w1Colour(si)}"/>`})});
+ const xLab=cats.map((c,ci)=>`<text x="${(X0+ci*gw+gw/2).toFixed(1)}" y="${Y1+18}">${escapeHTML(c)}</text>`).join("");
+ return `<svg viewBox="0 0 320 196" width="100%" role="img" aria-label="${escapeHTML(axisLabel||"Bar chart")}">
+ <g stroke="var(--line)" stroke-width="1">${grid}</g>
+ <g fill="var(--muted)" font-size="11" text-anchor="end">${yLab}</g>
+ <text x="2" y="12" fill="var(--muted)" font-size="11">${escapeHTML(axisLabel||"")}</text>
+ ${bars}<g fill="var(--muted)" font-size="11" text-anchor="middle">${xLab}</g></svg>`;
+}
+function w1PieSvg(snapshots){
+ const r=38,sw=24,C=2*Math.PI*r,two=snapshots.length>1,w=two?320:180;
+ const donut=(snap,cx)=>{let off=0;
+  const arcs=snap.slices.map((sl,i)=>{const len=sl.value/100*C,seg=`<circle cx="${cx}" cy="72" r="${r}" fill="none" stroke="${W1_RAMP[i%W1_RAMP.length]}" stroke-width="${sw}" stroke-dasharray="${Math.max(0,len-2).toFixed(2)} ${C.toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}"/>`;off+=len;return seg}).join("");
+  return `<g transform="rotate(-90 ${cx} 72)">${arcs}</g><text x="${cx}" y="76" text-anchor="middle" font-size="14" font-weight="850" fill="var(--ink)">${escapeHTML(snap.label)}</text>`};
+ const cxs=two?[82,238]:[90];
+ return `<svg viewBox="0 0 ${w} 148" width="100%" role="img" aria-label="Proportional breakdown">${snapshots.map((s,i)=>donut(s,cxs[i])).join("")}</svg>`;
+}
+function w1PieTable(snapshots){
+ const labels=snapshots[0].slices.map(s=>s.label);
+ const val=(snap,l)=>{const s=snap.slices.find(x=>x.label===l);return s?s.value+"%":"—"};
+ const delta=l=>{if(snapshots.length<2)return"";const a=snapshots[0].slices.find(x=>x.label===l),b=snapshots[1].slices.find(x=>x.label===l);
+  if(!a||!b)return"<td>—</td>";const d=Math.round((b.value-a.value)*10)/10;
+  return `<td style="color:${d>0?"var(--good)":d<0?"var(--danger)":"var(--muted)"}">${d>0?"+":""}${d} pts</td>`};
+ return `<div class="table-wrap w1-narrow-table"><table><thead><tr><th>Category</th>${snapshots.map(s=>`<th>${escapeHTML(s.label)}</th>`).join("")}${snapshots.length>1?"<th>Change</th>":""}</tr></thead><tbody>
+ ${labels.map((l,i)=>`<tr><td><span class="w1-sw" style="background:${W1_RAMP[i%W1_RAMP.length]}"></span>${escapeHTML(l)}</td>${snapshots.map(s=>`<td>${val(s,l)}</td>`).join("")}${snapshots.length>1?delta(l):""}</tr>`).join("")}
+ </tbody></table></div>`;
+}
+function w1TableHtml(v){
+ return `<div class="table-wrap"><table><thead><tr><th>${escapeHTML(v.rowHeader||"")}</th>${v.columns.map(c=>`<th>${escapeHTML(c)}</th>`).join("")}</tr></thead><tbody>
+ ${v.rows.map(r=>`<tr><td><strong>${escapeHTML(r.label)}</strong></td>${r.cells.map(c=>`<td>${w1Num(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+function w1ProcessHtml(v){
+ return `<div class="w1-flowhead"><span class="badge${v.cyclical?" warn":""}">${v.cyclical?"Closed loop":"Linear"}</span><span>${v.stages.length} stages · in: ${escapeHTML(v.input)} · out: ${escapeHTML(v.output)}</span></div>
+ <ol class="w1-stages">${v.stages.map(s=>`<li class="w1-stage"><span class="w1-stage-n" aria-hidden="true">${s.n}</span><div><strong>${escapeHTML(s.label)}</strong><div class="small muted">${escapeHTML(s.detail)}</div></div></li>`).join("")}</ol>
+ ${v.cyclical?`<p class="w1-loop">Stage ${v.stages.length} returns to stage 1 — the loop closes.</p>`:""}`;
+}
+function w1MapHtml(v){
+ const order=["added","removed","replaced","unchanged"];
+ return `<p class="small muted">${escapeHTML(v.periods.join(" → "))}</p>
+ <div class="w1-legend">${order.map(k=>`<span class="w1-lg"><span class="w1-sw" style="background:${W1_STATUS[k].c}"></span>${W1_STATUS[k].label}</span>`).join("")}</div>
+ <div class="w1-features">${v.features.map(f=>`<div class="w1-feature" style="border-left-color:${W1_STATUS[f.status].c}">
+  <div class="row"><strong>${escapeHTML(f.label)}</strong><span class="badge" style="background:#fff;border:1px solid ${W1_STATUS[f.status].c};color:${W1_STATUS[f.status].c}">${W1_STATUS[f.status].label}</span></div>
+  <div class="small muted">${escapeHTML(f.area)} — ${escapeHTML(f.note)}</div></div>`).join("")}</div>`;
+}
+function w1Legend(series){
+ return `<div class="w1-legend">${series.map((s,i)=>`<span class="w1-lg"><span class="w1-sw" style="background:${w1Colour(i)}"></span>${escapeHTML(s.name)}</span>`).join("")}</div>`;
+}
+function w1SeriesTable(cats,series){
+ return `<div class="table-wrap w1-narrow-table"><table><thead><tr><th></th>${cats.map(c=>`<th>${escapeHTML(c)}</th>`).join("")}</tr></thead><tbody>
+ ${series.map((s,i)=>`<tr><td><span class="w1-sw" style="background:${w1Colour(i)}"></span>${escapeHTML(s.name)}</td>${s.values.map(v=>`<td>${w1Num(v)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+function w1RenderComponent(c){
+ if(c.kind==="line")return `<div class="w1-chart">${w1LineSvg(c.categories,c.series,c.axisLabel||c.unit)}</div>`+w1Legend(c.series)+w1SeriesTable(c.categories,c.series);
+ if(c.kind==="bar")return `<div class="w1-chart">${w1BarSvg(c.categories,c.series,c.axisLabel||c.unit)}</div>`+w1Legend(c.series)+w1SeriesTable(c.categories,c.series);
+ if(c.kind==="pie")return `<div class="w1-chart">${w1PieSvg(c.snapshots)}</div>`+w1PieTable(c.snapshots);
+ if(c.kind==="table")return w1TableHtml(c);
+ if(c.kind==="process")return w1ProcessHtml(c);
+ if(c.kind==="map")return w1MapHtml(c);
+ return "";
+}
+function w1VisualPanel(v,opts={}){
+ const body=v.kind==="mixed"
+  ?v.components.map((c,i)=>`<div class="w1-subvisual"><div class="w1-subtitle">Chart ${i+1} · ${escapeHTML(c.title||"")}</div>${w1RenderComponent(c)}</div>`).join("")
+  :w1RenderComponent(v);
+ return `<section class="w1-visual" aria-label="Task visual">
+ ${opts.hideRubric?"":`<p class="w1-rubric">${escapeHTML(v.taskStatement)}</p>`}
+ ${body}
+ <details class="w1-alt"><summary>Describe this visual in words</summary><p>${escapeHTML(v.altText)}</p></details>
+ <p class="w1-src">${escapeHTML(v.sourceNote)} · ${escapeHTML(v.unit)}</p></section>`;
+}
+
+/* --- mastery, per DECISIONS.md D-015 --- */
+function w1UpdateMastery(family){
+ const mod=w1Module(family);if(!mod)return;
+ const exs=w1FamilyExercises(family),latest={};
+ (state.writing1.results||[]).filter(r=>r.family===family).forEach(r=>latest[r.exerciseId]=r);
+ const vals=Object.values(latest);
+ const rate=mode=>{const set=vals.filter(r=>r.mode===mode);return set.length?set.filter(r=>r.correct).length/set.length:null};
+ const subs=(state.writing1.submissions||[]).filter(s=>s.family===family);
+ const timedSub=subs.some(s=>s.withinLimit&&s.checklistDone>=s.checklistTotal);
+ let level=state.mastery[mod.id]??0;
+ const guided=rate("guided");if(guided!==null&&guided>=.5&&vals.filter(r=>r.mode==="guided").length>=exs.filter(e=>e.mode==="guided").length)level=Math.max(level,2);
+ const indep=rate("independent");if(indep!==null&&indep>=.75&&vals.filter(r=>r.mode==="independent").length>=exs.filter(e=>e.mode==="independent").length)level=Math.max(level,3);
+ const timed=rate("timed");if(timed!==null&&timed>=.75&&timedSub)level=Math.max(level,4);
+ const dates=new Set(vals.map(r=>r.date)),masteryEx=vals.find(r=>r.mode==="mastery"&&r.correct);
+ const overall=vals.length?vals.filter(r=>r.correct).length/vals.length:0;
+ if(vals.length>=3&&dates.size>=2&&masteryEx&&overall>=.85&&subs.some(s=>s.withinLimit))level=5;
+ state.mastery[mod.id]=level;
+}
+function w1FamilyProgress(family){
+ const exs=w1FamilyExercises(family),done=exs.filter(e=>w1LatestResult(e.id)).length;
+ const correct=exs.filter(e=>w1LatestResult(e.id)?.correct).length;
+ const prompts=w1FamilyPrompts(family),subs=prompts.filter(p=>w1LatestSubmission(p.id)).length;
+ return {total:exs.length,done,correct,prompts:prompts.length,subs};
+}
+
+/* --- answer checking --- */
+function w1Check(ex,given){
+ if(ex.type==="select")return given===ex.correctAnswer;
+ if(ex.type==="cloze")return (ex.acceptableAnswers||[]).some(a=>normalizeAnswer(a)===normalizeAnswer(given));
+ if(ex.type==="order")return Array.isArray(given)&&given.length===ex.correctAnswer.length&&given.every((x,i)=>x===ex.correctAnswer[i]);
+ return false;
+}
+function w1SetAnswer(id,val){state.writing1.answers=state.writing1.answers||{};state.writing1.answers[id]=val;saveState()}
+function w1Order(ex){
+ const saved=state.writing1.answers?.[ex.id];
+ if(Array.isArray(saved)&&saved.length===ex.items.length)return saved;
+ return ex.items.map(i=>i.id);
+}
+function w1MoveOrder(id,idx,dir){
+ const ex=w1Exercise(id),cur=w1Order(ex).slice(),to=idx+dir;
+ if(to<0||to>=cur.length)return;
+ [cur[idx],cur[to]]=[cur[to],cur[idx]];w1SetAnswer(id,cur);render();
+}
+function w1SubmitExercise(id){
+ const ex=w1Exercise(id);if(!ex)return;
+ const given=ex.type==="order"?w1Order(ex):(state.writing1.answers?.[id]??"");
+ if(ex.type!=="order"&&!String(given).trim())return toast("Choose or type an answer first");
+ const correct=w1Check(ex,given);
+ const t=state.writing1.exerciseTimer,timed=["timed","mastery"].includes(ex.mode);
+ const elapsed=timed&&t?.exerciseId===id?Math.floor((Date.now()-t.startAt)/1000):null;
+ const withinLimit=timed?(elapsed!==null&&elapsed<=ex.estimatedMinutes*60):true;
+ const result={id:uid("W1RES"),date:new Date().toISOString().slice(0,10),createdAt:new Date().toISOString(),
+  exerciseId:id,moduleId:w1Module(ex.questionFamily)?.id||"",family:ex.questionFamily,microType:ex.microType,
+  mode:ex.mode,correct,timed,elapsedSeconds:elapsed,withinLimit,answer:given};
+ state.writing1.results.push(result);
+ state.practiceResults.push({id:result.id,date:result.date,skill:"Writing Task 1",module:result.moduleId,
+  score:correct?1:0,total:1,accuracy:correct?1:0,timed,withinLimit});
+ if(!correct){
+  const cat=(w1()?.errorTaxonomy||[]).find(c=>c.id===ex.errorCategory);
+  const prior=state.errors.some(e=>e.skill==="Writing Task 1"&&e.category===(cat?.en||ex.errorCategory)&&!e.resolved);
+  state.errors.unshift({id:uid("ERR"),date:result.date,skill:"Writing Task 1",module:result.moduleId,questionId:id,
+   learnerAnswer:Array.isArray(given)?given.join(" → "):String(given),
+   correctAnswer:Array.isArray(ex.correctAnswer)?ex.correctAnswer.join(" → "):String(ex.correctAnswer),
+   category:cat?.en||ex.errorCategory,explanation:ex.explanation,correction:cat?.correction||"",
+   repeated:prior,reviewDate:new Date(Date.now()+3*86400000).toISOString().slice(0,10),resolved:false});
+  if(!state.reviews.some(r=>r.questionId===id))state.reviews.push({id:uid("REV"),type:"Writing Task 1",
+   title:`Review: ${w1Meta(ex.questionFamily)?.title||ex.questionFamily} — ${ex.microTypeLabel}`,
+   priority:prior?5:4,module:result.moduleId,questionId:id,
+   dueDate:new Date(Date.now()+3*86400000).toISOString().slice(0,10)});
+ }
+ w1UpdateMastery(ex.questionFamily);
+ state.studyHistory.unshift({date:result.date,minutes:ex.estimatedMinutes,skill:"Writing Task 1",module:result.moduleId,accuracy:correct?1:0});
+ state.writing1.exerciseTimer=null;saveState();render();toast(correct?"Correct":"Review the feedback below");
+}
+
+/* --- writing drafts and timing --- */
+function w1Draft(pid){return (state.writing1.drafts||{})[pid]||{plan:"",text:"",updatedAt:null}}
+function w1SaveDraft(pid,patch){
+ state.writing1.drafts=state.writing1.drafts||{};
+ state.writing1.drafts[pid]={...w1Draft(pid),...patch,updatedAt:new Date().toISOString()};saveState();
+}
+function w1StartPromptTimer(pid){
+ const p=w1Prompt(pid);if(!p)return;
+ state.writing1.timer={promptId:pid,startAt:Date.now(),limitSeconds:p.estimatedMinutes*60};saveState();
+ clearInterval(w1TimerHandle);w1TimerHandle=setInterval(()=>w1DrawTimer(pid),250);w1DrawTimer(pid);toast("Timed draft started")
+}
+function w1DrawTimer(pid){
+ const el=document.querySelector("#w1Timer");if(!el)return;
+ const p=w1Prompt(pid),t=state.writing1.timer;
+ if(!t||t.promptId!==pid){el.textContent=String(p.estimatedMinutes).padStart(2,"0")+":00";return}
+ const elapsed=Math.floor((Date.now()-t.startAt)/1000),remain=Math.max(0,t.limitSeconds-elapsed);
+ el.textContent=String(Math.floor(remain/60)).padStart(2,"0")+":"+String(remain%60).padStart(2,"0");
+ el.classList.toggle("over",remain===0);
+ const bar=document.querySelector("#w1TimerBar");if(bar)bar.style.width=Math.min(100,elapsed/t.limitSeconds*100)+"%";
+ if(remain===0)clearInterval(w1TimerHandle);
+}
+function w1DrawExerciseTimer(id){
+ const el=document.querySelector("#w1ExTimer");if(!el)return;
+ const ex=w1Exercise(id),t=state.writing1.exerciseTimer;
+ if(!t||t.exerciseId!==id){el.textContent=String(ex.estimatedMinutes).padStart(2,"0")+":00";return}
+ const elapsed=Math.floor((Date.now()-t.startAt)/1000),remain=Math.max(0,ex.estimatedMinutes*60-elapsed);
+ el.textContent=String(Math.floor(remain/60)).padStart(2,"0")+":"+String(remain%60).padStart(2,"0");
+}
+function w1ToggleCheck(pid,cid){
+ state.writing1.checklists=state.writing1.checklists||{};
+ const cur=state.writing1.checklists[pid]||{};cur[cid]=!cur[cid];
+ state.writing1.checklists[pid]=cur;saveState();render();
+}
+function w1SubmitPrompt(pid){
+ const p=w1Prompt(pid),d=w1Draft(pid),words=w1Words(d.text);
+ if(words<20)return toast("Write a response before submitting");
+ const t=state.writing1.timer,elapsed=t?.promptId===pid?Math.floor((Date.now()-t.startAt)/1000):null;
+ const ticks=state.writing1.checklists?.[pid]||{},done=p.checklist.filter(c=>ticks[c.id]).length;
+ const sub={id:uid("W1SUB"),date:new Date().toISOString().slice(0,10),createdAt:new Date().toISOString(),
+  promptId:pid,moduleId:w1Module(p.questionFamily)?.id||"",family:p.questionFamily,mode:p.mode,
+  words,elapsedSeconds:elapsed,withinLimit:elapsed!==null&&elapsed<=p.estimatedMinutes*60,
+  checklistDone:done,checklistTotal:p.checklist.length,timed:elapsed!==null};
+ state.writing1.submissions.push(sub);
+ state.savedResponses.push({id:"W1-"+pid+"-"+sub.id,type:"writing",promptId:pid,text:d.text,plan:d.plan,updatedAt:sub.createdAt});
+ p.checklist.filter(c=>!ticks[c.id]).slice(0,3).forEach(c=>{
+  if(!state.reviews.some(r=>r.questionId===pid+":"+c.id))state.reviews.push({id:uid("REV"),type:"Writing Task 1",
+   title:`Self-review gap: ${c.text}`,priority:3,module:sub.moduleId,questionId:pid+":"+c.id,
+   dueDate:new Date(Date.now()+2*86400000).toISOString().slice(0,10)})});
+ if(elapsed!==null&&elapsed>p.estimatedMinutes*60){
+  const cat=(w1()?.errorTaxonomy||[]).find(c=>c.id==="timing_failure");
+  state.errors.unshift({id:uid("ERR"),date:sub.date,skill:"Writing Task 1",module:sub.moduleId,questionId:pid,
+   learnerAnswer:`${Math.round(elapsed/60)} minutes`,correctAnswer:`${p.estimatedMinutes} minutes`,
+   category:cat?.en||"Timing failure",explanation:cat?.description||"",correction:cat?.correction||"",
+   repeated:false,reviewDate:new Date(Date.now()+3*86400000).toISOString().slice(0,10),resolved:false});
+ }
+ w1UpdateMastery(p.questionFamily);
+ state.studyHistory.unshift({date:sub.date,minutes:p.estimatedMinutes,skill:"Writing Task 1",module:sub.moduleId});
+ state.writing1.timer=null;saveState();render();toast(`Response recorded — ${words} words`);
+}
+
+/* --- views --- */
+function renderWriting1(){
+ const d=w1();
+ if(!d)return genericLab("Writing Task 1","Writing Task 1 curriculum data failed to load.","Дані Writing Task 1 не завантажилися.");
+ if(state.writing1.activePromptId)return renderW1Prompt(state.writing1.activePromptId);
+ if(state.writing1.activeExerciseId)return renderW1Exercise(state.writing1.activeExerciseId);
+ if(state.writing1.activeFamily)return renderW1Family(state.writing1.activeFamily);
+ const doneEx=(d.exercises||[]).filter(e=>w1LatestResult(e.id)).length;
+ const doneP=(d.prompts||[]).filter(p=>w1LatestSubmission(p.id)).length;
+ return pageHero("WRITING TASK 1","Report the data, not every number","Seven visual families, each trained from key-feature selection through to a full timed response.","Task 1 — це звіт, а не есе. Двадцять хвилин, щонайменше 150 слів, жодних причин, оцінок і порад.")+
+ `<div class="grid">
+ ${card("G4 curriculum inventory",`<div class="kpi-grid">
+  <div class="kpi"><span class="muted">Visual families</span><strong>${d.meta.familyCount}</strong></div>
+  <div class="kpi"><span class="muted">Micro-exercises</span><strong>${d.meta.microExerciseCount}</strong></div>
+  <div class="kpi"><span class="muted">Full prompts</span><strong>${d.meta.promptCount}</strong></div>
+  <div class="kpi"><span class="muted">Completed</span><strong>${doneEx}+${doneP}</strong></div></div>
+  <p class="small muted">${escapeHTML(d.meta.scoringNote)}</p>`)}
+ ${card("Foundation",`<div class="module-list">${d.modules.filter(m=>m.kind==="foundation").map(m=>`<div class="module-item"><div class="mastery-dot">${state.mastery[m.id]??0}</div><div><strong>${escapeHTML(m.title)}</strong><div class="small muted">${escapeHTML(m.objectives[0])}</div><details><summary>Learn the strategy</summary><ol>${m.lesson.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ol>${m.workedExamples?.[0]?`<div class="strategy-block"><span class="badge">Worked example</span><p><strong>${escapeHTML(m.workedExamples[0].title)}</strong></p><p>${escapeHTML(m.workedExamples[0].analysis)}</p></div>`:""}${ua("",escapeHTML(m.uaSupport))}</details></div><button class="btn secondary" data-w1-foundation="${m.id}">Mark introduced</button></div>`).join("")}</div>`)}
+ ${card("Visual families",`<div class="family-grid">${d.familyOrder.map(f=>{const meta=d.familyMeta[f],mod=w1Module(f),pg=w1FamilyProgress(f);
+  return `<button class="family-card" data-w1-family="${f}"><span class="badge">L${state.mastery[mod.id]??0}</span><strong>${escapeHTML(meta.title)}</strong><span>${escapeHTML(meta.skill)}</span><div class="progress" aria-label="${escapeHTML(meta.title)} progress"><span style="width:${Math.round(pg.done/pg.total*100)}%"></span></div><small>${pg.done}/${pg.total} exercises • ${pg.subs}/${pg.prompts} prompts</small></button>`}).join("")}</div>`)}
+ ${card("Mastery rule",`<p>${d.masteryRules.levels.map(l=>`<strong>L${l.level} ${l.name}:</strong> ${escapeHTML(l.rule)}`).join(" ")}</p><p class="small muted">${escapeHTML(d.masteryRules.note)}</p>`)}
+ </div>`;
+}
+function renderW1Family(f){
+ const meta=w1Meta(f),mod=w1Module(f),exs=w1FamilyExercises(f),prompts=w1FamilyPrompts(f);
+ const modeGroup=m=>exs.filter(e=>e.mode===m);
+ const exRow=e=>{const r=w1LatestResult(e.id);
+  return `<div class="session-item"><div><span class="badge${e.mode==="mastery"?" warn":""}">${escapeHTML(e.microTypeLabel)}</span><strong>${escapeHTML(e.skillFocus)}</strong><div class="small muted">${e.estimatedMinutes} min · ${escapeHTML(e.modeLabel)}</div>${r?`<div class="small"><span class="badge ${r.correct?"good":"warn"}">${r.correct?"Correct":"Review"}</span></div>`:""}</div><button class="btn${r?" secondary":""}" data-w1-exercise="${e.id}">${r?"Retry":"Start"}</button></div>`};
+ return pageHero("WRITING TASK 1 MODULE",meta.title,meta.skill,meta.uaTransferNote)+`<div class="grid">
+ ${card("Learn → See → Think → Challenge",`<div class="stack">
+  <div class="lesson-objective"><strong>What this family tests</strong><p>${escapeHTML(meta.whatItTests)}</p></div>
+  <div class="strategy-block"><span class="badge">How IELTS builds it</span><p>${escapeHTML(meta.howIeltsConstructs)}</p></div>
+  <div class="strategy-block"><span class="badge">Learn</span><ol>${mod.strategySteps.map(s=>`<li>${escapeHTML(s)}</li>`).join("")}</ol></div>
+  <div class="strategy-block"><span class="badge">See · worked example</span><p class="small muted">${escapeHTML(mod.workedExamples[0].taskStatement)}</p><p><em>${escapeHTML(mod.workedExamples[0].modelSentence)}</em></p><p class="small">${escapeHTML(mod.workedExamples[0].analysis)}</p></div>
+  <div class="trap"><strong>Common trap</strong><p>${escapeHTML(meta.trap)}</p></div>
+  <div class="strategy-block"><span class="badge">Tense</span><p>${escapeHTML(meta.tenseRule)}</p></div>
+  ${ua("",escapeHTML(mod.uaSupport))}
+  <div class="row"><button class="btn ghost" data-w1-home>← All families</button><button class="btn secondary" data-w1-foundation="${mod.id}">Mark lesson introduced</button></div></div>`,"half")}
+ ${card("What goes wrong here",`<div class="stack">${meta.commonErrors.map(c=>{const cat=(w1().errorTaxonomy||[]).find(x=>x.id===c.errorId);
+  return `<div class="session-item" style="display:block"><span class="badge warn">${escapeHTML(cat?.en||c.errorId)}</span><p class="small"><strong>Symptom:</strong> ${escapeHTML(c.symptom)}</p><p class="small muted"><strong>Repair:</strong> ${escapeHTML(c.repair)}</p></div>`}).join("")}</div>`,"half")}
+ ${card("Language bank",`<div class="stack">${Object.entries(mod.languageBank).map(([k,v])=>`<div class="strategy-block"><div class="w1-subtitle">${escapeHTML(k)}</div><div class="row" style="margin-top:8px">${v.map(x=>`<span class="badge">${escapeHTML(x)}</span>`).join("")}</div></div>`).join("")}${ua("",escapeHTML(meta.uaTransferNote))}</div>`,"half")}
+ ${card("Practice progression",`<div class="stack">
+  ${["guided","independent","timed","mastery"].map(m=>modeGroup(m).length?`<div class="w1-subtitle">${escapeHTML(w1().modeLabels[m])} · ${modeGroup(m).length}</div>`+modeGroup(m).map(exRow).join(""):"").join("")}
+  <div class="w1-subtitle">Full timed prompts · ${prompts.length}</div>
+  ${prompts.map(p=>{const s=w1LatestSubmission(p.id);
+   return `<div class="session-item" style="border-color:var(--yellow)"><div><span class="badge warn">${escapeHTML(p.modeLabel)}</span><strong>${escapeHTML(w1Visual(p.visualId).title)}</strong><div class="small muted">${p.estimatedMinutes} min · ≥${p.wordMinimum} words</div>${s?`<div class="small"><strong>${s.words} words</strong> · ${s.withinLimit?"within time":"over time"} · checklist ${s.checklistDone}/${s.checklistTotal}</div>`:""}</div><button class="btn" data-w1-prompt="${p.id}">${s?"Reopen":"Open"}</button></div>`}).join("")}
+  </div>`,"half")}
+ ${card("Mastery",`<div class="row"><span class="badge">L${state.mastery[mod.id]??0} · ${escapeHTML(APP_DATA.masteryLevels[state.mastery[mod.id]??0].en)}</span><div class="progress" style="flex:1" aria-label="Mastery"><span style="width:${(state.mastery[mod.id]??0)/5*100}%"></span></div></div>
+  <p style="margin-top:10px">${w1().masteryRules.levels.map(l=>`<strong>L${l.level} ${l.name}:</strong> ${escapeHTML(l.rule)}`).join(" ")}</p>
+  <p class="small muted">${escapeHTML(w1().masteryRules.note)}</p>`)}
+ </div>`;
+}
+function renderW1Exercise(id){
+ const ex=w1Exercise(id),v=w1Visual(ex.visualId),r=w1LatestResult(id),meta=w1Meta(ex.questionFamily);
+ const timed=["timed","mastery"].includes(ex.mode);
+ const given=ex.type==="order"?w1Order(ex):(state.writing1.answers?.[id]??"");
+ let input="";
+ if(ex.type==="select"){
+  input=`<fieldset class="w1-options"><legend class="sr-only">${escapeHTML(ex.prompt)}</legend>${ex.options.map((o,i)=>{
+   const chosen=given===o,isRight=o===ex.correctAnswer,cls=r?(isRight?" correct":(chosen?" wrong":" faded")):"";
+   return `<label class="w1-opt${cls}"><input type="radio" name="w1opt-${id}" value="${escapeHTML(o)}" ${chosen?"checked":""} data-w1-answer="${id}"><span>${escapeHTML(o)}</span></label>`}).join("")}</fieldset>`;
+ }else if(ex.type==="cloze"){
+  const parts=ex.sentence.split("____");
+  input=`<p class="w1-cloze">${escapeHTML(parts[0])}<input type="text" data-w1-answer="${id}" value="${escapeHTML(given)}" aria-label="Missing word" autocomplete="off" spellcheck="false">${escapeHTML(parts[1]||"")}</p>`;
+ }else{
+  input=`<ol class="w1-order">${given.map((iid,i)=>{const it=ex.items.find(x=>x.id===iid);
+   return `<li class="w1-order-item${r?(ex.correctAnswer[i]===iid?" correct":" wrong"):""}"><div class="w1-order-ctl"><button class="btn ghost" data-w1-up="${id}:${i}" ${i===0?"disabled":""} aria-label="Move up">▲</button><button class="btn ghost" data-w1-down="${id}:${i}" ${i===given.length-1?"disabled":""} aria-label="Move down">▼</button></div><p>${escapeHTML(it.text)}</p></li>`}).join("")}</ol>`;
+ }
+ const feedback=r?`<div class="answer-feedback"><span class="badge ${r.correct?"good":"warn"}">${r.correct?"Correct":"Review"}</span>
+  ${ex.type!=="order"?`<p><strong>Correct answer:</strong> ${escapeHTML(Array.isArray(ex.correctAnswer)?ex.correctAnswer.join(" → "):ex.correctAnswer)}</p>`:""}
+  <p>${escapeHTML(ex.explanation)}</p>
+  ${!r.correct&&ex.type==="select"?`<p class="small"><strong>Why your choice fails:</strong> ${escapeHTML(ex.distractorReasoning?.[given]||"This answer is not supported by the visual.")}</p>`:""}
+  ${!r.correct?`<p class="small"><strong>Error category:</strong> ${escapeHTML((w1().errorTaxonomy.find(c=>c.id===ex.errorCategory)||{}).en||ex.errorCategory)}</p>`:""}
+  ${ua("",escapeHTML(ex.uaSupport))}</div>`:ua("",escapeHTML(ex.uaSupport));
+ return pageHero(ex.modeLabel,ex.microTypeLabel,`${meta.title} · ${escapeHTML(ex.skillFocus)}`,ex.uaSupport)+`<div class="grid w1-workspace">
+ ${card("Task visual",`<div class="row"><button class="btn ghost" data-w1-back-family="${ex.questionFamily}">← Module</button><span class="badge">Original training data</span></div>${w1VisualPanel(v)}`,"half")}
+ ${card("Exercise",`<form id="w1Form" class="stack">
+  ${timed?`<div class="reading-timer-panel"><div id="w1ExTimer" class="timer">${String(ex.estimatedMinutes).padStart(2,"0")}:00</div><button type="button" class="btn secondary" data-w1-ex-timer="${id}">Start timed attempt</button></div>`:""}
+  <div class="question-card ${r?(r.correct?"q-correct":"q-wrong"):""}"><p><strong>${escapeHTML(ex.prompt)}</strong></p>${input}${feedback}</div>
+  <button type="button" class="btn" data-w1-submit="${id}">${r?"Try again":"Check answer"}</button>
+  <div class="row"><button type="button" class="btn ghost" data-w1-back-family="${ex.questionFamily}">Back to module</button>${w1NextExercise(id)?`<button type="button" class="btn secondary" data-w1-exercise="${w1NextExercise(id)}">Next exercise →</button>`:""}</div>
+  </form>`,"half")}
+ </div>`;
+}
+function w1NextExercise(id){
+ const ex=w1Exercise(id),list=w1FamilyExercises(ex.questionFamily),i=list.findIndex(e=>e.id===id);
+ return i>=0&&i<list.length-1?list[i+1].id:null;
+}
+function renderW1Prompt(pid){
+ const p=w1Prompt(pid),v=w1Visual(p.visualId),d=w1Draft(pid),s=w1LatestSubmission(pid);
+ const ticks=state.writing1.checklists?.[pid]||{},done=p.checklist.filter(c=>ticks[c.id]).length;
+ const words=w1Words(d.text),running=state.writing1.timer?.promptId===pid;
+ const stage=s?"review":(running||words>0?"draft":"plan");
+ const step=(n,label,active)=>`<div class="w1-step${active?" on":""}"><span class="w1-dot">${n}</span><span>${label}</span></div>`;
+ return pageHero("FULL PROMPT · "+p.modeLabel,v.title,`${p.estimatedMinutes} minutes · at least ${p.wordMinimum} words`,p.uaSupport)+`<div class="grid w1-workspace">
+ ${card("Task",`<div class="row"><button class="btn ghost" data-w1-back-family="${p.questionFamily}">← Module</button></div>
+  <p class="w1-rubric" style="margin-top:12px">${escapeHTML(p.prompt)}</p>${w1VisualPanel(v,{hideRubric:true})}`,"half")}
+ ${card("Your response",`<div class="w1-stepper">${step(1,"Plan",stage==="plan")}${step(2,"Draft",stage==="draft")}${step(3,"Review",stage==="review")}</div>
+  <div class="stack" style="margin-top:12px">
+  <details class="strategy-block" ${stage==="plan"?"open":""}><summary><strong>1 · Plan</strong> — ${p.planning.minutes} min</summary>
+   <ol>${p.planning.steps.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ol>
+   <label class="field">Your plan<textarea id="w1Plan" data-w1-plan="${pid}" placeholder="${escapeHTML(p.planning.placeholder)}">${escapeHTML(d.plan)}</textarea></label></details>
+  <div class="reading-timer-panel"><div id="w1Timer" class="timer">${String(p.estimatedMinutes).padStart(2,"0")}:00</div>
+   <div class="row"><button class="btn secondary" data-w1-start-timer="${pid}">${running?"Restart timer":"Start timed draft"}</button></div></div>
+  <div class="progress" aria-label="Time used"><span id="w1TimerBar" style="width:0%"></span></div>
+  <label class="field">Your response<textarea id="w1Draft" class="w1-draft" data-w1-draft="${pid}" placeholder="Write your report here…">${escapeHTML(d.text)}</textarea></label>
+  <div class="row" style="justify-content:space-between"><span class="small ${words>=p.wordMinimum?"":"muted"}"><span id="w1Words">${words}</span> / ${p.wordMinimum} words</span><span class="small muted" id="w1SaveState">${d.updatedAt?"Saved locally":"Autosaves as you type"}</span></div>
+  <div class="notice">Your draft is kept locally even if you close the page. Timing evidence is only recorded when you submit.</div>
+  <button class="btn" data-w1-submit-prompt="${pid}">Submit response</button>
+  </div>`,"half")}
+ ${card("Self-review checklist",`<p class="small muted">${escapeHTML(p.scoringNote)}</p>
+  <div class="stack" style="margin-top:10px">${p.checklist.map(c=>`<label class="w1-chk"><input type="checkbox" ${ticks[c.id]?"checked":""} data-w1-check="${pid}:${c.id}"><span>${escapeHTML(c.text)} <span class="muted">· ${escapeHTML(c.criterion)}</span></span></label>`).join("")}</div>
+  <p class="small" style="margin-top:10px"><strong>${done}/${p.checklist.length}</strong> ticked</p>`,"half")}
+ ${card("Model response",`<details class="strategy-block"><summary><strong>Compare with the annotated model</strong></summary>
+  <div class="w1-model">${p.modelResponse.map((par,i)=>`<p class="${i===1?"w1-overview":""}">${escapeHTML(par)}</p>`).join("")}</div>
+  <div class="stack" style="margin-top:10px">${p.modelNotes.map((n,i)=>`<div class="row"><span class="badge">${i+1}</span><span class="small">${escapeHTML(n)}</span></div>`).join("")}</div>
+  <div class="strategy-block" style="margin-top:10px"><span class="badge">Target features</span><ul>${p.targetFeatures.map(t=>`<li>${escapeHTML(t)}</li>`).join("")}</ul></div>
+  ${ua("",escapeHTML(p.uaSupport))}</details>`,"half")}
+ ${s?card("Recorded",`<div class="kpi-grid">
+  <div class="kpi"><span class="muted">Time used</span><strong>${s.elapsedSeconds!==null?String(Math.floor(s.elapsedSeconds/60)).padStart(2,"0")+":"+String(s.elapsedSeconds%60).padStart(2,"0"):"untimed"}</strong></div>
+  <div class="kpi"><span class="muted">Words</span><strong>${s.words}</strong></div>
+  <div class="kpi"><span class="muted">Checklist</span><strong>${s.checklistDone}/${s.checklistTotal}</strong></div>
+  <div class="kpi"><span class="muted">Mastery</span><strong>${masteryBadge(w1Module(p.questionFamily).id)}</strong></div></div>
+  <div class="notice" style="margin-top:10px">${s.withinLimit?"<strong>Within the "+p.estimatedMinutes+"-minute limit.</strong> Timed evidence recorded.":"<strong>Over the "+p.estimatedMinutes+"-minute limit.</strong> Logged as a timing error."} ${s.checklistDone<s.checklistTotal?"Unticked checklist items were queued for review.":""}</div>`):""}
+ </div>`;
+}
+
 function genericLab(name,desc,uaText){
  return pageHero("CURRICULUM SHELL",name,desc,uaText)+`<div class="grid">${card("Gate status",`<div class="notice"><strong>Not gate-complete.</strong><br>This route exists in the stable platform shell, but its benchmark content is intentionally not marked complete before prerequisite gates pass.</div>`)}${card("Module mastery contract",`<p>Opening content does not increase mastery. Level 2 requires guided evidence; Level 3 unseen independent performance; Level 4 repeated timed performance; Level 5 spaced consistency.</p>`)}</div>`;
 }
@@ -254,6 +645,8 @@ function renderGlobal(q=""){
  let hits=[];
  allModules().forEach(m=>{if(`${m.title} ${m.skill} ${m.subskill||""}`.toLowerCase().includes(q))hits.push({type:"Module",title:m.title,detail:m.skill})});
  (window.READING_DATA?.passages||[]).forEach(p=>{if(`${p.title} ${p.domain} ${p.family}`.toLowerCase().includes(q))hits.push({type:"Reading",title:p.title,detail:`${p.domain} • ${p.modeLabel}`})});
+ (window.WRITING1_DATA?.visuals||[]).forEach(v=>{if(`${v.title} ${v.family} ${v.taskStatement}`.toLowerCase().includes(q))hits.push({type:"Writing Task 1",title:v.title,detail:window.WRITING1_DATA.familyMeta[v.family].title})});
+ (window.WRITING1_DATA?.exercises||[]).forEach(e=>{if(`${e.prompt} ${e.microTypeLabel} ${e.skillFocus}`.toLowerCase().includes(q))hits.push({type:"Writing Task 1",title:e.microTypeLabel,detail:e.skillFocus})});
  (window.VOCABULARY||[]).forEach(v=>{if(`${v.word} ${v.ua}`.toLowerCase().includes(q))hits.push({type:"Vocabulary",title:v.word,detail:v.ua})});
  state.errors.forEach(e=>{if(`${e.category} ${e.explanation}`.toLowerCase().includes(q))hits.push({type:"Error",title:e.category,detail:e.explanation})});
  el.innerHTML=hits.slice(0,50).map(h=>`<div class="search-item"><span class="badge">${h.type}</span><strong>${escapeHTML(h.title)}</strong><div class="small muted">${escapeHTML(h.detail)}</div></div>`).join("")||"<p class='muted'>No results.</p>";
@@ -278,7 +671,7 @@ function routeView(){
  today:renderToday,start:renderStart,skills:renderSkills,practice:renderPractice,words:renderWords,progress:renderProgress,
  reading:renderReading,
  listening:()=>genericLab("Listening Lab","Strategy and error-taxonomy content is assigned to Phase 8.","Listening використовує лише оригінальні, дозволені або офіційно пов'язані матеріали."),
- task1:()=>genericLab("Writing Task 1","Original visual-analysis curriculum is assigned to Phase 4.","Візуали будуть оригінальними, а автоматичні оцінки не називатимуться офіційними IELTS bands."),
+ task1:renderWriting1,
  task2:()=>genericLab("Writing Task 2","Argument and essay curriculum is assigned to Phase 5.","Task 2 має вищу вагу в Writing, тому пізніша адаптивна система врахує це."),
  speaking:()=>genericLab("Speaking Lab","Parts 1–3 curriculum and Together Mode are assigned to Phase 7.","Мета pronunciation: зрозумілість, а не стирання акценту."),
  grammar:()=>genericLab("Grammar Clinic","Ukrainian→English transfer curriculum is assigned to Phase 6.","Українські пояснення використовуються там, де контраст справді допомагає."),
@@ -320,6 +713,24 @@ function bindPage(){
  document.querySelectorAll('[data-reading-submit]').forEach(b=>b.onclick=()=>submitReading(b.dataset.readingSubmit));
  document.querySelectorAll('[data-reading-start-timer]').forEach(b=>b.onclick=()=>readingStartTimer(b.dataset.readingStartTimer));
  if(state.reading.activePassageId)readingDrawTimer(state.reading.activePassageId);
+ document.querySelectorAll('[data-w1-family]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=b.dataset.w1Family;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;saveState();render()});
+ document.querySelectorAll('[data-w1-home]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=null;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;saveState();render()});
+ document.querySelectorAll('[data-w1-back-family]').forEach(b=>b.onclick=()=>{state.writing1.activeFamily=b.dataset.w1BackFamily;state.writing1.activeExerciseId=null;state.writing1.activePromptId=null;saveState();render()});
+ document.querySelectorAll('[data-w1-exercise]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Exercise;state.writing1.activeExerciseId=id;state.writing1.activePromptId=null;state.writing1.activeFamily=w1Exercise(id).questionFamily;state.writing1.exerciseTimer=null;saveState();render()});
+ document.querySelectorAll('[data-w1-prompt]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Prompt;state.writing1.activePromptId=id;state.writing1.activeExerciseId=null;state.writing1.activeFamily=w1Prompt(id).questionFamily;saveState();render()});
+ document.querySelectorAll('[data-w1-foundation]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1Foundation;state.mastery[id]=Math.max(state.mastery[id]??0,1);saveState();toast('Introduced — mastery now requires performance evidence');render()});
+ document.querySelectorAll('[data-w1-answer]').forEach(el=>el.addEventListener(el.type==='radio'?'change':'input',e=>w1SetAnswer(e.target.dataset.w1Answer,e.target.value)));
+ document.querySelectorAll('[data-w1-up]').forEach(b=>b.onclick=()=>{const[id,i]=b.dataset.w1Up.split(':');w1MoveOrder(id,Number(i),-1)});
+ document.querySelectorAll('[data-w1-down]').forEach(b=>b.onclick=()=>{const[id,i]=b.dataset.w1Down.split(':');w1MoveOrder(id,Number(i),1)});
+ document.querySelectorAll('[data-w1-submit]').forEach(b=>b.onclick=()=>w1SubmitExercise(b.dataset.w1Submit));
+ document.querySelectorAll('[data-w1-ex-timer]').forEach(b=>b.onclick=()=>{const id=b.dataset.w1ExTimer;state.writing1.exerciseTimer={exerciseId:id,startAt:Date.now()};saveState();clearInterval(w1ExTimerHandle);w1ExTimerHandle=setInterval(()=>w1DrawExerciseTimer(id),250);w1DrawExerciseTimer(id);toast('Timed attempt started')});
+ document.querySelectorAll('[data-w1-plan]').forEach(t=>t.addEventListener('input',e=>{w1SaveDraft(e.target.dataset.w1Plan,{plan:e.target.value});const s=document.querySelector('#w1SaveState');if(s)s.textContent='Saved locally'}));
+ document.querySelectorAll('[data-w1-draft]').forEach(t=>t.addEventListener('input',e=>{w1SaveDraft(e.target.dataset.w1Draft,{text:e.target.value});const w=document.querySelector('#w1Words');if(w)w.textContent=w1Words(e.target.value);const s=document.querySelector('#w1SaveState');if(s)s.textContent='Saved locally'}));
+ document.querySelectorAll('[data-w1-start-timer]').forEach(b=>b.onclick=()=>w1StartPromptTimer(b.dataset.w1StartTimer));
+ document.querySelectorAll('[data-w1-check]').forEach(c=>c.onchange=()=>{const[pid,cid]=c.dataset.w1Check.split(':');w1ToggleCheck(pid,cid)});
+ document.querySelectorAll('[data-w1-submit-prompt]').forEach(b=>b.onclick=()=>w1SubmitPrompt(b.dataset.w1SubmitPrompt));
+ if(state.writing1.activePromptId){w1DrawTimer(state.writing1.activePromptId);if(state.writing1.timer?.promptId===state.writing1.activePromptId){clearInterval(w1TimerHandle);w1TimerHandle=setInterval(()=>w1DrawTimer(state.writing1.activePromptId),250)}}
+ if(state.writing1.activeExerciseId){w1DrawExerciseTimer(state.writing1.activeExerciseId);if(state.writing1.exerciseTimer?.exerciseId===state.writing1.activeExerciseId){clearInterval(w1ExTimerHandle);w1ExTimerHandle=setInterval(()=>w1DrawExerciseTimer(state.writing1.activeExerciseId),250)}}
  if(document.querySelector("#globalSearch"))document.querySelector("#globalSearch").addEventListener("input",e=>renderGlobal(e.target.value));
  if(document.querySelector("#saveSettings"))document.querySelector("#saveSettings").onclick=()=>{state.settings.targetBand=Number(targetBand.value);state.settings.preferredMinutes=Number(preferredMinutes.value);saveState();toast("Settings saved");render()};
  if(document.querySelector("#exportBtn"))document.querySelector("#exportBtn").onclick=exportData;

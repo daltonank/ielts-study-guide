@@ -118,3 +118,23 @@ Defect D4-001: the four Playwright tests hard-coded `executable_path="/usr/bin/c
 ### Implications
 - A gate claim of "responsive PASS" is only meaningful on a machine where these tests can launch. Record the browser used in the phase report.
 - Node is required only to assemble Claude Design mockups, not to run the app or its tests. The application itself remains dependency-free static HTML/CSS/JS per D-014.
+
+---
+
+## D-019 — The visual panel is the only new G4 component
+
+**Date:** 2026-09-04
+**Status:** Active
+
+### Decision
+G4 extends the design system by exactly one component, `.w1-visual` (documented in `UX_DESIGN_SPEC.md` §8). Every other Writing Task 1 surface reuses the existing component vocabulary: `card`, `badge`, `progress`, `session-item`, `notice`, `ua-note`, `trap`, `question-card`, `answer-feedback`, `timer`, `table-wrap`, `kpi-grid`, `module-item`, `mastery-dot`, `strategy-block`, `lesson-objective`.
+
+The family grid and card selectors G3 introduced as `.reading-family-grid` / `.reading-family-card` were generalised to also match `.family-grid` / `.family-card`, rather than duplicating the rules for Writing.
+
+### Rationale
+`UX_DESIGN_SPEC.md` §20 forbids rewriting the design system mid-curriculum-phase. Chart, diagram and map rendering is genuinely new surface that no existing component covers, and §17–18 impose specific obligations on it (text equivalents, no illegible data labels, contained scrolling instead of clipping). Those obligations are properties of the component, so they belong in one place rather than being re-implemented per family.
+
+### Implications
+- A new visual kind must be added to the panel's renderer, not given its own component.
+- The panel's obligations are enforced by `tests/g4_writing1_accessibility.py` and `tests/g4_writing1_responsive.py`, which check every one of the seven families rather than a sample.
+- G5–G8 should extend `.w1-visual` if they need graphics, or state why they cannot.

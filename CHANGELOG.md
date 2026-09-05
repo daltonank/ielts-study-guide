@@ -2,9 +2,39 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-04 — G4 Writing Task 1: learner-facing UI
+
+**Gate:** G4 Writing Task 1 — **PASS.** See `docs/phase_4_report.md`.
+
+### Added
+- Writing Task 1 academy in `web/app.js`, reached from Skills → Writing Task 1 and the drawer. Family list, family module page, micro-exercise workspace and the plan → timed draft → self-review flow.
+- The `.w1-visual` component (`web/styles.css`, documented in `UX_DESIGN_SPEC.md` §8, recorded as D-019): inline SVG rendering for line, bar and pie charts, real tables, numbered stage lists for processes and status-coded feature lists for maps, each with a legend, a data table and a text equivalent.
+- Three interaction types: single-select with per-option reasoning, cloze with accepted variants, and keyboard-operable paragraph ordering.
+- `tests/g4_writing1_functional.py`, `tests/g4_writing1_responsive.py`, `tests/g4_writing1_accessibility.py`.
+- QA screenshots `docs/qa_w1_*.png`, one per visual family plus mobile, desktop and 320px surfaces.
+- `docs/phase_4_report.md`. `DECISIONS.md` D-019.
+
+### Changed
+- `web/index.html` loads `writing1_data.js`.
+- `renderSkills` links into Reading and Writing Task 1 and caps the module preview at six.
+- Global search covers Writing Task 1 visuals and exercises.
+- `.reading-family-grid` / `.reading-family-card` generalised to also match `.family-grid` / `.family-card` rather than duplicating the rules.
+- The four existing browser tests now inline `writing1_data.js`, so they exercise the real page.
+
+### Fixed
+- **D4-002 (P2)** exercise controls stayed disabled after an attempt, making "Try again" impossible.
+- **D4-003 (P3)** `.field textarea` out-specified `.w1-draft`, leaving the drafting box 73px tall at every width.
+- **D4-004 (P3)** `.question-card label{display:grid}` out-specified `.w1-opt`, stacking each radio above its option text.
+- **D4-005 (P3)** the chart axis caption collided with the top tick label.
+
+### Verified
+All fourteen scripts pass, Edge as the Chromium binary. Responsive and accessibility evidence generated for all seven visual families at 320/375/430/768/1024/1440.
+
+---
+
 ## 2026-09-04 — G4 Writing Task 1: content layer
 
-**Gate:** G4 — **not passed.** Content complete and validated; learner-facing UI not built.
+**Gate:** G4 — content layer complete and validated (the UI followed in the entry above).
 
 ### Added
 - `scripts/build_writing1_curriculum.py` — the G4 generator, following the G3 pipeline shape.

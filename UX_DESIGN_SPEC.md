@@ -170,6 +170,40 @@ Maintain reusable patterns for:
 
 Component behavior should remain consistent across academies.
 
+### Added at G4 — the visual panel
+
+G4 introduced one new component, because chart and diagram rendering is a surface
+Reading never needed. Everything else in Writing Task 1 reuses the existing classes
+above.
+
+**`.w1-visual`** — a labelled `<section>` that presents one Task 1 graphic. It always
+contains, in this order:
+
+1. the task rubric (`.w1-rubric`), unless the surrounding page already shows it;
+2. the graphic itself — inline SVG for charts, a real `<table>` for tables, a numbered
+   stage list for processes, a status-coded feature list for maps and plans;
+3. a legend (`.w1-legend`) whenever two or more series are shown;
+4. a data table, so category identity is never carried by colour alone;
+5. a `<details>` text equivalent (`.w1-alt`) — the accessible substitute required by
+   §17 and §18;
+6. the source and unit note (`.w1-src`).
+
+Rules the component must keep:
+
+- Charts sit in a `.w1-chart` scroll container with a minimum SVG width. A graphic that
+  cannot compress **scrolls inside its own container**; it never shrinks its data labels
+  below roughly 9px, and it never clips (§18).
+- Every SVG carries `role="img"` and an accessible name.
+- Series colour uses a validated categorical palette; status colour (added / removed /
+  replaced / unchanged) always ships with a text label as well.
+- At ≥760px the visual and the exercise sit side by side (`.w1-workspace`) so the learner
+  does not scroll away from the data they are describing; below that they stack, visual
+  first.
+
+Supporting classes added alongside it: `.w1-opt` (answer option), `.w1-cloze` (inline gap),
+`.w1-order` (sequencing control), `.w1-stepper` (plan → draft → review), `.w1-chk`
+(self-review checklist row), `.w1-stages`, `.w1-features`.
+
 ---
 
 ## 9. Learning-State Communication

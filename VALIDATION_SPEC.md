@@ -308,7 +308,13 @@ Requires at minimum:
 - content QA;
 - G0–G3 regression.
 
-Current status: NEXT / not passed.
+Actual result:
+- 7 visual families
+- 70 micro-exercises
+- 21 full timed prompts
+- responsive and accessibility evidence for all seven families at the six required widths
+
+Current status: PASS.
 
 ### G5 — Writing Task 2
 Requires at minimum:

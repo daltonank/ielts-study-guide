@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]/'web'
 html=(ROOT/'index.html').read_text(encoding='utf-8')
 shim="<script>const __ls={};Object.defineProperty(window,'localStorage',{value:{getItem:k=>Object.prototype.hasOwnProperty.call(__ls,k)?__ls[k]:null,setItem:(k,v)=>{__ls[k]=String(v)},removeItem:k=>{delete __ls[k]},clear:()=>{Object.keys(__ls).forEach(k=>delete __ls[k])}}});</script>"
 html=html.replace('<head>','<head>'+shim)
-for name,tag in [('styles.css','style'),('vocabulary.js','script'),('data.js','script'),('reading_data.js','script'),('app.js','script')]:
+for name,tag in [('styles.css','style'),('vocabulary.js','script'),('data.js','script'),('reading_data.js','script'),('writing1_data.js','script'),('app.js','script')]:
     content=(ROOT/name).read_text(encoding='utf-8')
     if name=='styles.css': html=html.replace('<link rel="stylesheet" href="styles.css">',f'<style>{content}</style>')
     else: html=html.replace(f'<script src="{name}"></script>',f'<script>{content}</script>')

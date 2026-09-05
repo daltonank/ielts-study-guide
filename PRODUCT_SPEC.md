@@ -405,6 +405,7 @@ Passed:
 - G1 Foundation & Design System
 - G2 Vocabulary/Legacy Integration
 - G3 Reading Academy
+- G4 Writing Task 1
 
 Current implementation baseline:
 
@@ -414,9 +415,10 @@ Current implementation baseline:
 - `web/data.js`
 - `web/vocabulary.js`
 - `web/reading_data.js`
+- `web/writing1_data.js`
 
 Next product target:
 
-**G4 Writing Task 1**
+**G5 Writing Task 2**
 
 The product remains local HTML during active development.

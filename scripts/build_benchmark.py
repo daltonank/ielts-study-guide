@@ -29,7 +29,7 @@ out={
  "grammar_items":0,"paraphrase_items":0,
  "speaking_part1":0,"speaking_part2":0,"speaking_part3":0,
  "p0_defects":0,"p1_defects":1 if not meta.get("complete",False) else 0,
- "regression_status":"PASS through G3; G4 content layer validated, G4 UI not built",
+ "regression_status":"PASS through G4",
  "accessibility_score":None,"performance_score":None
 }
 (ROOT/"docs/benchmark_dashboard.json").write_text(json.dumps(out,indent=2),encoding="utf-8")
