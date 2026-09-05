@@ -35,3 +35,86 @@ These are not new decisions; they summarize existing approved behavior:
 - G2 vocabulary source count is 1,784 normalized records;
 - original/legal training content is preferred over commercial IELTS reproduction;
 - phase completion requires gate evidence.
+
+---
+
+## D-015 — Writing Task 1 mastery thresholds
+
+**Date:** 2026-09-04
+**Status:** Active
+
+### Decision
+Writing Task 1 mastery uses the six-level global scale with these skill-specific thresholds, recorded in `window.WRITING1_DATA.masteryRules`:
+
+- **L1 Introduced** — the family lesson has been opened and explicitly marked as introduced.
+- **L2 Guided** — at least 50% across the family's four guided micro-exercises.
+- **L3 Independent** — at least 75% across the family's three independent micro-exercises.
+- **L4 Timed** — at least 75% across the timed micro-exercises, *and* at least one full prompt submitted inside its 20-minute limit with the self-review checklist completed.
+- **L5 Mastered** — at least 85% across three or more distinct exercise sets on at least two different dates, including the mastery-mode exercise, plus at least one timed full response.
+
+### Rationale
+`PRODUCT_SPEC.md` §4 sets the Reading precedent (L2 ≥50%, L3 ≥75%, L4 timed + ≥75%, L5 ≥85% across ≥3 sets on ≥2 dates) and explicitly allows other academies to define equivalent skill-specific thresholds. Task 1 differs from Reading in one respect that matters: the terminal skill is *producing* a response, not selecting an answer. L4 and L5 therefore additionally require a produced, timed response, so mastery cannot be reached by selected-answer work alone.
+
+### Implications
+- Opening a lesson never advances mastery beyond L1.
+- The written response is self-assessed against a checklist; no band is computed from it (see D-016 and `PROJECT_CHARTER.md` §4.9).
+- The thresholds are data, not code, so G9's adaptive engine can read them rather than re-deriving them.
+
+---
+
+## D-016 — Writing Task 1 error taxonomy
+
+**Date:** 2026-09-04
+**Status:** Active
+
+### Decision
+Writing Task 1 classifies errors into twelve categories: data misreading, invalid or unsupported comparison, missing or weak overview, list-like description without synthesis, tense misuse, unsupported causal claim, personal opinion in Task 1, imprecise quantity language, poor paragraph organisation, timing failure, article/preposition transfer error, and lexical variation that distorts the data.
+
+Each category carries an English name, a Ukrainian name, a description, a correction and a Ukrainian correction, and every scored item is tagged with exactly one.
+
+### Rationale
+`CLAUDE.md` §15 proposes ten categories. Two were added because they are distinct failure modes with distinct repairs, and because they are the two most productive categories for this specific learner:
+
+- **article_preposition_transfer** — Ukrainian has no articles, and the data prepositions (`rise to` vs `rise by`, `account for`) are fixed. `CURRICULUM_SPEC.md` §6 explicitly requires training "common Ukrainian-speaker grammar and article/preposition issues", which none of the ten proposed categories covers.
+- **lexical_distortion** — `CURRICULUM_SPEC.md` §6 separately requires "lexical variation without data distortion". This is not the same failure as *imprecise quantity language*: one is choosing a synonym that changes the magnitude or the direction, the other is choosing an approximation that misstates the size.
+
+The categories are shaped like the Reading taxonomy so that `recommendation()` and the shared Error Log consume them without special-casing.
+
+### Implications
+- No existing Reading category is renamed or renumbered.
+- Later academies may reuse `tense_misuse`, `personal_opinion` and `timing_failure`; the rest are Task 1 specific.
+
+---
+
+## D-017 — Generated curriculum data is validated by re-derived facts
+
+**Date:** 2026-09-04
+**Status:** Active
+
+### Decision
+For generated curriculum banks, every visual or dataset carries a machine-computed `facts` map derived from its own data, and the paired validator re-implements that derivation independently and asserts the two agree. Answers and model responses are then checked so that every figure they cite is derivable from the item's own data.
+
+### Rationale
+G3 checked completion answers by substring match against the passage. That does not generalise to data tasks, where a claim can be fluent, well-formed and numerically invented. Deriving the facts mechanically and re-deriving them in the validator means a generator bug that produces self-consistent but wrong facts still fails the gate.
+
+### Implications
+- Adding a visual kind requires extending the fact engine in *both* the generator and the validator, deliberately and separately. This duplication is the point, not an oversight.
+- Grounding proves a figure is *derivable*, not that it is the *intended* figure. `tests/g4_writing1_content_qa.py` closes that gap for the linguistic claims that matter (see `docs/writing1_content_qa.md`).
+- The same shape should be reused for G5–G8 rather than reinvented.
+
+---
+
+## D-018 — Local toolchain required to run the validation suite
+
+**Date:** 2026-09-04
+**Status:** Active
+
+### Decision
+The repository's validation suite requires Python 3 with `jsonschema` and `playwright`, plus any Chromium-family browser. `tests/browser_env.py` resolves the browser (honouring `$IELTS_CHROMIUM`, then known Linux/Windows/macOS paths, then Playwright's own bundle).
+
+### Rationale
+Defect D4-001: the four Playwright tests hard-coded `executable_path="/usr/bin/chromium"`, a path that only exists in the Linux environment G3 was authored in. Every browser-driven gate check therefore failed to launch anywhere else, which meant the responsive and accessibility evidence could not be reproduced on the machine the project actually runs on.
+
+### Implications
+- A gate claim of "responsive PASS" is only meaningful on a machine where these tests can launch. Record the browser used in the phase report.
+- Node is required only to assemble Claude Design mockups, not to run the app or its tests. The application itself remains dependency-free static HTML/CSS/JS per D-014.

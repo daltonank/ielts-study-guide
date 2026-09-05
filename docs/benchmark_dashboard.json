@@ -1,8 +1,9 @@
 {
-  "requirements_total": 110,
+  "requirements_total": 131,
   "requirements_by_status": {
-    "Passed": 62,
-    "Not Started": 48
+    "Passed": 77,
+    "Not Started": 43,
+    "In Progress": 11
   },
   "vocabulary_loaded": 1784,
   "vocabulary_expected": 1784,
@@ -10,8 +11,10 @@
   "foundation_modules_registered": 8,
   "reading_passages": 60,
   "reading_questions": 240,
-  "task1_micro_exercises": 0,
-  "task1_full_prompts": 0,
+  "task1_visual_families": 7,
+  "task1_visuals": 21,
+  "task1_micro_exercises": 70,
+  "task1_full_prompts": 21,
   "task2_prompts": 0,
   "task2_drills": 0,
   "grammar_items": 0,
@@ -21,7 +24,7 @@
   "speaking_part3": 0,
   "p0_defects": 0,
   "p1_defects": 0,
-  "regression_status": "PASS through G3",
+  "regression_status": "PASS through G3; G4 content layer validated, G4 UI not built",
   "accessibility_score": null,
   "performance_score": null
 }

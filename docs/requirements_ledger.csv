@@ -15,10 +15,10 @@ REQ-013,1,Diagnostic system,Not Started,,,
 REQ-014,1,Mastery model,Not Started,,,
 REQ-015,3,Reading academy,Passed,web/reading_data.js; web/app.js; docs/reading_inventory.json; docs/phase_3_report.md,tests/g3_reading_validation.py; tests/g3_reading_functional.py; tests/g3_reading_responsive.py; tests/g3_reading_accessibility.py,"G3 benchmark exceeded: 60 original texts, 240 scored questions, 15 families, 100% explanations."
 REQ-016,3,Reading quality gate,Passed,web/reading_data.js; web/app.js; docs/reading_inventory.json; docs/phase_3_report.md,tests/g3_reading_validation.py; tests/g3_reading_functional.py; tests/g3_reading_responsive.py; tests/g3_reading_accessibility.py,"G3 benchmark exceeded: 60 original texts, 240 scored questions, 15 families, 100% explanations."
-REQ-017,4,Writing Task 1 academy,Not Started,,,
-REQ-018,4,Task 1 exercise types,Not Started,,,
-REQ-019,4,Task 1 band comparison lab,Not Started,,,
-REQ-020,4,Task 1 quality gate,Not Started,,,
+REQ-017,4,Writing Task 1 academy,In Progress,,,Content layer complete and validated; UI not built.
+REQ-018,4,Task 1 exercise types,In Progress,,,Content layer complete and validated; UI not built.
+REQ-019,4,Task 1 band comparison lab,In Progress,,,Checklist and annotated model responses exist; comparison UI not built.
+REQ-020,4,Task 1 quality gate,In Progress,,,Content-side quality gates pass; UI-side gates not yet assessable.
 REQ-021,5,Writing Task 2 academy,Not Started,,,
 REQ-022,5,Task 2 content targets,Not Started,,,
 REQ-023,5,Task 2 quality gate,Not Started,,,
@@ -51,7 +51,7 @@ REQ-049,0,Phase 0 audit and requirements lock,Passed,,,
 REQ-050,1,Phase 1 foundation and design system,Passed,,,
 REQ-051,2,Phase 2 legacy integration and vocabulary migration,Passed,web/vocabulary.js; docs/vocabulary_migration_manifest.json,tests/g2_vocabulary_validation.py; tests/ui_vocabulary_static.py,1784 / 1784 records reconciled from uploaded workbook.
 REQ-052,3,Phase 3 reading academy,Passed,web/reading_data.js; web/app.js; docs/reading_inventory.json; docs/phase_3_report.md,tests/g3_reading_validation.py; tests/g3_reading_functional.py; tests/g3_reading_responsive.py; tests/g3_reading_accessibility.py,"G3 benchmark exceeded: 60 original texts, 240 scored questions, 15 families, 100% explanations."
-REQ-053,4,Phase 4 writing Task 1,Not Started,,,
+REQ-053,4,Phase 4 writing Task 1,In Progress,,,"Content layer complete and validated; UI, phase report and gate decision outstanding."
 REQ-054,5,Phase 5 writing Task 2,Not Started,,,
 REQ-055,6,"Phase 6 grammar, paraphrasing and pronunciation",Not Started,,,
 REQ-056,7,Phase 7 speaking and Together mode,Not Started,,,
@@ -109,24 +109,24 @@ REQ-016A,3,Reading mobile readability validated across required widths,Passed,we
 REQ-016B,3,Reading accessibility primitives validated,Passed,web/index.html; web/app.js; web/styles.css,tests/g3_reading_accessibility.py,"Semantic article/form, labelled controls, focus rules, UA support"
 REQ-016C,3,Reading content is original and self-contained,Passed,web/reading_data.js,tests/g3_reading_validation.py,No external context required; originality flag on all passages/questions
 REQ-016D,3,Reading regression preserves previous platform and vocabulary functions,Passed,full build,tests/responsive_check.py; tests/g2_vocabulary_validation.py; tests/ui_vocabulary_static.py; scripts/validate_build.py,G0-G2 regression pass after G3 integration
-REQ-017A,4,"All seven Writing Task 1 visual families represented with full instructional depth",In Progress,,,
-REQ-017B,4,Task 1 micro-exercise benchmark (>=60),In Progress,,,
-REQ-017C,4,Task 1 full timed prompt benchmark (>=20),In Progress,,,
-REQ-017D,4,Key-feature identification and overview construction training,In Progress,,,
-REQ-017E,4,"Data language precision: trend, quantity, proportion, approximation and tense",In Progress,,,
-REQ-017F,4,Grouping and comparison rather than list-like description,In Progress,,,
-REQ-017G,4,Planning then timed drafting then self-review flow,In Progress,,,
-REQ-017H,4,"Task 1 progression modes guided, independent, timed and mastery in every family",In Progress,,,
-REQ-017I,4,Ukrainian-speaker transfer support for articles prepositions and agreement,In Progress,,,
-REQ-018A,4,All ten micro-exercise types represented in every visual family,In Progress,,,
-REQ-018B,4,Every scored Task 1 item carries explanation error category and wrong-option reasoning,In Progress,,,
-REQ-018C,4,Task 1 answers and model responses grounded in the item's own visual data,In Progress,,,
-REQ-019A,4,Task 1 self-review checklist labelled as training guidance not official scoring,In Progress,,,
-REQ-020A,4,Task 1 visuals and datasets are original to the product,In Progress,,,
-REQ-020B,4,Task 1 mastery advances only on demonstrated performance,In Progress,,,
-REQ-020C,4,Task 1 errors feed the shared error log and review queue,In Progress,,,
-REQ-020D,4,Task 1 autosave and persistence across reload,In Progress,,,
-REQ-020E,4,Task 1 responsive visual rendering validated at six widths,In Progress,,,
-REQ-020F,4,Task 1 accessibility includes text equivalents for every visual,In Progress,,,
-REQ-020G,4,G0-G3 regression preserved after G4 integration,In Progress,,,
-REQ-048B,4,Browser-driven validation scripts resolve a Chromium binary on any supported OS,Passed,tests/browser_env.py,tests/responsive_check.py; tests/g3_reading_responsive.py; tests/g3_reading_functional.py; tests/g3_reading_accessibility.py,"Defect D4-001: scripts hard-coded /usr/bin/chromium and could not launch off Linux. Resolver added; all four browser checks now pass."
+REQ-017A,4,All seven Writing Task 1 visual families represented with full instructional depth,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,"7 visual families, each with what it tests, how IELTS constructs it, a 6-step strategy, a named trap, 3-4 common errors, a worked example, a language bank, a tense rule and a UA transfer note."
+REQ-017B,4,Task 1 micro-exercise benchmark (>=60),Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,70 micro-exercises against a benchmark of 60.
+REQ-017C,4,Task 1 full timed prompt benchmark (>=20),Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,21 full timed prompts against a benchmark of 20; 3 per family.
+REQ-017D,4,Key-feature identification and overview construction training,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,"feature_selection and overview_selection exercises in every family, plus foundation module W1F-02."
+REQ-017E,4,"Data language precision: trend, quantity, proportion, approximation and tense",Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,"trend_language and data_to_sentence exercises in every family, plus foundation module W1F-03; percentage-points vs per-cent enforced in content QA."
+REQ-017F,4,Grouping and comparison rather than list-like description,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,grouping and comparison_building exercises in every family; list-like description is a tracked error category.
+REQ-017G,4,Planning then timed drafting then self-review flow,In Progress,,,"Planning steps, 13-item checklist and annotated model responses exist in the data; the plan/draft/review UI flow is not built yet."
+REQ-017H,4,"Task 1 progression modes guided, independent, timed and mastery in every family",Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,guided/independent/timed/mastery all present in every family; asserted as set equality.
+REQ-017I,4,Ukrainian-speaker transfer support for articles prepositions and agreement,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,"article_preposition_transfer category, per-family uaTransferNote, and a UA support note on every one of the 70 exercises; Cyrillic presence asserted."
+REQ-018A,4,All ten micro-exercise types represented in every visual family,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,"All 10 micro-exercise types present in all 7 families; asserted as set equality, not a count."
+REQ-018B,4,Every scored Task 1 item carries explanation error category and wrong-option reasoning,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,Every item carries an explanation and a taxonomy error category; every wrong option of every select item carries its own reasoning.
+REQ-018C,4,Task 1 answers and model responses grounded in the item's own visual data,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,Validator re-derives the fact engine independently and rejects any figure in an answer or model response not derivable from the item's own visual. 115 prose claims separately re-derived.
+REQ-019A,4,Task 1 self-review checklist labelled as training guidance not official scoring,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,"13-item self-review checklist per prompt, mapped to IELTS criteria; scoringNote disclaimer asserted on every prompt and meta; text grepped for band claims."
+REQ-020A,4,Task 1 visuals and datasets are original to the product,Passed,scripts/build_writing1_curriculum.py; web/writing1_data.js,tests/g4_writing1_validation.py; tests/g4_writing1_content_qa.py,"All 21 visuals and datasets original to the product; originality flag asserted on every visual, exercise and prompt."
+REQ-020B,4,Task 1 mastery advances only on demonstrated performance,In Progress,,,Thresholds defined in masteryRules (D-015); enforcement is UI work and is not built yet.
+REQ-020C,4,Task 1 errors feed the shared error log and review queue,In Progress,,,Error taxonomy defined and every item tagged; wiring into the shared error log and review queue is UI work and is not built yet.
+REQ-020D,4,Task 1 autosave and persistence across reload,In Progress,,,Not started; depends on the Task 1 writing UI.
+REQ-020E,4,Task 1 responsive visual rendering validated at six widths,In Progress,,,Not started; no G4 UI exists to measure at the six widths yet.
+REQ-020F,4,Task 1 accessibility includes text equivalents for every visual,In Progress,,,altText authored and length-asserted for all 21 visuals; rendering it accessibly is UI work and is not built yet.
+REQ-020G,4,G0-G3 regression preserved after G4 integration,Passed,full build,scripts/validate_build.py; tests/g2_vocabulary_validation.py; tests/g3_reading_validation.py; tests/responsive_check.py; tests/g3_reading_responsive.py; tests/g3_reading_functional.py; tests/g3_reading_accessibility.py; tests/accessibility_static.py; tests/ui_vocabulary_static.py,G0-G3 regression re-run and passing after the G4 data layer was added.
+REQ-048B,4,Browser-driven validation scripts resolve a Chromium binary on any supported OS,Passed,tests/browser_env.py,tests/responsive_check.py; tests/g3_reading_responsive.py; tests/g3_reading_functional.py; tests/g3_reading_accessibility.py,Defect D4-001: scripts hard-coded /usr/bin/chromium and could not launch off Linux. Resolver added; all four browser checks now pass.

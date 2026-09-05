@@ -1,8 +1,8 @@
 # CURRENT_STATE.md
 
 **Updated:** 2026-09-04  
-**Current canonical gate:** G3 Reading Complete — PASS  
-**Next gate:** G4 Writing Task 1  
+**Last passed gate:** G3 Reading Complete — PASS  
+**Active gate:** G4 Writing Task 1 — content layer complete and validated; UI not built, gate **not** passed  
 **Deployment:** local HTML only; public reconciliation deferred
 
 ---
@@ -39,26 +39,67 @@ Current Reading evidence:
 
 ## Active Work
 
-### G4 — Writing Task 1
+### G4 — Writing Task 1 — IN PROGRESS, not passed
 
-Minimum gate:
+**Content layer: complete and validated. Learner-facing UI: not built.**
 
-- 7 visual families
-- ≥60 micro-exercises
-- ≥20 full prompts
+Quantitative benchmarks, all met and verified by running the validators:
 
-Required integrations:
+| Benchmark | Required | Actual | Status |
+|---|---:|---:|---|
+| Visual families | 7 | 7 | Met |
+| Micro-exercises | ≥60 | 70 | Met |
+| Full timed prompts | ≥20 | 21 | Met |
 
-- mastery
-- errors
-- review
-- autosave
-- local persistence
-- timers
-- responsive visual rendering
-- accessibility
-- content QA
-- prior-phase regression
+Also delivered: 21 original visuals (3 per family), all 10 micro-exercise types in every
+family, guided/independent/timed/mastery coverage in every family, 4 foundation modules,
+7 family modules, and a 12-category error taxonomy.
+
+Artifacts:
+
+- `scripts/build_writing1_curriculum.py` → `web/writing1_data.js`
+- `tests/g4_writing1_validation.py` — PASS
+- `tests/g4_writing1_content_qa.py` — 115 prose claims re-derived, 0 failed
+- `docs/writing1_content_qa.md`
+
+Decisions logged: D-015 (mastery thresholds), D-016 (error taxonomy), D-017 (grounding
+by re-derived facts), D-018 (toolchain).
+
+**Outstanding for the G4 gate:**
+
+- the Writing Task 1 UI (`web/app.js` route `task1` is still the `genericLab` placeholder)
+- planning → timed drafting → self-review flow
+- autosave and persistence across reload
+- mastery enforcement against D-015
+- error-log and review-queue integration
+- responsive validation at 320/375/430/768/1024/1440
+- accessibility validation of the new visual panel
+- `docs/phase_4_report.md` and the gate decision
+
+A UI mockup covering all of the above is published and awaiting design approval per
+`CLAUDE.md` §29; the request is in the `#proj-ielts` thread dated 2026-09-04.
+
+---
+
+## Defects
+
+| ID | Severity | Status | Note |
+|---|---|---|---|
+| D4-001 | P2 | **Fixed** | Four Playwright tests hard-coded `/usr/bin/chromium` and could not launch off Linux, so the browser-driven gate evidence was not reproducible on the development machine. `tests/browser_env.py` resolves a Chromium binary portably; all four now pass. |
+
+Open P0: 0 · Open P1: 0 · Open P2: 0 · Open P3: 0
+
+---
+
+## Toolchain
+
+Running the validation suite requires (see D-018):
+
+- Python 3 with `jsonschema` and `playwright`
+- any Chromium-family browser (override with `$IELTS_CHROMIUM`)
+
+The application itself remains dependency-free static HTML/CSS/JS per D-014. Node is
+needed only to assemble Claude Design mockups, not to run the app or its tests.
 
 ---
 
@@ -72,6 +113,7 @@ Primary implementation:
 - `web/data.js`
 - `web/vocabulary.js`
 - `web/reading_data.js`
+- `web/writing1_data.js`
 
 Schemas:
 
