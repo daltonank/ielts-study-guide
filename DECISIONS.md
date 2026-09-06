@@ -316,3 +316,54 @@ exceptions, cycle language, or compass directions that the learner could see dir
 - future edits that reintroduce an explicit crossover against an annotation saying it is
   only implied, for example, fail validation;
 - the seeded-defect suite proves the check by introducing that exact contradiction.
+
+---
+
+## D-026 — G4-A Ukrainian linguistic QA is a distinct gate from G4's technical validation, and does not pass on this vocabulary bank
+
+**Date:** 2026-09-06 · **Status:** Approved
+
+### Decision
+The Ukrainian-language quality of learner-facing content is validated separately from
+the technical/structural G4 gate (which stays `PASS`, unaffected). A dedicated
+deterministic check (`tests/g4a_ukrainian_deterministic.py`) covers 100% of
+learner-facing Ukrainian strings for structural defects (missing translations,
+corruption, suspicious duplication) and is required to pass before any G4-A semantic
+review is trusted. Semantic/lexicographic quality (false friends, wrong-sense
+definitions, register, part-of-speech agreement) requires a separate chunked review
+with independent cross-verification against source data, a stratified spot-check of
+entries the main pass did not flag, and a seeded-defect meta-validation of the review
+process itself before its findings are trusted — mirroring the seeded-defect proof
+pattern D-025 established for code.
+
+Running this full process against `g4-candidate-3` (commit `2a51b46`) found the
+technical layer solid (Phase 0 deterministic gate PASS; Phase 2 Writing Task 1 content
+clean, confirming R2-001's fix holds generally) but found `web/vocabulary.js` has a
+substantial defect rate: 37.8% of the 1,784 entries (675) have at least one genuine
+issue, including 142 entries that are actively wrong (false-friend translations,
+part-of-speech mismatches, or definitions describing an entirely unrelated English
+word — evidence the bank was assembled by merging entries from a general dictionary
+rather than writing IELTS-specific glosses). A stratified spot-check of 70
+previously-unflagged entries found a further 27 issues, confirming the true defect
+rate is close to 38% rather than an artifact of one pass's blind spots. Full findings:
+`docs/G4A_UKRAINIAN_QA_FINDINGS.md` and `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`.
+
+### Rationale
+The original G4 external re-review packet validated structure, functionality,
+responsiveness, accessibility, and canonical-claim accuracy, but explicitly left
+Ukrainian linguistic quality as a separate, unstarted gate (`G4 INTERNAL PASS —
+EXTERNAL RE-REVIEW PENDING`, remaining gate: "Ukrainian linguistic/editorial review").
+Treating that gate as satisfied by the technical PASS would have let a vocabulary bank
+with real translation errors reach learners unreviewed.
+
+### Implications
+- `G4-A` is `CHANGES REQUESTED`, scoped to `web/vocabulary.js` only — Reading and
+  Writing Task 1 Ukrainian content need no changes from this pass;
+- corrections are not applied by this decision; they are returned as a findings
+  register for routing and batch correction, prioritizing the 142 P0 entries first;
+- once corrections land, the same stratified-spot-check-plus-seeded-validation method
+  should be re-run before `G4-A PASS` is declared, not just a re-read of the changed
+  lines;
+- the deterministic script and findings register are committed for reproducibility,
+  matching how `docs/G4_EXTERNAL_REVIEW_PACKET.md` already documents G4's technical
+  evidence.
