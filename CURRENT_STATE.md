@@ -1,9 +1,9 @@
 # CURRENT_STATE.md
 
-**Updated:** 2026-09-05
+**Updated:** 2026-09-06
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 INTERNAL PASS — EXTERNAL RE-REVIEW PENDING — external re-review returned CHANGES REQUESTED; all four findings are addressed in candidate 3 — see `docs/G4_EXTERNAL_REVIEW_PACKET.md`
-**Next gate:** G5 Writing Task 2, blocked until G4 is independently reviewed  
+**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` only — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`.
+**Next gate:** G5 Writing Task 2, blocked until G4-A corrections land and are re-verified  
 **Deployment:** local HTML only; public reconciliation deferred
 
 ---
@@ -85,6 +85,24 @@ band-diagnostic evidence.
 ---
 
 ## Active Work
+
+### G4-A — Ukrainian Linguistic QA — CHANGES REQUESTED
+
+Full audit executed against `g4-candidate-3` (2026-09-06): deterministic gate (100%
+coverage, PASS), Reading scaffolding (38/38 strings, 3 grammar findings), Writing Task 1
+content (268/268 strings, 0 defects — confirms D-025/R2-001 holds), vocabulary bank
+(1,784/1,784 entries, 18-chunk review — **675 findings, 37.8% of entries, 142 P0**),
+a stratified spot-check (70 previously-clean entries, 27 more findings), and a
+seeded-defect meta-validation of the review process (4/4 planted defects caught).
+
+Full register: `docs/G4A_UKRAINIAN_QA_FINDINGS.md` (narrative + full P0 list) and
+`docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (all 702 findings, machine-readable). Decision
+record: D-026. No content was changed by this pass — findings are returned for
+routing per the established Claude Code/Codex correction protocol.
+
+- `tests/g4a_ukrainian_deterministic.py` — new, PASS, run first and last in every
+  future G4-A session (this is what would catch drift like the `main`-merge
+  discrepancy this session's preflight found).
 
 ### G5 — Writing Task 2 — BLOCKED
 
