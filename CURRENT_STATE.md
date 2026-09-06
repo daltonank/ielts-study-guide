@@ -2,7 +2,7 @@
 
 **Updated:** 2026-09-06
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` only — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`.
+**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` and three Reading family labels — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`. G4 overall is **not** complete: the technical PASS does not cover linguistic quality.
 **Next gate:** G5 Writing Task 2, blocked until G4-A corrections land and are re-verified  
 **Deployment:** local HTML only; public reconciliation deferred
 
@@ -39,11 +39,18 @@ Current Reading evidence:
 ---
 
 ### G4 — Writing Task 1
-**INTERNAL PASS — EXTERNAL RE-REVIEW PENDING.** External review of the first
-candidate (`fe720d5`) returned **CHANGES REQUESTED** and produced candidate 2.
+**TECHNICAL LAYER: PASS. OVERALL GATE: OPEN, pending G4-A.** External review of the
+first candidate (`fe720d5`) returned **CHANGES REQUESTED** and produced candidate 2.
 External re-review of `g4-candidate-2` returned **CHANGES REQUESTED** with one P1,
-two P2 and one P3 finding. All four are fixed in candidate 3. The gate stays open
-until the next independent re-review succeeds.
+two P2 and one P3 finding. All four are fixed in candidate 3, and the third external
+re-review returned **TECHNICAL PASS** on `g4-candidate-3` (21/21 commands, 8/8 seeded
+defects, re-verified independently at `2a51b46`/`52d12dd`).
+
+That `TECHNICAL PASS` covers structure, functionality, responsiveness, accessibility
+and canonical-claim accuracy. It does **not** cover Ukrainian linguistic quality, which
+is gated separately as G4-A (below) and is currently `CHANGES REQUESTED`. G4 as a whole
+is therefore not complete.
+
 Review packet: `docs/G4_EXTERNAL_REVIEW_PACKET.md`.
 
 | Benchmark | Required | Actual |
@@ -95,14 +102,35 @@ content (268/268 strings, 0 defects — confirms D-025/R2-001 holds), vocabulary
 a stratified spot-check (70 previously-clean entries, 27 more findings), and a
 seeded-defect meta-validation of the review process (4/4 planted defects caught).
 
-Full register: `docs/G4A_UKRAINIAN_QA_FINDINGS.md` (narrative + full P0 list) and
-`docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (all 702 findings, machine-readable). Decision
-record: D-026. No content was changed by this pass — findings are returned for
-routing per the established Claude Code/Codex correction protocol.
+**This is an AI linguistic QA pass.** It does not constitute, replace or satisfy a
+native-speaker editorial review; that gate remains separate and unmet. A paid or
+native-speaker spot-check is excluded from the current scope by Dalton's decision.
+
+Counts, reconciled: **705 findings total** — 702 in the vocabulary bank (675 first pass +
+27 spot-check, in 702 distinct entries = 39.4% of 1,784; severity 142 P0 / 314 P1 /
+246 P2) plus 3 in Reading (`G4A-R-001`–`G4A-R-003`, not in the CSV). Both defect rates
+are observed, not extrapolated: 675/1,784 = 37.8% for the full first pass, 27/70 = 38.6%
+for a stratified sample of entries that pass judged clean. Those measure disjoint
+populations; no bank-wide estimate is asserted. See the register §7.
+
+Scope of correction: `web/vocabulary.js` **and** the three Reading family labels in
+`scripts/build_reading_curriculum.py`. Writing Task 1 needs no changes.
+
+Method: `docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md`. Register:
+`docs/G4A_UKRAINIAN_QA_FINDINGS.md` (methodology, category patterns, worked examples —
+**not** a per-entry P0 list). Decision record: D-026, status **Proposed**, pending
+independent review and Dalton's sign-off. No content was changed by this pass — findings
+are returned for routing per the established Claude Code/Codex correction protocol.
 
 - `tests/g4a_ukrainian_deterministic.py` — new, PASS, run first and last in every
   future G4-A session (this is what would catch drift like the `main`-merge
   discrepancy this session's preflight found).
+
+**Open blocker:** `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (702 per-entry rows, including the
+full 142-entry P0 list) is not in the repository. It was delivered to Dalton in
+conversation during the audit session and never committed; the path 404s. Until it lands,
+this audit is not independently reproducible from the repository alone. Documents that
+previously cited it as present have been corrected.
 
 ### G5 — Writing Task 2 — BLOCKED
 

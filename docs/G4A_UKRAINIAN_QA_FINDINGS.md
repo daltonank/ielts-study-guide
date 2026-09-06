@@ -3,8 +3,10 @@
 **Ticket:** IELTS G4 external re-review repair (Slack #proj-ielts, G4 thread)
 **Reviewed candidate:** `g4-candidate-3` / commit `2a51b46ab1b1950ff59ec8a7546d39b9fde840a5` (now merged into `main` at `52d12dd`)
 **Authorization:** Executed under Dalton's direct, explicit instruction given in this session ("I'm Dalton. I want you to execute the plan...") — the highest-priority authority in the `ai-control-plane-operator` skill's order, and satisfying the explicit-assignment test independent of any Slack relay.
-**Scope executed:** the full `G4A_UKRAINIAN_QA_AUDIT_PLAN.md` (Phases 0–8): deterministic gate, Reading scaffolding, Writing Task 1 bilingual content, the full 1,784-entry vocabulary bank in 18 chunks, cross-chunk adjudication, a stratified spot-check, and a seeded-defect meta-validation of the review process itself.
+**Scope executed:** the full audit plan, now committed alongside this register at [`docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md`](G4A_UKRAINIAN_QA_AUDIT_PLAN.md) (Phases 0–3 plus adjudication, spot-check and meta-validation): deterministic gate, Reading scaffolding, Writing Task 1 bilingual content, the full 1,784-entry vocabulary bank in 18 chunks, cross-chunk adjudication, a stratified spot-check, and a seeded-defect meta-validation of the review process itself.
 **Not executed:** no content was changed. Per the original ChatGPT handoff and the skill's protocol, corrections are returned as findings here for routing, not applied directly.
+
+> **This is an AI linguistic QA pass.** It does not constitute, replace, or satisfy a native-speaker editorial review. See §9.
 
 ---
 
@@ -15,11 +17,33 @@
 | Phase 0 — deterministic gate | 100% of 3,927 UA strings | PASS (0 structural defects: no untranslated/corrupted/placeholder content) |
 | Phase 1 — Reading scaffolding | 38/38 strings | 3 grammar defects (case agreement) |
 | Phase 2 — Writing Task 1 content | 268/268 strings | 0 defects in the highest-risk `levelUa` band annotations (confirms R2-001 fix holds); clean elsewhere |
-| Phase 3 — Vocabulary bank | 1,784/1,784 entries, 18 chunks | **675 findings** (142 P0, 305 P1, 228 P2) across 675 entries (37.8%) |
-| Stratified spot-check | 70 entries previously judged clean | **27 new findings** (0 P0, 9 P1, 18 P2) — a 38.6% miss-adjacent rate on top of the main pass |
+| Phase 3 — Vocabulary bank | 1,784/1,784 entries, 18 chunks | **675 findings** (142 P0, 305 P1, 228 P2) across 675 entries (37.8% of the bank) |
+| Stratified spot-check | 70 entries the main pass judged clean | **27 further findings** (0 P0, 9 P1, 18 P2) in 27 distinct entries — 27/70 = 38.6% of that sample |
 | Seeded-defect meta-validation | 10 synthetic entries, 4 seeded defects | **4/4 caught**, 0 false positives beyond one reasonable P2 nuance |
+| **Total** | — | **705 findings: 702 vocabulary (702 distinct entries, 39.4% of the bank) + 3 Reading** |
 
-**Bottom line:** the mechanical/technical gates (structure, encoding, translation presence) are solid — this is not a "broken" data file. But the semantic/lexicographic quality of the vocabulary bank has a real, substantial defect rate: roughly **2 in 5 entries** have at least one genuine issue, concentrated in false-friend translations, part-of-speech mismatches between `ua` and `pos`, and definitions that describe the wrong sense of a polysemous English word (or, in ~15 cases, an entirely unrelated word — evidence of a source-dictionary merge error, e.g. `fees` defined as a German surname, `consequences` defined as a Victorian parlor game). This is **not** a `G4-A PASS`.
+**Bottom line:** the mechanical/technical gates (structure, encoding, translation presence) are solid — this is not a "broken" data file. But the semantic/lexicographic quality of the vocabulary bank has a substantial observed defect rate, concentrated in false-friend translations, part-of-speech mismatches between `ua` and `pos`, and definitions that describe the wrong sense of a polysemous English word (or, in ~15 cases, an entirely unrelated word — evidence of a source-dictionary merge error, e.g. `fees` defined as a German surname, `consequences` defined as a Victorian parlor game). Two observed rates, stated separately because they measure different things and neither has been converted into a validated bank-wide estimate (see §7): **675/1,784 = 37.8%** of entries flagged by the full first pass, and **27/70 = 38.6%** of a stratified sample drawn from the entries that pass judged clean. This is **not** a `G4-A PASS`.
+
+---
+
+## 1a. Count reconciliation
+
+| Quantity | Value | Basis |
+|---|---:|---|
+| Vocabulary entries in bank | 1,784 | `web/vocabulary.js`, unchanged since G2 |
+| First-pass findings | 675 | 142 P0 + 305 P1 + 228 P2 |
+| Spot-check findings | 27 | 0 P0 + 9 P1 + 18 P2 |
+| **Vocabulary findings total** | **702** | 675 + 27 — the row count of `G4A_UKRAINIAN_QA_FINDINGS.csv` |
+| **Distinct vocabulary entries affected** | **702** | one finding per entry, and the two sets are disjoint by construction: the spot-check sampled only entries the first pass did not flag |
+| Share of bank affected | 39.4% | 702 / 1,784 |
+| Severity totals across both passes | 142 P0 · 314 P1 · 246 P2 | 142+314+246 = 702 |
+| Reading findings | 3 | §4 — **not** in the CSV, and not part of the 702 |
+| **All findings, all files** | **705** | 702 + 3 |
+
+Two things this table deliberately does **not** claim:
+
+- **Category tallies do not yet sum to the first-pass total.** The four quantified categories in §6 (212 false-friend, 144 POS mismatch, 121 pedagogical narrowing, 61 circular/garbled) account for 538 of the 675 first-pass findings. The fifth category, wrong-sense definitions, was reported without a count, leaving 137 findings unattributed by category. This register does not assign a number to that category until it can be counted from the CSV.
+- **No bank-wide defect estimate.** See §7.
 
 ---
 
@@ -44,13 +68,22 @@
 
 The reading module template *"Цей тип завдань перевіряє [X]. Не обирайте відповідь лише через знайоме слово."* embeds a nominative-case family label into an accusative-governing verb (`перевіряє`, "tests/checks"). This breaks for 3 of the 15 families where the label is a nominative feminine noun without syncretic nom/acc form:
 
-| Module | Current (wrong case) | Should be |
-|---|---|---|
-| `READ-MULTIPLE-CHOICE` | "...перевіряє детальне розуміння та **головна думка**." | "...та **головну думку**." |
-| `READ-YNNG` | "...перевіряє **позиція** та твердження автора." | "...перевіряє **позицію** та твердження автора." |
-| `READ-SHORT-ANSWER` | "...перевіряє **коротка точна відповідь** на основі тексту." | "...перевіряє **коротку точну відповідь**..." |
+| ID | Severity | Module | Current (wrong case) | Correction |
+|---|---|---|---|---|
+| `G4A-R-001` | P1 | `READ-MULTIPLE-CHOICE` | "...перевіряє детальне розуміння та **головна думка**." | "...та **головну думку**." |
+| `G4A-R-002` | P1 | `READ-YNNG` | "...перевіряє **позиція** та твердження автора." | "...перевіряє **позицію** та твердження автора." |
+| `G4A-R-003` | P1 | `READ-SHORT-ANSWER` | "...перевіряє **коротка точна відповідь** на основі тексту." | "...перевіряє **коротку точну відповідь**..." |
 
-The other 12 families' labels happen to have syncretic nominative/accusative forms (mostly neuter -ння nouns), so they're grammatically correct by coincidence, not design — worth fixing the template logic, not just these 3 strings, so it doesn't recur if new families are added.
+**Adjudication (2026-09-06).** All three re-verified directly against `web/reading_data.js` at `139f692` by extracting every Cyrillic-bearing string and inspecting the 15 that contain `перевіряє`; all three reproduce exactly as recorded. Severity **P1**: learner-visible grammatical errors in scaffolding copy, but they do not change the meaning of the guidance or make any exercise unanswerable, so they are not P0.
+
+Root cause confirmed in the generator, not the data: `scripts/build_reading_curriculum.py:401` composes this string as `f'Цей тип завдань перевіряє {ua_skill}. …'`, interpolating `FAMILY_META[fam][3]` — a set of labels written in the nominative — into a slot governed by the accusative verb `перевіряє`. `ua_skill` has exactly one consumer, this f-string, so the labels can be stored in the case the sentence actually requires.
+
+Checked all 15 labels, not only the three that broke:
+
+- **3 need correction** — the ones above, where a feminine adjective or noun has a distinct accusative form (`головна думка` → `головну думку`; `позиція` → `позицію`; `коротка точна` → `коротку точну`, the noun `відповідь` being third-declension feminine and identical in both cases).
+- **12 are already correct, by coincidence rather than design** — they head on neuter `-ння` nouns (`розрізнення`, `визначення`, `зіставлення`, `поєднання`, `відтворення`, `розпізнавання`, `порівняння`, `відстеження`, `ставлення`) or masculine inanimates (`пошук`, `вибір`, `підтекст`), all of which are syncretic in the nominative and accusative. A new family whose label begins with a feminine noun would reintroduce the bug silently.
+
+**Status: open — fix assigned to Phase 2.** These are content corrections, so they land on the correction branch with the vocabulary fixes rather than in this audit/evidence PR, via the generator plus a regression check that fails if any `uaSupport` string places a nominative-only feminine form after `перевіряє`.
 
 ## 5. Phase 2 — Writing Task 1 content (268 strings): confirms prior repair holds, no new defects
 
@@ -60,7 +93,7 @@ One terminology observation, not a defect: "overview" and "body(-абзац)" ar
 
 ## 6. Phase 3 — Vocabulary bank (1,784 entries): the substantive finding
 
-**675 of 1,784 entries (37.8%) have at least one flagged defect.** Full machine-readable register: `G4A_UKRAINIAN_QA_FINDINGS.csv` (702 rows including the spot-check; delivered directly to Dalton, and can be added here in a fast-follow commit). The recurring patterns:
+**675 of 1,784 entries (37.8%) were flagged by the first pass.** The recurring patterns:
 
 - **False-friend translations** (the largest single category, 212 findings tagged semantic-fidelity): Ukrainian words that look/sound like the English headword but mean something different — `консистенція`≠consistency (means physical texture), `брутальний`≠brutal (means rude/coarse), `сенсація`≠the physical-sensation sense, `актуальний`-adjacent confusion for relevant, `патрон`≠patron (means cartridge), `непарний`≠odd(strange) (means odd-number), `резюме`≠resume(verb) (means CV), and many more.
 - **Part-of-speech mismatches** (144 grammar findings): the entry's `pos` field says one part of speech but `ua` is given as another — e.g. `craft` (v.) translated as the noun "ремесло", `resemble` (v.) translated as the adjective "схожий", `criteria` (plural) defined in the singular.
@@ -68,13 +101,29 @@ One terminology observation, not a defect: "overview" and "body(-абзац)" ar
 - **Circular/garbled/truncated definitions** (61 + much of "other"): definitions that just restate the headword, or that were cut off mid-sentence, or contain duplicated/garbled machine-translation artifacts.
 - **Pedagogical narrowing** (121 findings): a technically correct but overly narrow sense given as the *only* one — e.g. `trend` defined only as "a fad/fashionable style," missing the statistical sense central to Writing Task 1; `dramatic` defined only via theatre, missing "sudden and striking."
 
-The full P0 register (142 entries) and the P1/P2 breakdown are in `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`, delivered to Dalton alongside this branch.
+### Status of the per-entry register — open gap
+
+The per-entry register (all 702 rows, including the full 142-entry P0 list with proposed corrections) lives in `G4A_UKRAINIAN_QA_FINDINGS.csv`, which **is not in this repository.** It was produced during the audit session and delivered to Dalton directly in conversation; it was never committed, and requesting it returns a 404. This document and `DECISIONS.md` D-026 both previously cited that path as if it were present, and the PR description claimed this narrative contained "the complete 142-entry P0 register" — it does not; it contains the methodology, the category patterns, and worked examples.
+
+Until the CSV lands, the closest thing to a per-entry P0 record in the repository is `scripts/qa/p0_corrections.json` on the `claude-code/g4a-vocab-p0-fixes` branch (PR #3), which carries the 142 entry IDs with their final corrections but not the original finding text, severity rationale, or the P1/P2 rows.
+
+**This is tracked as an open blocker, not a resolved item.** The audit is not independently reproducible from the repository alone without it.
 
 ## 7. Stratified spot-check: honest confidence, not an unverified "100% clean" claim
 
 70 entries the main pass did **not** flag (stratified across Core/High/Medium priority, ~4% of the bank) were independently re-reviewed with no visibility into the main pass's results. 27 had a real issue the first pass missed — 0 P0, 9 P1, 18 P2, mostly "a valid but overly narrow sense given as the only one" (e.g. `momentum` defined only via physics, missing "the campaign gained momentum"; `documentation` given an invented paraphrase instead of its actual meaning) plus two newly-discovered stray etymological tags leaking into definitions (`enrich`, `missile` both carry a bracketed `[з 14 ст.]`/`[з 20 ст.]` dating artifact).
 
-This gives an honest estimate rather than an overclaim: the true defect rate across the whole bank is very likely close to the ~38% found in both the main pass and the spot-check independently, not lower. It does **not** mean the main pass is unreliable — it means the bank's underlying construction (evidently assembled by merging entries from a general-purpose English dictionary rather than writing IELTS-specific glosses) has defects distributed roughly evenly across it, so no amount of chunking finds "all of them" without either a second full pass or per-entry native review.
+**Correction to an earlier reading of this result.** A previous version of this register argued that 27/70 "confirms the true defect rate is close to 38%." That inference is invalid, and it is wrong in the direction that flatters the audit. The 70 entries were drawn *only* from the 1,109 the first pass judged clean, so a 38.6% hit rate inside that pool cannot corroborate the 37.8% rate measured across the whole bank — the two rates describe disjoint populations. If anything it points the other way: a miss rate that high among supposedly-clean entries implies the bank-wide rate is materially **higher** than 37.8%, not equal to it.
+
+What this register therefore states is the observed rates only, per the review instruction to avoid unfounded extrapolation:
+
+- **675/1,784 (37.8%)** — entries flagged by the full first pass.
+- **27/70 (38.6%)** — entries flagged in a stratified sample of those the first pass judged clean.
+- **0/70** — P0-severity findings in that sample. The first pass appears to have caught the severe cases; what it missed skews mild (18 of 27 were P2).
+
+A naive projection of the 38.6% miss rate across all 1,109 unflagged entries would put the bank-wide figure near 60%. **This register does not assert that number**, and it should not be quoted as a finding. It rests on a sample that was stratified by priority tag rather than randomised, n=70 (~6% of the unflagged pool), reviewed in a single pass with no second adjudication, and counting any-severity findings — and no confidence interval was computed. Producing a defensible bank-wide estimate needs a documented estimator and sampling basis that this audit did not set out to build.
+
+What the spot-check does establish, without any estimator: the first pass is **not** exhaustive, its clean verdicts are not evidence of correctness, and "the remaining 1,109 entries are fine" is an unsupported claim. It does not mean the first pass is unreliable about what it *did* flag — that was separately verified (§2.4). The likeliest reading is that the bank's underlying construction (evidently assembled by merging entries from a general-purpose English dictionary rather than writing IELTS-specific glosses) distributes defects fairly evenly, so no single chunked pass finds all of them.
 
 ## 8. Seeded-defect meta-validation: the review process itself checks out
 
@@ -82,8 +131,16 @@ This gives an honest estimate rather than an overclaim: the true defect rate acr
 
 ## 9. What this means for the G4 gate
 
-Per the original assignment: **not promoting to `G4-A PASS`.** The technical/structural layer is solid (Phase 0 and Phase 2 both hold up completely). But a 37.8% defect rate in the vocabulary bank — including 142 actively-wrong entries, several of which are outright wrong-headword definitions — cannot be called `G4-A PASS`. This is closer to `CHANGES REQUESTED`, scoped specifically to `web/vocabulary.js`: Reading and Writing Task 1 content need no changes from this pass.
+Per the original assignment: **not promoting to `G4-A PASS`.** The technical/structural layer is solid (Phase 0 and Phase 2 both hold up completely). But an observed 37.8% first-pass defect rate in the vocabulary bank — including 142 actively-wrong entries, several of which are outright wrong-headword definitions — cannot be called `G4-A PASS`.
+
+**Scope of `G4-A CHANGES REQUESTED`: `web/vocabulary.js` *and* the Reading family labels in `scripts/build_reading_curriculum.py` → `web/reading_data.js`.** An earlier version of this register, of `DECISIONS.md` D-026 and of the PR description described the scope as `web/vocabulary.js` only, while §4 of this same document recorded three Reading defects — a direct self-contradiction, corrected here. Writing Task 1 content is the only area that needs no changes from this pass.
 
 Per protocol, corrections are **not applied** in this pass — the findings are returned here for routing. Given the volume (142 P0 alone), this is a real content-repair project, not a quick patch: recommend batching the P0 corrections first (they're unambiguous — most have an obvious, uncontroversial fix already proposed in the register), then deciding separately whether the P1/P2 volume gets fixed in bulk or is triaged by priority tag (`Core`/`High`/`Medium`) given `Core` entries are learner-facing most often.
 
-Whether a paid independent native-Ukrainian check is still worth doing: given the seeded-defect validation held up and the spot-check didn't surface anything the process couldn't have caught with more passes, this AI review is a reasonably solid basis for triage — but the actual corrections, once made, deserve at least the same stratified-sample check applied again before calling the vocabulary bank done, exactly as the audit plan recommended.
+### What this review is, and what it is not
+
+This is an **AI linguistic QA pass**, and it stays labelled that way in every document it touches. Dalton has excluded a paid or native-speaker editorial spot-check from the current scope, so no human-language review stands behind these findings; validation from here is a second AI pass plus a fresh blind sample of entries classified clean.
+
+That decision is recorded, not argued with, but its consequence should be stated plainly rather than left implied: the seeded-defect meta-validation (§8) shows the *method* catches planted defects of the classes it was designed for, and the adjudication sample (§2.4) shows the flagged findings are real. Neither establishes that the corrections written for those findings are idiomatic, register-appropriate Ukrainian — that is a different claim, and the same system is on both sides of it. Nothing in this register may be read as satisfying the original human-native editorial gate, which remains separate and unmet.
+
+Concretely, before `G4-A PASS` is declared: re-run the full stratified-sample check against the corrected bank rather than re-reading only the changed lines, and keep any P2 findings open and reported rather than closed for tidiness.
