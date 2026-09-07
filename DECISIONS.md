@@ -342,7 +342,9 @@ process itself before its findings are trusted — mirroring the seeded-defect p
 pattern D-025 established for code.
 
 Running this full process against `g4-candidate-3` (commit `2a51b46`) found the
-technical layer solid (Phase 0 deterministic gate PASS; Phase 2 Writing Task 1 content
+technical layer solid (Phase 0 deterministic gate: zero structural defects, though the gate
+itself fails by design (exit 1) on `G4A-V-001` and stays red until all three entries are
+corrected; Phase 2 Writing Task 1 content
 clean, confirming R2-001's fix holds generally) but found `web/vocabulary.js` has a
 substantial defect rate: 37.8% of the 1,784 entries (675) have at least one genuine
 issue, including 142 entries that are actively wrong (false-friend translations,

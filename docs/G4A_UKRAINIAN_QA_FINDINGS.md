@@ -14,7 +14,7 @@
 
 | Phase | Coverage | Result |
 |---|---:|---|
-| Phase 0 — deterministic gate | 100% of 3,927 UA strings | PASS (0 structural defects: no untranslated/corrupted/placeholder content) |
+| Phase 0 — deterministic gate | 100% of 3,927 UA strings | **FAILS BY DESIGN (exit 1)** on `G4A-V-001`; 0 structural defects otherwise (no untranslated/corrupted/placeholder content) |
 | Phase 1 — Reading scaffolding | 38/38 strings | 3 grammar defects (case agreement) |
 | Phase 2 — Writing Task 1 content | 268/268 strings | 0 defects in the highest-risk `levelUa` band annotations (confirms R2-001 fix holds); clean elsewhere |
 | Phase 3 — Vocabulary bank | 1,784/1,784 entries, 18 chunks | **675 findings** (142 P0, 305 P1, 228 P2) across 675 entries (37.8% of the bank) |
@@ -68,7 +68,7 @@ Across both passes (n = 702) the totals are `semantic-fidelity` 216, `grammar` 1
 
 ## 2. Methodology (what was actually done)
 
-1. **Deterministic gate** (`tests/g4a_ukrainian_deterministic.py`, committed on this branch): scripted checks across `vocabulary.js`, `reading_data.js`, `writing1_data.js`, `app.js` for missing/untranslated fields, no-Cyrillic fields, placeholder/HTML corruption, and suspicious duplicate translations. Zero errors — flagged one genuine content defect anyway (3 vocabulary entries sharing the circular gloss "Щоб почати, почніть" / "To begin, begin").
+1. **Deterministic gate** (`tests/g4a_ukrainian_deterministic.py`, committed on this branch): scripted checks across `vocabulary.js`, `reading_data.js`, `writing1_data.js`, `app.js` for missing/untranslated fields, no-Cyrillic fields, placeholder/HTML corruption, and suspicious duplicate translations. Zero structural errors, but the gate exits 1 by design on the one genuine content defect it flags (`G4A-V-001`: 3 vocabulary entries sharing the circular gloss "Щоб почати, почніть" / "To begin, begin") and stays red until all three entries are corrected.
 2. **Reading & Writing content**: read in full by hand (306 strings), cross-checking every Band 6/7/8 annotation in Writing Task 1 against its actual sample text (the exact method that caught R2-001 previously) and verifying all 7 contrastive-grammar notes and 13 strategic-tip strings for factual linguistic accuracy, not just fluency.
 3. **Vocabulary bank**: split into 18 chunks of ~100 entries, each independently reviewed by a separate model instance against a fixed rubric (semantic fidelity, definition accuracy, grammar/POS match, register, Russianisms/calques, pedagogical accuracy for a C1 IELTS learner), returning structured findings.
 4. **Cross-chunk adjudication**: every finding was checked against the actual `vocabulary.js` source (not just trusted) — a random sample of 20 across all severity levels was independently re-verified by directly reading the source data, and 100% held up as real, not hallucinated. Adjudication also surfaced a **systemic pattern** the chunk reviewers under-labeled: a cluster of entries tagged `pos: "word family"` have their `ua` field extracted in the wrong grammatical case (genitive instead of nominative — e.g. `безпеки` instead of `безпека`, `доступу` instead of `доступ`, `коштів` instead of `кошти`). These were filed as "grammar" findings by the chunk reviewers, which is accurate in substance even though "word family" entries aren't single-POS by design.
@@ -77,7 +77,7 @@ Across both passes (n = 702) the totals are `semantic-fidelity` 216, `grammar` 1
 
 ---
 
-## 3. Phase 0 — Deterministic gate: PASS, with one real content flag
+## 3. Phase 0 — Deterministic gate: FAILS BY DESIGN (exit 1) on one real content flag
 
 - Zero missing/untranslated UA fields, zero placeholder/HTML/encoding corruption, zero suspicious duplicate translations across all four files (100% coverage, re-run against the current `main` commit).
 - One content-level flag the mechanical pass surfaces but a pure "is it Ukrainian text" check can't judge on its own: **`SB-0208` (commence), `SB-0432` (embark), `SB-1728` (commenced)** all share the identical, non-informative circular definition *"Щоб почати, почніть."* ("To begin, begin.") — this is a real pedagogical defect, not just a duplicate string.
@@ -184,7 +184,7 @@ What the spot-check does establish, without any estimator: the first pass is **n
 
 ## 9. What this means for the G4 gate
 
-Per the original assignment: **not promoting to `G4-A PASS`.** The technical/structural layer is solid (Phase 0 and Phase 2 both hold up completely). But an observed 37.8% first-pass defect rate in the vocabulary bank — including 142 actively-wrong entries, several of which are outright wrong-headword definitions — cannot be called `G4-A PASS`.
+Per the original assignment: **not promoting to `G4-A PASS`.** The technical/structural layer is solid (Phase 0 finds zero structural defects — though its gate is red by design on `G4A-V-001` until all three entries are corrected — and Phase 2 holds up completely). But an observed 37.8% first-pass defect rate in the vocabulary bank — including 142 actively-wrong entries, several of which are outright wrong-headword definitions — cannot be called `G4-A PASS`.
 
 **Scope of `G4-A CHANGES REQUESTED`: `web/vocabulary.js` *and* the Reading family labels in `scripts/build_reading_curriculum.py` → `web/reading_data.js`.** An earlier version of this register, of `DECISIONS.md` D-026 and of the PR description described the scope as `web/vocabulary.js` only, while §4 of this same document recorded three Reading defects — a direct self-contradiction, corrected here. Writing Task 1 content is the only area that needs no changes from this pass.
 
