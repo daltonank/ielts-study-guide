@@ -361,10 +361,12 @@ establish is narrower and sufficient for this decision: the first pass is not
 exhaustive, and its clean verdicts are not evidence of correctness.
 
 Full findings: `docs/G4A_UKRAINIAN_QA_FINDINGS.md`, method: `docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md`.
-The per-entry register `G4A_UKRAINIAN_QA_FINDINGS.csv` (702 rows) is **not in the
-repository** — it was delivered to Dalton in conversation and never committed. This
-decision previously cited it as though it were present. Until it lands, the audit is not
-independently reproducible from the repository alone.
+The per-entry register `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (702 rows) **landed on
+2026-09-06** and reconciles against every claim made about it: 702 distinct ids, all
+present in `web/vocabulary.js`, 142 P0 / 314 P1 / 246 P2, main-pass and spot-check sets
+disjoint. An earlier version of this entry cited it as present when it was not; it is
+present now, and `tests/g4a_ukrainian_deterministic.py` asserts the reconciliation rather
+than restating it.
 
 ### Rationale
 The original G4 external re-review packet validated structure, functionality,

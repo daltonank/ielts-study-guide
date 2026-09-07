@@ -126,11 +126,19 @@ are returned for routing per the established Claude Code/Codex correction protoc
   future G4-A session (this is what would catch drift like the `main`-merge
   discrepancy this session's preflight found).
 
-**Open blocker:** `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (702 per-entry rows, including the
-full 142-entry P0 list) is not in the repository. It was delivered to Dalton in
-conversation during the audit session and never committed; the path 404s. Until it lands,
-this audit is not independently reproducible from the repository alone. Documents that
-previously cited it as present have been corrected.
+**Blocker closed 2026-09-06:** `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` is now in the
+repository — 702 per-entry rows with `id, word, source, category, severity, issue,
+proposed_correction, confidence`. It reconciles against every claim made about it:
+702 distinct entry ids with no duplicates, all 702 present in `web/vocabulary.js`,
+142 P0 / 314 P1 / 246 P2, and main-pass (675) and spot-check (27) sets that do not
+overlap at all — the disjointness the count reconciliation assumes. The audit is now
+reproducible from the repository alone. `tests/g4a_ukrainian_deterministic.py` asserts
+all of it, so the register cannot drift from the register's own claims.
+
+Category attribution is now complete: the 137 first-pass findings previously
+unattributed are `other` 98, `russianism-calque` 24 and `register` 15. Remaining gap:
+the 27 spot-check rows carry no `proposed_correction` and no `confidence` value — they
+record what the first pass missed, not what to do about it.
 
 ### G5 — Writing Task 2 — BLOCKED
 

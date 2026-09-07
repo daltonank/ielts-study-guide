@@ -42,8 +42,27 @@
 
 Two things this table deliberately does **not** claim:
 
-- **Category tallies do not yet sum to the first-pass total.** The four quantified categories in §6 (212 false-friend, 144 POS mismatch, 121 pedagogical narrowing, 61 circular/garbled) account for 538 of the 675 first-pass findings. The fifth category, wrong-sense definitions, was reported without a count, leaving 137 findings unattributed by category. This register does not assign a number to that category until it can be counted from the CSV.
 - **No bank-wide defect estimate.** See §7.
+
+### Category attribution — complete as of 2026-09-06
+
+Counted from the landed CSV, first pass only (n = 675). The 137 findings this register
+previously left unattributed are the last three rows:
+
+| Category | Findings |
+|---|---:|
+| `semantic-fidelity` (false friends, wrong sense) | 212 |
+| `grammar` (part-of-speech mismatch, agreement) | 144 |
+| `pedagogical-accuracy` (narrowing) | 121 |
+| `other` | 98 |
+| `circular-definition` | 61 |
+| `russianism-calque` | 24 |
+| `register` | 15 |
+| **Total** | **675** |
+
+Across both passes (n = 702) the totals are `semantic-fidelity` 216, `grammar` 145,
+`pedagogical-accuracy` 133, `other` 100, `circular-definition` 67,
+`russianism-calque` 26, `register` 15.
 
 ---
 
@@ -101,13 +120,26 @@ One terminology observation, not a defect: "overview" and "body(-абзац)" ar
 - **Circular/garbled/truncated definitions** (61 + much of "other"): definitions that just restate the headword, or that were cut off mid-sentence, or contain duplicated/garbled machine-translation artifacts.
 - **Pedagogical narrowing** (121 findings): a technically correct but overly narrow sense given as the *only* one — e.g. `trend` defined only as "a fad/fashionable style," missing the statistical sense central to Writing Task 1; `dramatic` defined only via theatre, missing "sudden and striking."
 
-### Status of the per-entry register — open gap
+### Status of the per-entry register — landed 2026-09-06
 
-The per-entry register (all 702 rows, including the full 142-entry P0 list with proposed corrections) lives in `G4A_UKRAINIAN_QA_FINDINGS.csv`, which **is not in this repository.** It was produced during the audit session and delivered to Dalton directly in conversation; it was never committed, and requesting it returns a 404. This document and `DECISIONS.md` D-026 both previously cited that path as if it were present, and the PR description claimed this narrative contained "the complete 142-entry P0 register" — it does not; it contains the methodology, the category patterns, and worked examples.
+The per-entry register is now committed at [`docs/G4A_UKRAINIAN_QA_FINDINGS.csv`](G4A_UKRAINIAN_QA_FINDINGS.csv): 702 rows, columns `id, word, source, category, severity, issue, proposed_correction, confidence`. This document remains the methodology, category patterns and worked examples; the CSV is the per-entry record, including all 142 P0 entries with proposed corrections.
 
-Until the CSV lands, the closest thing to a per-entry P0 record in the repository is `scripts/qa/p0_corrections.json` on the `claude-code/g4a-vocab-p0-fixes` branch (PR #3), which carries the 142 entry IDs with their final corrections but not the original finding text, severity rationale, or the P1/P2 rows.
+It was verified on landing rather than accepted on assertion, and reconciles with every claim this register makes about it:
 
-**This is tracked as an open blocker, not a resolved item.** The audit is not independently reproducible from the repository alone without it.
+| Check | Result |
+|---|---|
+| Row count | 702 |
+| Distinct entry ids | 702 — no duplicates, so one finding per entry as claimed |
+| Ids resolving in `web/vocabulary.js` | 702 / 702 |
+| Severity split | 142 P0 · 314 P1 · 246 P2 |
+| Source split | 675 main-pass · 27 spot-check |
+| **Overlap between the two sets** | **0** — the disjointness §1a depends on |
+| Spot-check severity | 9 P1 · 18 P2 · 0 P0 |
+| P0 rows drawn from the first pass only | yes, 142 / 142 |
+
+`tests/g4a_ukrainian_deterministic.py` asserts all of the above, so the CSV cannot drift away from the claims made about it without failing the gate.
+
+**One real gap remains:** the 27 spot-check rows carry an empty `proposed_correction` and an empty `confidence`. They record what the first pass missed, not what to do about it, and the corrections for those entries still have to be written. The other 675 rows all carry a proposed correction, with confidence recorded as high (325), medium (332) or low (18).
 
 ## 7. Stratified spot-check: honest confidence, not an unverified "100% clean" claim
 

@@ -29,7 +29,7 @@ Exit code 0 only if every assertion below holds. Counts and collision policy are
 enforced, not reported: a drifted inventory or a new collision fails the run.
 """
 from pathlib import Path
-import json, re, sys, collections
+import csv, json, re, sys, collections
 
 ROOT = Path(__file__).resolve().parents[1]
 HAS_CYRILLIC = re.compile(r'[а-яіїєґА-ЯІЇЄҐ]')
@@ -43,6 +43,16 @@ EXPECTED = {
     'reading_ua_strings': 38,     # 15 family + 23 module uaSupport
     'writing1_ua_strings': 268,
     'app_ua_strings': 53,
+}
+
+# --- The per-entry findings register. These are the numbers every G4-A document
+# --- states; asserting them here is what stops a document and the data drifting
+# --- apart, which is the defect that produced the Phase 1 remediation.
+FINDINGS_CSV = 'docs/G4A_UKRAINIAN_QA_FINDINGS.csv'
+EXPECTED_FINDINGS = {
+    'rows': 702,
+    'severity': {'P0': 142, 'P1': 314, 'P2': 246},
+    'source': {'main-pass': 675, 'spot-check': 27},
 }
 
 # --- Collision policy (see docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md §3, Phase 0).
@@ -189,6 +199,71 @@ app_corrupt = [s for s in app_ua if CORRUPTION.search(s)]
 if app_corrupt: errors.append(f'app.js: placeholder/corruption in UA UI copy: {app_corrupt[:10]}')
 check_count('app.js UA UI substrings', len(app_ua), EXPECTED['app_ua_strings'])
 
+# --- findings register -------------------------------------------------------
+# Landed 2026-09-06. Before this, the register existed only outside the repository
+# and its counts could not be checked from a clone.
+csv_path = ROOT / FINDINGS_CSV
+if not csv_path.exists():
+    errors.append(
+        f'{FINDINGS_CSV}: missing. The per-entry findings register is what makes the '
+        f'G4-A audit reproducible from the repository alone; without it the counts in '
+        f'CURRENT_STATE.md, D-026 and the register narrative cannot be verified.'
+    )
+else:
+    with csv_path.open(encoding='utf-8-sig', newline='') as fh:
+        findings = list(csv.DictReader(fh))
+    check_count('findings register rows', len(findings), EXPECTED_FINDINGS['rows'])
+
+    ids = [r['id'] for r in findings]
+    if len(set(ids)) != len(ids):
+        dupes = [i for i, n in collections.Counter(ids).items() if n > 1]
+        errors.append(
+            f'{FINDINGS_CSV}: {len(ids) - len(set(ids))} duplicate entry ids '
+            f'({dupes[:5]}). The count reconciliation assumes one finding per entry.'
+        )
+    unknown = sorted(set(ids) - {e['id'] for e in vocab})
+    if unknown:
+        errors.append(
+            f'{FINDINGS_CSV}: {len(unknown)} finding ids do not resolve in '
+            f'vocabulary.js: {unknown[:10]}'
+        )
+
+    for field, expected in (('severity', EXPECTED_FINDINGS['severity']),
+                            ('source', EXPECTED_FINDINGS['source'])):
+        actual = dict(collections.Counter(r[field] for r in findings))
+        report.append(f'findings register {field}: {actual}')
+        if actual != expected:
+            errors.append(
+                f'{FINDINGS_CSV}: {field} counts are {actual}, expected {expected}. '
+                f'Either the register changed or a document is now quoting stale numbers.'
+            )
+
+    # The spot-check sampled only entries the first pass judged clean. If the two
+    # sets ever overlap, the disjointness the totals rest on is false and the
+    # 702-distinct-entry figure is wrong.
+    main_ids = {r['id'] for r in findings if r['source'] == 'main-pass'}
+    spot_ids = {r['id'] for r in findings if r['source'] == 'spot-check'}
+    overlap = sorted(main_ids & spot_ids)
+    report.append(f'findings register: main-pass {len(main_ids)}, spot-check '
+                  f'{len(spot_ids)}, overlap {len(overlap)}')
+    if overlap:
+        errors.append(
+            f'{FINDINGS_CSV}: {len(overlap)} entries appear in both the main pass and '
+            f'the spot-check ({overlap[:5]}). The two sets are documented as disjoint '
+            f'by construction, and the 702 distinct-entry total depends on it.'
+        )
+
+    missing_fix = [r['id'] for r in findings
+                   if r['source'] == 'main-pass' and not r['proposed_correction'].strip()]
+    if missing_fix:
+        errors.append(
+            f'{FINDINGS_CSV}: {len(missing_fix)} first-pass findings carry no proposed '
+            f'correction: {missing_fix[:10]}'
+        )
+    open_spot = sum(1 for r in findings
+                    if r['source'] == 'spot-check' and not r['proposed_correction'].strip())
+    report.append(f'spot-check findings still without a proposed correction: {open_spot}/27')
+
 # --- result ------------------------------------------------------------------
 print('G4-A DETERMINISTIC UKRAINIAN-CONTENT GATE')
 print('=========================================')
@@ -206,6 +281,9 @@ print('  - every expected UA inventory count matches exactly;')
 print('  - no missing, non-Cyrillic, or copied-from-English ua/definitionUa fields;')
 print('  - no placeholder, markup or encoding corruption;')
 print('  - no gloss or translation shared beyond the collision policy, and no new')
-print('    colliding groups above the recorded baseline.')
+print('    colliding groups above the recorded baseline;')
+print('  - the per-entry findings register reconciles: row count, severity and source')
+print('    splits, one finding per entry, every id resolving in vocabulary.js, and the')
+print('    main-pass and spot-check sets disjoint.')
 print('This is a STRUCTURAL result only. It says nothing about whether any translation')
 print('is correct, idiomatic, or the right sense — see docs/G4A_UKRAINIAN_QA_FINDINGS.md.')
