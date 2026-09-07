@@ -120,6 +120,27 @@ One terminology observation, not a defect: "overview" and "body(-абзац)" ar
 - **Circular/garbled/truncated definitions** (61 + much of "other"): definitions that just restate the headword, or that were cut off mid-sentence, or contain duplicated/garbled machine-translation artifacts.
 - **Pedagogical narrowing** (121 findings): a technically correct but overly narrow sense given as the *only* one — e.g. `trend` defined only as "a fad/fashionable style," missing the statistical sense central to Writing Task 1; `dramatic` defined only via theatre, missing "sudden and striking."
 
+### First-pass category counts (asserted by the deterministic gate)
+
+Counted from the landed CSV, first pass only (n = 675). Every first-pass finding
+carries a non-blank category. These are the numbers `tests/g4a_ukrainian_deterministic.py`
+now asserts against the CSV, so this section cannot drift from the register:
+
+| Category | Findings (first pass, n=675) |
+|---|---:|
+| `semantic-fidelity` | 212 |
+| `grammar` | 144 |
+| `pedagogical-accuracy` | 121 |
+| `other` | 98 |
+| `circular-definition` | 61 |
+| `russianism-calque` | 24 |
+| `register` | 15 |
+| **Total** | **675** |
+
+Across both passes (n = 702) the totals are `semantic-fidelity` 216, `grammar` 145,
+`pedagogical-accuracy` 133, `other` 100, `circular-definition` 67, `russianism-calque` 26,
+`register` 15 (see §1a). The deterministic gate asserts both breakdowns.
+
 ### Status of the per-entry register — landed 2026-09-06
 
 The per-entry register is now committed at [`docs/G4A_UKRAINIAN_QA_FINDINGS.csv`](G4A_UKRAINIAN_QA_FINDINGS.csv): 702 rows, columns `id, word, source, category, severity, issue, proposed_correction, confidence`. This document remains the methodology, category patterns and worked examples; the CSV is the per-entry record, including all 142 P0 entries with proposed corrections.

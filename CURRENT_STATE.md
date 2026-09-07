@@ -96,7 +96,8 @@ band-diagnostic evidence.
 ### G4-A — Ukrainian Linguistic QA — CHANGES REQUESTED
 
 Full audit executed against `g4-candidate-3` (2026-09-06): deterministic gate (100%
-coverage, PASS), Reading scaffolding (38/38 strings, 3 grammar findings), Writing Task 1
+coverage; **fails by design (exit 1) on defect `G4A-V-001`** — see below), Reading
+scaffolding (38/38 strings, 3 grammar findings), Writing Task 1
 content (268/268 strings, 0 defects — confirms D-025/R2-001 holds), vocabulary bank
 (1,784/1,784 entries, 18-chunk review — **675 findings, 37.8% of entries, 142 P0**),
 a stratified spot-check (70 previously-clean entries, 27 more findings), and a
@@ -122,9 +123,15 @@ Method: `docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md`. Register:
 independent review and Dalton's sign-off. No content was changed by this pass — findings
 are returned for routing per the established Claude Code/Codex correction protocol.
 
-- `tests/g4a_ukrainian_deterministic.py` — new, PASS, run first and last in every
-  future G4-A session (this is what would catch drift like the `main`-merge
-  discrepancy this session's preflight found).
+- `tests/g4a_ukrainian_deterministic.py` — new; **FAILS BY DESIGN (exit 1)** and stays
+  red until Phase 2 lands. Its structural checks (inventory counts, Cyrillic presence,
+  no corruption, collision ratchet, findings-register reconciliation) all pass, but it
+  asserts the named open defect `G4A-V-001` as a hard failure: entries `SB-0208`
+  (commence), `SB-0432` (embark) and `SB-1728` (commenced) all still share the circular
+  gloss "Щоб почати, почніть." ("To begin, begin."). The gate only goes green once all
+  three are corrected in Phase 2 — a partial fix does not clear it. Run first and last in
+  every future G4-A session (this is what would catch drift like the `main`-merge
+  discrepancy this session's preflight found); a non-`G4A-V-001` failure is real drift.
 
 **Blocker closed 2026-09-06:** `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` is now in the
 repository — 702 per-entry rows with `id, word, source, category, severity, issue,

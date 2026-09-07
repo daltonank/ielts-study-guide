@@ -53,18 +53,160 @@ EXPECTED_FINDINGS = {
     'rows': 702,
     'severity': {'P0': 142, 'P1': 314, 'P2': 246},
     'source': {'main-pass': 675, 'spot-check': 27},
+    # Published per-category counts. Two breakdowns, both stated in the register:
+    # 'category' is across both passes (n=702, FINDINGS.md §1a), parallel to the
+    # severity/source totals above; 'category_main_pass' is the first pass only
+    # (n=675, FINDINGS.md §1a and §6). Both are read from the CSV, not guessed.
+    'category': {
+        'semantic-fidelity': 216, 'grammar': 145, 'pedagogical-accuracy': 133,
+        'other': 100, 'circular-definition': 67, 'russianism-calque': 26,
+        'register': 15,
+    },
+    'category_main_pass': {
+        'semantic-fidelity': 212, 'grammar': 144, 'pedagogical-accuracy': 121,
+        'other': 98, 'circular-definition': 61, 'russianism-calque': 24,
+        'register': 15,
+    },
 }
 
 # --- Collision policy (see docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md §3, Phase 0).
 # A gloss shared by three or more distinct headwords is not a definition of any
 # of them, so it fails. A `ua` value shared by five or more entries indicates a
 # generic filler translation, so it fails. Below those thresholds, collisions are
-# ratcheted: the number of colliding groups may fall but never rise, so a
-# correction pass cannot quietly introduce new duplicates while fixing old ones,
-# and cannot escape the hard thresholds by splitting one group into two pairs.
+# ratcheted by *identity*, not by count: the baseline records the exact set of
+# entry ids that share each colliding value. A post-change group is allowed only
+# when it is a subset of some baseline group — i.e. a known collision that has been
+# partly or fully repaired. Any group containing a pair of ids that did not already
+# collide in the baseline fails, even when the total number of colliding groups is
+# unchanged. This is what a plain count baseline could not do: it let a correction
+# pass remove one duplicate pair and introduce a different one in the same change
+# and stay green because the count matched.
 MAX_ENTRIES_SHARING_DEFINITION = 2
 MAX_ENTRIES_SHARING_UA = 4
-BASELINE_COLLIDING_GROUPS = {'definitionUa': 9, 'ua': 109}
+BASELINE_COLLISION_GROUPS = {
+    'definitionUa': frozenset({
+        frozenset({'SB-0175', 'SB-1726'}),
+        frozenset({'SB-0208', 'SB-0432', 'SB-1728'}),
+        frozenset({'SB-0224', 'SB-1767'}),
+        frozenset({'SB-0262', 'SB-1435'}),
+        frozenset({'SB-0460', 'SB-1552'}),
+        frozenset({'SB-0665', 'SB-1775'}),
+        frozenset({'SB-0845', 'SB-1522'}),
+        frozenset({'SB-0886', 'SB-1706'}),
+        frozenset({'SB-1012', 'SB-1753'}),
+    }),
+    'ua': frozenset({
+        frozenset({'SB-0013', 'SB-0227', 'SB-1683'}),
+        frozenset({'SB-0014', 'SB-1010'}),
+        frozenset({'SB-0019', 'SB-0613'}),
+        frozenset({'SB-0028', 'SB-0229'}),
+        frozenset({'SB-0038', 'SB-0098', 'SB-1090'}),
+        frozenset({'SB-0051', 'SB-0092'}),
+        frozenset({'SB-0052', 'SB-0091'}),
+        frozenset({'SB-0053', 'SB-0997', 'SB-1162'}),
+        frozenset({'SB-0057', 'SB-1631'}),
+        frozenset({'SB-0064', 'SB-0764'}),
+        frozenset({'SB-0074', 'SB-0899'}),
+        frozenset({'SB-0086', 'SB-1133'}),
+        frozenset({'SB-0094', 'SB-0974'}),
+        frozenset({'SB-0096', 'SB-1373'}),
+        frozenset({'SB-0110', 'SB-0875'}),
+        frozenset({'SB-0111', 'SB-0798'}),
+        frozenset({'SB-0124', 'SB-0682'}),
+        frozenset({'SB-0144', 'SB-0394', 'SB-1281'}),
+        frozenset({'SB-0170', 'SB-0379'}),
+        frozenset({'SB-0175', 'SB-1189'}),
+        frozenset({'SB-0188', 'SB-1490'}),
+        frozenset({'SB-0190', 'SB-0204'}),
+        frozenset({'SB-0201', 'SB-0278'}),
+        frozenset({'SB-0230', 'SB-1288'}),
+        frozenset({'SB-0238', 'SB-0276', 'SB-0344'}),
+        frozenset({'SB-0252', 'SB-1148'}),
+        frozenset({'SB-0262', 'SB-1435', 'SB-1753'}),
+        frozenset({'SB-0269', 'SB-0392', 'SB-1732'}),
+        frozenset({'SB-0275', 'SB-1226'}),
+        frozenset({'SB-0292', 'SB-1009', 'SB-1376'}),
+        frozenset({'SB-0296', 'SB-0298'}),
+        frozenset({'SB-0305', 'SB-0309'}),
+        frozenset({'SB-0308', 'SB-1027'}),
+        frozenset({'SB-0336', 'SB-0511'}),
+        frozenset({'SB-0343', 'SB-0815'}),
+        frozenset({'SB-0348', 'SB-0883'}),
+        frozenset({'SB-0383', 'SB-1253'}),
+        frozenset({'SB-0388', 'SB-0704'}),
+        frozenset({'SB-0393', 'SB-1280'}),
+        frozenset({'SB-0424', 'SB-0425'}),
+        frozenset({'SB-0448', 'SB-1213'}),
+        frozenset({'SB-0450', 'SB-0480'}),
+        frozenset({'SB-0457', 'SB-1267'}),
+        frozenset({'SB-0470', 'SB-0665'}),
+        frozenset({'SB-0474', 'SB-0477'}),
+        frozenset({'SB-0475', 'SB-1167'}),
+        frozenset({'SB-0478', 'SB-1089'}),
+        frozenset({'SB-0483', 'SB-1519'}),
+        frozenset({'SB-0493', 'SB-1528'}),
+        frozenset({'SB-0496', 'SB-1263'}),
+        frozenset({'SB-0507', 'SB-1295'}),
+        frozenset({'SB-0517', 'SB-1206'}),
+        frozenset({'SB-0525', 'SB-1254'}),
+        frozenset({'SB-0531', 'SB-0532'}),
+        frozenset({'SB-0539', 'SB-0543'}),
+        frozenset({'SB-0549', 'SB-1084'}),
+        frozenset({'SB-0569', 'SB-0933'}),
+        frozenset({'SB-0570', 'SB-1645'}),
+        frozenset({'SB-0575', 'SB-0932', 'SB-1574'}),
+        frozenset({'SB-0599', 'SB-1561'}),
+        frozenset({'SB-0600', 'SB-1233', 'SB-1772'}),
+        frozenset({'SB-0630', 'SB-1656'}),
+        frozenset({'SB-0656', 'SB-1762'}),
+        frozenset({'SB-0666', 'SB-1406'}),
+        frozenset({'SB-0706', 'SB-1562'}),
+        frozenset({'SB-0719', 'SB-0720'}),
+        frozenset({'SB-0740', 'SB-0793'}),
+        frozenset({'SB-0758', 'SB-1572'}),
+        frozenset({'SB-0797', 'SB-1065'}),
+        frozenset({'SB-0819', 'SB-1708'}),
+        frozenset({'SB-0822', 'SB-0931'}),
+        frozenset({'SB-0860', 'SB-1279'}),
+        frozenset({'SB-0863', 'SB-1578'}),
+        frozenset({'SB-0879', 'SB-1425'}),
+        frozenset({'SB-0895', 'SB-1410', 'SB-1525', 'SB-1623'}),
+        frozenset({'SB-0946', 'SB-1113'}),
+        frozenset({'SB-0975', 'SB-0983'}),
+        frozenset({'SB-0976', 'SB-0993', 'SB-1710'}),
+        frozenset({'SB-0978', 'SB-1659'}),
+        frozenset({'SB-0987', 'SB-1006'}),
+        frozenset({'SB-0996', 'SB-1144'}),
+        frozenset({'SB-1013', 'SB-1537'}),
+        frozenset({'SB-1043', 'SB-1482'}),
+        frozenset({'SB-1063', 'SB-1083'}),
+        frozenset({'SB-1121', 'SB-1648'}),
+        frozenset({'SB-1123', 'SB-1608'}),
+        frozenset({'SB-1155', 'SB-1191'}),
+        frozenset({'SB-1156', 'SB-1164'}),
+        frozenset({'SB-1173', 'SB-1256'}),
+        frozenset({'SB-1188', 'SB-1647'}),
+        frozenset({'SB-1228', 'SB-1428'}),
+        frozenset({'SB-1231', 'SB-1399'}),
+        frozenset({'SB-1259', 'SB-1301'}),
+        frozenset({'SB-1343', 'SB-1576'}),
+        frozenset({'SB-1364', 'SB-1380'}),
+        frozenset({'SB-1385', 'SB-1654'}),
+        frozenset({'SB-1387', 'SB-1509'}),
+        frozenset({'SB-1419', 'SB-1731'}),
+        frozenset({'SB-1486', 'SB-1516'}),
+        frozenset({'SB-1511', 'SB-1774'}),
+        frozenset({'SB-1517', 'SB-1526'}),
+        frozenset({'SB-1527', 'SB-1549'}),
+        frozenset({'SB-1544', 'SB-1704'}),
+        frozenset({'SB-1570', 'SB-1707'}),
+        frozenset({'SB-1571', 'SB-1586'}),
+        frozenset({'SB-1599', 'SB-1709'}),
+        frozenset({'SB-1626', 'SB-1688'}),
+        frozenset({'SB-1671', 'SB-1715'}),
+        frozenset({'SB-1672', 'SB-1692'}),
+    }),
+}
 
 # --- Named open defects from the G4-A register that a threshold alone cannot hold.
 # Thresholds are gameable by partial repair: fixing one member of a three-way
@@ -116,22 +258,40 @@ def check_count(label, actual, expected):
         )
 
 
-def check_collisions(field, counts):
+def new_collision_groups(current_groups, baseline_groups):
+    """Groups present after a change whose collision was not already in the baseline.
+
+    A current group is exempt only if it is a subset of some baseline group — that is,
+    every pair of ids in it was already colliding, so it can only be a shrunk remnant
+    of a known collision (a partial or in-progress repair), never a newly-introduced
+    duplicate. Anything else — a brand-new pair, or a new id joining an existing
+    value — is flagged, regardless of the total group count.
+    """
+    return [g for g in current_groups
+            if not any(g <= b for b in baseline_groups)]
+
+
+def check_collisions(field, value_to_ids):
     limit = MAX_ENTRIES_SHARING_DEFINITION if field == 'definitionUa' else MAX_ENTRIES_SHARING_UA
-    over = {k: n for k, n in counts.items() if n > limit}
+    over = {v: ids for v, ids in value_to_ids.items() if len(ids) > limit}
     if over:
-        for value, n in sorted(over.items(), key=lambda kv: -kv[1])[:5]:
+        for value, ids in sorted(over.items(), key=lambda kv: -len(kv[1]))[:5]:
             errors.append(
-                f'vocabulary.js: {field} shared by {n} entries (policy allows at most '
+                f'vocabulary.js: {field} shared by {len(ids)} entries (policy allows at most '
                 f'{limit}): {value[:70]!r}'
             )
-    groups = sum(1 for n in counts.values() if n >= 2)
-    baseline = BASELINE_COLLIDING_GROUPS[field]
-    report.append(f'{field} colliding groups (>=2 entries): {groups} (ratchet baseline {baseline})')
-    if groups > baseline:
+    current_groups = {frozenset(ids) for ids in value_to_ids.values() if len(ids) >= 2}
+    baseline = BASELINE_COLLISION_GROUPS[field]
+    introduced = new_collision_groups(current_groups, baseline)
+    report.append(
+        f'{field} colliding groups (>=2 entries): {len(current_groups)} '
+        f'(ratchet baseline {len(baseline)} identities); new groups vs baseline: {len(introduced)}'
+    )
+    for g in sorted(introduced, key=lambda s: sorted(s))[:5]:
         errors.append(
-            f'vocabulary.js: {field} now has {groups} colliding groups, above the ratchet '
-            f'baseline of {baseline}. A correction pass introduced new duplicate values.'
+            f'vocabulary.js: {field} has a new colliding group {sorted(g)} whose collision was '
+            f'not present in the ratchet baseline. A correction pass introduced a duplicate value '
+            f'shared by entries that did not previously collide (fails even at equal group count).'
         )
 
 
@@ -153,10 +313,38 @@ if no_def: errors.append(f'vocabulary.js: {len(no_def)} entries missing definiti
 if def_no_cyr: errors.append(f'vocabulary.js: {len(def_no_cyr)} definitionUa fields contain no Cyrillic: {def_no_cyr[:10]}')
 if placeholder: errors.append(f'vocabulary.js: {len(placeholder)} entries with placeholder/HTML corruption: {placeholder[:10]}')
 
-check_collisions('ua', collections.Counter(
-    (e.get('ua') or '').strip() for e in vocab if (e.get('ua') or '').strip()))
-check_collisions('definitionUa', collections.Counter(
-    (e.get('definitionUa') or '').strip() for e in vocab if (e.get('definitionUa') or '').strip()))
+def value_to_ids(field):
+    m = collections.defaultdict(list)
+    for e in vocab:
+        v = (e.get(field) or '').strip()
+        if v:
+            m[v].append(e['id'])
+    return m
+
+
+def _selfcheck_ratchet():
+    """Prove the identity ratchet is non-vacuous before trusting it on real data.
+
+    A plain count baseline passes an equal-count swap; the identity comparison must
+    not. Assert that a synthetic swap (one baseline pair removed, a brand-new pair
+    added, group count unchanged) is flagged, and that a legitimate shrink of a
+    baseline group is not.
+    """
+    baseline = {frozenset({'A', 'B', 'C'}), frozenset({'D', 'E'})}
+    swapped = {frozenset({'A', 'B', 'C'}), frozenset({'F', 'G'})}  # same count, new pair F/G
+    assert len(swapped) == len(baseline), 'self-check setup: group counts must match'
+    assert new_collision_groups(swapped, baseline) == [frozenset({'F', 'G'})], \
+        'ratchet self-check: a new equal-count collision pair was not flagged'
+    shrunk = {frozenset({'A', 'B'}), frozenset({'D', 'E'})}  # {A,B} ⊂ {A,B,C}
+    assert new_collision_groups(shrunk, baseline) == [], \
+        'ratchet self-check: a legitimate group shrink was wrongly flagged'
+    report.append('ratchet self-check: identity comparison flags a new equal-count '
+                  'collision pair and ignores a legitimate group shrink (non-vacuous)')
+
+
+_selfcheck_ratchet()
+check_collisions('ua', value_to_ids('ua'))
+check_collisions('definitionUa', value_to_ids('definitionUa'))
 
 by_id = {e['id']: e for e in vocab}
 for group_id, ids in NO_SHARED_DEFINITION_GROUPS.items():
@@ -229,7 +417,8 @@ else:
         )
 
     for field, expected in (('severity', EXPECTED_FINDINGS['severity']),
-                            ('source', EXPECTED_FINDINGS['source'])):
+                            ('source', EXPECTED_FINDINGS['source']),
+                            ('category', EXPECTED_FINDINGS['category'])):
         actual = dict(collections.Counter(r[field] for r in findings))
         report.append(f'findings register {field}: {actual}')
         if actual != expected:
@@ -237,6 +426,25 @@ else:
                 f'{FINDINGS_CSV}: {field} counts are {actual}, expected {expected}. '
                 f'Either the register changed or a document is now quoting stale numbers.'
             )
+
+    # Every first-pass finding must carry a category, and the first-pass category
+    # breakdown must match the register's published attribution (FINDINGS.md §1a, §6).
+    main_pass = [r for r in findings if r['source'] == 'main-pass']
+    blank_category = [r['id'] for r in main_pass if not (r.get('category') or '').strip()]
+    if blank_category:
+        errors.append(
+            f'{FINDINGS_CSV}: {len(blank_category)} first-pass findings have a blank '
+            f'category: {blank_category[:10]}. Every first-pass finding is categorised in '
+            f'the published attribution, so a blank category means the register drifted.'
+        )
+    main_category = dict(collections.Counter(r['category'] for r in main_pass))
+    report.append(f'findings register category (main-pass): {main_category}')
+    if main_category != EXPECTED_FINDINGS['category_main_pass']:
+        errors.append(
+            f'{FINDINGS_CSV}: main-pass category counts are {main_category}, expected '
+            f'{EXPECTED_FINDINGS["category_main_pass"]}. Either the register changed or a '
+            f'document is now quoting stale numbers.'
+        )
 
     # The spot-check sampled only entries the first pass judged clean. If the two
     # sets ever overlap, the disjointness the totals rest on is false and the
