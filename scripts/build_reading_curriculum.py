@@ -396,9 +396,45 @@ foundation_lessons={
  'READ-F08':['Inference is a controlled step beyond explicit wording, not permission to invent a likely story.','Prefer the weakest conclusion fully supported by the text over a stronger but speculative claim.','Author-position questions often turn on qualification words such as may, generally, only, however and although.']}
 for id_,title,obj,ua in foundations:
     modules.append({'id':id_,'title':title,'skill':'Reading','subskill':'Foundation','difficulty':'foundation','objectives':[obj],'lesson':foundation_lessons[id_],'workedExamples':[],'exercises':[],'masteryCheck':[],'relatedModules':[],'prerequisites':[],'errorCategories':['reading_strategy'],'vocabularyTags':[],'uaSupport':ua,'kind':'foundation'})
+# G4A-R-001..003 fix — case agreement in the module scaffolding sentence.
+# The uaSupport line reads "Цей тип завдань перевіряє <X>. ...", where the verb
+# `перевіряє` ("tests / checks") governs the ACCUSATIVE case (знахідний відмінок),
+# so <X> must be accusative. FAMILY_META[fam][3] is written in the NOMINATIVE
+# because it is also surfaced standalone as familyMeta.ua in the module hero
+# (web/app.js), where the nominative is the correct citation form — so it must not
+# be mutated in place. This table holds the accusative form used ONLY inside the
+# `перевіряє` sentence. Twelve labels are syncretic (neuter -ння nouns and
+# masculine/plural inanimates decline nom == acc) and repeat their nominative
+# verbatim; three feminine-headed labels differ and are the actual fix:
+#   multiple_choice  головна думка         -> головну думку        (G4A-R-001)
+#   ynng             позиція               -> позицію              (G4A-R-002)
+#   short_answer     коротка точна відповідь -> коротку точну відповідь (G4A-R-003)
+# Every family MUST have an entry; the assertion below fails closed so a future
+# feminine-headed label added to FAMILY_META without a matching accusative form
+# cannot silently reintroduce the case-agreement bug.
+FAMILY_UA_SKILL_ACCUSATIVE = {
+ 'multiple_choice':'детальне розуміння та головну думку',
+ 'tfng':'розрізнення підтвердженої, суперечної та відсутньої інформації',
+ 'ynng':'позицію та твердження автора',
+ 'matching_information':'пошук конкретної інформації у параграфах',
+ 'matching_headings':'визначення головної ідеї абзацу',
+ 'matching_features':'зіставлення тверджень з людьми, місцями або категоріями',
+ 'matching_sentence_endings':'поєднання частин речення за змістом',
+ 'sentence_completion':'точне відтворення інформації з тексту',
+ 'summary_completion':'розпізнавання перефразування та узагальнення',
+ 'note_completion':'вибір конкретних деталей',
+ 'table_completion':'порівняння структурованої інформації',
+ 'flow_chart_completion':'відстеження послідовності процесу та перефразування',
+ 'diagram_label':'зіставлення тексту з етапами або частинами схеми',
+ 'short_answer':'коротку точну відповідь на основі тексту',
+ 'inference_author':'висновки, підтекст і ставлення автора',
+}
+_missing_acc=set(FAMILY_META)-set(FAMILY_UA_SKILL_ACCUSATIVE)
+assert not _missing_acc, f'FAMILY_UA_SKILL_ACCUSATIVE missing accusative forms for: {sorted(_missing_acc)}'
 for fam,(title,skill,trap,ua_skill) in FAMILY_META.items():
     mid='READ-'+fam.upper().replace('_','-')
-    modules.append({'id':mid,'title':title,'skill':'Reading','subskill':fam,'difficulty':'7','objectives':[f'Use {title} strategy accurately under IELTS-style conditions.',f'Explain why the correct answer is supported and why common distractors fail.'],'lesson':[f'This family primarily tests {skill.lower()}.',f'Core strategy: identify the evidence target before comparing answer choices.',f'Common trap: {trap}'],'workedExamples':[{'prompt':'Evidence first','analysis':'Locate or summarize the relevant passage idea before committing to an option.'}],'exercises':[],'masteryCheck':[],'relatedModules':['READ-F03','READ-F04','READ-F07','READ-F08'],'prerequisites':['READ-F01'],'errorCategories':[fam],'vocabularyTags':['reading'],'uaSupport':f'Цей тип завдань перевіряє {ua_skill}. Не обирайте відповідь лише через знайоме слово.','strategySteps':FAMILY_GUIDANCE[fam]['steps'],'workedExample':FAMILY_GUIDANCE[fam]['worked'],'challenge':FAMILY_GUIDANCE[fam]['challenge'],'kind':'question_family'})
+    ua_skill_acc=FAMILY_UA_SKILL_ACCUSATIVE[fam]
+    modules.append({'id':mid,'title':title,'skill':'Reading','subskill':fam,'difficulty':'7','objectives':[f'Use {title} strategy accurately under IELTS-style conditions.',f'Explain why the correct answer is supported and why common distractors fail.'],'lesson':[f'This family primarily tests {skill.lower()}.',f'Core strategy: identify the evidence target before comparing answer choices.',f'Common trap: {trap}'],'workedExamples':[{'prompt':'Evidence first','analysis':'Locate or summarize the relevant passage idea before committing to an option.'}],'exercises':[],'masteryCheck':[],'relatedModules':['READ-F03','READ-F04','READ-F07','READ-F08'],'prerequisites':['READ-F01'],'errorCategories':[fam],'vocabularyTags':['reading'],'uaSupport':f'Цей тип завдань перевіряє {ua_skill_acc}. Не обирайте відповідь лише через знайоме слово.','strategySteps':FAMILY_GUIDANCE[fam]['steps'],'workedExample':FAMILY_GUIDANCE[fam]['worked'],'challenge':FAMILY_GUIDANCE[fam]['challenge'],'kind':'question_family'})
 
 passages=[]
 family_counter={k:0 for k in FAMILY_META}
