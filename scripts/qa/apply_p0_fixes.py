@@ -108,7 +108,9 @@ def main():
     if missing:
         fail(f'correction ids not found in vocabulary.js: {missing}')
 
-    qa_note = f"Reviewed — G4-A P0 correction applied ({review_date})"
+    # Severity-aware provenance: the three P1 additions (meta.p1_ids) must not be
+    # mislabeled as P0. Every other corrected entry is a G4-A P0 finding.
+    p1_ids = set(meta.get('p1_ids', []))
 
     applied = []
     for cid, fix in corrections.items():
@@ -118,7 +120,8 @@ def main():
             if field in fix and fix[field] != entry.get(field):
                 entry[field] = fix[field]
                 changed_fields.append(field)
-        entry['translationQa'] = qa_note
+        severity = 'P1' if cid in p1_ids else 'P0'
+        entry['translationQa'] = f"Reviewed — G4-A {severity} correction applied ({review_date})"
         applied.append((cid, changed_fields))
 
     # structural sanity checks

@@ -7,9 +7,13 @@ explicit and the deterministic gate, findings register and D-026 record are all
 present in this branch's tree. Do not merge PR #3 before PR #2.
 **Scope:** the 142 P0-severity findings from the G4-A Ukrainian linguistic QA
 audit (`docs/G4A_UKRAINIAN_QA_FINDINGS.md`, `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`,
-`DECISIONS.md` D-026 on PR #2), the two entries required to fully clear
-deterministic-gate defect `G4A-V-001`, and the three Reading case-agreement
-defects `G4A-R-001..003`.
+`DECISIONS.md` D-026 on PR #2), **plus three P1 additions** — `SB-0208` and
+`SB-1728` (required to fully clear deterministic-gate defect `G4A-V-001`) and
+`SB-1160` (required to clear the identity-collision ratchet triggered by the
+`SB-1679 appendix` fix) — for **145 vocabulary corrections total (142 P0 + 3
+P1)**, and the three Reading case-agreement defects `G4A-R-001..003`. The three
+P1 additions remain counted as P1 in the findings register; their
+`translationQa` provenance is stamped P1, not P0.
 **Authorization:** executed under Dalton's explicit instruction to batch-fix the
 P0 entries, and the `[CHATGPT → CLAUDE]` "Proceed with Phase 2 now" handoff.
 `D-026` remains **Proposed** and this is an AI linguistic QA pass, not a
@@ -64,6 +68,23 @@ than degrade the `appendix` fix, `SB-1160` is corrected to the register's own P1
 proposal `додаток (n.); доповнювати (v.)`, which is both more accurate and
 distinct.
 
+### Nine P0 entries refined for ua/definitionUa consistency
+A review pass tightened nine P0 corrections so each entry's `ua` and
+`definitionUa` are internally consistent and free of calques / inaccurate sense
+claims. These stay P0; only their correction values changed.
+
+| Entry | Word | Change |
+|---|---|---|
+| `SB-0333` | default | `ua` `типове значення` → `значення за замовчуванням; налаштування за замовчуванням`; definition aligned to the settings sense |
+| `SB-0814` | nursery | `ua` `дитячі ясла` → `дитячі ясла; дитяча кімната` so the room sense the definition already names is covered |
+| `SB-0954` | rally | `ua` `мітинг` → added the verb sense `згуртовуватися, збиратися на підтримку (v.)` to match `pos = n., v.` |
+| `SB-1180` | tackle | `ua` `підкат` (football-specific) → broader `захват; відбір м'яча`; definition broadened accordingly |
+| `SB-1287` | ward | `ua` `палата` → `палата (лікарняна); район, округ (адмін.)` so the administrative-district sense in the definition is represented |
+| `SB-1308` | withdrawal | `ua` now labels the financial (`зняття коштів`), military and medical senses separately; adds the funds sense the definition cited |
+| `SB-1444` | dominant | `ua` calque `домінуючий` → idiomatic `панівний; переважний; домінантний` |
+| `SB-0150` | brutal | definition de-scoped from `часто в нерозважливий спосіб` to center on extreme cruelty/harshness/severity; `ua` `жорстокий; нещадний; суворий` |
+| `SB-1121` | stem | removed the inaccurate "grows vertically upward" claim; noun sense = plant axis supporting leaves/flowers/fruit and carrying water/nutrients; `stem from` verb sense preserved separately |
+
 ## Reproducible, byte-identical patch
 
 - `scripts/qa/p0_corrections.json` — the 145 corrections under `corrections`,
@@ -77,16 +98,19 @@ distinct.
      (`01a8c5acd2ab0bcf9a8eefbec0a11d7530f19038`, i.e. `main` @ `52d12dd`) before
      any mutation. A second run on an already-patched file fails loudly instead of
      double-applying.
-  2. **FIXED REVIEW DATE** — `translationQa` is stamped
-     `Reviewed — G4-A P0 correction applied (2026-09-06)` from
-     `_meta.review_date`, never `date.today()`, so the output is byte-identical on
-     any run date.
+  2. **FIXED, SEVERITY-AWARE REVIEW STAMP** — `translationQa` is stamped from
+     `_meta.review_date` (never `date.today()`), so the output is byte-identical on
+     any run date. The label is **severity-aware**: the 142 P0 entries get
+     `Reviewed — G4-A P0 correction applied (2026-09-06)`, while the three P1
+     additions listed in `_meta.p1_ids` (`SB-0208`, `SB-1728`, `SB-1160`) get
+     `Reviewed — G4-A P1 correction applied (2026-09-06)`, so no P1 entry is
+     mislabeled P0.
   3. **OUTPUT GUARD** — the computed new file's git blob SHA-1 must equal
      `_meta.expected_output_blob_sha1`
-     (`df6df637916f0695b3b080b53cc7743a1026eb20`) before it is written.
+     (`414fbeacf54aad367beb7dccfbda935635d7ef19`) before it is written.
 
 Running `scripts/qa/apply_p0_fixes.py` against a clean base reproduces the exact
-committed `web/vocabulary.js` (`df6df637…`) every time.
+committed `web/vocabulary.js` (`414fbeac…`) every time.
 
 ## Reading case-agreement fix (`G4A-R-001..003`)
 
@@ -129,18 +153,38 @@ Run from repository root against the committed artifacts:
 | `tests/g4_writing1_inventory.py` | PASS |
 | `tests/g4_writing1_claims.py` | PASS |
 | `tests/g4_writing1_content_qa.py` | PASS |
-| `tests/g4_writing1_negative.py` | PASS |
+| `tests/g4_writing1_negative.py` | PASS (8/8 seeded defects caught; restored tree passes) |
 | `tests/release_integrity.py` | PASS |
 
-Browser/responsive suites were not run (no Chromium in this environment); this
-change touches vocabulary data, generated reading data and non-browser tests only.
+Byte-reproduction check: restored the clean base `web/vocabulary.js`
+(input blob `01a8c5a…`), re-ran `apply_p0_fixes.py`, output reproduced the new
+pinned blob `414fbeac…` exactly; a second run fails closed (idempotent).
+Reading generator re-run (`scripts/build_reading_curriculum.py`) leaves
+`web/reading_data.js` byte-identical (blob `f1e6a6d…`, no diff).
+
+Browser/responsive suites (Chromium `/opt/pw-browsers/chromium-1194`, via the
+`IELTS_CHROMIUM` override in `tests/browser_env.py`) — all PASS this session:
+
+| Browser check | Result |
+|---|---|
+| `tests/responsive_check.py` | PASS — 320/375/430/768/1024/1440 |
+| `tests/g3_reading_functional.py` | PASS |
+| `tests/g3_reading_responsive.py` | PASS — 320/375/430/768/1024/1440 |
+| `tests/g3_reading_accessibility.py` | PASS |
+| `tests/g4_writing1_functional.py` | PASS |
+| `tests/g4_writing1_responsive.py` | PASS — 320/375/430/768/1024/1440 |
+| `tests/g4_writing1_accessibility.py` | PASS |
+| `tests/accessibility_static.py` | PASS |
 
 ## What's left
 
-- **305 P1 + 246 P2** lower-severity findings from the same audit remain open,
-  tracked in `docs/G4A_UKRAINIAN_QA_FINDINGS.md` / `.csv`. (The two P1 entries
-  `SB-0208`/`SB-1728` and `SB-1160` folded into this batch remain counted as P1 in
-  the register; only the correction payload includes them.)
+- **311 P1 + 246 P2** lower-severity findings from the same audit remain open.
+  Reconciled mechanically from `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`, which holds
+  314 P1 + 246 P2; this batch fixes 3 P1 (`SB-0208`, `SB-1728`, `SB-1160`),
+  leaving 311 P1 + 246 P2. (Those three remain counted as P1 in the register;
+  only the correction payload folds them in.) Of the remaining findings, **27
+  spot-check rows (9 P1, 18 P2) still lack a proposed correction / confidence**
+  and need triage before any further batch.
 - A **native-Ukrainian human editorial review** is still required before any
   `G4-A PASS`. Untouched by this batch.
 - `CURRENT_STATE.md` / `DECISIONS.md` are edited by PR #2; this branch does not
