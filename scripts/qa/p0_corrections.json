@@ -5,7 +5,7 @@
     "base_commit": "52d12ddd2c52f9d822a5677b98ee30649ccd61a6",
     "expected_input_blob_sha1": "01a8c5acd2ab0bcf9a8eefbec0a11d7530f19038",
     "expected_output_blob_sha1": "df6df637916f0695b3b080b53cc7743a1026eb20",
-    "notes": "review_date is FIXED so apply_p0_fixes.py is byte-reproducible on any run date. expected_input_blob_sha1/expected_output_blob_sha1 are git blob SHA-1s enforced as executable assertions before and after mutation. 142 P0 corrections plus SB-0208 and SB-1728 (register severity P1) added to fully resolve deterministic-gate defect G4A-V-001 — the SB-0208/SB-0432/SB-1728 shared circular gloss \"Щоб почати, почніть.\""
+    "notes": "review_date is FIXED so apply_p0_fixes.py is byte-reproducible on any run date. expected_input_blob_sha1/expected_output_blob_sha1 are git blob SHA-1s enforced as executable assertions before and after mutation. This payload contains 145 corrections total = 142 P0 (139 accepted unchanged + 3 refined for accuracy: SB-0670, SB-1161, SB-0256) + 3 additions. Additions: SB-0208 and SB-1728 (register severity P1) added to fully resolve deterministic-gate defect G4A-V-001 — the SB-0208/SB-0432/SB-1728 shared circular gloss \"Щоб почати, почніть.\"; SB-1160 (register severity P1) added because correcting SB-1679 (appendix) to \"додаток\" collided with the untouched SB-1160 (supplement, also \"додаток\") and the identity ratchet caught it — SB-1160 is corrected to its own P1 proposal so the uniqueness check passes without degrading the appendix fix. See docs/G4A_P0_FIXES_STATUS.md for the full breakdown. The 142-P0 / 3-addition accounting and per-entry correction values are unchanged."
   },
   "corrections": {
     "SB-0038": {

@@ -8,11 +8,25 @@ DECISIONS.md D-026, PR #2) found 702 defects in Ukrainian
 translations/definitions, of which 142 were classified P0 (highest severity:
 false friends, wrong-sense translations, POS/register mismatches,
 grammatical-case leakage from source extraction). This script applies concrete,
-editorially-reviewed corrections for those 142 entries, PLUS two further entries
-(SB-0208, SB-1728; register severity P1) that must be corrected together with
-SB-0432 to fully clear deterministic-gate defect G4A-V-001 — the three shared the
-circular gloss "Щоб почати, почніть." and a partial repair would slip under the
-duplicate threshold while the defect stayed live. Total: 144 corrections.
+editorially-reviewed corrections for those 142 P0 entries (139 accepted
+unchanged; 3 refined for accuracy: SB-0670, SB-1161, SB-0256), PLUS three
+further additions — for a complete payload of 145 corrections:
+
+  - SB-0208, SB-1728 (register severity P1) — corrected together with SB-0432
+    to fully clear deterministic-gate defect G4A-V-001. All three shared the
+    circular gloss "Щоб почати, почніть."; a partial repair (fixing only
+    SB-0432) would have dropped the group to a pair and slipped under the
+    duplicate threshold while the defect stayed live.
+  - SB-1160 (register severity P1) — added because correcting SB-1679
+    (appendix) to its correct document-sense term "додаток" collided with the
+    untouched SB-1160 (supplement, also glossed "додаток"). The identity
+    ratchet's uniqueness check caught the collision. Rather than degrade the
+    appendix fix, SB-1160 is corrected to its own P1 proposal
+    ("додаток (n.); доповнювати (v.)"), which is both more accurate and
+    distinct, so the ratchet passes.
+
+Total: 145 corrections (142 P0 + 3 additions: SB-0208, SB-1728, SB-1160).
+See docs/G4A_P0_FIXES_STATUS.md for the full per-entry breakdown.
 
 Usage (run from a clean checkout, repository root):
     python3 scripts/qa/apply_p0_fixes.py
