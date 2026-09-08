@@ -328,6 +328,8 @@ exceptions, cycle language, or compass directions that the learner could see dir
 > independently reviewed it, and a decision cannot be approved by its own author. It becomes
 > `Approved` on independent review plus Dalton's sign-off.
 
+> Note (2026-09-08): See D-027, which proposes amending the mandatory pre-release native-speaker review requirement recorded here.
+
 ### Decision
 The Ukrainian-language quality of learner-facing content is validated separately from
 the technical/structural G4 gate (which stays `PASS`, unaffected). A dedicated
@@ -396,3 +398,24 @@ with real translation errors reach learners unreviewed.
 - the deterministic script and findings register are committed for reproducibility,
   matching how `docs/G4_EXTERNAL_REVIEW_PACKET.md` already documents G4's technical
   evidence.
+
+---
+
+## D-027 — G4-A acceptance-standard reconciliation — AI linguistic QA + learner flagging loop replaces the mandatory pre-release native-Ukrainian editorial gate
+
+**Date:** 2026-09-08 · **Status:** Proposed (awaiting Dalton's explicit in-thread approval — see provenance note)
+
+### Context
+D-026 recorded the native-speaker Ukrainian editorial review as a separate, required pre-release gate for G4-A. That resource is reported unavailable.
+
+### Decision (proposed)
+The mandatory pre-release native-Ukrainian human editorial review is removed as a G4-A completion gate and replaced by (a) AI linguistic QA — honestly labelled as such; it does not constitute or satisfy a native-speaker review — and (b) a learner-facing correction loop ("Flag mistake / Це виглядає неправильно") to be delivered in the product (tracked for ticket T5). A native/human review remains optional/advisory and must never be falsely claimed as completed.
+
+### Proposed G4-A PASS standard
+Zero unresolved P0 and P1 findings; the deterministic gate passing before and after every content change; the stratified-sample check re-run against the corrected bank; and the learner-facing flag/correction loop present. P2 findings may remain open as an explicit editorial backlog.
+
+### Relationship to D-026
+Amends only the "mandatory pre-release" aspect of D-026's human-review requirement. D-026's core (G4-A is a distinct gate from G4 technical validation) stands. D-026 remains Proposed.
+
+### Provenance note
+This decision originates from an instruction attributed to Dalton but relayed to the executor through a ChatGPT-authored Slack message, not stated by Dalton directly in-session. It is therefore recorded as Proposed and requires Dalton's explicit approval to become the governing G4-A acceptance standard. Until approved, the prior standard is not treated as satisfied and no G4-A PASS is claimed.

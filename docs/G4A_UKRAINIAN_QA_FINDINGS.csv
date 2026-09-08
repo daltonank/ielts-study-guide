@@ -145,8 +145,8 @@ SB-0004,absent,main-pass,circular-definition,P1,"Confusing, self-contradictory r
 SB-0021,acid,main-pass,grammar,P1,"pos is listed as 'adj.' only, but 'кислота' is a noun. If the adjectival sense is intended, the ua field should be an adjective.","If pos is adj., use 'кислотний'.",high
 SB-0028,adhere,main-pass,semantic-fidelity,P1,"'дотримуватися' is figurative sense, definition explains only literal physical sense.","Either change ua to 'прилипати', or rewrite definition to figurative sense.",medium
 SB-0037,adverse,main-pass,grammar,P1,"Grammatically broken chain of fragments, mismatched plural verb.","Такий, що діє проти чиїхось інтересів або має шкідливий, негативний вплив.",medium
-SB-0044,aide,spot-check,circular-definition,P1,One-word circular def; misses 'assistant to authority figure' specificity.,,
-SB-0052,allege,spot-check,semantic-fidelity,P1,Neutral 'стверджувати' loses unproven-accusation connotation.,,
+SB-0044,aide,spot-check,circular-definition,P1,One-word circular def; misses 'assistant to authority figure' specificity.,"ua: ""помічник; радник"" | definitionUa: ""Помічник впливової особи — політика, керівника чи високопосадовця, який допомагає їй у роботі.""",high
+SB-0052,allege,spot-check,semantic-fidelity,P1,Neutral 'стверджувати' loses unproven-accusation connotation.,"ua: ""стверджувати (без доказів); голослівно звинувачувати"" | definitionUa: ""Заявляти про щось як про факт, не надаючи доказів, зазвичай про правопорушення чи провину.""",high
 SB-0079,arena,main-pass,pedagogical-accuracy,P1,Missing dominant figurative sense (political arena).,Add figurative sense.,medium
 SB-0082,array,main-pass,other,P1,Definition is truncated mid-word.,"Complete the sentence, e.g. '...щоб їх можна було отримати за допомогою числових індексів.'",high
 SB-0090,assembly,main-pass,semantic-fidelity,P1,"'збірка' in Ukrainian means a 'collection/compilation', not a gathering of people. Mistranslation/false-friend contradicting the definition.","Use 'зібрання' or 'асамблея' for the gathering-of-people sense, or 'складання/монтаж' for the manufacturing sense.",high
@@ -206,7 +206,7 @@ SB-0395,dissolve,main-pass,pedagogical-accuracy,P1,Misses formal 'end/dissolve p
 SB-0396,distinction,main-pass,pedagogical-accuracy,P1,Misses core 'difference' sense.,Add відмінність (between two things).,high
 SB-0399,distress,main-pass,grammar,P1,"pos n.,v. but лихо is only noun; def is verbal.",Add verb: засмучувати.,medium
 SB-0401,divert,main-pass,semantic-fidelity,P1,ua is 'distract'; def is 'reroute'.,перенаправляти; відхиляти від курсу,high
-SB-0404,documentation,spot-check,pedagogical-accuracy,P1,Invented inaccurate paraphrase instead of real definition.,,
+SB-0404,documentation,spot-check,pedagogical-accuracy,P1,Invented inaccurate paraphrase instead of real definition.,"ua: ""документація"" | definitionUa: ""Сукупність офіційних документів або письмових матеріалів, що надають інформацію, слугують доказом чи офіційним записом.""",high
 SB-0409,drain,main-pass,semantic-fidelity,P1,ua is literal pour; def is figurative exhaust.,виснажувати,high
 SB-0412,drown,main-pass,semantic-fidelity,P1,ua transitive; def intransitive.,"тонути (intransitive), or add both.",high
 SB-0414,dub,main-pass,semantic-fidelity,P1,ua is film-dubbing sense; def is 'confer name' sense.,"називати, нарікати",medium
@@ -282,7 +282,7 @@ SB-0836,outrage,main-pass,grammar,P1,pos v. included but only noun given; def is
 SB-0843,overwhelming,main-pass,semantic-fidelity,P1,'переважний' fits only 'majority'; def is broader sense.,приголомшливий; непереборний,medium
 SB-0844,pad,main-pass,semantic-fidelity,P1,"'колодка' is hard block, not soft cushion.",подушечка; м'яка прокладка,medium
 SB-0849,partial,main-pass,grammar,P1,Duplicated fragment; missing 'biased' sense.,"Такий, що є лише частиною; also упереджений.",high
-SB-0855,patent,spot-check,russianism-calque,P1,"'листи патент' literal calque of 'letters patent', not real Ukrainian.",,
+SB-0855,patent,spot-check,russianism-calque,P1,"'листи патент' literal calque of 'letters patent', not real Ukrainian.","ua: ""патент"" | definitionUa: ""Офіційний документ, що надає винахіднику виключне право виготовляти, використовувати чи продавати винахід протягом визначеного строку.""",high
 SB-0857,patrol,main-pass,semantic-fidelity,P1,pos v. but only noun; 'або бити' mistranslates 'beat' (route).,патруль (n.); патрулювати (v.),medium
 SB-0861,peculiar,main-pass,semantic-fidelity,P1,'своєрідний' neutral/positive vs 'strange'; 'непарний' mistranslation of 'odd'.,"дивний, незвичний; remove 'непарний'",medium
 SB-0863,persistent,main-pass,semantic-fidelity,P1,'стійкий'=stable; def=determined sense (наполегливий).,наполегливий; тривалий/хронічний,medium
@@ -390,7 +390,7 @@ SB-1407,perceived,main-pass,other,P1,Stilted awkward calque.,Витлумаче�
 SB-1408,positive,main-pass,pedagogical-accuracy,P1,"Narrow logical sense, omits favorable/optimistic sense.","Сприятливий, оптимістичний, корисний.",high
 SB-1416,relevant,main-pass,semantic-fidelity,P1,Plural form; leans toward 'timely' not 'pertinent'.,релевантний (singular),medium
 SB-1420,security,main-pass,grammar,P1,ua in genitive not nominative.,безпека,high
-SB-1426,text,spot-check,circular-definition,P1,'Напис'(inscription) wrong word entirely for general 'text'.,,
+SB-1426,text,spot-check,circular-definition,P1,'Напис'(inscription) wrong word entirely for general 'text'.,"ua: ""текст"" | definitionUa: ""Написаний або надрукований набір слів чи речень; основний словесний зміст книжки, статті або повідомлення.""",high
 SB-1429,alternative,main-pass,grammar,P1,ua noun but def is adjective sense.,Один з двох або більше варіантів.,medium
 SB-1447,excluded,main-pass,other,P1,"Opens with 'Зберігається'(preserved), contradicting meaning.",Не допущений до участі; вилучений.,medium
 SB-1448,framework,main-pass,pedagogical-accuracy,P1,"ua too literal (picture frame); def software-only, misses theoretical/legal framework.",основа / структура / каркас,high
@@ -403,7 +403,7 @@ SB-1483,access,main-pass,grammar,P1,ua genitive not nominative.,доступ,hig
 SB-1488,attitudes,main-pass,pedagogical-accuracy,P1,"Archaic/narrow sense, misses opinion/viewpoint sense central to IELTS topics.",Стійка думка чи оцінне ставлення до чогось.,high
 SB-1501,domestic,main-pass,other,P1,Garbled duplicated word; ua plural not singular.,вітчизняний; домашній/внутрішній,high
 SB-1506,granted,main-pass,semantic-fidelity,P1,"ua=passive participle sense; def=discourse-marker 'granted,...' sense, mismatched.",Align: визнаючи це / хоча й.,high
-SB-1519,output,spot-check,semantic-fidelity,P1,'Вихід'(exit) mismatches economic/industrial output sense in definition.,,
+SB-1519,output,spot-check,semantic-fidelity,P1,'Вихід'(exit) mismatches economic/industrial output sense in definition.,"ua: ""продукція; обсяг виробництва; результат"" | definitionUa: ""Кількість чогось виробленого, особливо за певний період або внаслідок певних зусиль.""",high
 SB-1526,professional,main-pass,semantic-fidelity,P1,ua=adjective; def=noun 'a professional' sense.,Align part of speech and definition.,high
 SB-1528,promote,main-pass,semantic-fidelity,P1,'сприяти'=facilitate; def=advertising sense needs просувати/рекламувати.,просувати / рекламувати (advertising sense),medium
 SB-1535,subsequent,main-pass,other,P1,Second half nonsensical; ua plural not singular.,"наступний; Такий, що йде після чогось.",high
@@ -412,13 +412,13 @@ SB-1541,aware,main-pass,register,P1,Colloquial phrase inconsistent with academic
 SB-1543,challenge,main-pass,other,P1,'сміливість'(courage) confuses concept with personal trait.,Складне завдання; заклик позмагатися.,medium
 SB-1548,decline,main-pass,semantic-fidelity,P1,"ua=deterioration sense; def=refusal sense, mismatched.","Align: занепад with deterioration definition, or ua=відмова.",high
 SB-1549,draft,main-pass,pedagogical-accuracy,P1,"Same ua as 'project', erasing distinction; 'чернетка' more precise.",чернетка,medium
-SB-1569,objective,spot-check,pedagogical-accuracy,P1,Only adjective sense; misses common noun 'goal' sense despite word-family tag.,,
+SB-1569,objective,spot-check,pedagogical-accuracy,P1,Only adjective sense; misses common noun 'goal' sense despite word-family tag.,"ua: ""об'єктивний (прикм.); ціль, мета (ім.)"" | definitionUa: ""1. (прикм.) Не залежний від сильних емоцій чи упереджень; неупереджений. 2. (ім.) Мета або ціль, якої прагнуть досягти.""",high
 SB-1571,precise,main-pass,other,P1,Nonsensical repeated word; ua plural not singular.,точний; Чіткий і достеменно правильний.,high
 SB-1574,pursue,main-pass,pedagogical-accuracy,P1,"'переслідувати' hostile connotation, misleading for 'pursue a degree/career'.",прагнути до / домагатися,medium
 SB-1581,trend,main-pass,pedagogical-accuracy,P1,Only fashion/fad sense; misses core statistical 'trend' sense for Writing Task 1.,Загальний напрямок зміни з часом.,medium
 SB-1592,bond,main-pass,other,P1,Truncated mid-word.,Complete sentence.,high
 SB-1595,cited,main-pass,other,P1,"Too thin/vague, confuses 'cited' with 'quotation'.",Згаданий або наведений як джерело.,medium
-SB-1596,display,spot-check,pedagogical-accuracy,P1,Only narrow tech-screen sense; misses verb and 'display of emotion' senses.,,
+SB-1596,display,spot-check,pedagogical-accuracy,P1,Only narrow tech-screen sense; misses verb and 'display of emotion' senses.,"ua: ""дисплей, екран (ім.); показувати, виявляти (дієсл.); вияв, прояв"" | definitionUa: ""1. (ім.) Електронний екран, що показує зображення чи текст; показ, виставка. 2. (дієсл.) Показувати або відкрито виявляти щось, зокрема почуття.""",high
 SB-1600,estate,main-pass,semantic-fidelity,P1,'маєток'=manor house; def=legal estate(assets/liabilities) sense.,спадщина / майно (legal sense),medium
 SB-1607,ignored,main-pass,grammar,P1,ua present-passive form not participle; def is bare infinitive.,проігнорований,medium
 SB-1611,inhibition,main-pass,circular-definition,P1,"Circular, misses psychological/social-inhibition sense.",Психологічний стан стримування реакції.,medium
@@ -444,7 +444,7 @@ SB-1706,practitioners,main-pass,grammar,P1,ua genitive/accusative not nominative
 SB-1727,coherence,main-pass,pedagogical-accuracy,P1,IELTS official criterion term is 'зв'язність' not 'узгодженість'; pedagogical risk for exam prep.,зв'язність,medium
 SB-1728,commenced,main-pass,grammar,P1,"Mixes infinitive with imperative, ungrammatical.","Почати, розпочати.",high
 SB-1742,insights,main-pass,semantic-fidelity,P1,"'уявлення'=general notion, weaker than def's deep understanding.",розуміння / проникливе розуміння (інсайти),medium
-SB-1743,manual,spot-check,circular-definition,P1,Defines via synonym only; omits 'ручна праця' adjective sense.,,
+SB-1743,manual,spot-check,circular-definition,P1,Defines via synonym only; omits 'ручна праця' adjective sense.,"ua: ""посібник, довідник (ім.); ручний (прикм.)"" | definitionUa: ""1. (ім.) Книжка з інструкціями про те, як користуватися чимось або виконувати роботу. 2. (прикм.) Такий, що виконується руками чи фізичною працею, а не автоматично.""",high
 SB-1748,overlap,main-pass,grammar,P1,ua noun but def is verb infinitive.,перекриватися (verb) or noun-phrase def.,medium
 SB-1763,unified,main-pass,semantic-fidelity,P1,"'уніфікований'=standardized, false friend for 'unified'(brought together).",об'єднаний,high
 SB-1764,vision,main-pass,semantic-fidelity,P1,"ua=figurative vision/outlook; def=literal eyesight sense, mismatched.",Align to figurative sense; use 'зір' for eyesight.,medium
@@ -460,7 +460,7 @@ SB-0011,accessible,main-pass,grammar,P2,Phrased as noun phrase rather than adjec
 SB-0032,administrative,main-pass,other,P2,Redundantly repeats the same word twice.,Rewrite as 'Що стосується управління або організації роботи установи.',medium
 SB-0034,admission,main-pass,grammar,P2,"Ends in genitive case, doesn't fit nominative list.",Change final word to nominative 'доступ'.,medium
 SB-0046,alert,main-pass,grammar,P2,"pos covers v., n., adj. but ua only noun, definition is verb infinitive.",Split senses explicitly.,medium
-SB-0049,alignment,spot-check,pedagogical-accuracy,P2,Only physical sense; misses abstract 'agreement/conformity' sense.,,
+SB-0049,alignment,spot-check,pedagogical-accuracy,P2,Only physical sense; misses abstract 'agreement/conformity' sense.,"ua: ""вирівнювання; узгодження"" | definitionUa: ""1. Розташування предметів у ряд або в правильному відносному положенні. 2. Узгодженість поглядів, цілей чи дій; підтримка спільної позиції.""",medium
 SB-0051,allegation,main-pass,pedagogical-accuracy,P2,"'твердження' is neutral, loses accusatory nuance and collides with 'assertion'.",Use 'звинувачення (голослівне)'.,medium
 SB-0062,amend,main-pass,pedagogical-accuracy,P2,Misses primary academic/legal sense (formal correction to law/document).,Use 'вносити зміни/поправки'.,medium
 SB-0074,appoint,main-pass,semantic-fidelity,P2,"'іменувати' primarily means to name something, doesn't match 'призначати'.",Rewrite as 'Призначити (когось на посаду чи роль).',medium
@@ -473,16 +473,16 @@ SB-0141,bounce,main-pass,semantic-fidelity,P2,"'підстрибувати' mean
 SB-0144,breach,main-pass,grammar,P2,"pos n.,v. but ua only noun.",порушення; порушувати,medium
 SB-0145,breakdown,main-pass,pedagogical-accuracy,P2,Missing data-breakdown sense.,Add розбивка/деталізація.,medium
 SB-0154,bulk,main-pass,pedagogical-accuracy,P2,'Маса' doesn't convey 'the main part'.,більшість; основна частина,medium
-SB-0155,burden,spot-check,pedagogical-accuracy,P2,Only literal sense; misses dominant figurative (burden of proof) sense.,,
+SB-0155,burden,spot-check,pedagogical-accuracy,P2,Only literal sense; misses dominant figurative (burden of proof) sense.,"ua: ""тягар"" | definitionUa: ""Щось важке, що доводиться нести; переносно — обов'язок, відповідальність чи клопіт, який важко витримувати (напр., «тягар доказування»).""",high
 SB-0159,cabinet,main-pass,pedagogical-accuracy,P2,Defaults to office/room without qualifier.,кабінет міністрів (уряду),medium
 SB-0167,carve,main-pass,pedagogical-accuracy,P2,Missing sculpting/figurative sense.,Add вирізьблювати; carve out a role.,low
 SB-0169,casualty,main-pass,semantic-fidelity,P2,'потерпілий' implies survivor; def includes killed.,жертва / постраждалий,medium
-SB-0171,cater,spot-check,semantic-fidelity,P2,"Too generic 'обслуговувати', misses catering/food-service specificity.",,
+SB-0171,cater,spot-check,semantic-fidelity,P2,"Too generic 'обслуговувати', misses catering/food-service specificity.","ua: ""забезпечувати харчуванням (кейтеринг); обслуговувати; задовольняти потреби"" | definitionUa: ""Забезпечувати їжею та напоями, зазвичай для події, як професійну послугу; задовольняти чиїсь потреби чи бажання.""",high
 SB-0175,cease,main-pass,russianism-calque,P2,Awkward literal calque.,Зупинитися; припинитися.,medium
 SB-0189,clarity,main-pass,circular-definition,P2,Ends with redundant repetition.,Trim redundancy.,medium
 SB-0194,closure,main-pass,other,P2,'подія' duplicated.,Fix duplication.,high
 SB-0202,collaboration,main-pass,circular-definition,P2,Restates headword.,Спільна робота кількох людей для спільної мети.,high
-SB-0209,commentary,spot-check,pedagogical-accuracy,P2,Restricted to live broadcast; misses written analysis sense.,,
+SB-0209,commentary,spot-check,pedagogical-accuracy,P2,Restricted to live broadcast; misses written analysis sense.,"ua: ""коментар"" | definitionUa: ""1. Усний опис події, зокрема трансляції по радіо чи телебаченню, у міру її розгортання. 2. Письмовий або усний аналіз, роз'яснення чи набір зауважень про щось.""",high
 SB-0213,commodity,main-pass,russianism-calque,P2,Legal-jargon calque.,"Товар або сировина, що продаються й купуються.",medium
 SB-0219,compelling,main-pass,grammar,P2,Lowercase fragment mixing adverb and clause.,"Такий, що дуже зацікавлює і здатний захопити увагу.",medium
 SB-0220,compensate,main-pass,other,P2,Awkward repetition of root.,Платити або відшкодовувати комусь.,low
@@ -512,13 +512,13 @@ SB-0350,deployment,main-pass,circular-definition,P2,Too generic.,Розміще�
 SB-0355,descent,main-pass,russianism-calque,P2,'Екземпляр' awkward calque.,Випадок або процес спускання.,medium
 SB-0356,designate,main-pass,pedagogical-accuracy,P2,"Misses 'appoint' sense, word repeated.",Add призначити (роль).,low
 SB-0369,dictate,main-pass,pedagogical-accuracy,P2,Misses figurative 'control/determine' sense.,"Add визначати, диктувати умови.",medium
-SB-0384,disclosure,spot-check,circular-definition,P2,"Circular, reuses own root.",,
+SB-0384,disclosure,spot-check,circular-definition,P2,"Circular, reuses own root.","ua: ""розкриття (інформації); оприлюднення"" | definitionUa: ""Оприлюднення раніше прихованої або таємної інформації; сама розкрита інформація.""",high
 SB-0390,disposal,main-pass,pedagogical-accuracy,P2,Misses 'at someone's disposal' idiom.,Add розпорядження.,medium
 SB-0397,distinctive,main-pass,register,P2,Dated word choice.,характерний / самобутній,low
 SB-0405,domain,main-pass,pedagogical-accuracy,P2,'домен' mainly internet domain; academic sense needs сфера/галузь.,сфера; галузь,medium
 SB-0440,enact,main-pass,pedagogical-accuracy,P2,'постановити' too general; standard is 'ухвалити закон'.,ухвалити (закон),medium
 SB-0450,enforcement,main-pass,pedagogical-accuracy,P2,ua loses compulsory nuance present in def.,примусове виконання; правозастосування,medium
-SB-0454,enrich,spot-check,other,P2,Stray etymological tag '[з 14 ст.]' leaked into definition.,,
+SB-0454,enrich,spot-check,other,P2,Stray etymological tag '[з 14 ст.]' leaked into definition.,"ua: ""збагачувати"" | definitionUa: ""Робити щось багатшим, ціннішим або кращим за якістю; покращувати.""",high
 SB-0462,equality,main-pass,circular-definition,P2,Tautological.,"Стан, за якого всі мають однакові права.",medium
 SB-0465,escalate,main-pass,other,P2,Duplicated word.,Fix duplication.,high
 SB-0481,exert,main-pass,other,P2,Irrelevant trailing phrase.,Remove artifact.,medium
@@ -526,7 +526,7 @@ SB-0496,fade,main-pass,pedagogical-accuracy,P2,'зникати'=disappear (sudde
 SB-0497,fairness,main-pass,other,P2,Duplicated word.,Fix duplication.,high
 SB-0505,film-maker,main-pass,semantic-fidelity,P2,Narrows to director only.,кінематографіст; творець фільмів,medium
 SB-0510,fixture,main-pass,pedagogical-accuracy,P2,Weak match; missing sports 'scheduled match' sense.,стаціонарний прилад; (спорт.) запланований матч,medium
-SB-0517,flourish,spot-check,russianism-calque,P2,Awkward calque opening 'Щоб процвітати...'.,,
+SB-0517,flourish,spot-check,russianism-calque,P2,Awkward calque opening 'Щоб процвітати...'.,"ua: ""процвітати; розквітати; буяти"" | definitionUa: ""Успішно розвиватися, розквітати чи процвітати; активно й енергійно рости.""",high
 SB-0536,gallon,main-pass,pedagogical-accuracy,P2,Only US gallon given; IELTS is British (imperial).,UK imperial gallon = 4.546L; US = 3.785L.,medium
 SB-0541,generic,main-pass,pedagogical-accuracy,P2,'родовий' confusingly associated with genitive case.,"загальний, непатентований (дженерик)",medium
 SB-0552,gravity,main-pass,pedagogical-accuracy,P2,Missing 'seriousness' academic sense.,"Add серйозність, вага.",low
@@ -540,11 +540,11 @@ SB-0607,inappropriate,main-pass,circular-definition,P2,Phrase repeated.,Fix dupl
 SB-0612,indicator,main-pass,pedagogical-accuracy,P2,Academic term is 'показник' not 'індикатор'.,показник,medium
 SB-0613,indictment,main-pass,pedagogical-accuracy,P2,Generic 'accusation' loses formal legal meaning; word duplicated.,обвинувальний акт,medium
 SB-0615,induce,main-pass,semantic-fidelity,P2,ua covers 'persuade'; def covers 'cause' sense.,Add спричиняти/викликати as primary.,medium
-SB-0627,injection,spot-check,circular-definition,P2,Circular definition.,,
+SB-0627,injection,spot-check,circular-definition,P2,Circular definition.,"ua: ""ін'єкція; вливання"" | definitionUa: ""Введення рідини, зазвичай ліків, у тіло за допомогою шприца; переносно — вливання коштів чи ресурсів.""",high
 SB-0637,instruct,main-pass,other,P2,Modal repeated redundantly.,...повинні або мають робити.,medium
 SB-0657,interior,main-pass,grammar,P2,"pos adj.,n. but only noun given.",Add внутрішній (adj.),medium
 SB-0663,investigator,main-pass,pedagogical-accuracy,P2,Narrows to police investigator; academic 'researcher' sense missing.,Add дослідник as alternate.,medium
-SB-0666,involvement,spot-check,circular-definition,P2,Weakly tautological paraphrase.,,
+SB-0666,involvement,spot-check,circular-definition,P2,Weakly tautological paraphrase.,"ua: ""участь; причетність"" | definitionUa: ""Участь у діяльності чи ситуації або причетність до неї; ступінь, до якого хтось задіяний.""",medium
 SB-0667,ironic,main-pass,other,P2,Garbled parenthetical.,Характеризується іронією.,medium
 SB-0669,irony,main-pass,other,P2,Truncated.,Complete sentence.,medium
 SB-0673,junction,main-pass,pedagogical-accuracy,P2,'перехрестя' more idiomatic for road junction.,перехрестя / вузол,low
@@ -557,10 +557,10 @@ SB-0705,liberty,main-pass,russianism-calque,P2,'Умова' calque of 'condition
 SB-0708,likelihood,main-pass,circular-definition,P2,Word repeated 4x.,Ступінь імовірності події.,high
 SB-0725,magical,main-pass,circular-definition,P2,Single verb form not proper definition.,Пов'язаний із магією; дуже чудовий.,medium
 SB-0734,manifest,main-pass,other,P2,Word repeated where two different meanings intended.,...поза сумнівом чи запереченням.,medium
-SB-0777,missile,spot-check,other,P2,Stray etymological tag '[з 20 ст.]' leaked into definition.,,
+SB-0777,missile,spot-check,other,P2,Stray etymological tag '[з 20 ст.]' leaked into definition.,"ua: ""ракета"" | definitionUa: ""Самохідний снаряд або зброя, спрямована на ціль, траєкторію якої можна коригувати після пуску.""",high
 SB-0780,mobilize,main-pass,pedagogical-accuracy,P2,Restricted to military use only.,Add broader mobilize resources/support sense.,medium
 SB-0781,moderate,main-pass,grammar,P2,Feminine adjective with no noun agreement.,"Помірний, не надмірний.",medium
-SB-0783,momentum,spot-check,pedagogical-accuracy,P2,Only physics def; misses figurative 'gaining momentum' sense.,,
+SB-0783,momentum,spot-check,pedagogical-accuracy,P2,Only physics def; misses figurative 'gaining momentum' sense.,"ua: ""імпульс; рушійна сила; темп"" | definitionUa: ""1. (фізика) Добуток маси тіла на його швидкість. 2. Набута рушійна сила чи темп розвитку подій (напр., «набирати обертів»).""",high
 SB-0786,morality,main-pass,pedagogical-accuracy,P2,'моральність' more precise for abstract quality.,мораль; моральність,low
 SB-0798,newsletter,main-pass,pedagogical-accuracy,P2,"'бюлетень' suggests ballot/official bulletin, confusing.",інформаційний бюлетень; розсилка,medium
 SB-0804,nominee,main-pass,other,P2,"'посаду' repeated 3x, merged glosses.","Особа, висунута кандидатом на посаду/нагороду.",medium
@@ -570,7 +570,7 @@ SB-0820,occurrence,main-pass,semantic-fidelity,P2,"'виникнення'=emerge
 SB-0824,operational,main-pass,semantic-fidelity,P2,"'оперативний' primarily means prompt/swift, risking confusion.",діючий; введений в експлуатацію,medium
 SB-0826,optical,main-pass,grammar,P2,Phrase duplicated.,Fix duplication.,high
 SB-0830,orientation,main-pass,pedagogical-accuracy,P2,Only literal spatial sense; misses orientation session/attitude senses.,Add вступний захід; базове ставлення.,medium
-SB-0832,outbreak,spot-check,pedagogical-accuracy,P2,'виверження'(volcanic eruption) confusing lead synonym.,,
+SB-0832,outbreak,spot-check,pedagogical-accuracy,P2,'виверження'(volcanic eruption) confusing lead synonym.,"ua: ""спалах"" | definitionUa: ""Раптовий початок чогось небажаного — хвороби, насильства чи війни.""",high
 SB-0834,outlet,main-pass,pedagogical-accuracy,P2,Only electrical-socket sense; misses emotional/retail outlet.,Add засіб вираження; точка збуту.,medium
 SB-0835,outlook,main-pass,pedagogical-accuracy,P2,"'світогляд' implies comprehensive worldview, too strong.","погляд, ставлення; перспективи",low
 SB-0838,overlook,main-pass,grammar,P2,"Self-contradictory second clause, poorly merged senses.",Не помітити або проігнорувати; also 'have a view of'.,medium
@@ -623,8 +623,8 @@ SB-1104,spell,main-pass,pedagogical-accuracy,P2,Missing common 'period of time' 
 SB-1105,sphere,main-pass,other,P2,Stray trailing formatting artifact.,Remove stray period.,high
 SB-1107,spine,main-pass,grammar,P2,Subject-verb agreement error (plural vs singular subject).,...яка охоплює спинний мозок...,high
 SB-1127,strain,main-pass,pedagogical-accuracy,P2,Only biological sense; misses stress/pressure sense.,"Add напруга, навантаження.",low
-SB-1128,strand,spot-check,pedagogical-accuracy,P2,ua lists 'окремий компонент' sense but def never explains it.,,
-SB-1130,striking,spot-check,grammar,P2,Bare infinitive verb clause instead of adjectival definition.,,
+SB-1128,strand,spot-check,pedagogical-accuracy,P2,ua lists 'окремий компонент' sense but def never explains it.,"ua: ""пасмо; нитка; окремий компонент"" | definitionUa: ""1. Кожна з ниток чи волокон, скручених разом у пряжу, мотузку або шнур. 2. Окрема складова частина плану, історії чи проблеми.""",medium
+SB-1130,striking,spot-check,grammar,P2,Bare infinitive verb clause instead of adjectival definition.,"ua: ""разючий; вражаючий"" | definitionUa: ""Такий, що привертає увагу; вражаючий, помітний або незвичайний.""",high
 SB-1142,substantially,main-pass,other,P2,Duplicated phrase.,Fix duplication.,high
 SB-1146,suburban,main-pass,other,P2,Nonsensical duplicated trailing clause.,Remove trailing duplicate.,high
 SB-1148,successive,main-pass,russianism-calque,P2,Mismatched finite plural verb defining adjective.,"Такий, що йде один за одним.",medium
@@ -632,7 +632,7 @@ SB-1153,suite,main-pass,pedagogical-accuracy,P2,'люкс' narrow to hotel suite
 SB-1154,summit,main-pass,pedagogical-accuracy,P2,Missing diplomatic 'summit meeting' sense.,Add саміт.,medium
 SB-1182,tactical,main-pass,other,P2,Word repeated.,Що стосується тактики.,high
 SB-1193,testimony,main-pass,pedagogical-accuracy,P2,Misses formal/legal court-evidence sense.,"Офіційна заява, подана як доказ у суді.",medium
-SB-1196,theatrical,spot-check,pedagogical-accuracy,P2,Only literal theatre sense; misses figurative 'melodramatic/exaggerated' sense.,,
+SB-1196,theatrical,spot-check,pedagogical-accuracy,P2,Only literal theatre sense; misses figurative 'melodramatic/exaggerated' sense.,"ua: ""театральний"" | definitionUa: ""1. Пов'язаний із театром або притаманний йому. 2. Надмірно виразний, показний чи перебільшено драматичний — про поведінку.""",medium
 SB-1197,theology,main-pass,russianism-calque,P2,Awkward calque misrepresenting theology.,Систематичне вивчення природи Бога.,medium
 SB-1205,thrilled,main-pass,pedagogical-accuracy,P2,'схвильований' ambiguous (anxious or excited).,у захваті,medium
 SB-1233,tremendous,main-pass,other,P2,'perfection' unrelated concept appended.,Дуже великий за розміром чи силою.,low
@@ -647,7 +647,7 @@ SB-1281,violation,main-pass,circular-definition,P2,Circular.,"Порушення
 SB-1299,whilst,main-pass,other,P2,Garbled leftover dictionary text.,Сполучник 'в той час як'.,medium
 SB-1306,wipe,main-pass,other,P2,Untranslated garbled source-note remnant.,Remove parenthetical.,high
 SB-1313,yell,main-pass,grammar,P2,Broken calqued participle form.,Remove 'гукаючий'.,medium
-SB-1321,authority,spot-check,pedagogical-accuracy,P2,ua lists 'авторитет'(expert) sense but def never covers it.,,
+SB-1321,authority,spot-check,pedagogical-accuracy,P2,ua lists 'авторитет'(expert) sense but def never covers it.,"ua: ""орган влади; повноваження; авторитет"" | definitionUa: ""1. Влада чи право віддавати накази й ухвалювати рішення. 2. Офіційний орган, наділений такою владою. 3. Визнаний знавець (експерт) у певній галузі.""",high
 SB-1334,environment,main-pass,pedagogical-accuracy,P2,Only ecological sense; misses 'work/learning environment'.,Add general surrounding-context sense.,medium
 SB-1343,income,main-pass,pedagogical-accuracy,P2,Odd/loaded phrasing implying exploitation.,"Гроші, отримані за роботу чи інвестиції.",medium
 SB-1344,indicate,main-pass,register,P2,Archaic 19th-century calque style.,Вказувати на щось; бути ознакою.,medium
@@ -669,7 +669,7 @@ SB-1467,published,main-pass,pedagogical-accuracy,P2,"Restricted to for-sale publ
 SB-1492,commitment,main-pass,other,P2,Truncated mid-sentence.,Complete sentence.,high
 SB-1504,ethnic,main-pass,grammar,P2,ua plural not standard singular citation.,етнічний,medium
 SB-1512,investigation,main-pass,pedagogical-accuracy,P2,Narrow criminal sense; academic 'scientific investigation'=дослідження underserved.,Add/prefer дослідження for academic contexts.,medium
-SB-1514,label,spot-check,pedagogical-accuracy,P2,Only physical tag sense; misses verb and figurative stereotyping sense.,,
+SB-1514,label,spot-check,pedagogical-accuracy,P2,Only physical tag sense; misses verb and figurative stereotyping sense.,"ua: ""етикетка, наличка (ім.); позначати, навішувати ярлик (дієсл.)"" | definitionUa: ""1. (ім.) Невелика табличка чи наліпка з інформацією про предмет. 2. (дієсл.) Позначати щось етикеткою; переносно — навішувати комусь ярлик, зараховувати до категорії.""",high
 SB-1531,series,main-pass,grammar,P2,ua reads as genitive/plural not nominative singular.,серія,medium
 SB-1538,undertaken,main-pass,pedagogical-accuracy,P2,Generic gloss loses precise nuance.,здійснено / проведено,medium
 SB-1551,energy,main-pass,grammar,P2,ua genitive/plural not nominative.,енергія,medium
@@ -686,7 +686,7 @@ SB-1621,nevertheless,main-pass,russianism-calque,P2,Mirrors Russian calque; more
 SB-1625,recovery,main-pass,pedagogical-accuracy,P2,Restricted to health sense; misses economic recovery.,Add economic/data recovery sense.,medium
 SB-1631,aid,main-pass,circular-definition,P2,"Word repeated three times, no content.","Підтримка чи ресурси, надані тому, хто потребує.",medium
 SB-1643,differentiation,main-pass,circular-definition,P2,Uses cognate verb to define noun without explaining.,Процес виявлення відмінностей між подібними речами.,medium
-SB-1659,mode,spot-check,semantic-fidelity,P2,"'режим' vs definition describing 'спосіб'(manner), mismatched senses.",,
+SB-1659,mode,spot-check,semantic-fidelity,P2,"'режим' vs definition describing 'спосіб'(manner), mismatched senses.","ua: ""спосіб; форма; режим (роботи)"" | definitionUa: ""Певний спосіб дії, існування чи виконання чогось; форма чи варіант, у якому щось відбувається.""",high
 SB-1671,topic,main-pass,circular-definition,P2,Duplicated headword before actual content.,"Предмет обговорення, тексту чи дослідження.",high
 SB-1681,bias,main-pass,circular-definition,P2,"Too neutral/generic, omits unfair/skewed connotation.","Однобічна, часто необ'єктивна схильність.",medium
 SB-1685,crucial,main-pass,grammar,P2,ua noun phrase but headword is adjective.,вирішальний / критично важливий,medium

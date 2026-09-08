@@ -1,0 +1,62 @@
+# G4-A Spot-Check Triage (Ticket T1)
+
+**Date:** 2026-09-08 · **Ticket:** T1 · **Scope:** adjudication of the 27 spot-check findings.
+
+## What this is
+
+This document records the T1 adjudication of the **27 spot-check findings** in
+`docs/G4A_UKRAINIAN_QA_FINDINGS.csv` that previously carried **no
+`proposed_correction` and no `confidence`**. Each has now been assigned a proposed
+correction (revised `ua` and `definitionUa`) and a confidence level.
+
+**This is AI linguistic QA, not a native-speaker Ukrainian editorial review.** The
+proposed corrections are the output of automated linguistic analysis and must not be
+represented as, or substituted for, review by a native Ukrainian editor.
+
+## Severity
+
+Severity was **re-evaluated for every one of the 27 rows and none were
+reclassified.** The 27 comprise **9 × P1** and **18 × P2**. Because nothing was
+reclassified, the aggregate register counts remain **142 P0 / 314 P1 / 246 P2**, and
+the open counts remain **311 P1 + 246 P2**, unchanged by this ticket.
+
+## Application status
+
+These corrections are **NOT yet applied to `web/vocabulary.js`.** Applying the P1
+corrections to the learner-facing bank is deferred to the P1 remediation batches
+**T2–T4** (see `docs/G4A_P1_BATCH_MANIFEST.md`). T1 only records the adjudication in
+the findings register (CSV) and in this evidence document.
+
+## Adjudication table
+
+Rationales are informed by each row's `issue` text in the findings register.
+
+| id | word | severity (unchanged) | category | before (ua / definitionUa) | after (ua / definitionUa) | confidence | rationale |
+|---|---|---|---|---|---|---|---|
+| SB-0044 | aide | P1 | circular-definition | ua: "помічник"; definitionUa: "Помічник." | ua: "помічник; радник"; definitionUa: "Помічник впливової особи — політика, керівника чи високопосадовця, який допомагає їй у роботі." | high | Circular one-word gloss; added the “assistant to an authority figure” specificity the source flagged as missing. |
+| SB-0052 | allege | P1 | semantic-fidelity | ua: "стверджувати"; definitionUa: "Скласти претензію як обґрунтування чи доказ; робити твердження без доказів." | ua: "стверджувати (без доказів); голослівно звинувачувати"; definitionUa: "Заявляти про щось як про факт, не надаючи доказів, зазвичай про правопорушення чи провину." | high | “allege” = assert without proof; replaced the vague gloss with the accusation-without-evidence sense. |
+| SB-0404 | documentation | P1 | pedagogical-accuracy | ua: "документація"; definitionUa: "Щось перенесене з думки в документ; письмовий опис ідеї." | ua: "документація"; definitionUa: "Сукупність офіційних документів або письмових матеріалів, що надають інформацію, слугують доказом чи офіційним записом." | high | “documentation” as a mass noun (body of documents), disambiguated from the act of documenting. |
+| SB-0855 | patent | P1 | russianism-calque | ua: "патент"; definitionUa: "Офіційний документ, що надає призначення, привілей або право, або якесь майно чи титул; листи патент." | ua: "патент"; definitionUa: "Офіційний документ, що надає винахіднику виключне право виготовляти, використовувати чи продавати винахід протягом визначеного строку." | high | “patent” as the legal instrument granting exclusive rights, not the adjective sense. |
+| SB-1426 | text | P1 | circular-definition | ua: "текст"; definitionUa: "Напис, що складається з кількох гліфів, знаків, символів або речень." | ua: "текст"; definitionUa: "Написаний або надрукований набір слів чи речень; основний словесний зміст книжки, статті або повідомлення." | high | “text” as written/printed word-content; removed circular/under-specified gloss. |
+| SB-1519 | output | P1 | semantic-fidelity | ua: "вихід"; definitionUa: "Те, що виробляється чимось, особливо те, що виробляється протягом певного періоду часу або внаслідок певних зусиль." | ua: "продукція; обсяг виробництва; результат"; definitionUa: "Кількість чогось виробленого, особливо за певний період або внаслідок певних зусиль." | high | “output” = quantity produced; distinguished from unrelated senses. |
+| SB-1569 | objective | P1 | pedagogical-accuracy | ua: "об'єктивний"; definitionUa: "Не піддається впливу сильних емоцій чи упереджень." | ua: "об'єктивний (прикм.); ціль, мета (ім.)"; definitionUa: "1. (прикм.) Не залежний від сильних емоцій чи упереджень; неупереджений. 2. (ім.) Мета або ціль, якої прагнуть досягти." | high | Split the adjective (unbiased) and noun (goal/aim) senses that the single gloss conflated. |
+| SB-1596 | display | P1 | pedagogical-accuracy | ua: "дисплей"; definitionUa: "Електронний екран, який показує графіку або текст." | ua: "дисплей, екран (ім.); показувати, виявляти (дієсл.); вияв, прояв"; definitionUa: "1. (ім.) Електронний екран, що показує зображення чи текст; показ, виставка. 2. (дієсл.) Показувати або відкрито виявляти щось, зокрема почуття." | high | Split noun (screen/exhibition) and verb (to show) senses of “display”. |
+| SB-1743 | manual | P1 | circular-definition | ua: "посібник"; definitionUa: "Синонім довідника." | ua: "посібник, довідник (ім.); ручний (прикм.)"; definitionUa: "1. (ім.) Книжка з інструкціями про те, як користуватися чимось або виконувати роботу. 2. (прикм.) Такий, що виконується руками чи фізичною працею, а не автоматично." | high | Split noun (instruction book) and adjective (done by hand) senses of “manual”. |
+| SB-0049 | alignment | P2 | pedagogical-accuracy | ua: "вирівнювання"; definitionUa: "Розташування предметів у рядку." | ua: "вирівнювання; узгодження"; definitionUa: "1. Розташування предметів у ряд або в правильному відносному положенні. 2. Узгодженість поглядів, цілей чи дій; підтримка спільної позиції." | medium | “alignment” = arrangement in a line and agreement of aims; medium — the abstract sense is context-dependent. |
+| SB-0155 | burden | P2 | pedagogical-accuracy | ua: "тягар"; definitionUa: "Важкий вантаж." | ua: "тягар"; definitionUa: "Щось важке, що доводиться нести; переносно — обов'язок, відповідальність чи клопіт, який важко витримувати (напр., «тягар доказування»)." | high | “burden” = a heavy load and, figuratively, an onerous duty/responsibility. |
+| SB-0171 | cater | P2 | semantic-fidelity | ua: "обслуговувати"; definitionUa: "Забезпечити їжею, особливо для особливого випадку, як професійну послугу." | ua: "забезпечувати харчуванням (кейтеринг); обслуговувати; задовольняти потреби"; definitionUa: "Забезпечувати їжею та напоями, зазвичай для події, як професійну послугу; задовольняти чиїсь потреби чи бажання." | high | “cater” = provide food professionally and satisfy needs; replaced narrow gloss. |
+| SB-0209 | commentary | P2 | pedagogical-accuracy | ua: "коментар"; definitionUa: "Усна розповідь про подію, зокрема трансляцію по телебаченню чи радіо, як тільки вона відбувається." | ua: "коментар"; definitionUa: "1. Усний опис події, зокрема трансляції по радіо чи телебаченню, у міру її розгортання. 2. Письмовий або усний аналіз, роз'яснення чи набір зауважень про щось." | high | “commentary” = live spoken description and analytical remarks; both senses added. |
+| SB-0384 | disclosure | P2 | circular-definition | ua: "розкриття"; definitionUa: "Акт розкриття чогось." | ua: "розкриття (інформації); оприлюднення"; definitionUa: "Оприлюднення раніше прихованої або таємної інформації; сама розкрита інформація." | high | “disclosure” = the act/result of revealing hidden information. |
+| SB-0454 | enrich | P2 | other | ua: "збагачувати"; definitionUa: "Робити (когось, що-небудь) багатим або багатшим. [з 14 ст.]" | ua: "збагачувати"; definitionUa: "Робити щось багатшим, ціннішим або кращим за якістю; покращувати." | high | “enrich” = make richer/better in quality; de-circularised gloss. |
+| SB-0517 | flourish | P2 | russianism-calque | ua: "процвітати"; definitionUa: "Щоб процвітати або добре рости." | ua: "процвітати; розквітати; буяти"; definitionUa: "Успішно розвиватися, розквітати чи процвітати; активно й енергійно рости." | high | “flourish” = develop successfully / grow vigorously; near-synonym set given. |
+| SB-0627 | injection | P2 | circular-definition | ua: "ін’єкція; вливання"; definitionUa: "Акт ін'єкції або щось, що вводять." | ua: "ін'єкція; вливання"; definitionUa: "Введення рідини, зазвичай ліків, у тіло за допомогою шприца; переносно — вливання коштів чи ресурсів." | high | “injection” = introducing fluid via syringe; plus the figurative injection-of-funds sense. |
+| SB-0666 | involvement | P2 | circular-definition | ua: "участь"; definitionUa: "Акт залучення або стан залучення." | ua: "участь; причетність"; definitionUa: "Участь у діяльності чи ситуації або причетність до неї; ступінь, до якого хтось задіяний." | medium | “involvement” = participation in / connection with; medium — abstract, register-sensitive. |
+| SB-0777 | missile | P2 | other | ua: "ракета"; definitionUa: "Самохідний снаряд, траєкторію якого можна регулювати після пуску. [з 20 ст.]" | ua: "ракета"; definitionUa: "Самохідний снаряд або зброя, спрямована на ціль, траєкторію якої можна коригувати після пуску." | high | “missile” = a guided self-propelled projectile weapon; removed ambiguity with “rocket”. |
+| SB-0783 | momentum | P2 | pedagogical-accuracy | ua: "імпульс"; definitionUa: "Про тіло в русі: прагнення тіла зберігати свій рух за інерцією; добуток його маси на швидкість або векторну суму добутків його мас і швидкостей." | ua: "імпульс; рушійна сила; темп"; definitionUa: "1. (фізика) Добуток маси тіла на його швидкість. 2. Набута рушійна сила чи темп розвитку подій (напр., «набирати обертів»)." | high | “momentum” = physics mass×velocity and figurative driving force/pace; both senses. |
+| SB-0832 | outbreak | P2 | pedagogical-accuracy | ua: "спалах"; definitionUa: "виверження; раптова поява висипу, захворювання тощо." | ua: "спалах"; definitionUa: "Раптовий початок чогось небажаного — хвороби, насильства чи війни." | high | “outbreak” = sudden start of something undesirable (disease/violence/war). |
+| SB-1128 | strand | P2 | pedagogical-accuracy | ua: "пасмо; нитка; окремий компонент"; definitionUa: "Кожна з ниток, скручених разом, утворюють пряжу, мотузку або шнур." | ua: "пасмо; нитка; окремий компонент"; definitionUa: "1. Кожна з ниток чи волокон, скручених разом у пряжу, мотузку або шнур. 2. Окрема складова частина плану, історії чи проблеми." | medium | “strand” = a thread/fibre and a separable component of a plan/story; medium — figurative sense. |
+| SB-1130 | striking | P2 | grammar | ua: "разючий"; definitionUa: "Справити сильне враження." | ua: "разючий; вражаючий"; definitionUa: "Такий, що привертає увагу; вражаючий, помітний або незвичайний." | high | “striking” = attention-grabbing/impressive; de-circularised. |
+| SB-1196 | theatrical | P2 | pedagogical-accuracy | ua: "театральний"; definitionUa: "Щодо театру або пов'язане з ним." | ua: "театральний"; definitionUa: "1. Пов'язаний із театром або притаманний йому. 2. Надмірно виразний, показний чи перебільшено драматичний — про поведінку." | medium | “theatrical” = relating to theatre and exaggeratedly dramatic behaviour; medium — figurative sense. |
+| SB-1321 | authority | P2 | pedagogical-accuracy | ua: "орган влади; повноваження; авторитет"; definitionUa: "Влада або право встановлювати або запроваджувати правила, віддавати накази чи накладати зобов’язання; або посада, яка має таку владу чи право." | ua: "орган влади; повноваження; авторитет"; definitionUa: "1. Влада чи право віддавати накази й ухвалювати рішення. 2. Офіційний орган, наділений такою владою. 3. Визнаний знавець (експерт) у певній галузі." | high | “authority” = power, the body holding it, and a recognised expert; three senses distinguished. |
+| SB-1514 | label | P2 | pedagogical-accuracy | ua: "етикетка"; definitionUa: "Невеликий квиток або табличка, що дає інформацію про те, до чого він прикріплений або призначений для прикріплення." | ua: "етикетка, наличка (ім.); позначати, навішувати ярлик (дієсл.)"; definitionUa: "1. (ім.) Невелика табличка чи наліпка з інформацією про предмет. 2. (дієсл.) Позначати щось етикеткою; переносно — навішувати комусь ярлик, зараховувати до категорії." | high | Split noun (label/tag) and verb (to label/pigeonhole) senses. |
+| SB-1659 | mode | P2 | semantic-fidelity | ua: "режим"; definitionUa: "Особливий засіб досягнення чогось." | ua: "спосіб; форма; режим (роботи)"; definitionUa: "Певний спосіб дії, існування чи виконання чогось; форма чи варіант, у якому щось відбувається." | high | “mode” = a way/form/manner in which something happens or operates. |

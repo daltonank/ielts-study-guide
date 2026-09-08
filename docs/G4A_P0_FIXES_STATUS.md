@@ -182,11 +182,18 @@ Browser/responsive suites (Chromium `/opt/pw-browsers/chromium-1194`, via the
   Reconciled mechanically from `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`, which holds
   314 P1 + 246 P2; this batch fixes 3 P1 (`SB-0208`, `SB-1728`, `SB-1160`),
   leaving 311 P1 + 246 P2. (Those three remain counted as P1 in the register;
-  only the correction payload folds them in.) Of the remaining findings, **27
-  spot-check rows (9 P1, 18 P2) still lack a proposed correction / confidence**
-  and need triage before any further batch.
+  only the correction payload folds them in.) The **27 spot-check rows (9 P1, 18
+  P2)** that previously lacked a proposed correction / confidence are now
+  **triaged in ticket T1 (2026-09-08)**: each carries a `proposed_correction` and
+  a `confidence`, severity was re-confirmed with no reclassification, so all 702
+  register rows are populated. Those corrections are **not yet applied to
+  `web/vocabulary.js`** — application is deferred to the P1 batch tickets T2–T4
+  (see `docs/G4A_P1_BATCH_MANIFEST.md`, `docs/G4A_SPOTCHECK_TRIAGE.md`). Unresolved
+  counts remain **311 P1 + 246 P2**.
 - A **native-Ukrainian human editorial review** is still required before any
-  `G4-A PASS`. Untouched by this batch.
+  `G4-A PASS` under the current standard. **D-027 (Proposed)** proposes replacing
+  that mandatory pre-release gate with AI linguistic QA + a learner flagging loop;
+  it is not yet approved and this batch does not rely on it.
 - `CURRENT_STATE.md` / `DECISIONS.md` are edited by PR #2; this branch does not
   re-edit them to avoid conflicting with it. `D-026` stays **Proposed**.
 

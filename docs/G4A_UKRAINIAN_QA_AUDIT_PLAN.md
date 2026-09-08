@@ -92,3 +92,10 @@ A review that cannot be checked is not evidence. Three mechanisms, all mandatory
 after every content change, and the stratified-sample check re-run against the corrected bank rather
 than a re-read of the changed lines. P2 findings may remain open provided they are reported, not
 closed for tidiness.
+
+> **Note (2026-09-08):** The mandatory pre-release native-speaker editorial review requirement is
+> **proposed to be amended** by **D-027 (Proposed)** to AI linguistic QA + a learner-facing flagging
+> loop ("Flag mistake / Це виглядає неправильно"), with a native/human review remaining optional and
+> advisory. This does not change the honesty banner above: this remains an AI linguistic QA pass and
+> does not constitute or satisfy a native-speaker review. D-027 is not yet approved; until it is, no
+> `G4-A PASS` is claimed and the prior standard is not treated as satisfied.

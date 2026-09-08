@@ -2,6 +2,33 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-08 — G4-A T1: spot-check triage, P1 batch manifests, acceptance-policy reconciliation
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS claimed.
+No learner-facing `web/*` files changed (docs/CSV/tests only).
+
+### Added
+- Triaged the **27 spot-check findings** (9 P1 + 18 P2) in `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`
+  that previously lacked a `proposed_correction`/`confidence`; severity re-confirmed with no
+  reclassification. AI linguistic QA, honestly labelled. Evidence: `docs/G4A_SPOTCHECK_TRIAGE.md`.
+- Deterministic P1 remediation batch manifests **T2/T3/T4** — 311 unresolved P1 findings (314 P1
+  minus the 3 applied in PR #3), sorted `(category ASC, id ASC)`, partitioned contiguously into
+  104/104/103, pairwise-disjoint, union-complete: `docs/g4a_p1_batches.json`,
+  `docs/G4A_P1_BATCH_MANIFEST.md`.
+- Decision **D-027 (Proposed)**: AI linguistic QA + a learner-facing flagging loop proposed to
+  replace the mandatory pre-release native-Ukrainian editorial gate; awaits Dalton's approval.
+
+### Changed
+- Reconciled `CURRENT_STATE.md`, `docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md`,
+  `docs/G4A_P0_FIXES_STATUS.md` and `docs/G4A_UKRAINIAN_QA_FINDINGS.md` to the merged
+  **PR #2 + PR #3** state (current `main` HEAD `6d3bb41`). Corrected the stale
+  "deterministic gate fails by design (exit 1) / `G4A-V-001`" note — that gate now **PASSES**
+  on current `main` (`SB-0208`/`SB-0432`/`SB-1728` no longer share the circular gloss).
+
+### Not changed
+- No learner-facing vocabulary corrections applied; the spot-check corrections are recorded in
+  the register only and deferred to batch tickets T2–T4.
+
 ## 2026-09-05 — G4 external re-review: four findings addressed
 
 **Gate:** G4 Writing Task 1 — **INTERNAL PASS, EXTERNAL RE-REVIEW PENDING.**

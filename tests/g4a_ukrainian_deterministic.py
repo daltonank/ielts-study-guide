@@ -471,6 +471,8 @@ else:
     open_spot = sum(1 for r in findings
                     if r['source'] == 'spot-check' and not r['proposed_correction'].strip())
     report.append(f'spot-check findings still without a proposed correction: {open_spot}/27')
+    if open_spot:
+        errors.append(f'{FINDINGS_CSV}: {open_spot} spot-check findings carry no proposed correction (expected 0 after T1 triage)')
 
 # --- result ------------------------------------------------------------------
 print('G4-A DETERMINISTIC UKRAINIAN-CONTENT GATE')

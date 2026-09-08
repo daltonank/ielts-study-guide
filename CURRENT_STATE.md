@@ -1,8 +1,9 @@
 # CURRENT_STATE.md
 
-**Updated:** 2026-09-06
+**Updated:** 2026-09-08
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` and three Reading family labels — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`. G4 overall is **not** complete: the technical PASS does not cover linguistic quality.
+**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` and three Reading family labels — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`. G4 overall is **not** complete: the technical PASS does not cover linguistic quality. Both **PR #2** (merge `0ad8f30`) and **PR #3** are merged into `main` (current HEAD `6d3bb41`); the deterministic gate `tests/g4a_ukrainian_deterministic.py` now **PASSES** on current `main` (G4A-V-001 resolved — `SB-0208`/`SB-0432`/`SB-1728` no longer share the circular gloss). Proposed amended acceptance policy: **D-027 (Proposed)** — AI linguistic QA + a learner flagging loop replacing the mandatory pre-release native-speaker gate. No G4-A PASS is claimed.
+**T1 progress (2026-09-08):** the 27 spot-check findings are triaged (proposed_correction + confidence assigned; severity re-confirmed, no reclassification); the 311 unresolved P1 findings are partitioned into batch manifests T2/T3/T4. No bulk P1 corrections applied to `web/vocabulary.js` yet.
 **Next gate:** G5 Writing Task 2, blocked until G4-A corrections land and are re-verified  
 **Deployment:** local HTML only; public reconciliation deferred
 
@@ -96,7 +97,7 @@ band-diagnostic evidence.
 ### G4-A — Ukrainian Linguistic QA — CHANGES REQUESTED
 
 Full audit executed against `g4-candidate-3` (2026-09-06): deterministic gate (100%
-coverage; **fails by design (exit 1) on defect `G4A-V-001`** — see below), Reading
+coverage; **now PASSES on current `main`** — `G4A-V-001` was resolved in PR #3, see below), Reading
 scaffolding (38/38 strings, 3 grammar findings), Writing Task 1
 content (268/268 strings, 0 defects — confirms D-025/R2-001 holds), vocabulary bank
 (1,784/1,784 entries, 18-chunk review — **675 findings, 37.8% of entries, 142 P0**),
@@ -123,15 +124,15 @@ Method: `docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md`. Register:
 independent review and Dalton's sign-off. No content was changed by this pass — findings
 are returned for routing per the established Claude Code/Codex correction protocol.
 
-- `tests/g4a_ukrainian_deterministic.py` — new; **FAILS BY DESIGN (exit 1)** and stays
-  red until Phase 2 lands. Its structural checks (inventory counts, Cyrillic presence,
-  no corruption, collision ratchet, findings-register reconciliation) all pass, but it
-  asserts the named open defect `G4A-V-001` as a hard failure: entries `SB-0208`
-  (commence), `SB-0432` (embark) and `SB-1728` (commenced) all still share the circular
-  gloss "Щоб почати, почніть." ("To begin, begin."). The gate only goes green once all
-  three are corrected in Phase 2 — a partial fix does not clear it. Run first and last in
-  every future G4-A session (this is what would catch drift like the `main`-merge
-  discrepancy this session's preflight found); a non-`G4A-V-001` failure is real drift.
+- `tests/g4a_ukrainian_deterministic.py` — **now PASSES (exit 0) on current `main`.**
+  Its structural checks (inventory counts, Cyrillic presence, no corruption, collision
+  ratchet, findings-register reconciliation) pass, and `G4A-V-001` is **resolved**:
+  entries `SB-0208` (commence), `SB-0432` (embark) and `SB-1728` (commenced) were
+  corrected in PR #3 and no longer share the circular gloss "Щоб почати, почніть."
+  ("To begin, begin."). The earlier "fails by design (exit 1)" behaviour was retired
+  once those three landed. Run first and last in every future G4-A session (this is what
+  would catch drift like the `main`-merge discrepancy an earlier preflight found); any
+  failure now is real drift.
 
 **Blocker closed 2026-09-06:** `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` is now in the
 repository — 702 per-entry rows with `id, word, source, category, severity, issue,
@@ -143,9 +144,15 @@ reproducible from the repository alone. `tests/g4a_ukrainian_deterministic.py` a
 all of it, so the register cannot drift from the register's own claims.
 
 Category attribution is now complete: the 137 first-pass findings previously
-unattributed are `other` 98, `russianism-calque` 24 and `register` 15. Remaining gap:
-the 27 spot-check rows carry no `proposed_correction` and no `confidence` value — they
-record what the first pass missed, not what to do about it.
+unattributed are `other` 98, `russianism-calque` 24 and `register` 15. The former gap —
+the 27 spot-check rows carrying no `proposed_correction` and no `confidence` — is
+**closed by ticket T1 (2026-09-08)**: all 27 now carry a proposed_correction and a
+confidence value (9 P1 + 18 P2), severity re-confirmed with no reclassification, so all
+702 register rows are populated. These corrections are **not yet applied to
+`web/vocabulary.js`** — application is deferred to the P1 batch tickets T2/T4 (P1) and
+the P2 backlog; see `docs/G4A_SPOTCHECK_TRIAGE.md` and `docs/G4A_P1_BATCH_MANIFEST.md`.
+Unresolved open counts remain **311 P1 + 246 P2** (aggregate 142 P0 / 314 P1 / 246 P2
+unchanged).
 
 ### G5 — Writing Task 2 — BLOCKED
 
