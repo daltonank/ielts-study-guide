@@ -2,7 +2,7 @@
 
 **Updated:** 2026-09-08
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` and three Reading family labels — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`. G4 overall is **not** complete: the technical PASS does not cover linguistic quality. Both **PR #2** (merge `0ad8f30`) and **PR #3** are merged into `main` (current HEAD `6d3bb41`); the deterministic gate `tests/g4a_ukrainian_deterministic.py` now **PASSES** on current `main` (G4A-V-001 resolved — `SB-0208`/`SB-0432`/`SB-1728` no longer share the circular gloss). Proposed amended acceptance policy: **D-027 (Proposed)** — AI linguistic QA + a learner flagging loop replacing the mandatory pre-release native-speaker gate. No G4-A PASS is claimed.
+**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` and three Reading family labels — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`. G4 overall is **not** complete: the technical PASS does not cover linguistic quality. Both **PR #2** (merge `0ad8f30`) and **PR #3** are merged into `main` (current HEAD `6d3bb41`); the deterministic gate `tests/g4a_ukrainian_deterministic.py` now **PASSES** on current `main` (G4A-V-001 resolved — `SB-0208`/`SB-0432`/`SB-1728` no longer share the circular gloss). Governing G4-A acceptance standard (per approved **D-027 (Approved)**, 2026-09-08): AI linguistic QA + a learner-facing flag/correction loop, replacing the mandatory pre-release native-Ukrainian editorial review as the completion gate; native/human review is now advisory/optional and must not be claimed as completed. Approving the standard does not by itself satisfy it: 311 P1 + 246 P2 findings remain open and the learner flag loop (ticket T5) is not yet built. No G4-A PASS is claimed.
 **T1 progress (2026-09-08):** the 27 spot-check findings are triaged (proposed_correction + confidence assigned; severity re-confirmed, no reclassification); the 311 unresolved P1 findings are partitioned into batch manifests T2/T3/T4. No bulk P1 corrections applied to `web/vocabulary.js` yet.
 **Next gate:** G5 Writing Task 2, blocked until G4-A corrections land and are re-verified  
 **Deployment:** local HTML only; public reconciliation deferred
@@ -105,8 +105,10 @@ a stratified spot-check (70 previously-clean entries, 27 more findings), and a
 seeded-defect meta-validation of the review process (4/4 planted defects caught).
 
 **This is an AI linguistic QA pass.** It does not constitute, replace or satisfy a
-native-speaker editorial review; that gate remains separate and unmet. A paid or
-native-speaker spot-check is excluded from the current scope by Dalton's decision.
+native-speaker editorial review. Under approved D-027 (2026-09-08) the mandatory
+pre-release native-Ukrainian editorial review is no longer a G4-A completion gate;
+native/human review is now advisory/optional and must not be claimed as completed. A
+paid or native-speaker spot-check is excluded from the current scope by Dalton's decision.
 
 Counts, reconciled: **705 findings total** — 702 in the vocabulary bank (675 first pass +
 27 spot-check, in 702 distinct entries = 39.4% of 1,784; severity 142 P0 / 314 P1 /

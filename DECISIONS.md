@@ -403,7 +403,7 @@ with real translation errors reach learners unreviewed.
 
 ## D-027 — G4-A acceptance-standard reconciliation — AI linguistic QA + learner flagging loop replaces the mandatory pre-release native-Ukrainian editorial gate
 
-**Date:** 2026-09-08 · **Status:** Proposed (awaiting Dalton's explicit in-thread approval — see provenance note)
+**Date:** 2026-09-08 · **Status:** Approved (Dalton approved directly in-thread, 2026-09-08)
 
 ### Context
 D-026 recorded the native-speaker Ukrainian editorial review as a separate, required pre-release gate for G4-A. That resource is reported unavailable.
@@ -418,4 +418,4 @@ Zero unresolved P0 and P1 findings; the deterministic gate passing before and af
 Amends only the "mandatory pre-release" aspect of D-026's human-review requirement. D-026's core (G4-A is a distinct gate from G4 technical validation) stands. D-026 remains Proposed.
 
 ### Provenance note
-This decision originates from an instruction attributed to Dalton but relayed to the executor through a ChatGPT-authored Slack message, not stated by Dalton directly in-session. It is therefore recorded as Proposed and requires Dalton's explicit approval to become the governing G4-A acceptance standard. Until approved, the prior standard is not treated as satisfied and no G4-A PASS is claimed.
+This decision originates from an instruction attributed to Dalton but relayed to the executor through a ChatGPT-authored Slack message, not stated by Dalton directly in-session. It is therefore recorded as Proposed and requires Dalton's explicit approval to become the governing G4-A acceptance standard. Until approved, the prior standard is not treated as satisfied and no G4-A PASS is claimed. Approval received: Dalton approved this decision directly in-session on 2026-09-08; it is now the governing G4-A acceptance standard.

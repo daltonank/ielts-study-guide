@@ -190,10 +190,10 @@ Browser/responsive suites (Chromium `/opt/pw-browsers/chromium-1194`, via the
   `web/vocabulary.js`** — application is deferred to the P1 batch tickets T2–T4
   (see `docs/G4A_P1_BATCH_MANIFEST.md`, `docs/G4A_SPOTCHECK_TRIAGE.md`). Unresolved
   counts remain **311 P1 + 246 P2**.
-- A **native-Ukrainian human editorial review** is still required before any
-  `G4-A PASS` under the current standard. **D-027 (Proposed)** proposes replacing
-  that mandatory pre-release gate with AI linguistic QA + a learner flagging loop;
-  it is not yet approved and this batch does not rely on it.
+- Under **D-027 (Approved 2026-09-08)** the mandatory pre-release native-Ukrainian
+  human editorial gate is replaced by AI linguistic QA + a learner flagging loop as
+  the governing `G4-A PASS` standard; native/human review is now advisory/optional and
+  must not be claimed as completed. This batch does not by itself satisfy the standard.
 - `CURRENT_STATE.md` / `DECISIONS.md` are edited by PR #2; this branch does not
   re-edit them to avoid conflicting with it. `D-026` stays **Proposed**.
 

@@ -93,9 +93,11 @@ after every content change, and the stratified-sample check re-run against the c
 than a re-read of the changed lines. P2 findings may remain open provided they are reported, not
 closed for tidiness.
 
-> **Note (2026-09-08):** The mandatory pre-release native-speaker editorial review requirement is
-> **proposed to be amended** by **D-027 (Proposed)** to AI linguistic QA + a learner-facing flagging
-> loop ("Flag mistake / Це виглядає неправильно"), with a native/human review remaining optional and
-> advisory. This does not change the honesty banner above: this remains an AI linguistic QA pass and
-> does not constitute or satisfy a native-speaker review. D-027 is not yet approved; until it is, no
-> `G4-A PASS` is claimed and the prior standard is not treated as satisfied.
+> **Note (2026-09-08):** The G4-A acceptance standard is **amended per D-027 (Approved 2026-09-08)**:
+> the mandatory pre-release native-speaker editorial review is **replaced** by AI linguistic QA + a
+> learner-facing flagging loop ("Flag mistake / Це виглядає неправильно"), with a native/human review
+> now optional and advisory. Under the amended standard, `G4-A PASS` requires zero unresolved P0/P1
+> findings, the deterministic gate passing before and after every content change, the stratified-sample
+> check re-run against the corrected bank, and the learner flag loop present; P2 findings may remain an
+> explicit backlog. This does not change the honesty banner above: this remains an AI linguistic QA pass
+> and does not constitute or satisfy a native-speaker review.

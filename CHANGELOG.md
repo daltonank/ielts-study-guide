@@ -2,6 +2,10 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-08 — D-027 approved: G4-A acceptance standard reconciled
+
+- D-027 approved by Dalton (AI linguistic QA + learner flag loop replaces the mandatory native-Ukrainian editorial gate as the G4-A acceptance standard); G4-A remains CHANGES REQUESTED pending P1 remediation and the T5 flag loop.
+
 ## 2026-09-08 — G4-A T1: spot-check triage, P1 batch manifests, acceptance-policy reconciliation
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS claimed.
