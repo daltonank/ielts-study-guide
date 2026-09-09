@@ -2,6 +2,14 @@
 
 **Generated:** 2026-09-08 · **Ticket:** T1 · **Status:** manifest only — no bulk P1 corrections applied in T1.
 
+**Batch application status (updated 2026-09-09):**
+
+| Batch | Size | Status |
+|---|---:|---|
+| T2 | 104 | **APPLIED** (2026-09-09) — `scripts/qa/apply_p1_t2_fixes.py` + `scripts/qa/p1_t2_corrections.json`; input blob `414fbeac`, output blob `fe46b30a`; see `docs/G4A_P1_BATCH_STATUS.md`. |
+| T3 | 104 | Pending. |
+| T4 | 103 | Pending. |
+
 ## Purpose
 
 This manifest defines three bounded, deterministic remediation batches — **T2**, **T3**, and **T4** — that partition the outstanding P1 Ukrainian-QA findings for the vocabulary bank. Each batch is intended to be executed as its own bounded ticket so that P1 corrections land in reviewable, evenly-sized units rather than as a single unbounded bulk edit. **Ticket T1 does not apply any of these corrections to `web/vocabulary.js`;** it only produces the manifest and the machine-readable id lists. The actual `ua`/`definitionUa` corrections are deferred to tickets T2–T4.

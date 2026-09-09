@@ -1,9 +1,10 @@
 # CURRENT_STATE.md
 
-**Updated:** 2026-09-08
+**Updated:** 2026-09-09
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` and three Reading family labels — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`. G4 overall is **not** complete: the technical PASS does not cover linguistic quality. Both **PR #2** (merge `0ad8f30`) and **PR #3** are merged into `main` (current HEAD `6d3bb41`); the deterministic gate `tests/g4a_ukrainian_deterministic.py` now **PASSES** on current `main` (G4A-V-001 resolved — `SB-0208`/`SB-0432`/`SB-1728` no longer share the circular gloss). Governing G4-A acceptance standard (per approved **D-027 (Approved)**, 2026-09-08): AI linguistic QA + a learner-facing flag/correction loop, replacing the mandatory pre-release native-Ukrainian editorial review as the completion gate; native/human review is now advisory/optional and must not be claimed as completed. Approving the standard does not by itself satisfy it: 311 P1 + 246 P2 findings remain open and the learner flag loop (ticket T5) is not yet built. No G4-A PASS is claimed.
-**T1 progress (2026-09-08):** the 27 spot-check findings are triaged (proposed_correction + confidence assigned; severity re-confirmed, no reclassification); the 311 unresolved P1 findings are partitioned into batch manifests T2/T3/T4. No bulk P1 corrections applied to `web/vocabulary.js` yet.
+**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` and three Reading family labels — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`. G4 overall is **not** complete: the technical PASS does not cover linguistic quality. Both **PR #2** (merge `0ad8f30`) and **PR #3** are merged into `main` (current HEAD `6d3bb41`); the deterministic gate `tests/g4a_ukrainian_deterministic.py` now **PASSES** on current `main` (G4A-V-001 resolved — `SB-0208`/`SB-0432`/`SB-1728` no longer share the circular gloss). Governing G4-A acceptance standard (per approved **D-027 (Approved)**, 2026-09-08): AI linguistic QA + a learner-facing flag/correction loop, replacing the mandatory pre-release native-Ukrainian editorial review as the completion gate; native/human review is now advisory/optional and must not be claimed as completed. Approving the standard does not by itself satisfy it: after ticket T2 applied 104 P1 corrections (2026-09-09), 207 P1 + 246 P2 findings remain open and the learner flag loop (ticket T5) is not yet built. No G4-A PASS is claimed.
+**T1 progress (2026-09-08):** the 27 spot-check findings are triaged (proposed_correction + confidence assigned; severity re-confirmed, no reclassification); the 311 unresolved P1 findings are partitioned into batch manifests T2/T3/T4.
+**T2 progress (2026-09-09):** the first P1 batch — 104 corrections (circular-definition 26 / grammar 60 / other 18) — is **applied** to `web/vocabulary.js` via the guarded, reproducible pipeline (input blob `414fbeac`, output blob `fe46b30a`, fixed review date 2026-09-09, idempotent fail-closed); the deterministic gate and full regression packet re-run green. Unresolved P1 backlog is now **207** (311 − 104). See `docs/G4A_P1_BATCH_STATUS.md` and `scripts/qa/p1_t2_corrections.json`. T3/T4 remain pending.
 **Next gate:** G5 Writing Task 2, blocked until G4-A corrections land and are re-verified  
 **Deployment:** local HTML only; public reconciliation deferred
 
@@ -150,11 +151,13 @@ unattributed are `other` 98, `russianism-calque` 24 and `register` 15. The forme
 the 27 spot-check rows carrying no `proposed_correction` and no `confidence` — is
 **closed by ticket T1 (2026-09-08)**: all 27 now carry a proposed_correction and a
 confidence value (9 P1 + 18 P2), severity re-confirmed with no reclassification, so all
-702 register rows are populated. These corrections are **not yet applied to
-`web/vocabulary.js`** — application is deferred to the P1 batch tickets T2/T4 (P1) and
+702 register rows are populated. These spot-check corrections are **not yet applied to
+`web/vocabulary.js`** — application is deferred to the P1 batch tickets T3/T4 (P1) and
 the P2 backlog; see `docs/G4A_SPOTCHECK_TRIAGE.md` and `docs/G4A_P1_BATCH_MANIFEST.md`.
-Unresolved open counts remain **311 P1 + 246 P2** (aggregate 142 P0 / 314 P1 / 246 P2
-unchanged).
+Ticket **T2 (2026-09-09)** applied the first P1 batch of 104 corrections to
+`web/vocabulary.js`, so unresolved open counts are now **207 P1 + 246 P2** (aggregate
+142 P0 / 314 P1 / 246 P2 register totals unchanged; the register still counts all 314 as
+P1).
 
 ### G5 — Writing Task 2 — BLOCKED
 

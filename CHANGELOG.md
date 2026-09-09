@@ -2,6 +2,29 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-09 — G4-A T2: first P1 vocabulary batch applied (104 corrections)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS claimed.
+`web/vocabulary.js` is the only learner-facing `web/*` file changed.
+
+### Changed
+- Applied the **104-correction T2 P1 batch** (circular-definition 26 / grammar 60 / other 18)
+  to `web/vocabulary.js` via a guarded, reproducible pipeline (`scripts/qa/apply_p1_t2_fixes.py`
+  reading `scripts/qa/p1_t2_corrections.json`): fixed review date 2026-09-09, input/output
+  git-blob guards (`414fbeac` → `fe46b30a`), idempotent fail-closed — mirroring the P0 mechanism.
+- Reviewer overrides: **SB-1629 (transport)** carries both noun and verb senses; **SB-1378
+  (assistance)** and **SB-1393 (elements)** disambiguated to resolve deterministic-gate `ua`
+  collisions.
+
+### Verified
+- `tests/g4a_ukrainian_deterministic.py` EXIT 0 (no new collisions; both prior collisions resolved);
+  record count 1,784 unchanged; all 104 ids changed. Full regression packet re-run green
+  (`release_integrity.py` fails only on a missing local git tag — environmental).
+
+### Remaining
+- **207 P1** (311 − 104) + **246 P2** open; batches **T3/T4** pending. AI linguistic QA, honestly
+  labelled. Evidence: `docs/G4A_P1_BATCH_STATUS.md`, `docs/G4A_P1_BATCH_MANIFEST.md`.
+
 ## 2026-09-08 — D-027 approved: G4-A acceptance standard reconciled
 
 - D-027 approved by Dalton (AI linguistic QA + learner flag loop replaces the mandatory native-Ukrainian editorial gate as the G4-A acceptance standard); G4-A remains CHANGES REQUESTED pending P1 remediation and the T5 flag loop.
