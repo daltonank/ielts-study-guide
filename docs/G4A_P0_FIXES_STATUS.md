@@ -178,21 +178,27 @@ Browser/responsive suites (Chromium `/opt/pw-browsers/chromium-1194`, via the
 
 ## What's left
 
-- **207 P1 + 246 P2** lower-severity findings from the same audit remain open.
+- **104 P1 + 246 P2** lower-severity findings from the same audit remain open.
   Reconciled mechanically from `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`, which holds
   314 P1 + 246 P2; the P0 batch fixed 3 P1 (`SB-0208`, `SB-1728`, `SB-1160`),
   leaving 311 P1 + 246 P2. (Those three remain counted as P1 in the register;
-  only the correction payload folds them in.) **Ticket T2 (2026-09-09) then
-  applied the first P1 batch — 104 corrections — to `web/vocabulary.js`**, so the
-  open P1 backlog is now **311 − 104 = 207** (246 P2 unchanged). The **27
-  spot-check rows (9 P1, 18 P2)** that previously lacked a proposed correction /
-  confidence are **triaged in ticket T1 (2026-09-08)**: each carries a
-  `proposed_correction` and a `confidence`, severity was re-confirmed with no
-  reclassification, so all 702 register rows are populated. The remaining P1/P2
-  corrections are **not yet applied to `web/vocabulary.js`** — application is
-  deferred to the P1 batch tickets T3–T4 and the P2 backlog (see
-  `docs/G4A_P1_BATCH_MANIFEST.md`, `docs/G4A_P1_BATCH_STATUS.md`,
-  `docs/G4A_SPOTCHECK_TRIAGE.md`). Unresolved counts are now **207 P1 + 246 P2**.
+  only the correction payload folds them in.) **Ticket T2 (2026-09-09)** applied
+  the first P1 batch — 104 corrections — to `web/vocabulary.js` (311 − 104 = 207
+  P1 left); **ticket T3 (2026-09-09)** then applied the second P1 batch — **102**
+  byte corrections — resolving **103** findings (102 edited + SB-0425, whose
+  finding is a copy-through resolved via sibling SB-0424). **SB-0773 (minute2)**
+  is a deferred word-field fix (rename blocked by the g2 casefold word-uniqueness
+  assertion) and stays an unresolved P1. The open P1 backlog is therefore now
+  **207 − 103 = 104** (246 P2 unchanged), where the 104 = T4's 103 pending + the
+  deferred SB-0773. The **27 spot-check rows (9 P1, 18 P2)** that previously
+  lacked a proposed correction / confidence are **triaged in ticket T1
+  (2026-09-08)**: each carries a `proposed_correction` and a `confidence`,
+  severity was re-confirmed with no reclassification, so all 702 register rows are
+  populated. The remaining P1/P2 corrections are **not yet applied to
+  `web/vocabulary.js`** — application is deferred to the P1 batch ticket T4 (plus
+  the deferred SB-0773) and the P2 backlog (see `docs/G4A_P1_BATCH_MANIFEST.md`,
+  `docs/G4A_P1_BATCH_STATUS.md`, `docs/G4A_SPOTCHECK_TRIAGE.md`). Unresolved counts
+  are now **104 P1 + 246 P2**.
 - Under **D-027 (Approved 2026-09-08)** the mandatory pre-release native-Ukrainian
   human editorial gate is replaced by AI linguistic QA + a learner flagging loop as
   the governing `G4-A PASS` standard; native/human review is now advisory/optional and

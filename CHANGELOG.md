@@ -2,6 +2,33 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-09 — G4-A T3: second P1 vocabulary batch applied (102 corrections)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS claimed.
+`web/vocabulary.js` is the only learner-facing `web/*` file changed.
+
+### Changed
+- Applied the **T3 P1 batch — 102 byte corrections** (pedagogical-accuracy 49 / other 30 /
+  russianism-calque 8 / semantic-fidelity 8 / register 7) to `web/vocabulary.js` via the guarded,
+  reproducible pipeline (`scripts/qa/apply_p1_t3_fixes.py` reading `scripts/qa/p1_t3_corrections.json`):
+  fixed review date 2026-09-09, input/output git-blob guards (`fe46b30a` → `5cda209d`), idempotent
+  fail-closed — mirroring the T2 mechanism. Allowed-mutation set stays `ua`/`definitionUa`/`pos`/`register`.
+- Of the 104 T3 draft records: **SB-0425 (efficiency)** excluded as a copy-through — its finding is
+  resolved by sibling **SB-0424 (effectiveness → результативність)**; **SB-0773 (minute2)** deferred —
+  a word-field fix (`word` should read "minute") blocked by the g2 casefold word-uniqueness assertion,
+  still an unresolved P1. T3 resolves **103** findings (102 edited + SB-0425).
+
+### Verified
+- `tests/g4a_ukrainian_deterministic.py` EXIT 0 ("new groups vs baseline: 0"); record count 1,784
+  unchanged; all 102 ids changed ≥1 field. Full regression packet re-run green (G2/G3/G4 non-browser +
+  browser/accessibility suites at 320/375/430/768/1024/1440px); `release_integrity.py` fails only on the
+  missing local git tag `g4-candidate-3` — environmental.
+
+### Remaining
+- **104 P1** (207 − 103) + **246 P2** open; batch **T4** (103) pending, plus the deferred **SB-0773**
+  word-field fix (included in the 104 P1). AI linguistic QA, honestly labelled. Evidence:
+  `docs/G4A_P1_BATCH_STATUS.md`, `docs/G4A_P1_BATCH_MANIFEST.md`.
+
 ## 2026-09-09 — G4-A T2: first P1 vocabulary batch applied (104 corrections)
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS claimed.

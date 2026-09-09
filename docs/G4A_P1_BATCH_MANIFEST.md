@@ -7,8 +7,8 @@
 | Batch | Size | Status |
 |---|---:|---|
 | T2 | 104 | **APPLIED** (2026-09-09) — `scripts/qa/apply_p1_t2_fixes.py` + `scripts/qa/p1_t2_corrections.json`; input blob `414fbeac`, output blob `fe46b30a`; see `docs/G4A_P1_BATCH_STATUS.md`. |
-| T3 | 104 | Pending. |
-| T4 | 103 | Pending. |
+| T3 | 104 | **APPLIED** (2026-09-09) — **102** byte corrections via `scripts/qa/apply_p1_t3_fixes.py` + `scripts/qa/p1_t3_corrections.json`; input blob `fe46b30a`, output blob `5cda209d`. SB-0425 (efficiency) excluded as copy-through (resolved via SB-0424); SB-0773 (minute2) deferred word-field fix (blocked by g2 casefold word-uniqueness) — still unresolved P1. See `docs/G4A_P1_BATCH_STATUS.md`. |
+| T4 | 103 | Pending (plus deferred SB-0773 word-field fix). |
 
 ## Purpose
 
