@@ -20,6 +20,9 @@ No G4-A PASS is claimed because T5 remains outstanding.
 - `tests/g4a_p1_closeout_accounting.py` reconciles all 314 registered P1 findings:
   3 earlier fixes plus the 311 canonical T2-T4 IDs. Remaining backlog is **0 P1 +
   246 P2**.
+- Final combined regression passed **24/24 commands**, including browser checks at all
+  six supported widths, functional/accessibility/obstruction/persistence coverage,
+  eight seeded defects caught, and release integrity.
 
 ## 2026-09-09 — G4-A T2: first P1 vocabulary batch applied (104 corrections)
 

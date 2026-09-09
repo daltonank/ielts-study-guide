@@ -57,6 +57,10 @@ follow-up uses `scripts/qa/apply_sb0773_headword_fix.py`:
 - Record count remains **1,784** and normalized headwords remain unique.
 - T2-T4 manifest union, exception accounting, provenance, special cases, and final
   unresolved counts are checked by `tests/g4a_p1_closeout_accounting.py`.
+- Final combined regression: **24/24 commands PASS**, including responsive checks at
+  320/375/430/768/1024/1440, Reading and Writing functional/accessibility suites,
+  obstruction, persistence over real HTTP, eight seeded defects caught, and release
+  integrity against `g4-candidate-3`.
 
 ## Remaining after P1 closeout
 
