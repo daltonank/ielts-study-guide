@@ -28,6 +28,12 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 VOCAB = ROOT / "web" / "vocabulary.js"
 WORKBOOK = ROOT / "source" / "IELTS_Academic_C1_Ukrainian_Vocabulary_Bank.xlsx"
 FINAL_BLOB = "9282d2013dcf382bbb439384247a0be0be0dede2"
+# Reviewed learner-facing SB-0773 fields (web/vocabulary.js at the PR #5 head). Pinned as
+# literals so any drift in stable identity or the Ukrainian fields fails the test closed —
+# the source-chain guard alone proves provenance, not Ukrainian-field preservation.
+SB0773_ID = "SB-0773"
+SB0773_UA = "крихітний; надзвичайно малий"
+SB0773_DEFINITION_UA = "Надзвичайно малий за розміром або незначний за кількістю."
 
 
 def blob(data: bytes) -> str:
@@ -108,12 +114,18 @@ def main() -> int:
         assert final["topicTags"] == ["General"], final
         assert final["sourceUrls"], final
         assert final["translationQa"].startswith("Reviewed — G4-A P1"), final["translationQa"]
+        # Stable identity and Ukrainian fields must survive the clean-migration pipeline
+        # exactly as reviewed — a provenance-only guard could pass while these drifted.
+        assert final["id"] == SB0773_ID, final["id"]
+        assert final["ua"] == SB0773_UA, final["ua"]
+        assert final["definitionUa"] == SB0773_DEFINITION_UA, final["definitionUa"]
     finally:
         shutil.copy2(backup, VOCAB)
 
     assert disk_blob() == FINAL_BLOB, "restore failed"
     print("G4-A SB-0773 SOURCE-CHAIN PASS: workbook -> base -> P0 -> T2 -> T3 -> T4 -> "
-          f"final {FINAL_BLOB} reproduced; SB-0773 provenance retained")
+          f"final {FINAL_BLOB} reproduced; SB-0773 provenance + stable id + Ukrainian "
+          "fields (ua / definitionUa) retained")
     return 0
 
 
