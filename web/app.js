@@ -9,7 +9,7 @@ const defaultState=()=>({
  diagnostic:{completed:false,familiarity:{},baseline:{},weakAreas:[]},
  mastery:{}, vocabulary:{}, errors:[], reviews:[], savedResponses:[], practiceResults:[], mockResults:[], studyHistory:[],
  recommendationState:{lastActivity:null,lastRecommendation:null},reading:{activeFamily:null,activePassageId:null,answers:{},results:[],timer:null},
- writing1:{activeFamily:null,activeExerciseId:null,activePromptId:null,activeBandId:null,activeBandLevel:null,bandsOpened:{},answers:{},results:[],drafts:{},checklists:{},submissions:[],timer:null,exerciseTimer:null},backups:[]
+ writing1:{activeFamily:null,activeExerciseId:null,activePromptId:null,activeBandId:null,activeBandLevel:null,bandsOpened:{},answers:{},results:[],drafts:{},checklists:{},submissions:[],timer:null,exerciseTimer:null},backups:[],contentFlags:[]
 });
 let state=loadState();
 let route=location.hash.replace("#/","")||"today";
@@ -114,6 +114,68 @@ function renderPractice(){
  </div>`;
 }
 function vocabState(id){return state.vocabulary[id]||{stage:"New",confidence:0,lastReviewed:null,nextReview:null,collocation:"",example:""}}
+/* ---------- Content flag / correction loop (D-027 · ticket T5-A) ----------
+   Learner-facing "Flag mistake / Це виглядає неправильно" reports. Purely
+   local: captured into the canonical ieltsC1UAEN.state.v1 object under
+   contentFlags, exported with the rest of the learner state, never sent
+   anywhere. No fetch / XHR / beacon / socket is used in this path. */
+const FLAG_LABEL="⚑ Flag mistake · Це виглядає неправильно";
+const FLAG_KIND_LABEL={vocab:"Vocabulary",reading:"Reading UA support",writing1:"Writing Task 1 UA"};
+function flagControl(kind,contentId,field){
+ const fid=`${kind}:${contentId}:${field}`;
+ return `<details class="flag"><summary class="flag-summary">${FLAG_LABEL}</summary>
+ <div class="flag-body">
+  <p class="small muted">Stored only on this device — nothing is sent to any examiner, editor or server. Зберігається лише на вашому пристрої.</p>
+  <label class="field small">Optional note · Необов'язкова примітка<textarea class="flag-note" data-flag-note="${escapeHTML(fid)}" placeholder="What looks wrong? (optional)"></textarea></label>
+  <button type="button" class="btn secondary" data-flag-submit="${escapeHTML(fid)}">Save flag locally</button>
+ </div></details>`;
+}
+function flagTexts(kind,contentId,field){
+ let en="",uaText="";
+ if(kind==="vocab"){const v=(window.VOCABULARY||[]).find(x=>x.id===contentId);if(v){en=v.word||"";uaText=(v.ua||"")+(v.definitionUa?` — ${v.definitionUa}`:"");}}
+ else if(kind==="reading"){const m=(window.READING_DATA?.modules||[]).find(x=>x.id===contentId);if(m){en=m.title||"";uaText=m.uaSupport||"";}}
+ else if(kind==="writing1"){const m=(w1()?.modules||[]).find(x=>x.id===contentId);if(m){en=m.title||"";uaText=m.uaSupport||"";}}
+ return {en,ua:uaText};
+}
+function submitFlag(kind,contentId,field,note){
+ const t=flagTexts(kind,contentId,field);
+ const flag={id:uid("FLAG"),kind,contentId,field,en:t.en,ua:t.ua,note:String(note||"").trim(),appVersion:VERSION,createdAt:new Date().toISOString()};
+ state.contentFlags=state.contentFlags||[];
+ state.contentFlags.unshift(flag);
+ saveState();
+ toast("Flag saved on this device only — не надіслано");
+ render();
+}
+function renderFlagList(){
+ const flags=state.contentFlags||[];
+ const notice=`<div class="notice"><strong>Local only.</strong> These reports live in this browser's storage (${escapeHTML(STORE)}). They are never sent to an examiner, editor or any server, and they travel with your normal Export / Import backup. Ці звіти зберігаються лише тут.</div>`;
+ if(!flags.length) return notice+`<p class="muted" style="margin-top:10px">No flags yet. Use the “Flag mistake · Це виглядає неправильно” control on a vocabulary entry or a Ukrainian support note to report content that looks wrong.</p>`;
+ const list=`<div class="stack" style="margin-top:10px">${flags.map(f=>`<div class="flag-item"><div class="row"><span class="badge">${escapeHTML(FLAG_KIND_LABEL[f.kind]||f.kind)}</span><strong>${escapeHTML(f.en||f.contentId)}</strong><span class="small muted">${escapeHTML((f.createdAt||"").slice(0,10))}</span></div><div class="small muted">${escapeHTML(f.contentId)} · ${escapeHTML(f.field)}</div>${f.ua?`<div class="ua-note small"><strong>UA:</strong> ${escapeHTML(f.ua)}</div>`:""}${f.note?`<div class="small"><strong>Your note:</strong> ${escapeHTML(f.note)}</div>`:""}</div>`).join("")}</div>`;
+ const json=escapeHTML(JSON.stringify(flags,null,2));
+ const tools=`<div class="row" style="margin-top:10px"><button type="button" class="btn secondary" data-flag-copy>Copy JSON</button><button type="button" class="btn secondary" data-flag-export>Export flags JSON</button></div>
+ <label class="field small" style="margin-top:8px">Copyable report data<textarea id="flagJson" class="dev-note" readonly aria-label="Flag report JSON">${json}</textarea></label>`;
+ return notice+`<p class="small muted" style="margin-top:8px"><strong>${flags.length}</strong> flag${flags.length===1?"":"s"} stored locally.</p>`+list+tools;
+}
+function copyFlags(){
+ const text=JSON.stringify(state.contentFlags||[],null,2);
+ const ta=document.querySelector("#flagJson");
+ const done=()=>toast("Flag JSON copied");
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(()=>{if(ta){ta.focus();ta.select();try{document.execCommand("copy")}catch(e){}}done()});}
+ else{if(ta){ta.focus();ta.select();try{document.execCommand("copy")}catch(e){}}done();}
+}
+function exportFlags(){
+ const blob=new Blob([JSON.stringify(state.contentFlags||[],null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`ielts-c1-content-flags-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);
+}
+function bindFlagControls(){
+ document.querySelectorAll("[data-flag-submit]").forEach(b=>b.onclick=()=>{
+  const[kind,contentId,field]=b.dataset.flagSubmit.split(":");
+  const noteEl=document.querySelector(`[data-flag-note="${b.dataset.flagSubmit}"]`);
+  submitFlag(kind,contentId,field,noteEl?noteEl.value:"");
+ });
+ document.querySelectorAll("[data-flag-copy]").forEach(b=>b.onclick=copyFlags);
+ document.querySelectorAll("[data-flag-export]").forEach(b=>b.onclick=exportFlags);
+}
 function renderWords(){
  const meta=window.VOCABULARY_META||{};
  const data=window.VOCABULARY||[];
@@ -156,7 +218,9 @@ function renderVocabResults(){
  ${v.example?`<div class="small"><strong>Example:</strong> ${escapeHTML(v.example)}</div>`:''}
  <div class="row" style="margin-top:9px"><label class="field">Mastery<select data-vocab-stage="${v.id}">${["New","Recognized","Recall","Active","Mastered"].map(x=>`<option ${s.stage===x?"selected":""}>${x}</option>`).join("")}</select></label>
  <label class="field">Confidence<select data-vocab-confidence="${v.id}">${[0,1,2,3,4,5].map(x=>`<option ${Number(s.confidence)===x?"selected":""}>${x}</option>`).join("")}</select></label></div>
+ ${flagControl("vocab",v.id,"ua")}
  </div>`}).join("")||`<p class="muted">No matches.</p>`;
+ bindFlagControls();
 }
 function renderProgress(){
  const errCounts={};state.errors.forEach(e=>{if(!e.resolved)errCounts[e.category]=(errCounts[e.category]||0)+1});
@@ -201,7 +265,7 @@ function renderReading(){
 function renderReadingFamily(family){
  const meta=window.READING_DATA.familyMeta[family],mod=readingFamilyModule(family),sets=readingFamilyPassages(family);
  return pageHero("READING MODULE",meta.title,meta.skill,meta.ua)+`<div class="grid">
- ${card("Learn → See → Think → Challenge",`<div class="stack"><div class="lesson-objective"><strong>Objective</strong><p>${escapeHTML(mod.objectives[0])}</p></div><div class="strategy-block"><span class="badge">Learn</span><ol>${(mod.strategySteps||[]).map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ol></div><div class="strategy-block"><span class="badge">See</span><p><strong>Worked example:</strong> ${escapeHTML(mod.workedExample||mod.workedExamples?.[0]?.analysis||"")}</p></div><div class="strategy-block"><span class="badge">Think</span><p>${escapeHTML(mod.lesson?.[0]||"")}</p></div><div class="trap"><strong>Common trap</strong><p>${escapeHTML(window.READING_DATA.familyMeta[family].trap)}</p></div><div class="strategy-block"><span class="badge warn">Challenge</span><p>${escapeHTML(mod.challenge||"")}</p></div>${ua("",escapeHTML(mod.uaSupport))}<div class="row"><button class="btn ghost" data-reading-home>← All Reading modules</button><button class="btn secondary" data-reading-foundation="${mod.id}">Mark lesson introduced</button></div></div>`,'half')}
+ ${card("Learn → See → Think → Challenge",`<div class="stack"><div class="lesson-objective"><strong>Objective</strong><p>${escapeHTML(mod.objectives[0])}</p></div><div class="strategy-block"><span class="badge">Learn</span><ol>${(mod.strategySteps||[]).map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ol></div><div class="strategy-block"><span class="badge">See</span><p><strong>Worked example:</strong> ${escapeHTML(mod.workedExample||mod.workedExamples?.[0]?.analysis||"")}</p></div><div class="strategy-block"><span class="badge">Think</span><p>${escapeHTML(mod.lesson?.[0]||"")}</p></div><div class="trap"><strong>Common trap</strong><p>${escapeHTML(window.READING_DATA.familyMeta[family].trap)}</p></div><div class="strategy-block"><span class="badge warn">Challenge</span><p>${escapeHTML(mod.challenge||"")}</p></div>${ua("",escapeHTML(mod.uaSupport))}${state.settings.languageMode!=="en"?flagControl("reading",mod.id,"uaSupport"):""}<div class="row"><button class="btn ghost" data-reading-home>← All Reading modules</button><button class="btn secondary" data-reading-foundation="${mod.id}">Mark lesson introduced</button></div></div>`,'half')}
  ${card("Practice progression",`<div class="stack">${sets.map(p=>{const r=readingLatestResult(p.id);return `<div class="session-item"><div><span class="badge ${p.mode==='mastery'?'warn':''}">${escapeHTML(p.modeLabel)}</span><strong>${escapeHTML(p.title)}</strong><div class="small muted">${escapeHTML(p.domain)} • Band ${p.difficulty} training • ${p.estimatedMinutes} min</div>${r?`<div class="small"><strong>${r.score}/${r.total}</strong> • ${Math.round(r.accuracy*100)}% ${r.timed?`• ${r.withinLimit?"within time":"over time"}`:""}</div>`:""}</div><button class="btn" data-reading-passage="${p.id}">${r?"Retry":"Start"}</button></div>`}).join("")}</div>`,'half')}
  ${card("Mastery rule",`<p><strong>L2 Guided:</strong> ≥50% on the guided set. <strong>L3 Independent:</strong> ≥75% on the unseen independent set. <strong>L4 Timed:</strong> timed + mastery sets average ≥75% and both finish within their limits. <strong>L5 Mastered:</strong> ≥85% across at least three different sets on two different dates, including the mastery set.</p><p class="small muted">Opening or scrolling a lesson does not advance mastery.</p>`)}
  </div>`;
@@ -581,7 +645,7 @@ function renderW1Family(f){
   <div class="strategy-block"><span class="badge">See · worked example</span><p class="small muted">${escapeHTML(mod.workedExamples[0].taskStatement)}</p><p><em>${escapeHTML(mod.workedExamples[0].modelSentence)}</em></p><p class="small">${escapeHTML(mod.workedExamples[0].analysis)}</p></div>
   <div class="trap"><strong>Common trap</strong><p>${escapeHTML(meta.trap)}</p></div>
   <div class="strategy-block"><span class="badge">Tense</span><p>${escapeHTML(meta.tenseRule)}</p></div>
-  ${ua("",escapeHTML(mod.uaSupport))}
+  ${ua("",escapeHTML(mod.uaSupport))}${state.settings.languageMode!=="en"?flagControl("writing1",mod.id,"uaSupport"):""}
   <div class="row"><button class="btn ghost" data-w1-home>← All families</button><button class="btn secondary" data-w1-foundation="${mod.id}">Mark lesson introduced</button></div></div>`,"half")}
  ${card("What goes wrong here",`<div class="stack">${meta.commonErrors.map(c=>{const cat=(w1().errorTaxonomy||[]).find(x=>x.id===c.errorId);
   return `<div class="session-item" style="display:block"><span class="badge warn">${escapeHTML(cat?.en||c.errorId)}</span><p class="small"><strong>Symptom:</strong> ${escapeHTML(c.symptom)}</p><p class="small muted"><strong>Repair:</strong> ${escapeHTML(c.repair)}</p></div>`}).join("")}</div>`,"half")}
@@ -701,6 +765,7 @@ function renderSettings(){
  `<div class="grid">
  ${card("Study settings",`<div class="stack"><label class="field">Target band<input id="targetBand" type="number" min="0" max="9" step=".5" value="${state.settings.targetBand}"></label><label class="field">Preferred session<select id="preferredMinutes">${[10,20,30,45,60,90].map(x=>`<option ${x===state.settings.preferredMinutes?"selected":""}>${x}</option>`).join("")}</select></label><button id="saveSettings" class="btn">Save settings</button></div>`,"half")}
  ${card("Backup / restore",`<div class="stack"><button id="exportBtn" class="btn">Export Progress JSON</button><button id="importBtn" class="btn secondary">Import Progress JSON</button><p class="small muted">Import does not silently overwrite malformed data. A snapshot of the current state is retained before a valid replacement.</p></div>`,"half")}
+ ${card("Flagged content · Позначені помилки",renderFlagList(),"half")}
  ${card("Build identity",`<div class="dev-note">Version ${VERSION}\nVocabulary gate: ${(window.VOCABULARY_META||{}).gate}\nStorage key: ${STORE}</div>`)}
  </div>`;
 }
@@ -783,12 +848,13 @@ function bindPage(){
  if(document.querySelector("#saveSettings"))document.querySelector("#saveSettings").onclick=()=>{state.settings.targetBand=Number(targetBand.value);state.settings.preferredMinutes=Number(preferredMinutes.value);saveState();toast("Settings saved");render()};
  if(document.querySelector("#exportBtn"))document.querySelector("#exportBtn").onclick=exportData;
  if(document.querySelector("#importBtn"))document.querySelector("#importBtn").onclick=()=>document.querySelector("#importFile").click();
+ bindFlagControls();
 }
 function startTimer(sec){clearInterval(timerHandle);timerSeconds=sec||60;drawTimer();if(!sec)return;timerHandle=setInterval(()=>{timerSeconds--;drawTimer();if(timerSeconds<=0){clearInterval(timerHandle);toast("Timer complete")}},1000)}
 function drawTimer(){const el=document.querySelector("#timer");if(!el)return;el.textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0")}
 function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`ielts-c1-progress-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href)}
 function validImport(x){return x&&typeof x==="object"&&typeof x.schemaVersion==="string"&&x.settings&&["en","uaen","uahelp"].includes(x.settings.languageMode)&&Array.isArray(x.errors)&&Array.isArray(x.savedResponses)&&Array.isArray(x.studyHistory)}
-function importData(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!validImport(x))throw new Error("Schema check failed");const backup=JSON.parse(JSON.stringify(state));x.backups=Array.isArray(x.backups)?x.backups:[];x.backups.unshift({createdAt:new Date().toISOString(),state:backup});state=x;saveState();toast("Import successful");render()}catch(e){toast("Import rejected: "+e.message)}};r.readAsText(file)}
+function importData(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!validImport(x))throw new Error("Schema check failed");const backup=JSON.parse(JSON.stringify(state));x.backups=Array.isArray(x.backups)?x.backups:[];x.backups.unshift({createdAt:new Date().toISOString(),state:backup});x.contentFlags=Array.isArray(x.contentFlags)?x.contentFlags:[];state=x;saveState();toast("Import successful");render()}catch(e){toast("Import rejected: "+e.message)}};r.readAsText(file)}
 function openDrawer(){drawer.hidden=false;scrim.hidden=false;menuBtn.setAttribute("aria-expanded","true")}
 function closeDrawer(){drawer.hidden=true;scrim.hidden=true;menuBtn.setAttribute("aria-expanded","false")}
 function init(){
