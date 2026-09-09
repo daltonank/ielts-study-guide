@@ -2,6 +2,25 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-09 — G4-A P1 closeout: T3, T4, and SB-0773
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed because T5 remains outstanding.
+
+### Changed
+- T3 resolved 103 of its 104 findings through 102 learner-facing edits and one
+  resolved-via-sibling disposition. It deferred malformed headword `SB-0773`.
+- T4 applied all 103 semantic-fidelity corrections, including the approved `SB-1519`
+  production sense.
+- `SB-0773` now uses `minute` in both the source workbook and `web/vocabulary.js`.
+  A dedicated regression enforces normalized-headword uniqueness.
+
+### Verified
+- Guarded vocabulary blobs: `fe46b30a` → `3427a6a5` → `0d144c70` → `9282d201`.
+- `tests/g4a_p1_closeout_accounting.py` reconciles all 314 registered P1 findings:
+  3 earlier fixes plus the 311 canonical T2-T4 IDs. Remaining backlog is **0 P1 +
+  246 P2**.
+
 ## 2026-09-09 — G4-A T2: first P1 vocabulary batch applied (104 corrections)
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS claimed.
