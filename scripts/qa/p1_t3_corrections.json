@@ -6,8 +6,8 @@
     "apply_count": 102,
     "review_date": "2026-09-09",
     "base_commit": "431dcef13ab8dbe42c24997094b9f96e7c27d423",
-    "expected_input_blob_sha1": "fe46b30a86892f5de62ea4d1a90bfeb54db50729",
-    "expected_output_blob_sha1": "3427a6a5a111d47915e3c84b44d1dcdab5a0209c",
+    "expected_input_blob_sha1": "b39e522302ae8e4bc7d8a2145bc1fe0f2d925934",
+    "expected_output_blob_sha1": "8e28af354c04eeb416f681ed75af39dae6964431",
     "resolved_without_edit": ["SB-0425"],
     "deferred": ["SB-0773"],
     "notes": "Independent T3 review. SB-0425 is resolved by SB-0424; SB-0773 requires a separate structural correction."

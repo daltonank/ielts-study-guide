@@ -110,8 +110,8 @@
       "SB-0449",
       "SB-0463"
     ],
-    "expected_input_blob_sha1": "414fbeacf54aad367beb7dccfbda935635d7ef19",
-    "expected_output_blob_sha1": "fe46b30a86892f5de62ea4d1a90bfeb54db50729",
+    "expected_input_blob_sha1": "30a3e1dcd073a6e9c51ea0ddb2b5603437912b0b",
+    "expected_output_blob_sha1": "b39e522302ae8e4bc7d8a2145bc1fe0f2d925934",
     "notes": "104 unresolved-P1 corrections, T2 batch (sorted (category,id); circular-definition 26 / grammar 60 / other 18). Includes reviewer override for SB-1629 (transport: noun+verb senses). AI linguistic QA."
   },
   "corrections": {

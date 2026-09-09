@@ -3,8 +3,8 @@
     "batch": "G4-A P0 Ukrainian vocabulary corrections",
     "review_date": "2026-09-06",
     "base_commit": "52d12ddd2c52f9d822a5677b98ee30649ccd61a6",
-    "expected_input_blob_sha1": "01a8c5acd2ab0bcf9a8eefbec0a11d7530f19038",
-    "expected_output_blob_sha1": "414fbeacf54aad367beb7dccfbda935635d7ef19",
+    "expected_input_blob_sha1": "4ed00c96e8a5fc72b2074b37980c40fbb6541b18",
+    "expected_output_blob_sha1": "30a3e1dcd073a6e9c51ea0ddb2b5603437912b0b",
     "p1_ids": ["SB-0208", "SB-1728", "SB-1160"],
     "notes": "review_date is FIXED so apply_p0_fixes.py is byte-reproducible on any run date. expected_input_blob_sha1/expected_output_blob_sha1 are git blob SHA-1s enforced as executable assertions before and after mutation. This payload contains 145 corrections total = 142 P0 (139 accepted unchanged + 3 refined for accuracy: SB-0670, SB-1161, SB-0256) + 3 additions. Additions: SB-0208 and SB-1728 (register severity P1) added to fully resolve deterministic-gate defect G4A-V-001 — the SB-0208/SB-0432/SB-1728 shared circular gloss \"Щоб почати, почніть.\"; SB-1160 (register severity P1) added because correcting SB-1679 (appendix) to \"додаток\" collided with the untouched SB-1160 (supplement, also \"додаток\") and the identity ratchet caught it — SB-1160 is corrected to its own P1 proposal so the uniqueness check passes without degrading the appendix fix. See docs/G4A_P0_FIXES_STATUS.md for the full breakdown. p1_ids lists the three P1 additions; apply_p0_fixes.py stamps their translationQa provenance as P1, not P0. The 142-P0 / 3-addition accounting is unchanged; nine P0 entries (SB-0333, SB-0814, SB-0954, SB-1180, SB-1287, SB-1308, SB-1444, SB-0150, SB-1121) had their ua/definitionUa refined in this pass to align the two fields and remove calques/inaccurate sense claims."
   },

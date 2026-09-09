@@ -2,6 +2,26 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-09 — G4-A P1 closeout: review remediation (PR #5)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed. Two blocking review findings addressed; the learner-facing
+`web/vocabulary.js` is byte-identical (`9282d201`) to the reviewed head.
+
+### Fixed
+- **SB-0773 source chain.** The `minute2` → `minute` repair was incomplete: only
+  `Study Bank!A777` had been fixed, so a clean `scripts/migrate_vocabulary.py` run lost
+  the Oxford join (`oxfordId`/`topicTags`/`sourceUrls`) and produced base blob
+  `403f116e` instead of the guarded base. Corrected `Oxford C1 Bank!B774` to `minute`
+  as well; migration now retains provenance and the whole guarded chain was repinned
+  end-to-end (base `4ed00c96` → P0 `30a3e1dc` → T2 `b39e5223` → T3 `8e28af35` →
+  T4 `36c3d205` → SB-0773 `9282d201`). `apply_sb0773_headword_fix.py` is now a
+  provenance-verification + P1 stamp step (no rename).
+- **T2 CRLF guard.** `scripts/qa/apply_p1_t2_fixes.py` now detects mixed line endings
+  and normalizes CRLF → LF before the git-blob input guard (mirroring
+  `apply_p1_batch_fixes.py`), so a Windows checkout reproduces the pinned output.
+- Added `tests/g4a_sb0773_source_chain.py`: clean workbook → final reproduction guard.
+
 ## 2026-09-09 — G4-A P1 closeout: T3, T4, and SB-0773
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
@@ -16,7 +36,7 @@ No G4-A PASS is claimed because T5 remains outstanding.
   A dedicated regression enforces normalized-headword uniqueness.
 
 ### Verified
-- Guarded vocabulary blobs: `fe46b30a` → `3427a6a5` → `0d144c70` → `9282d201`.
+- Guarded vocabulary blobs (repaired source chain): `b39e5223` → `8e28af35` → `36c3d205` → `9282d201`.
 - `tests/g4a_p1_closeout_accounting.py` reconciles all 314 registered P1 findings:
   3 earlier fixes plus the 311 canonical T2-T4 IDs. Remaining backlog is **0 P1 +
   246 P2**.
@@ -33,7 +53,7 @@ No G4-A PASS is claimed because T5 remains outstanding.
 - Applied the **104-correction T2 P1 batch** (circular-definition 26 / grammar 60 / other 18)
   to `web/vocabulary.js` via a guarded, reproducible pipeline (`scripts/qa/apply_p1_t2_fixes.py`
   reading `scripts/qa/p1_t2_corrections.json`): fixed review date 2026-09-09, input/output
-  git-blob guards (`414fbeac` → `fe46b30a`), idempotent fail-closed — mirroring the P0 mechanism.
+  git-blob guards (`30a3e1dc` → `b39e5223`), idempotent fail-closed — mirroring the P0 mechanism.
 - Reviewer overrides: **SB-1629 (transport)** carries both noun and verb senses; **SB-1378
   (assistance)** and **SB-1393 (elements)** disambiguated to resolve deterministic-gate `ua`
   collisions.

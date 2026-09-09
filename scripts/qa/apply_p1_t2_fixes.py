@@ -78,7 +78,15 @@ def main():
 
     # Read the input file as raw bytes so the hash matches git exactly.
     with open(VOCAB_PATH, 'rb') as f:
-        raw = f.read()
+        raw_on_disk = f.read()
+
+    # Git stores this generated artifact with LF. A Windows checkout may present
+    # it with CRLF, which would make the raw-byte git-blob guard reject an
+    # otherwise-correct base file. Detect genuinely mixed endings, then normalize
+    # to canonical LF before hashing (mirrors scripts/qa/apply_p1_batch_fixes.py).
+    if b'\r\n' in raw_on_disk and b'\n' in raw_on_disk.replace(b'\r\n', b''):
+        fail('web/vocabulary.js contains mixed line endings')
+    raw = raw_on_disk.replace(b'\r\n', b'\n')
 
     # --- INPUT GUARD (executable assertion) -------------------------------
     actual_in = git_blob_sha1(raw)

@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""Apply the isolated SB-0773 malformed-headword correction."""
+"""Apply the isolated SB-0773 structural provenance stamp.
+
+The malformed ``minute2`` headword is repaired at the canonical source
+(``Study Bank!A777`` and ``Oxford C1 Bank!B774`` are both ``minute``), so
+``scripts/migrate_vocabulary.py`` already emits the correct ``minute`` headword
+with its Oxford provenance retained. This isolated structural step therefore no
+longer renames the headword; it verifies the source-repaired identity and
+provenance, then applies the reviewed P1 structural-correction ``translationQa``
+stamp (the T3-deferred SB-0773 disposition). Fail-closed input/output git-blob
+guards keep the step deterministic and non-repeatable.
+"""
 
 import hashlib
 import json
@@ -10,7 +20,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 VOCAB_PATH = ROOT / "web" / "vocabulary.js"
-EXPECTED_INPUT = "0d144c7089e4993fac0b61a66b1c8b5a68c57834"
+EXPECTED_INPUT = "36c3d20539335cdffb505b0ab83957da8bea8110"
 EXPECTED_OUTPUT = "9282d2013dcf382bbb439384247a0be0be0dede2"
 REVIEW_DATE = "2026-09-09"
 
@@ -46,12 +56,18 @@ def main() -> int:
     entry = by_id.get("SB-0773")
     if not entry:
         fail("SB-0773 is missing")
-    if entry["word"] != "minute2" or entry["pos"] != "adj.":
+    # Headword repaired at source; migration already emits the correct identity.
+    if entry["word"] != "minute" or entry["pos"] != "adj.":
         fail(f"unexpected SB-0773 identity: {entry['word']!r}, {entry['pos']!r}")
-    if any(other["word"].casefold() == "minute" for other in vocab):
-        fail("minute already exists; rename would violate normalized-headword uniqueness")
+    # The source repair must also preserve the Oxford provenance join.
+    if entry.get("sourceRefs", {}).get("oxfordId") != 773:
+        fail("SB-0773 lost its Oxford provenance (sourceRefs.oxfordId != 773)")
+    minute_ids = [item["id"] for item in vocab if item["word"].casefold() == "minute"]
+    if minute_ids != ["SB-0773"]:
+        fail(f"'minute' is not uniquely SB-0773: {minute_ids}")
+    if any(item["word"].casefold() == "minute2" for item in vocab):
+        fail("stale 'minute2' headword still present")
 
-    entry["word"] = "minute"
     entry["translationQa"] = f"Reviewed — G4-A P1 structural correction applied ({REVIEW_DATE})"
     words = [item["word"].casefold() for item in vocab]
     if len(words) != len(set(words)):
@@ -71,7 +87,7 @@ def main() -> int:
     if actual_output != EXPECTED_OUTPUT:
         fail(f"output blob {actual_output} != expected {EXPECTED_OUTPUT}")
     VOCAB_PATH.write_bytes(output)
-    print("applied SB-0773: minute2 -> minute")
+    print("applied SB-0773 structural provenance stamp (headword repaired at source)")
     return 0
 
 

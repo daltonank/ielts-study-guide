@@ -6,13 +6,16 @@
 
 | Batch | Size | Status |
 |---|---:|---|
-| T2 | 104 | **APPLIED** (2026-09-09) — `scripts/qa/apply_p1_t2_fixes.py` + `scripts/qa/p1_t2_corrections.json`; input blob `414fbeac`, output blob `fe46b30a`; see `docs/G4A_P1_BATCH_STATUS.md`. |
-| T3 | 104 | **APPLIED** (2026-09-09) — 102 byte edits, `SB-0425` resolved through corrected sibling `SB-0424`, and `SB-0773` deferred to the isolated structural fix; input blob `fe46b30a`, output blob `3427a6a5`. |
-| T4 | 103 | **APPLIED** (2026-09-09) — 103 byte edits; input blob `3427a6a5`, output blob `0d144c70`. |
+| T2 | 104 | **APPLIED** (2026-09-09) — `scripts/qa/apply_p1_t2_fixes.py` + `scripts/qa/p1_t2_corrections.json`; input blob `30a3e1dc`, output blob `b39e5223`; see `docs/G4A_P1_BATCH_STATUS.md`. |
+| T3 | 104 | **APPLIED** (2026-09-09) — 102 byte edits, `SB-0425` resolved through corrected sibling `SB-0424`, and `SB-0773` deferred to the isolated structural fix; input blob `b39e5223`, output blob `8e28af35`. |
+| T4 | 103 | **APPLIED** (2026-09-09) — 103 byte edits; input blob `8e28af35`, output blob `36c3d205`. |
 
-The isolated `SB-0773` source-and-output correction then changed `minute2` to
-`minute` with normalized-headword uniqueness enforced, producing final vocabulary blob
-`9282d201`. All 311 IDs in this manifest are now accounted for and resolved.
+The `SB-0773` headword is repaired at the canonical source (both `Study Bank!A777` and
+`Oxford C1 Bank!B774` read `minute`), so migration emits the correct headword with
+Oxford provenance retained; the isolated structural step then applies the P1 provenance
+stamp (input blob `36c3d205`), producing final vocabulary blob `9282d201` with
+normalized-headword uniqueness enforced. All 311 IDs in this manifest are now accounted
+for and resolved.
 
 ## Purpose
 

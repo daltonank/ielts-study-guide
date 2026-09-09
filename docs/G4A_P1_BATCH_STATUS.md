@@ -7,9 +7,15 @@
 Tickets **T2-T4** resolved the full 311-item P1 remediation manifest. T2 applied 104
 corrections. T3 made 102 byte edits, resolved `SB-0425` through the corrected
 `SB-0424` sibling, and deferred `SB-0773` to a source-level fix. T4 applied all 103
-semantic-fidelity corrections. The isolated structural commit then changed the
-malformed `minute2` headword to `minute` in both the source workbook and
-`web/vocabulary.js`.
+semantic-fidelity corrections. The malformed `minute2` headword is repaired at the
+canonical source — **both** `Study Bank!A777` and `Oxford C1 Bank!B774` now read
+`minute` — so `scripts/migrate_vocabulary.py` re-migrates the workbook to the correct
+`minute` headword with its Oxford provenance (`oxfordId`, `topicTags`, `sourceUrls`)
+retained. The isolated structural step
+(`scripts/qa/apply_sb0773_headword_fix.py`) therefore no longer renames the headword;
+it verifies the source-repaired identity/provenance and applies the reviewed P1
+structural `translationQa` stamp. The learner-facing `web/vocabulary.js` is
+byte-identical to the prior reviewed output (`9282d201`).
 
 These are AI linguistic QA drafts accepted for this batch and stamped provenance `P1`.
 Application does **not** claim a `G4-A PASS`; the gate remains **CHANGES REQUESTED**.
@@ -30,8 +36,10 @@ follow-up uses `scripts/qa/apply_sb0773_headword_fix.py`:
 - **Manifest accounting:** `tests/g4a_p1_closeout_accounting.py` independently checks
   that all 314 registered P1 findings equal 3 earlier fixes plus the 311 T2-T4 IDs.
 
-**Blobs:** T2 `414fbeac` → `fe46b30a`; T3 `fe46b30a` → `3427a6a5`; T4
-`3427a6a5` → `0d144c70`; `SB-0773` `0d144c70` → `9282d201`.
+**Blobs (repaired source chain):** migration base `4ed00c96`; P0 `4ed00c96` →
+`30a3e1dc`; T2 `30a3e1dc` → `b39e5223`; T3 `b39e5223` → `8e28af35`; T4
+`8e28af35` → `36c3d205`; `SB-0773` structural stamp `36c3d205` → `9282d201`
+(final unchanged). Reproduced end-to-end by `tests/g4a_sb0773_source_chain.py`.
 
 **Review date:** 2026-09-09.
 
@@ -45,9 +53,12 @@ follow-up uses `scripts/qa/apply_sb0773_headword_fix.py`:
   resolve a deterministic-gate `ua` collision with SB-1402 ("елементи").
 - **SB-0425 (efficiency)** — resolved without a byte edit because T3 changed sibling
   `SB-0424` (effectiveness) from `ефективність` to `результативність`.
-- **SB-0773 (minute2)** — removed from the ordinary field batch and fixed separately at
-  the source. The source workbook and learner-facing output now use `minute`; the
-  uniqueness regression proves no normalized-headword collision exists.
+- **SB-0773 (minute2)** — removed from the ordinary field batch and repaired at the
+  source in both the `Study Bank` and `Oxford C1 Bank` sheets, so migration emits the
+  correct `minute` headword with Oxford provenance retained. The uniqueness regression
+  (`tests/g4a_sb0773_headword.py`) and the source-chain reproduction
+  (`tests/g4a_sb0773_source_chain.py`) prove no normalized-headword collision exists and
+  that the workbook deterministically reproduces the reviewed final output.
 - **SB-1519 (output)** — remained in T4 and uses the T1-approved production sense.
 
 ## Verification
