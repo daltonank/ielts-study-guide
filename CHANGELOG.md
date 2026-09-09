@@ -2,6 +2,102 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-09 — G4-A P1 closeout: review remediation (PR #5)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed. Two blocking review findings addressed; the learner-facing
+`web/vocabulary.js` is byte-identical (`9282d201`) to the reviewed head.
+
+### Fixed
+- **SB-0773 source chain.** The `minute2` → `minute` repair was incomplete: only
+  `Study Bank!A777` had been fixed, so a clean `scripts/migrate_vocabulary.py` run lost
+  the Oxford join (`oxfordId`/`topicTags`/`sourceUrls`) and produced base blob
+  `403f116e` instead of the guarded base. Corrected `Oxford C1 Bank!B774` to `minute`
+  as well; migration now retains provenance and the whole guarded chain was repinned
+  end-to-end (base `4ed00c96` → P0 `30a3e1dc` → T2 `b39e5223` → T3 `8e28af35` →
+  T4 `36c3d205` → SB-0773 `9282d201`). `apply_sb0773_headword_fix.py` is now a
+  provenance-verification + P1 stamp step (no rename).
+- **T2 CRLF guard.** `scripts/qa/apply_p1_t2_fixes.py` now detects mixed line endings
+  and normalizes CRLF → LF before the git-blob input guard (mirroring
+  `apply_p1_batch_fixes.py`), so a Windows checkout reproduces the pinned output.
+- Added `tests/g4a_sb0773_source_chain.py`: clean workbook → final reproduction guard.
+
+## 2026-09-09 — G4-A P1 closeout: T3, T4, and SB-0773
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed because T5 remains outstanding.
+
+### Changed
+- T3 resolved 103 of its 104 findings through 102 learner-facing edits and one
+  resolved-via-sibling disposition. It deferred malformed headword `SB-0773`.
+- T4 applied all 103 semantic-fidelity corrections, including the approved `SB-1519`
+  production sense.
+- `SB-0773` now uses `minute` in both the source workbook and `web/vocabulary.js`.
+  A dedicated regression enforces normalized-headword uniqueness.
+
+### Verified
+- Guarded vocabulary blobs (repaired source chain): `b39e5223` → `8e28af35` → `36c3d205` → `9282d201`.
+- `tests/g4a_p1_closeout_accounting.py` reconciles all 314 registered P1 findings:
+  3 earlier fixes plus the 311 canonical T2-T4 IDs. Remaining backlog is **0 P1 +
+  246 P2**.
+- Final combined regression passed **24/24 commands**, including browser checks at all
+  six supported widths, functional/accessibility/obstruction/persistence coverage,
+  eight seeded defects caught, and release integrity.
+
+## 2026-09-09 — G4-A T2: first P1 vocabulary batch applied (104 corrections)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS claimed.
+`web/vocabulary.js` is the only learner-facing `web/*` file changed.
+
+### Changed
+- Applied the **104-correction T2 P1 batch** (circular-definition 26 / grammar 60 / other 18)
+  to `web/vocabulary.js` via a guarded, reproducible pipeline (`scripts/qa/apply_p1_t2_fixes.py`
+  reading `scripts/qa/p1_t2_corrections.json`): fixed review date 2026-09-09, input/output
+  git-blob guards (`30a3e1dc` → `b39e5223`), idempotent fail-closed — mirroring the P0 mechanism.
+- Reviewer overrides: **SB-1629 (transport)** carries both noun and verb senses; **SB-1378
+  (assistance)** and **SB-1393 (elements)** disambiguated to resolve deterministic-gate `ua`
+  collisions.
+
+### Verified
+- `tests/g4a_ukrainian_deterministic.py` EXIT 0 (no new collisions; both prior collisions resolved);
+  record count 1,784 unchanged; all 104 ids changed. Full regression packet re-run green
+  (`release_integrity.py` fails only on a missing local git tag — environmental).
+
+### Remaining
+- **207 P1** (311 − 104) + **246 P2** open; batches **T3/T4** pending. AI linguistic QA, honestly
+  labelled. Evidence: `docs/G4A_P1_BATCH_STATUS.md`, `docs/G4A_P1_BATCH_MANIFEST.md`.
+
+## 2026-09-08 — D-027 approved: G4-A acceptance standard reconciled
+
+- D-027 approved by Dalton (AI linguistic QA + learner flag loop replaces the mandatory native-Ukrainian editorial gate as the G4-A acceptance standard); G4-A remains CHANGES REQUESTED pending P1 remediation and the T5 flag loop.
+
+## 2026-09-08 — G4-A T1: spot-check triage, P1 batch manifests, acceptance-policy reconciliation
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS claimed.
+No learner-facing `web/*` files changed (docs/CSV/tests only).
+
+### Added
+- Triaged the **27 spot-check findings** (9 P1 + 18 P2) in `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`
+  that previously lacked a `proposed_correction`/`confidence`; severity re-confirmed with no
+  reclassification. AI linguistic QA, honestly labelled. Evidence: `docs/G4A_SPOTCHECK_TRIAGE.md`.
+- Deterministic P1 remediation batch manifests **T2/T3/T4** — 311 unresolved P1 findings (314 P1
+  minus the 3 applied in PR #3), sorted `(category ASC, id ASC)`, partitioned contiguously into
+  104/104/103, pairwise-disjoint, union-complete: `docs/g4a_p1_batches.json`,
+  `docs/G4A_P1_BATCH_MANIFEST.md`.
+- Decision **D-027 (Proposed)**: AI linguistic QA + a learner-facing flagging loop proposed to
+  replace the mandatory pre-release native-Ukrainian editorial gate; awaits Dalton's approval.
+
+### Changed
+- Reconciled `CURRENT_STATE.md`, `docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md`,
+  `docs/G4A_P0_FIXES_STATUS.md` and `docs/G4A_UKRAINIAN_QA_FINDINGS.md` to the merged
+  **PR #2 + PR #3** state (current `main` HEAD `6d3bb41`). Corrected the stale
+  "deterministic gate fails by design (exit 1) / `G4A-V-001`" note — that gate now **PASSES**
+  on current `main` (`SB-0208`/`SB-0432`/`SB-1728` no longer share the circular gloss).
+
+### Not changed
+- No learner-facing vocabulary corrections applied; the spot-check corrections are recorded in
+  the register only and deferred to batch tickets T2–T4.
+
 ## 2026-09-05 — G4 external re-review: four findings addressed
 
 **Gate:** G4 Writing Task 1 — **INTERNAL PASS, EXTERNAL RE-REVIEW PENDING.**

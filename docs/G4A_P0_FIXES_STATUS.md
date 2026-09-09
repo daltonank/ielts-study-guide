@@ -95,7 +95,8 @@ claims. These stay P0; only their correction values changed.
   writes nothing on any mismatch), not as prose:
   1. **INPUT GUARD** — the on-disk `web/vocabulary.js` git blob SHA-1 must equal
      `_meta.expected_input_blob_sha1`
-     (`01a8c5acd2ab0bcf9a8eefbec0a11d7530f19038`, i.e. `main` @ `52d12dd`) before
+     (`4ed00c96e8a5fc72b2074b37980c40fbb6541b18`, the repaired-source migration base;
+     the pre-SB-0773-repair base was `01a8c5ac…`) before
      any mutation. A second run on an already-patched file fails loudly instead of
      double-applying.
   2. **FIXED, SEVERITY-AWARE REVIEW STAMP** — `translationQa` is stamped from
@@ -107,10 +108,11 @@ claims. These stay P0; only their correction values changed.
      mislabeled P0.
   3. **OUTPUT GUARD** — the computed new file's git blob SHA-1 must equal
      `_meta.expected_output_blob_sha1`
-     (`414fbeacf54aad367beb7dccfbda935635d7ef19`) before it is written.
+     (`30a3e1dcd073a6e9c51ea0ddb2b5603437912b0b`) before it is written.
 
 Running `scripts/qa/apply_p0_fixes.py` against a clean base reproduces the exact
-committed `web/vocabulary.js` (`414fbeac…`) every time.
+P0-stage `web/vocabulary.js` blob (`30a3e1dc…`) every time; the T2-T4 and SB-0773
+steps then carry it to the reviewed final (`9282d201`).
 
 ## Reading case-agreement fix (`G4A-R-001..003`)
 
@@ -157,8 +159,9 @@ Run from repository root against the committed artifacts:
 | `tests/release_integrity.py` | PASS |
 
 Byte-reproduction check: restored the clean base `web/vocabulary.js`
-(input blob `01a8c5a…`), re-ran `apply_p0_fixes.py`, output reproduced the new
-pinned blob `414fbeac…` exactly; a second run fails closed (idempotent).
+(input blob `4ed00c96…`, the repaired-source migration base), re-ran
+`apply_p0_fixes.py`, output reproduced the new pinned blob `30a3e1dc…` exactly;
+a second run fails closed (idempotent).
 Reading generator re-run (`scripts/build_reading_curriculum.py`) leaves
 `web/reading_data.js` byte-identical (blob `f1e6a6d…`, no diff).
 
@@ -178,15 +181,25 @@ Browser/responsive suites (Chromium `/opt/pw-browsers/chromium-1194`, via the
 
 ## What's left
 
-- **311 P1 + 246 P2** lower-severity findings from the same audit remain open.
+- **207 P1 + 246 P2** lower-severity findings from the same audit remain open.
   Reconciled mechanically from `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`, which holds
-  314 P1 + 246 P2; this batch fixes 3 P1 (`SB-0208`, `SB-1728`, `SB-1160`),
+  314 P1 + 246 P2; the P0 batch fixed 3 P1 (`SB-0208`, `SB-1728`, `SB-1160`),
   leaving 311 P1 + 246 P2. (Those three remain counted as P1 in the register;
-  only the correction payload folds them in.) Of the remaining findings, **27
-  spot-check rows (9 P1, 18 P2) still lack a proposed correction / confidence**
-  and need triage before any further batch.
-- A **native-Ukrainian human editorial review** is still required before any
-  `G4-A PASS`. Untouched by this batch.
+  only the correction payload folds them in.) **Ticket T2 (2026-09-09) then
+  applied the first P1 batch — 104 corrections — to `web/vocabulary.js`**, so the
+  open P1 backlog is now **311 − 104 = 207** (246 P2 unchanged). The **27
+  spot-check rows (9 P1, 18 P2)** that previously lacked a proposed correction /
+  confidence are **triaged in ticket T1 (2026-09-08)**: each carries a
+  `proposed_correction` and a `confidence`, severity was re-confirmed with no
+  reclassification, so all 702 register rows are populated. The remaining P1/P2
+  corrections are **not yet applied to `web/vocabulary.js`** — application is
+  deferred to the P1 batch tickets T3–T4 and the P2 backlog (see
+  `docs/G4A_P1_BATCH_MANIFEST.md`, `docs/G4A_P1_BATCH_STATUS.md`,
+  `docs/G4A_SPOTCHECK_TRIAGE.md`). Unresolved counts are now **207 P1 + 246 P2**.
+- Under **D-027 (Approved 2026-09-08)** the mandatory pre-release native-Ukrainian
+  human editorial gate is replaced by AI linguistic QA + a learner flagging loop as
+  the governing `G4-A PASS` standard; native/human review is now advisory/optional and
+  must not be claimed as completed. This batch does not by itself satisfy the standard.
 - `CURRENT_STATE.md` / `DECISIONS.md` are edited by PR #2; this branch does not
   re-edit them to avoid conflicting with it. `D-026` stays **Proposed**.
 

@@ -160,7 +160,7 @@ It was verified on landing rather than accepted on assertion, and reconciles wit
 
 `tests/g4a_ukrainian_deterministic.py` asserts all of the above, so the CSV cannot drift away from the claims made about it without failing the gate.
 
-**One real gap remains:** the 27 spot-check rows carry an empty `proposed_correction` and an empty `confidence`. They record what the first pass missed, not what to do about it, and the corrections for those entries still have to be written. The other 675 rows all carry a proposed correction, with confidence recorded as high (325), medium (332) or low (18).
+**That gap is now closed (ticket T1, 2026-09-08):** the 27 spot-check rows previously carried an empty `proposed_correction` and an empty `confidence`; they were triaged in T1 and each now carries a proposed correction and a confidence value (severity re-confirmed, no reclassification). All **702** rows now carry a `proposed_correction` and a `confidence`, distributed high (348), medium (336), low (18). These spot-check corrections are recorded in the register but **not yet applied to `web/vocabulary.js`** — application is deferred to the P1 batch tickets T2–T4 (see `docs/G4A_SPOTCHECK_TRIAGE.md` and `docs/G4A_P1_BATCH_MANIFEST.md`).
 
 ## 7. Stratified spot-check: honest confidence, not an unverified "100% clean" claim
 

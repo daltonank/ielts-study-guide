@@ -1,8 +1,12 @@
 # CURRENT_STATE.md
 
-**Updated:** 2026-09-06
+**Updated:** 2026-09-09
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**, scoped to `web/vocabulary.js` and three Reading family labels — see `docs/G4A_UKRAINIAN_QA_FINDINGS.md`. G4 overall is **not** complete: the technical PASS does not cover linguistic quality.
+**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**. The registered P1 backlog is now fully remediated: **0 P1 + 246 P2** remain open after T2-T4 and the isolated `SB-0773` source fix. G4 overall is not complete because the learner-facing flag/correction loop (T5) required by D-027 is not yet built. Native/human review remains advisory and must not be claimed as completed. No G4-A PASS is claimed.
+**T1 progress (2026-09-08):** the 27 spot-check findings are triaged (proposed_correction + confidence assigned; severity re-confirmed, no reclassification); the 311 unresolved P1 findings are partitioned into batch manifests T2/T3/T4.
+**T2-T4 progress (2026-09-09):** T2 applied 104 corrections; T3 resolved 103 findings through 102 byte edits plus the `SB-0425` sibling disposition; T4 applied 103 corrections; the deferred `SB-0773` malformed headword was then corrected at the canonical source. Final vocabulary blob: `9282d201`. The P1 closeout test reconciles all **314/314 registered P1 findings**, leaving **0 P1 + 246 P2** open. Final combined regression: **24/24 commands PASS**, including all browser, responsive, accessibility, persistence, seeded-defect, and release-integrity checks. See `docs/G4A_P1_BATCH_STATUS.md`.
+
+**Review remediation (2026-09-09, PR #5):** two blocking review findings fixed without changing learner-facing output (`web/vocabulary.js` stays `9282d201`). (1) The `SB-0773` source repair was completed — `Oxford C1 Bank!B774` is now `minute` to match `Study Bank!A777` — so a clean migration retains Oxford provenance and the guarded blob chain was repinned end-to-end (base `4ed00c96` → P0 `30a3e1dc` → T2 `b39e5223` → T3 `8e28af35` → T4 `36c3d205` → SB-0773 `9282d201`). (2) `apply_p1_t2_fixes.py` now normalizes CRLF before its input guard, matching `apply_p1_batch_fixes.py`. New guard `tests/g4a_sb0773_source_chain.py` proves clean workbook → reviewed final reproduction.
 **Next gate:** G5 Writing Task 2, blocked until G4-A corrections land and are re-verified  
 **Deployment:** local HTML only; public reconciliation deferred
 
@@ -96,7 +100,7 @@ band-diagnostic evidence.
 ### G4-A — Ukrainian Linguistic QA — CHANGES REQUESTED
 
 Full audit executed against `g4-candidate-3` (2026-09-06): deterministic gate (100%
-coverage; **fails by design (exit 1) on defect `G4A-V-001`** — see below), Reading
+coverage; **now PASSES on current `main`** — `G4A-V-001` was resolved in PR #3, see below), Reading
 scaffolding (38/38 strings, 3 grammar findings), Writing Task 1
 content (268/268 strings, 0 defects — confirms D-025/R2-001 holds), vocabulary bank
 (1,784/1,784 entries, 18-chunk review — **675 findings, 37.8% of entries, 142 P0**),
@@ -104,8 +108,10 @@ a stratified spot-check (70 previously-clean entries, 27 more findings), and a
 seeded-defect meta-validation of the review process (4/4 planted defects caught).
 
 **This is an AI linguistic QA pass.** It does not constitute, replace or satisfy a
-native-speaker editorial review; that gate remains separate and unmet. A paid or
-native-speaker spot-check is excluded from the current scope by Dalton's decision.
+native-speaker editorial review. Under approved D-027 (2026-09-08) the mandatory
+pre-release native-Ukrainian editorial review is no longer a G4-A completion gate;
+native/human review is now advisory/optional and must not be claimed as completed. A
+paid or native-speaker spot-check is excluded from the current scope by Dalton's decision.
 
 Counts, reconciled: **705 findings total** — 702 in the vocabulary bank (675 first pass +
 27 spot-check, in 702 distinct entries = 39.4% of 1,784; severity 142 P0 / 314 P1 /
@@ -123,15 +129,15 @@ Method: `docs/G4A_UKRAINIAN_QA_AUDIT_PLAN.md`. Register:
 independent review and Dalton's sign-off. No content was changed by this pass — findings
 are returned for routing per the established Claude Code/Codex correction protocol.
 
-- `tests/g4a_ukrainian_deterministic.py` — new; **FAILS BY DESIGN (exit 1)** and stays
-  red until Phase 2 lands. Its structural checks (inventory counts, Cyrillic presence,
-  no corruption, collision ratchet, findings-register reconciliation) all pass, but it
-  asserts the named open defect `G4A-V-001` as a hard failure: entries `SB-0208`
-  (commence), `SB-0432` (embark) and `SB-1728` (commenced) all still share the circular
-  gloss "Щоб почати, почніть." ("To begin, begin."). The gate only goes green once all
-  three are corrected in Phase 2 — a partial fix does not clear it. Run first and last in
-  every future G4-A session (this is what would catch drift like the `main`-merge
-  discrepancy this session's preflight found); a non-`G4A-V-001` failure is real drift.
+- `tests/g4a_ukrainian_deterministic.py` — **now PASSES (exit 0) on current `main`.**
+  Its structural checks (inventory counts, Cyrillic presence, no corruption, collision
+  ratchet, findings-register reconciliation) pass, and `G4A-V-001` is **resolved**:
+  entries `SB-0208` (commence), `SB-0432` (embark) and `SB-1728` (commenced) were
+  corrected in PR #3 and no longer share the circular gloss "Щоб почати, почніть."
+  ("To begin, begin."). The earlier "fails by design (exit 1)" behaviour was retired
+  once those three landed. Run first and last in every future G4-A session (this is what
+  would catch drift like the `main`-merge discrepancy an earlier preflight found); any
+  failure now is real drift.
 
 **Blocker closed 2026-09-06:** `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` is now in the
 repository — 702 per-entry rows with `id, word, source, category, severity, issue,
@@ -143,9 +149,15 @@ reproducible from the repository alone. `tests/g4a_ukrainian_deterministic.py` a
 all of it, so the register cannot drift from the register's own claims.
 
 Category attribution is now complete: the 137 first-pass findings previously
-unattributed are `other` 98, `russianism-calque` 24 and `register` 15. Remaining gap:
-the 27 spot-check rows carry no `proposed_correction` and no `confidence` value — they
-record what the first pass missed, not what to do about it.
+unattributed are `other` 98, `russianism-calque` 24 and `register` 15. The former gap —
+the 27 spot-check rows carrying no `proposed_correction` and no `confidence` — is
+**closed by ticket T1 (2026-09-08)**: all 27 now carry a proposed_correction and a
+confidence value (9 P1 + 18 P2), severity re-confirmed with no reclassification, so all
+702 register rows are populated. T2-T4 and the isolated `SB-0773` structural correction
+now account for every P1 item, including all P1 spot-check rows. The historical register
+totals remain 142 P0 / 314 P1 / 246 P2, while executable closeout accounting reports
+**0 unresolved P1 + 246 unresolved P2**. See `docs/G4A_P1_BATCH_STATUS.md` and
+`tests/g4a_p1_closeout_accounting.py`.
 
 ### G5 — Writing Task 2 — BLOCKED
 
