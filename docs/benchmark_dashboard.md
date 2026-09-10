@@ -73,6 +73,24 @@ class — connector-separated repeats ("X або X", 64 entries) — remains ope
 open-deferred; D-027 requires zero unresolved P0/P1). See D-028 and
 `docs/phase_4a_t5b_promotion_report.md` §9–15.
 
+**G4-A T5-B connector-separated remediation (2026-09-10, issue #4 follow-up, branch
+`claude/slack-session-0iypwo`): zero unresolved P0/P1 — `G4-A PASS CANDIDATE` proposed (proposal
+only).** The 64 connector-separated candidates were each individually adjudicated with Ukrainian
+linguistic judgement: **64 confirmed P1, 0 benign, 0 needs-human** — every one a generation artifact
+(an English near-synonym/doubled pair collapsed to a single Ukrainian lexeme: "X або X", "X чи X",
+"X і X"), none a legitimate homograph/idiom/binomial. Corrections landed as a guarded post-migration
+stage (input blob `bb173f36` → new pinned output `7520f722`; workbook untouched, base blob `4ed00c96`
+and earlier pins not repinned). The full-bank repeat guard now fails closed on connector-separated
+repeats too (seeded synthetic connector defect: exit 1 with defect, exit 0 restored). Supplemental
+register: **99 corrected (35 adjacent + 64 connector) + 2 benign; 0 open, 0 needs-human**; historical
+register (142/314/246) untouched; the dashboard's `p1_accounting` block splits historical (314, frozen)
+from supplemental so 0 can never read as globally zero. **29/29 commands PASS** (18 non-browser + 11
+browser at 320/375/430/768/1024/1440). Fresh T5-B review: 64 corrected items re-review clean; fresh
+blind stratified sample **n=48, NEW seed `913377`, POS-stratified over 1,683 clean entries → 0 new
+P0/P1**; seeded-defect meta-validation **6/6**. Canonical gate language unchanged pending sign-off:
+`G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`; PR #7 unmerged; issue #4 not closed; G5 not
+started; no canonical G4-A PASS recorded.
+
 ## How the Task 1 rows were verified
 
 Every figure above came from running the script, not from reading a report:

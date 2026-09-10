@@ -225,3 +225,83 @@ PASS):** `responsive_check`, `g3_reading_functional`, `g3_reading_responsive`,
 - Nothing merged, no force-push, no history rewrite, **no earlier hash repinned** (base `4ed00c96`
   and stages P0–SB-0773 unchanged; only a new T5-B stage appended). The historical 702-row register
   `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` and its 142/314/246 totals are untouched. G5 not started.
+
+## 16. Connector-separated remediation (2026-09-10, issue #4 follow-up, branch `claude/slack-session-0iypwo`)
+
+The 64 connector-separated repeats that §12 registered as `open-deferred-followup` have now been
+adjudicated and remediated under the same guarded-stage model (D-028, now Approved). Sequence:
+failed T5-B (`c55813e`) → 35-item adjacent remediation (`406a951`) → 64-candidate connector
+adjudication → this remediation (`7520f722`) → fresh T5-B result (this section).
+
+## 17. Adjudication of the 64 connector-separated candidates
+
+Each of the 64 `open-deferred-followup` rows was individually adjudicated with Ukrainian linguistic
+judgement (not treated as a mechanical batch), against the criteria: CONFIRMED P1 = the same lexeme
+repeated across a connector with no semantic contribution (generation artifact); BENIGN = legitimate
+Ukrainian (distinct sense/homograph, fixed idiom/binomial, distinct grammatical form, valid stylistic
+pairing); NEEDS-HUMAN = genuinely irresolvable.
+
+**Result: 64 confirmed P1, 0 benign, 0 needs-human.** Every candidate is a generation artifact — an
+English near-synonym or doubled pair ("house or chamber", "ownership or property", "transmission or
+transfer", "cruel or savage", "get back or recover", …) whose two members both mapped to a single
+Ukrainian lexeme, producing "X або X" / "X чи X" / "X і X". Disjunctive "або"/"чи" between two
+identical lexemes carries no meaning to a Ukrainian reader; the sentence-initial-capital cases
+("Група або група", "Стан або стан") are not the SB-1197 theological "Бога/бога" situation — the
+capital is only clause position, not a sense distinction. The single "і"-connector case (`SB-0085`,
+"додатками до і до") is a lost English preposition distinction rendered as a bare "до і до" repeat and
+is likewise a defect. No case met the benign or needs-human bar. For each confirmed P1 the corrected
+`definitionUa` removes the redundant half while keeping meaning and grammar natural; `SB-0504` (fierce)
+additionally drops a residual non-adjacent duplicate of the same lexeme so the gloss reads cleanly.
+
+## 18. Remediation (guarded, post-migration stage)
+
+`scripts/qa/apply_t5b_connector_fixes.py` + `scripts/qa/t5b_connector_corrections.json`: 64 corrections,
+`definitionUa` only (+ `translationQa` stamp, appended where a prior `Reviewed — G4-A P1` stamp exists).
+Fail-closed input git-blob guard `bb173f36` (the adjacent T5-B stage output) → new pinned output blob
+**`7520f7220a64df20240523cf12fcd08a70734bc0`** (byte-deterministic `write_bytes`). Rerun refuses (input
+blob no longer `bb173f36`) and a wrong input blob refuses — both verified. Workbook NOT edited; base
+blob `4ed00c96` and earlier pins (`9282d201`, `bb173f36`) NOT repinned.
+
+## 19. Guards / accounting / chain (extended)
+
+- `tests/g4a_t5b_repeat_guard.py`: now fails closed on connector-separated repeats in addition to
+  adjacent/punctuation-separated. Connector allowlist is intentionally empty; adjacent allowlist stays
+  `SB-0660`/`SB-1197`. Non-vacuity proven for both classes; the register-open-class cross-check now
+  requires zero `open-deferred-followup` rows. Seeded synthetic connector defect proven caught:
+  **exit 1 with defect, exit 0 after restore**.
+- `tests/g4a_t5b_supplemental_accounting.py`: partitions corrected rows by source (35 adjacent + 64
+  connector = 99), validates each against its guarded payload and on-disk bytes, requires 0 open /
+  0 needs-human, and surfaces the **frozen historical P1 backlog (314)** separately so historical and
+  supplemental P1 can never be conflated.
+- `tests/g4a_sb0773_source_chain.py`: reproduces workbook → base → P0 → T2 → T3 → T4 → SB-0773
+  `9282d201` → T5-B adjacent `bb173f36` → T5-B connector `7520f722`; no earlier stage repinned.
+- `docs/benchmark_dashboard.json`: added `p1_accounting` (historical vs supplemental split) and a
+  `t5b_connector_remediation` block.
+
+Supplemental register `docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv` now: **99 corrected (35 adjacent + 64
+connector) + 2 benign; 0 open, 0 needs-human** (101 rows total). Historical
+`docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (142/314/246) untouched.
+
+## 20. Fresh T5-B review (new seed fixed before inspection)
+
+- **Corrected-item re-review:** all 64 corrected entries re-checked — no adjacent/connector repeat
+  remains, non-empty, no dangling connector/comma tail, meaning preserved vs the English headword.
+- **Fresh blind stratified sample:** seed **`913377`** (NEW; not 42, not 20260910), fixed before
+  inspection. Pool = 1,683 clean entries (all 1,784 minus the 101 remediation-set ids). Stratified by
+  part-of-speech with proportional allocation, **n=48**. Selection: `random.Random(913377)` shuffle
+  within each POS stratum after sorting by id, take the per-stratum allocation. **Findings: 0 new
+  P0/P1** (0 repeat-class defects mechanically; full-rubric read found only a few pre-existing
+  P2-level orthographic nits — e.g. `SB-0552` "місяць" not capitalised as the Moon, `SB-0744`/`SB-1272`
+  missing terminal period — consistent with the frozen 246-item P2 backlog, none reclassified).
+- **Seeded-defect meta-validation of the review process:** 6 planted defects (adjacent + connector
+  across all five connectors або/чи/та/і/й) → **6/6 detected**; clean control correctly passed.
+
+## 21. Disposition (remediation follow-up)
+
+Zero unresolved supplemental P0/P1 remain; the historical backlog was already fully resolved. Per
+D-027 (zero unresolved P0/P1 for PASS) the disposition is **PROPOSED as `G4-A PASS CANDIDATE`** — a
+proposal only; the reviewer and Dalton decide. No canonical G4-A PASS is recorded. Canonical gate
+language is unchanged pending sign-off: `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+PR #7 remains unmerged, issue #4 is not closed, and G5 is not started. Integrity: `origin/main`
+= `128b54c…` and PR #7 head `406a951…` verified; nothing merged, no force-push, no history rewrite,
+no earlier hash repinned; work pushed only to `claude/slack-session-0iypwo`.

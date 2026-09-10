@@ -2,6 +2,53 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-10 — G4-A T5-B: connector-separated definitionUa repeat remediation (issue #4, follow-up)
+
+**Gate:** canonical language unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+With zero unresolved P0/P1 now demonstrated, the disposition is **proposed** as `G4-A PASS CANDIDATE`
+(proposal only; reviewer + Dalton decide). No canonical G4-A PASS is recorded; PR #7 unmerged; issue #4
+not closed; G5 not started; no history rewrite; no earlier hash repinned. Branch
+`claude/slack-session-0iypwo`, reset onto PR #7 head `406a951` so `c55813e` (failed-T5-B evidence) and
+`406a951` (35-item adjacent remediation) stay ancestors.
+
+Sequence: failed T5-B (`c55813e`) → 35-item adjacent-repeat remediation (`406a951`) → 64-candidate
+connector-separated adjudication → this remediation → fresh T5-B result.
+
+### Adjudication (the core linguistic work)
+- The 64 `open-deferred-followup` connector-separated candidates in `docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv`
+  were each individually adjudicated with Ukrainian linguistic judgement: **64 confirmed P1, 0 benign,
+  0 needs-human**. Every case is a generation artifact — an English near-synonym/doubled pair whose two
+  members both mapped to one Ukrainian lexeme ("X або X", "X чи X", "X і X") — not a legitimate
+  homograph, idiom, binomial or grammatical-form distinction.
+
+### Remediated (learner-facing bytes changed)
+- New guarded post-migration stage `scripts/qa/apply_t5b_connector_fixes.py` +
+  `scripts/qa/t5b_connector_corrections.json`: `definitionUa` only (+ `translationQa` stamp, appended
+  where a prior P1 stamp exists). Fail-closed input blob `bb173f36` → new pinned output
+  **`7520f7220a64df20240523cf12fcd08a70734bc0`**. Rerun and wrong-input-blob both refuse. Workbook
+  untouched; base blob `4ed00c96` and earlier pins (`9282d201`, `bb173f36`) not repinned (D-028).
+  `SB-0504` uses a cleaned form that also drops a residual non-adjacent duplicate of the same lexeme.
+- `web/vocabulary.js` committed with the corrected bytes.
+
+### Guards / accounting / chain
+- `tests/g4a_t5b_repeat_guard.py` now fails closed on connector-separated repeats too (empty connector
+  allowlist; adjacent allowlist still `SB-0660`/`SB-1197`). Seeded synthetic connector defect proven
+  caught: **exit 1 with defect, exit 0 after restore**.
+- `tests/g4a_t5b_supplemental_accounting.py` reconciles both stages and reports **historical P1 (314,
+  frozen, separate register) vs supplemental P1** so 0 can never be misread as globally zero.
+- `tests/g4a_sb0773_source_chain.py` reproduces workbook → base → P0 → T2 → T3 → T4 → SB-0773
+  `9282d201` → T5-B adjacent `bb173f36` → T5-B connector `7520f722`; no earlier repin.
+- Register now: **99 corrected (35 adjacent + 64 connector) + 2 benign; 0 open, 0 needs-human.**
+  Historical `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (142/314/246) untouched.
+
+### Validated (run this session, not read)
+- **29/29 commands PASS**: 18 non-browser + 11 browser at 320/375/430/768/1024/1440. Plus the seeded
+  connector-defect negative (guard exit 1 → 0). Full G0–G4 regression re-run green.
+- Fresh T5-B review: corrected-item re-review of all 64 clean; **fresh blind stratified sample n=48
+  (NEW seed `913377`, POS-stratified over 1,683 clean entries): 0 new P0/P1** repeat-class defects
+  (a few pre-existing P2 orthographic nits noted, consistent with the frozen 246-item P2 backlog);
+  seeded-defect meta-validation of the review process **6/6 detected**, control passed.
+
 ## 2026-09-10 — G4-A T5-B: definitionUa repeat remediation (issue #4)
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
