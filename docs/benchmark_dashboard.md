@@ -50,6 +50,16 @@ Phase gates passed: **G0, G1, G2, G3**.
 Candidate gate: **G4 — INTERNAL PASS, EXTERNAL RE-REVIEW PENDING** (`docs/G4_EXTERNAL_REVIEW_PACKET.md`).
 Next gate: **G5 — Writing Task 2**, blocked until G4 is independently reviewed.
 
+**G4-A T5-B promotion attempt (2026-09-10): CHANGES REQUESTED.** 28/28 fresh validation commands
+PASS and the P1 closeout accounting reports 314/314 registered P1 resolved · 0 unresolved · 246 P2
+remaining, but the T5-B blind stratified sample of never-flagged entries surfaced a NEW P1-class
+defect — adjacent identical-word repetition in `definitionUa` (~21 clean entries, e.g. `SB-0013,
+SB-0357, SB-0484, SB-0576, SB-0577, SB-0759, SB-1230, SB-1259, SB-1486`), the same "Word repeated"
+class the register rates P1 but outside the register and the P2 backlog. Gate stays
+`G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. The "P0/P1 defects = 0" rows above track
+the *register* backlog; this newly-surfaced P1-class finding is untracked and pending a remediation
+sweep. Evidence: `docs/phase_4a_t5b_promotion_report.md`.
+
 ## How the Task 1 rows were verified
 
 Every figure above came from running the script, not from reading a report:

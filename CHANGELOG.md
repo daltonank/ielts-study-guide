@@ -2,6 +2,34 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-10 — G4-A T5-B: fresh promotion evidence packet (issue #4)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed. This ticket produces promotion *evidence*; it does not decide PASS,
+close issue #4, merge anything, or start G5.
+
+### Ran (evidence, not code)
+- Full fresh regression from `origin/main` `128b54c`: **28/28 commands PASS** (17 non-browser +
+  11 browser at 320/375/430/768/1024/1440). Deterministic G4-A gate PASS. P1 closeout accounting:
+  **314/314 registered P1 resolved · 0 unresolved · 246 P2 remaining**. Seeded defects **8/8 caught**.
+- Raw-byte invariants re-verified: source-chain reproduces final `9282d201`; migration portability
+  reproduces base `4ed00c96` + manifest `2a01f381`, no CRLF. No pin repinned.
+- Changed-P1 fresh re-review: all 309 batch corrections landed (0 mismatches); seed-42 n=24 sample
+  linguistically accurate.
+
+### Found
+- **NEW P1-class finding (⇒ CHANGES REQUESTED).** A blind stratified sample of never-flagged
+  ("clean") entries surfaced adjacent identical-word repetition in `definitionUa` (~21 clean
+  entries; unambiguous duplications include `SB-0013, SB-0357, SB-0484, SB-0576, SB-0577, SB-0759,
+  SB-1230, SB-1259, SB-1486`). This is the same "Word repeated" defect the register rates P1
+  (`SB-0125`, `SB-1673`) but it is outside the register and the 246-item P2 backlog. Per the T5-B
+  rule, this makes the disposition **CHANGES REQUESTED**, not a PASS candidate.
+
+### Added
+- **`docs/phase_4a_t5b_promotion_report.md`** — the full command/exit-code table, P0/P1/P2 counts,
+  changed-P1 fresh-review evidence, blind-sample method + findings, seeded-defect counts, and the
+  proposed disposition.
+
 ## 2026-09-10 — G4-A: migration output byte-determinism (PR #6 follow-up)
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.

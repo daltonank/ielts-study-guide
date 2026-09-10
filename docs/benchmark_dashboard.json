@@ -26,5 +26,18 @@
   "p1_defects": 0,
   "regression_status": "PASS through G4",
   "accessibility_score": null,
-  "performance_score": null
+  "performance_score": null,
+  "t5b_promotion": {
+    "date": "2026-09-10",
+    "base_main": "128b54c36f99b865c8b8bc49c5e835eb19c7c732",
+    "commands_run": 28,
+    "commands_passed": 28,
+    "registered_p1_unresolved": 0,
+    "registered_p2_remaining": 246,
+    "seeded_defects_caught": "8/8",
+    "new_p1_class_findings_untracked": "~21 clean entries: adjacent identical-word repetition in definitionUa",
+    "disposition": "CHANGES REQUESTED",
+    "note": "p0_defects/p1_defects above track the register backlog; the T5-B blind sample surfaced a NEW untracked P1-class defect. See docs/phase_4a_t5b_promotion_report.md.",
+    "gate_language": "G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED"
+  }
 }
