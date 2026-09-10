@@ -2,11 +2,16 @@
 
 **Updated:** 2026-09-09
 **Last passed gate:** G3 Reading Complete — PASS  
-**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**. The registered P1 backlog is now fully remediated: **0 P1 + 246 P2** remain open after T2-T4 and the isolated `SB-0773` source fix. G4 overall is not complete because the learner-facing flag/correction loop (T5) required by D-027 is not yet built. Native/human review remains advisory and must not be claimed as completed. No G4-A PASS is claimed.
+**Candidate gate:** G4 technical layer — PASS (external re-review `TECHNICAL PASS`, 21/21 commands, 8/8 seeded defects, re-verified independently at `2a51b46`/`52d12dd`). **G4-A Ukrainian linguistic QA — CHANGES REQUESTED**. The registered P1 backlog is now fully remediated: **0 P1 + 246 P2** remain open after T2-T4 and the isolated `SB-0773` source fix. Native/human review remains advisory and must not be claimed as completed. No G4-A PASS is claimed.
+
+**T5-A progress (2026-09-09):** D-027's learner-facing flag/correction loop is now **implemented and validated** (ticket T5-A). A keyboard-native `Flag mistake / Це виглядає неправильно` control sits on all three G4-A Ukrainian-content surfaces (vocabulary `ua`/`definitionUa`, Reading UA support, Writing Task 1 UA support); reports are captured to the canonical local state (`ieltsC1UAEN.state.v1.contentFlags`), reviewable/copyable/exportable, round-trip through Export/Import without disturbing unrelated progress, and are strictly local (no network). Evidence: `tests/g4a_content_flag_static.py` and `tests/g4a_content_flag_functional.py` (six-width responsive + keyboard + reload + round-trip), full G2/G3/G4/G4-A regression re-run. **The gate still stays `G4-A CHANGES REQUESTED` and G5 stays BLOCKED** — the T5-B fresh promotion packet (zero unresolved P0/P1 re-verified end-to-end) remains outstanding. No G4-A PASS is claimed.
+**T5-A review corrections (2026-09-10, PR #6):** three reviewer findings (CHANGES REQUESTED) corrected on the same branch. **(1)** The vocabulary surface now renders TWO per-field flag controls — `field:"ua"` (captures `v.ua`) and `field:"definitionUa"` (captures `v.definitionUa`), each labelled `переклад / ua` and `визначення / definitionUa`; `flagTexts` no longer concatenates the two fields, so reports are accurately attributable. **(2)** `copyFlags` no longer shows a false success when both the Clipboard API and the `execCommand` fallback fail (honest failure toast + promise-rejection handling); `exportFlags` is wrapped in try/catch; `importData` validates/coerces each `contentFlags` member via `normalizeFlags` (malformed members dropped/coerced) and `renderFlagList` defensively normalises, so a malformed import can never crash the Settings flag view. **(3)** Browser coverage now opens the `<details>` control and asserts no overflow, an unclipped/unoccluded textarea + submit button, and tap-target sizing on all three UA surfaces at 320/375 px. Gate language unchanged; D-026/D-027 status unchanged; no G4-A PASS is claimed. Evidence: `tests/g4a_content_flag_static.py` + `tests/g4a_content_flag_functional.py` (updated), `app_ua_strings` ratchet 61 → 66, full G2/G3/G4/G4-A + browser regression re-run.
 **T1 progress (2026-09-08):** the 27 spot-check findings are triaged (proposed_correction + confidence assigned; severity re-confirmed, no reclassification); the 311 unresolved P1 findings are partitioned into batch manifests T2/T3/T4.
 **T2-T4 progress (2026-09-09):** T2 applied 104 corrections; T3 resolved 103 findings through 102 byte edits plus the `SB-0425` sibling disposition; T4 applied 103 corrections; the deferred `SB-0773` malformed headword was then corrected at the canonical source. Final vocabulary blob: `9282d201`. The P1 closeout test reconciles all **314/314 registered P1 findings**, leaving **0 P1 + 246 P2** open. Final combined regression: **24/24 commands PASS**, including all browser, responsive, accessibility, persistence, seeded-defect, and release-integrity checks. See `docs/G4A_P1_BATCH_STATUS.md`.
 
 **Review remediation (2026-09-09, PR #5):** two blocking review findings fixed without changing learner-facing output (`web/vocabulary.js` stays `9282d201`). (1) The `SB-0773` source repair was completed — `Oxford C1 Bank!B774` is now `minute` to match `Study Bank!A777` — so a clean migration retains Oxford provenance and the guarded blob chain was repinned end-to-end (base `4ed00c96` → P0 `30a3e1dc` → T2 `b39e5223` → T3 `8e28af35` → T4 `36c3d205` → SB-0773 `9282d201`). (2) `apply_p1_t2_fixes.py` now normalizes CRLF before its input guard, matching `apply_p1_batch_fixes.py`. New guard `tests/g4a_sb0773_source_chain.py` proves clean workbook → reviewed final reproduction.
+
+**Migration byte-determinism (2026-09-10, PR #6 follow-up, REQ-072):** `scripts/migrate_vocabulary.py` wrote `web/vocabulary.js` and `docs/vocabulary_migration_manifest.json` via `Path.write_text(...)`, which on Windows emits CRLF (`\n` → `os.linesep`) and changes the raw git blob away from the reviewed LF artifact — so `tests/g4a_sb0773_source_chain.py` fails on a Windows-style checkout under `PYTHONUTF8=1`. Both artifacts are now written with `write_bytes(payload.encode("utf-8"))` and explicit `\n`, giving byte-identical output on every OS. No content change: `web/vocabulary.js` blob stays `9282d201`, manifest blob stays `2a01f381`, and regenerating on Linux reproduces the pinned migration base `4ed00c96`. No hash/pin was repinned. New portability regression `tests/g4a_migration_portability.py` fails closed on CRLF or blob drift (static `write_bytes` guard + dynamic regeneration byte check; proven non-vacuous). Gate language unchanged; T5-B still outstanding; no G4-A PASS claimed.
 **Next gate:** G5 Writing Task 2, blocked until G4-A corrections land and are re-verified  
 **Deployment:** local HTML only; public reconciliation deferred
 
@@ -158,6 +163,25 @@ now account for every P1 item, including all P1 spot-check rows. The historical 
 totals remain 142 P0 / 314 P1 / 246 P2, while executable closeout accounting reports
 **0 unresolved P1 + 246 unresolved P2**. See `docs/G4A_P1_BATCH_STATUS.md` and
 `tests/g4a_p1_closeout_accounting.py`.
+
+**T5-A — learner flag / correction loop — implemented and validated (2026-09-09).**
+D-027 replaced the mandatory native-Ukrainian editorial gate with AI linguistic QA plus a
+learner-facing `Flag mistake / Це виглядає неправильно` correction loop; T5-A delivers that
+loop. A keyboard-native `<details>/<summary>` control appears on all three G4-A
+Ukrainian-content surfaces (vocabulary entries `ua`/`definitionUa`, Reading UA support,
+Writing Task 1 UA support). Submitting captures a structured report into the canonical local
+state (`ieltsC1UAEN.state.v1.contentFlags`: `id, kind, contentId, field, en, ua, note,
+appVersion, createdAt`) bound to the surface's stable content id. Settings → "Flagged content ·
+Позначені помилки" provides a review list, an explicit local-only privacy notice, Copy JSON and
+Export JSON, empty/confirmation states, and the flags round-trip through the existing
+Export/Import backup (`importData` normalises the new key for older backups) without disturbing
+unrelated progress. The path is strictly local — no fetch/XHR/beacon/socket anywhere.
+Artifacts: `web/app.js`, `web/styles.css`. Evidence: `tests/g4a_content_flag_static.py`,
+`tests/g4a_content_flag_functional.py` (six-width responsive + keyboard + reload + round-trip),
+`tests/g4a_ukrainian_deterministic.py` (UA UI ratchet 53 → 61). **This does not advance the
+gate:** G4-A remains **CHANGES REQUESTED** and G5 remains **BLOCKED** — the T5-B fresh promotion
+packet (zero unresolved P0/P1, re-verified end-to-end) is still outstanding. No G4-A PASS is
+claimed; D-026/D-027 statuses are unchanged.
 
 ### G5 — Writing Task 2 — BLOCKED
 

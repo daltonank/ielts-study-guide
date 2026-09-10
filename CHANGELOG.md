@@ -2,6 +2,97 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-10 — G4-A: migration output byte-determinism (PR #6 follow-up)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed; T5-B fresh promotion packet remains outstanding; D-026/D-027 status unchanged.
+
+### Fixed
+- **Portability / byte-determinism (REQ-072).** `scripts/migrate_vocabulary.py` wrote its two
+  generated artifacts (`web/vocabulary.js`, `docs/vocabulary_migration_manifest.json`) via
+  `Path.write_text(...)`, which opens in text mode (`newline=None`) and translates `\n` →
+  `os.linesep`. On Windows that emits CRLF, changing the raw git blob away from the reviewed LF
+  artifact and breaking the raw-byte source-chain guard (`tests/g4a_sb0773_source_chain.py` fails
+  under `PYTHONUTF8=1` on a Windows-style checkout). Both artifacts are now written with
+  `write_bytes(payload.encode("utf-8"))` and explicit `\n`, so output is byte-identical on
+  Windows/Linux/macOS. **No content change:** `web/vocabulary.js` blob stays
+  `9282d201…`; the manifest blob stays `2a01f381…`; regenerating on Linux reproduces the pinned
+  migration base blob `4ed00c96…`. **No hash/pin was repinned.**
+
+### Added
+- **`tests/g4a_migration_portability.py`** — portability regression that fails closed if the
+  generator reintroduces CRLF or drifts from the pinned byte output. It combines a dependency-free
+  static source guard (both artifacts must use `write_bytes`, never `write_text`, no CRLF literal)
+  with a dynamic regeneration guard (re-runs the real migration and asserts zero CRLF + exact pinned
+  blobs, restoring on-disk artifacts). Proven non-vacuous: it fails when `write_text` is reintroduced.
+
+## 2026-09-10 — G4-A T5-A: review corrections (PR #6)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed; D-026/D-027 status unchanged. Three findings from the PR #6
+review (CHANGES REQUESTED) were corrected on the same branch.
+
+### Fixed
+- **Finding 1 — vocabulary field identity.** The vocabulary surface now renders TWO separate,
+  individually-attributable flag controls per entry: one bound to `field:"ua"` (captures `v.ua`
+  only) and one bound to `field:"definitionUa"` (captures `v.definitionUa` only), each with a
+  learner-visible field label (`переклад / ua`, `визначення / definitionUa`). `flagTexts` no
+  longer concatenates the two Ukrainian fields, so a report is accurately attributable to the
+  exact field flagged. `web/app.js`: `flagControl` (new optional `label`), `flagTexts`,
+  `renderVocabResults`; `web/styles.css`: new `.flag-field` label + wrapping `.flag-summary`.
+- **Finding 2 — safe error handling.** `copyFlags()` no longer shows a success toast when both
+  the Clipboard API and the `execCommand` fallback fail; it handles clipboard promise rejection
+  and shows an honest "copy failed — use Export" message. `exportFlags()` is wrapped in
+  try/catch with honest failure feedback. `importData` now validates/coerces each `contentFlags`
+  member via a new `normalizeFlags()` (non-objects dropped, fields coerced), and `renderFlagList`
+  defensively normalises before rendering, so a malformed imported member can never crash the
+  Settings flag view. Well-formed backup round-trips and unrelated progress are preserved.
+- **Finding 3 — obstruction coverage.** Browser coverage now opens the `<details>` flag control
+  and asserts no horizontal overflow, an unclipped/unoccluded textarea + submit button, and
+  tap-target sizing on all three UA surfaces at 320 and 375 px.
+
+### Tests
+- `tests/g4a_content_flag_static.py`: assert both `field:"ua"` and `field:"definitionUa"` vocab
+  controls exist, per-field text capture, `normalizeFlags` import path, honest copy/export failure.
+- `tests/g4a_content_flag_functional.py`: two per-field vocab controls with exact capture,
+  malformed-import no-crash, honest copy-failure, opened-control obstruction @320/375px.
+- `tests/g4a_ukrainian_deterministic.py` `app_ua_strings` ratchet updated 61 → 66 (per-field vocab
+  labels + honest copy/export failure UI copy).
+
+## 2026-09-09 — G4-A T5-A: learner-facing flag / correction loop (D-027)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed. D-027's `Flag mistake / Це виглядає неправильно` correction
+loop (ticket T5-A) is now implemented in the product; T5-B (fresh promotion packet)
+remains outstanding, and native/human review stays advisory and is not claimed as done.
+
+### Added
+- **Learner content-flag loop.** A keyboard-native `<details>/<summary>` "Flag mistake ·
+  Це виглядає неправильно" control on every G4-A Ukrainian-content surface a learner can
+  identify: vocabulary entries (`ua`/`definitionUa`), Reading UA support, and Writing Task 1
+  UA support. Opening it captures a structured, **local-only** report into the canonical
+  `ieltsC1UAEN.state.v1` object under a new additive `contentFlags` key
+  (`id, kind, contentId, field, en, ua, note, appVersion, createdAt`), bound to the surface's
+  stable content id. `web/app.js`: `flagControl`, `flagTexts`, `submitFlag`, `renderFlagList`,
+  `copyFlags`, `exportFlags`, `bindFlagControls`; `web/styles.css`: `.flag`/`.flag-summary`/`.flag-item`.
+- **Review / copy / export.** Settings → "Flagged content · Позначені помилки" lists submitted
+  flags with an explicit local-only privacy notice, a copyable JSON textarea, a Copy JSON action
+  and a dedicated flag-JSON export. Flags also travel with the normal Export/Import backup;
+  `importData` normalises `contentFlags` so older backups import cleanly. Empty/confirmation
+  states included. Nothing is sent to any examiner, editor or server — no network primitive is
+  used anywhere in the path.
+
+### Tests
+- Added `tests/g4a_content_flag_static.py` (deterministic: field set, stable-id binding on all
+  three surfaces, bilingual keyboard control, copy/export shape, import round-trip normalisation,
+  local-only / no-network grep).
+- Added `tests/g4a_content_flag_functional.py` (browser, served over real HTTP: capture on all
+  three surfaces, reload persistence, review list + copyable JSON, export/import round-trip
+  preserving unrelated progress, keyboard-only submission, responsive at
+  320/375/430/768/1024/1440 px, no off-origin requests).
+- `tests/g4a_ukrainian_deterministic.py` `app_ua_strings` ratchet updated 53 → 61 for the
+  deliberate T5-A Ukrainian UI copy.
+
 ## 2026-09-09 — G4-A P1 closeout: review remediation (PR #5)
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
