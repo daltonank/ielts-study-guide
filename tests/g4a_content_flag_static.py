@@ -64,8 +64,21 @@ check('w1()?.modules||[]).find(x=>x.id===contentId)' in APP,
       "writing1 flag does not bind to a stable WRITING1_DATA module id")
 
 # ---- 4. control present on all three surfaces ------------------------------
-check('flagControl("vocab",v.id,"ua")' in APP,
-      "flag control not attached to the vocabulary entry (ua/definitionUa)")
+# T5-A review Finding 1: the vocabulary surface must render TWO separate,
+# individually-attributable flag controls — one bound to field "ua" (v.ua only)
+# and one bound to field "definitionUa" (v.definitionUa only) — each with a
+# learner-visible field label. A single control concatenating the two fields is
+# not accurately attributable.
+check('flagControl("vocab",v.id,"ua"' in APP,
+      "no vocabulary flag control bound to field \"ua\"")
+check('flagControl("vocab",v.id,"definitionUa"' in APP,
+      "no vocabulary flag control bound to field \"definitionUa\"")
+check('field==="definitionUa"?(v.definitionUa||""):(v.ua||"")' in APP,
+      "flagTexts does not capture the specific vocab field text (ua vs definitionUa) — "
+      "reports would not be accurately attributable")
+# each control carries a learner-identifiable field label
+check("переклад / ua" in APP, "vocab ua flag control has no field label")
+check("визначення / definitionUa" in APP, "vocab definitionUa flag control has no field label")
 check('flagControl("reading",mod.id,"uaSupport")' in APP,
       "flag control not attached to the Reading UA support surface")
 check('flagControl("writing1",mod.id,"uaSupport")' in APP,
@@ -83,6 +96,17 @@ check("data-flag-submit=" in APP and "data-flag-note=" in APP,
 check("function renderFlagList(" in APP, "review/list view (renderFlagList) missing")
 check("function copyFlags(" in APP, "copy support (copyFlags) missing")
 check("function exportFlags(" in APP, "JSON export support (exportFlags) missing")
+# T5-A review Finding 2: copy must not falsely claim success when BOTH the
+# Clipboard API and the execCommand fallback fail, and export must survive a
+# Blob/URL/anchor throw with honest feedback.
+copy_fn = re.search(r"function copyFlags\(\)\{(.+?)\n\}", APP, re.S)
+check(copy_fn is not None and "Copy failed" in copy_fn.group(1),
+      "copyFlags has no honest failure toast when both copy strategies fail")
+check(copy_fn is not None and "fallbackCopy(ta)?ok():fail()" in copy_fn.group(1),
+      "copyFlags does not gate the success toast on an actual successful copy")
+export_fn = re.search(r"function exportFlags\(\)\{(.+?)\n\}", APP, re.S)
+check(export_fn is not None and "try{" in export_fn.group(1) and "Export failed" in export_fn.group(1),
+      "exportFlags is not wrapped in try/catch with honest failure feedback")
 check('id="flagJson"' in APP, "copyable report textarea not rendered")
 check("No flags yet" in APP, "empty state for the flag list is missing")
 
@@ -90,8 +114,17 @@ check("No flags yet" in APP, "empty state for the flag list is missing")
 # whole-state export already serialises contentFlags because it stringifies state
 check("JSON.stringify(state,null,2)" in APP,
       "exportData no longer serialises the whole state (round-trip at risk)")
-check("x.contentFlags=Array.isArray(x.contentFlags)?x.contentFlags:[]" in APP,
-      "importData does not normalise contentFlags (old backups would break the list)")
+# T5-A review Finding 2: import must normalise each contentFlags *member*, not
+# just coerce the container to an array. A malformed member (non-object, missing
+# fields) must be dropped/coerced so it can never reach renderFlagList().
+check("function normalizeFlags(" in APP,
+      "no normalizeFlags() helper to validate/coerce imported flag members")
+check("x.contentFlags=normalizeFlags(x.contentFlags)" in APP,
+      "importData does not normalise contentFlags members (malformed members could crash the list)")
+check('filter(f=>f&&typeof f==="object"&&!Array.isArray(f))' in APP,
+      "normalizeFlags does not drop non-object flag members")
+check("const flags=normalizeFlags(state.contentFlags)" in APP,
+      "renderFlagList does not defensively normalise before rendering")
 
 # ---- 8. honest, local-only framing -----------------------------------------
 check("Local only" in APP or "local-only" in APP or "only on this device" in APP,

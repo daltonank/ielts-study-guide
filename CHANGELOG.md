@@ -2,6 +2,39 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-10 — G4-A T5-A: review corrections (PR #6)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed; D-026/D-027 status unchanged. Three findings from the PR #6
+review (CHANGES REQUESTED) were corrected on the same branch.
+
+### Fixed
+- **Finding 1 — vocabulary field identity.** The vocabulary surface now renders TWO separate,
+  individually-attributable flag controls per entry: one bound to `field:"ua"` (captures `v.ua`
+  only) and one bound to `field:"definitionUa"` (captures `v.definitionUa` only), each with a
+  learner-visible field label (`переклад / ua`, `визначення / definitionUa`). `flagTexts` no
+  longer concatenates the two Ukrainian fields, so a report is accurately attributable to the
+  exact field flagged. `web/app.js`: `flagControl` (new optional `label`), `flagTexts`,
+  `renderVocabResults`; `web/styles.css`: new `.flag-field` label + wrapping `.flag-summary`.
+- **Finding 2 — safe error handling.** `copyFlags()` no longer shows a success toast when both
+  the Clipboard API and the `execCommand` fallback fail; it handles clipboard promise rejection
+  and shows an honest "copy failed — use Export" message. `exportFlags()` is wrapped in
+  try/catch with honest failure feedback. `importData` now validates/coerces each `contentFlags`
+  member via a new `normalizeFlags()` (non-objects dropped, fields coerced), and `renderFlagList`
+  defensively normalises before rendering, so a malformed imported member can never crash the
+  Settings flag view. Well-formed backup round-trips and unrelated progress are preserved.
+- **Finding 3 — obstruction coverage.** Browser coverage now opens the `<details>` flag control
+  and asserts no horizontal overflow, an unclipped/unoccluded textarea + submit button, and
+  tap-target sizing on all three UA surfaces at 320 and 375 px.
+
+### Tests
+- `tests/g4a_content_flag_static.py`: assert both `field:"ua"` and `field:"definitionUa"` vocab
+  controls exist, per-field text capture, `normalizeFlags` import path, honest copy/export failure.
+- `tests/g4a_content_flag_functional.py`: two per-field vocab controls with exact capture,
+  malformed-import no-crash, honest copy-failure, opened-control obstruction @320/375px.
+- `tests/g4a_ukrainian_deterministic.py` `app_ua_strings` ratchet updated 61 → 66 (per-field vocab
+  labels + honest copy/export failure UI copy).
+
 ## 2026-09-09 — G4-A T5-A: learner-facing flag / correction loop (D-027)
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.

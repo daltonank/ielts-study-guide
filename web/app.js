@@ -121,10 +121,12 @@ function vocabState(id){return state.vocabulary[id]||{stage:"New",confidence:0,l
    anywhere. No fetch / XHR / beacon / socket is used in this path. */
 const FLAG_LABEL="⚑ Flag mistake · Це виглядає неправильно";
 const FLAG_KIND_LABEL={vocab:"Vocabulary",reading:"Reading UA support",writing1:"Writing Task 1 UA"};
-function flagControl(kind,contentId,field){
+function flagControl(kind,contentId,field,label=""){
  const fid=`${kind}:${contentId}:${field}`;
- return `<details class="flag"><summary class="flag-summary">${FLAG_LABEL}</summary>
+ const tag=label?`<span class="flag-field">${escapeHTML(label)}</span>`:"";
+ return `<details class="flag"><summary class="flag-summary">${FLAG_LABEL}${tag}</summary>
  <div class="flag-body">
+  ${label?`<p class="small muted">This flags: <strong>${escapeHTML(label)}</strong>.</p>`:""}
   <p class="small muted">Stored only on this device — nothing is sent to any examiner, editor or server. Зберігається лише на вашому пристрої.</p>
   <label class="field small">Optional note · Необов'язкова примітка<textarea class="flag-note" data-flag-note="${escapeHTML(fid)}" placeholder="What looks wrong? (optional)"></textarea></label>
   <button type="button" class="btn secondary" data-flag-submit="${escapeHTML(fid)}">Save flag locally</button>
@@ -132,7 +134,7 @@ function flagControl(kind,contentId,field){
 }
 function flagTexts(kind,contentId,field){
  let en="",uaText="";
- if(kind==="vocab"){const v=(window.VOCABULARY||[]).find(x=>x.id===contentId);if(v){en=v.word||"";uaText=(v.ua||"")+(v.definitionUa?` — ${v.definitionUa}`:"");}}
+ if(kind==="vocab"){const v=(window.VOCABULARY||[]).find(x=>x.id===contentId);if(v){en=v.word||"";uaText=field==="definitionUa"?(v.definitionUa||""):(v.ua||"");}}
  else if(kind==="reading"){const m=(window.READING_DATA?.modules||[]).find(x=>x.id===contentId);if(m){en=m.title||"";uaText=m.uaSupport||"";}}
  else if(kind==="writing1"){const m=(w1()?.modules||[]).find(x=>x.id===contentId);if(m){en=m.title||"";uaText=m.uaSupport||"";}}
  return {en,ua:uaText};
@@ -146,8 +148,15 @@ function submitFlag(kind,contentId,field,note){
  toast("Flag saved on this device only — не надіслано");
  render();
 }
+function normalizeFlags(arr){
+ if(!Array.isArray(arr))return [];
+ return arr.filter(f=>f&&typeof f==="object"&&!Array.isArray(f)).map(f=>({
+  id:String(f.id||uid("FLAG")),kind:String(f.kind||""),contentId:String(f.contentId||""),
+  field:String(f.field||""),en:String(f.en||""),ua:String(f.ua||""),note:String(f.note||""),
+  appVersion:String(f.appVersion||""),createdAt:String(f.createdAt||"")}));
+}
 function renderFlagList(){
- const flags=state.contentFlags||[];
+ const flags=normalizeFlags(state.contentFlags);
  const notice=`<div class="notice"><strong>Local only.</strong> These reports live in this browser's storage (${escapeHTML(STORE)}). They are never sent to an examiner, editor or any server, and they travel with your normal Export / Import backup. Ці звіти зберігаються лише тут.</div>`;
  if(!flags.length) return notice+`<p class="muted" style="margin-top:10px">No flags yet. Use the “Flag mistake · Це виглядає неправильно” control on a vocabulary entry or a Ukrainian support note to report content that looks wrong.</p>`;
  const list=`<div class="stack" style="margin-top:10px">${flags.map(f=>`<div class="flag-item"><div class="row"><span class="badge">${escapeHTML(FLAG_KIND_LABEL[f.kind]||f.kind)}</span><strong>${escapeHTML(f.en||f.contentId)}</strong><span class="small muted">${escapeHTML((f.createdAt||"").slice(0,10))}</span></div><div class="small muted">${escapeHTML(f.contentId)} · ${escapeHTML(f.field)}</div>${f.ua?`<div class="ua-note small"><strong>UA:</strong> ${escapeHTML(f.ua)}</div>`:""}${f.note?`<div class="small"><strong>Your note:</strong> ${escapeHTML(f.note)}</div>`:""}</div>`).join("")}</div>`;
@@ -156,16 +165,27 @@ function renderFlagList(){
  <label class="field small" style="margin-top:8px">Copyable report data<textarea id="flagJson" class="dev-note" readonly aria-label="Flag report JSON">${json}</textarea></label>`;
  return notice+`<p class="small muted" style="margin-top:8px"><strong>${flags.length}</strong> flag${flags.length===1?"":"s"} stored locally.</p>`+list+tools;
 }
+function fallbackCopy(ta){
+ if(!ta)return false;
+ ta.focus();ta.select();
+ try{return document.execCommand("copy")===true}catch(e){return false}
+}
 function copyFlags(){
  const text=JSON.stringify(state.contentFlags||[],null,2);
  const ta=document.querySelector("#flagJson");
- const done=()=>toast("Flag JSON copied");
- if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(()=>{if(ta){ta.focus();ta.select();try{document.execCommand("copy")}catch(e){}}done()});}
- else{if(ta){ta.focus();ta.select();try{document.execCommand("copy")}catch(e){}}done();}
+ const ok=()=>toast("Flag JSON copied");
+ const fail=()=>toast("Copy failed — use Export flags JSON instead · Копіювання не вдалося, скористайтеся експортом");
+ if(navigator.clipboard&&navigator.clipboard.writeText){
+  navigator.clipboard.writeText(text).then(ok,()=>{fallbackCopy(ta)?ok():fail()});
+ }else{
+  fallbackCopy(ta)?ok():fail();
+ }
 }
 function exportFlags(){
- const blob=new Blob([JSON.stringify(state.contentFlags||[],null,2)],{type:"application/json"});
- const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`ielts-c1-content-flags-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);
+ try{
+  const blob=new Blob([JSON.stringify(state.contentFlags||[],null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`ielts-c1-content-flags-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);
+ }catch(e){toast("Export failed — copy the JSON text manually · Експорт не вдався")}
 }
 function bindFlagControls(){
  document.querySelectorAll("[data-flag-submit]").forEach(b=>b.onclick=()=>{
@@ -218,7 +238,8 @@ function renderVocabResults(){
  ${v.example?`<div class="small"><strong>Example:</strong> ${escapeHTML(v.example)}</div>`:''}
  <div class="row" style="margin-top:9px"><label class="field">Mastery<select data-vocab-stage="${v.id}">${["New","Recognized","Recall","Active","Mastered"].map(x=>`<option ${s.stage===x?"selected":""}>${x}</option>`).join("")}</select></label>
  <label class="field">Confidence<select data-vocab-confidence="${v.id}">${[0,1,2,3,4,5].map(x=>`<option ${Number(s.confidence)===x?"selected":""}>${x}</option>`).join("")}</select></label></div>
- ${flagControl("vocab",v.id,"ua")}
+ ${flagControl("vocab",v.id,"ua","переклад / ua")}
+ ${v.definitionUa?flagControl("vocab",v.id,"definitionUa","визначення / definitionUa"):""}
  </div>`}).join("")||`<p class="muted">No matches.</p>`;
  bindFlagControls();
 }
@@ -854,7 +875,7 @@ function startTimer(sec){clearInterval(timerHandle);timerSeconds=sec||60;drawTim
 function drawTimer(){const el=document.querySelector("#timer");if(!el)return;el.textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0")}
 function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`ielts-c1-progress-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href)}
 function validImport(x){return x&&typeof x==="object"&&typeof x.schemaVersion==="string"&&x.settings&&["en","uaen","uahelp"].includes(x.settings.languageMode)&&Array.isArray(x.errors)&&Array.isArray(x.savedResponses)&&Array.isArray(x.studyHistory)}
-function importData(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!validImport(x))throw new Error("Schema check failed");const backup=JSON.parse(JSON.stringify(state));x.backups=Array.isArray(x.backups)?x.backups:[];x.backups.unshift({createdAt:new Date().toISOString(),state:backup});x.contentFlags=Array.isArray(x.contentFlags)?x.contentFlags:[];state=x;saveState();toast("Import successful");render()}catch(e){toast("Import rejected: "+e.message)}};r.readAsText(file)}
+function importData(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!validImport(x))throw new Error("Schema check failed");const backup=JSON.parse(JSON.stringify(state));x.backups=Array.isArray(x.backups)?x.backups:[];x.backups.unshift({createdAt:new Date().toISOString(),state:backup});x.contentFlags=normalizeFlags(x.contentFlags);state=x;saveState();toast("Import successful");render()}catch(e){toast("Import rejected: "+e.message)}};r.readAsText(file)}
 function openDrawer(){drawer.hidden=false;scrim.hidden=false;menuBtn.setAttribute("aria-expanded","true")}
 function closeDrawer(){drawer.hidden=true;scrim.hidden=true;menuBtn.setAttribute("aria-expanded","false")}
 function init(){

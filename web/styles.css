@@ -152,9 +152,10 @@ textarea{min-height:130px;resize:vertical}
 
 /* Content flag / correction loop (D-027 · T5-A) */
 .flag{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
-.flag-summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:32px;font-size:.85rem;font-weight:700;color:var(--ua)}
+.flag-summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-height:32px;font-size:.85rem;font-weight:700;color:var(--ua)}
 .flag-summary::-webkit-details-marker{display:none}
 .flag-summary:hover{text-decoration:underline}
+.flag-field{margin-left:6px;font-size:.72rem;font-weight:700;color:var(--muted);background:#eef3ff;border-radius:8px;padding:1px 7px;white-space:nowrap}
 .flag-body{margin-top:8px;display:flex;flex-direction:column;gap:8px}
 .flag-body textarea.flag-note{min-height:60px}
 .flag-item{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fbfcff;display:grid;gap:6px;overflow-wrap:anywhere;word-break:break-word}

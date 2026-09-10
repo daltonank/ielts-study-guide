@@ -42,7 +42,7 @@ EXPECTED = {
     'vocabulary_entries': 1784,   # locked by D-014 standing constraint (G2: 1,784 records)
     'reading_ua_strings': 38,     # 15 family + 23 module uaSupport
     'writing1_ua_strings': 268,
-    'app_ua_strings': 61,     # 53 baseline + 8 from the T5-A learner flag/correction loop UI copy (D-027)
+    'app_ua_strings': 66,     # 61 prior (53 baseline + 8 T5-A flag loop, D-027) + 5 from the T5-A review corrections: per-field vocab flag labels (переклад/визначення) and honest copy/export failure messages
 }
 
 # --- The per-entry findings register. These are the numbers every G4-A document
