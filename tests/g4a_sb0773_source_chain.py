@@ -27,7 +27,11 @@ import tempfile
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 VOCAB = ROOT / "web" / "vocabulary.js"
 WORKBOOK = ROOT / "source" / "IELTS_Academic_C1_Ukrainian_Vocabulary_Bank.xlsx"
-FINAL_BLOB = "9282d2013dcf382bbb439384247a0be0be0dede2"
+FINAL_BLOB = "9282d2013dcf382bbb439384247a0be0be0dede2"  # SB-0773 stage output (intermediate)
+# T5-B appends one guarded post-migration stage (definitionUa repeat remediation, issue #4)
+# on top of the SB-0773 final. Earlier historical stages are NOT repinned; the chain simply
+# grows by one stage ending at this new pinned final blob.
+T5B_FINAL_BLOB = "bb173f3614dbf35558d96a17b7f692d28f82f303"
 # Reviewed learner-facing SB-0773 fields (web/vocabulary.js at the PR #5 head). Pinned as
 # literals so any drift in stable identity or the Ukrainian fields fails the test closed —
 # the source-chain guard alone proves provenance, not Ukrainian-field preservation.
@@ -82,6 +86,9 @@ def main() -> int:
     assert t3["expected_output_blob_sha1"] == t4["expected_input_blob_sha1"], "T3->T4 chain broken"
     assert t4["expected_output_blob_sha1"] == sb_in, "T4->SB-0773 chain broken"
     assert sb_out == FINAL_BLOB, "SB-0773 step does not target the reviewed final blob"
+    t5b = payload_meta("t5b_repeat_corrections.json")
+    assert t5b["expected_input_blob_sha1"] == FINAL_BLOB, "SB-0773->T5-B chain broken"
+    assert t5b["expected_output_blob_sha1"] == T5B_FINAL_BLOB, "T5-B step does not target the new final blob"
 
     backup = pathlib.Path(tempfile.mkdtemp()) / "vocabulary.js"
     shutil.copy2(VOCAB, backup)
@@ -119,13 +126,28 @@ def main() -> int:
         assert final["id"] == SB0773_ID, final["id"]
         assert final["ua"] == SB0773_UA, final["ua"]
         assert final["definitionUa"] == SB0773_DEFINITION_UA, final["definitionUa"]
+
+        # 3. T5-B guarded stage reproduces the new pinned final blob and lands the
+        # definitionUa repeat corrections. SB-0773 is untouched by T5-B.
+        run("scripts/qa/apply_t5b_repeat_fixes.py")
+        assert disk_blob() == T5B_FINAL_BLOB, (
+            f"T5-B final blob {disk_blob()} != reviewed {T5B_FINAL_BLOB}")
+        t5b_payload = json.loads(
+            (ROOT / "scripts" / "qa" / "t5b_repeat_corrections.json").read_text(encoding="utf-8"))
+        after = {e["id"]: e for e in json.loads(
+            re.search(r"window\.VOCABULARY=(\[.*\]);", VOCAB.read_text(encoding="utf-8"),
+                      re.DOTALL).group(1))}
+        for cid, corr in t5b_payload["corrections"].items():
+            assert after[cid]["definitionUa"] == corr["definitionUa"], (
+                f"T5-B correction for {cid} did not land")
+        assert after["SB-0773"]["definitionUa"] == SB0773_DEFINITION_UA, "T5-B disturbed SB-0773"
     finally:
         shutil.copy2(backup, VOCAB)
 
-    assert disk_blob() == FINAL_BLOB, "restore failed"
+    assert disk_blob() == T5B_FINAL_BLOB, "restore failed"
     print("G4-A SB-0773 SOURCE-CHAIN PASS: workbook -> base -> P0 -> T2 -> T3 -> T4 -> "
-          f"final {FINAL_BLOB} reproduced; SB-0773 provenance + stable id + Ukrainian "
-          "fields (ua / definitionUa) retained")
+          f"SB-0773 {FINAL_BLOB} -> T5-B {T5B_FINAL_BLOB} reproduced; SB-0773 provenance + "
+          "stable id + Ukrainian fields retained; 35 T5-B repeat corrections landed")
     return 0
 
 

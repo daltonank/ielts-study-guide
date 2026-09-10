@@ -122,3 +122,106 @@ No new P0 was found. The changed-P1 material is clean; the finding is confined t
 
 - `main` verified = `128b54c36f99b865c8b8bc49c5e835eb19c7c732` (GitHub API + `origin/main`), matched the expected SHA.
 - Branch `claude-code/4-g4a-t5b-promotion` created from that exact base. Nothing merged. No tag moved, no force-push, no blob/hash repinned. `web/vocabulary.js` blob remains `9282d201…` (untouched — this packet added evidence docs only).
+
+---
+
+# T5-B remediation + fresh T5-B (2026-09-10, issue #4)
+
+**Author:** Claude Code (AI QA) · **Branch:** `claude/slack-session-62m83z` (branched from the same
+failed-T5-B evidence commit `c55813e`, preserving it as an ancestor) · **Base:** `origin/main`
+`128b54c` · **Gate language (unchanged):** `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+
+> Sequence: **failed T5-B (above, ~21 estimate) → exact repeat findings → remediation → fresh T5-B.**
+> This does not decide PASS, close issue #4, merge anything, or start G5. Claude proposes; a reviewer
+> and Dalton decide.
+
+## 9. Exact repeat scan (replaces the failed packet's "~21" estimate)
+
+A deterministic scan of `definitionUa` over **all 1,784** records for adjacent AND
+punctuation-separated identical-word repetition (case-insensitive; exact text preserved) found:
+
+- **Candidate count: 37 records** (39 repeat pairs) — not "~21".
+- **Confirmed P1 defects: 35.**
+- **Benign / adjudicated-legitimate: 2** — `SB-0660` (two distinct semicolon glosses,
+  "Дія втручання" vs "втручання в якийсь хід подій") and `SB-1197` (theological "Бога" (God) vs
+  "бога" (a god); the case difference is meaningful). Both allowlisted with rationale.
+- **Human-adjudication-needed: 0** — every candidate resolved from repository evidence.
+
+All nine literal duplications the failed packet listed (`SB-0013, SB-0357, SB-0484, SB-0576, SB-0577,
+SB-0759, SB-1230, SB-1259, SB-1486`) are inside the 35 and are corrected.
+
+## 10. Remediation (guarded, post-migration stage)
+
+- New guarded applicator `scripts/qa/apply_t5b_repeat_fixes.py` + payload
+  `scripts/qa/t5b_repeat_corrections.json` edit `definitionUa` only (plus a `translationQa` stamp;
+  the one entry already carrying a P1 stamp, `SB-0420`, is appended to, not overwritten). Fixed
+  review date, deterministic id ordering, fail-closed input git-blob guard `9282d201` (verified on
+  re-run: refuses to mutate), new pinned output blob `bb173f3614dbf35558d96a17b7f692d28f82f303`.
+- **Workbook not edited (deliberate, flagged).** `definitionUa` flows from Study Bank column D into
+  the pinned migration base blob `4ed00c96`. Every Ukrainian correction in this project
+  (P0/T2/T3/T4/SB-0773) is layered as a post-migration guarded patch, precisely so the frozen base
+  blob and its downstream pins are never repinned. Editing the workbook would change `4ed00c96` and
+  repin an earlier historical stage — forbidden by this ticket. This stage keeps that invariant; the
+  source-chain guard proves a clean migration → full chain still reproduces the corrected bytes.
+- **Blob chain (input → new pinned output):** `9282d201…` → **`bb173f36…`**. Earlier stages
+  unchanged: `4ed00c96` (base) → P0 → T2 → T3 → T4 → SB-0773 `9282d201` → **T5-B `bb173f36`**.
+
+## 11. Guards / tests added or extended
+
+- `tests/g4a_t5b_repeat_guard.py` — full-bank (1,784) adjacent/punctuation-separated `definitionUa`
+  repeat guard; FAILS on any such duplication outside the documented 2-entry benign allowlist; proven
+  non-vacuous (seeded synthetic repeat caught, in-process and demonstrated at file level); no dead
+  allowlist entries permitted.
+- `tests/g4a_t5b_supplemental_accounting.py` — reconciles the supplemental register against the
+  shipped bytes and the guarded payload.
+- `tests/g4a_sb0773_source_chain.py` — extended with the T5-B stage so the chain now ends at
+  `bb173f36`; **no earlier historical stage repinned**; base `4ed00c96` still reproduced from the
+  untouched workbook.
+
+## 12. NEW discovered class — connector-separated repeats (keeps disposition CHANGES REQUESTED)
+
+The exhaustive scan also surfaced a **distinct** repeat class the ticket's scan definition does not
+cover: **connector-separated** identical-word repetition ("X або X", "X чи X" — a conjunction between
+the duplicates), e.g. `SB-1285` "стан або стан", `SB-1323` "допомога або допомога". **64 entries**
+carry it on the corrected bank. These are genuine P1-class "Word repeated" defects, out of the T5-B
+adjacent/punctuation scan scope, and are registered as **open-deferred** in
+`docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv` (with mechanical, unadjudicated proposed corrections). They
+are a follow-up ticket, not remediated here.
+
+## 13. Fresh T5-B (new seed fixed before inspection)
+
+- **Corrected-material re-review:** all 35 corrected entries are clean of both repeat classes.
+- **Blind stratified sample:** seed **`20260910`** (fixed before inspection, distinct from the
+  discovery scan / failed-packet seed 42), **n = 40**, stratified by part-of-speech across the
+  **1,683** entries that carry no T5-B finding, deterministic proportional allocation. **Result:
+  0 / 40 carry a repeat-class defect** — the residual "clean" set is confirmed clean.
+- **Disposition: CHANGES REQUESTED.** The in-scope adjacent/punctuation-separated class is fully
+  remediated, but **64 connector-separated P1-class repeats remain open**, so per D-027 (zero
+  unresolved P0/P1 required for PASS) the bank is **not** a G4-A PASS candidate. Claude proposes
+  CHANGES REQUESTED; it does not decide.
+
+## 14. Fresh validation (all actually run this session)
+
+**Non-browser (20/20 PASS):** `g4a_ukrainian_deterministic`, `g4a_t5b_repeat_guard` (+ file-level
+seeded negative), `g4a_t5b_supplemental_accounting`, `g4a_p1_closeout_accounting`,
+`g4a_migration_portability`, `g4a_sb0773_source_chain` (new final stage), `g4a_sb0773_headword`,
+`g4a_reading_case_agreement`, `validate_build`, `g2_vocabulary_validation`, `ui_vocabulary_static`,
+`accessibility_static`, `g3_reading_validation`, `g4_writing1_validation`, `g4_writing1_inventory`,
+`g4_writing1_claims`, `g4_writing1_content_qa`, `g4_writing1_negative`, `g4a_content_flag_static`,
+`release_integrity`.
+**Browser (Chromium `/opt/pw-browsers/chromium-1194`, widths 320/375/430/768/1024/1440) (11/11
+PASS):** `responsive_check`, `g3_reading_functional`, `g3_reading_responsive`,
+`g3_reading_accessibility`, `g4_writing1_functional`, `g4_writing1_responsive`,
+`g4_writing1_accessibility`, `g4_writing1_obstruction`, `g4_writing1_persistence`,
+`g4a_content_flag_functional`. `playwright install` was not run (pre-installed browser used).
+
+## 15. Integrity statement (remediation)
+
+- `origin/main` = `128b54c…` and failed-T5-B head `c55813e…` both verified before any change.
+- New work on `claude/slack-session-62m83z` (branched from `c55813e`, which is preserved as an
+  ancestor). **Branch-name deviation from the handoff** (`claude-code/4-g4a-t5b-promotion`): this
+  session is hard-constrained to `claude/slack-session-62m83z`; branching from the same `c55813e`
+  preserves the failed-promotion evidence and the PR still targets `main`.
+- Nothing merged, no force-push, no history rewrite, **no earlier hash repinned** (base `4ed00c96`
+  and stages P0–SB-0773 unchanged; only a new T5-B stage appended). The historical 702-row register
+  `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` and its 142/314/246 totals are untouched. G5 not started.

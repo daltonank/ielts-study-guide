@@ -60,6 +60,19 @@ class the register rates P1 but outside the register and the P2 backlog. Gate st
 the *register* backlog; this newly-surfaced P1-class finding is untracked and pending a remediation
 sweep. Evidence: `docs/phase_4a_t5b_promotion_report.md`.
 
+**G4-A T5-B repeat remediation (2026-09-10, issue #4, branch `claude/slack-session-62m83z`): still
+CHANGES REQUESTED.** The "~21" estimate was resolved to exact numbers by a deterministic full-bank
+scan: **37 candidates → 35 confirmed P1 corrected + 2 benign allowlisted (`SB-0660`, `SB-1197`)**, 0
+needing human adjudication. Corrections landed as a guarded post-migration stage (input blob
+`9282d201` → new pinned output `bb173f36`; workbook untouched, base blob `4ed00c96` not repinned).
+New full-bank repeat guard (`tests/g4a_t5b_repeat_guard.py`, non-vacuous) + supplemental register
+(`docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv`). Fresh blind sample (seed `20260910`, n=40 by POS over
+1,683 unflagged entries): 0/40 repeat-class defects; 35 corrected re-review clean. 20 non-browser +
+11 browser (six widths) all PASS. **Disposition stays CHANGES REQUESTED** because a NEW distinct
+class — connector-separated repeats ("X або X", 64 entries) — remains open (registered
+open-deferred; D-027 requires zero unresolved P0/P1). See D-028 and
+`docs/phase_4a_t5b_promotion_report.md` §9–15.
+
 ## How the Task 1 rows were verified
 
 Every figure above came from running the script, not from reading a report:

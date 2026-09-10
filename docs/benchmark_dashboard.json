@@ -39,5 +39,29 @@
     "disposition": "CHANGES REQUESTED",
     "note": "p0_defects/p1_defects above track the register backlog; the T5-B blind sample surfaced a NEW untracked P1-class defect. See docs/phase_4a_t5b_promotion_report.md.",
     "gate_language": "G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED"
+  },
+  "t5b_repeat_remediation": {
+    "date": "2026-09-10",
+    "branch": "claude/slack-session-62m83z",
+    "issue": 4,
+    "scan_scope": "definitionUa adjacent + punctuation-separated identical-word repetition, all 1784 records",
+    "candidate_count": 37,
+    "confirmed_p1_corrected": 35,
+    "benign_allowlisted": 2,
+    "human_adjudication_needed": 0,
+    "vocab_input_blob": "9282d2013dcf382bbb439384247a0be0be0dede2",
+    "vocab_output_blob": "bb173f3614dbf35558d96a17b7f692d28f82f303",
+    "workbook_edited": false,
+    "base_blob_repinned": false,
+    "supplemental_register": "docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv",
+    "new_open_class_connector_separated_repeats": 64,
+    "fresh_blind_sample": {"seed": 20260910, "n": 40, "strata": "part-of-speech", "repeat_defects_found": 0, "pool": 1683},
+    "commands_run": 31,
+    "commands_passed": 31,
+    "browser_widths": [320, 375, 430, 768, 1024, 1440],
+    "historical_register_untouched": true,
+    "disposition": "CHANGES REQUESTED",
+    "note": "In-scope adjacent/punctuation repeat class fully remediated; 64 connector-separated P1-class repeats remain open (D-027 requires zero unresolved P0/P1 for PASS). p1_defects=0 above tracks only the historical 702-row register. See D-028 and docs/phase_4a_t5b_promotion_report.md sections 9-15.",
+    "gate_language": "G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED"
   }
 }

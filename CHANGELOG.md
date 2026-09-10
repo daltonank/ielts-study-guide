@@ -2,6 +2,55 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-10 — G4-A T5-B: definitionUa repeat remediation (issue #4)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed; issue #4 not closed; nothing merged; no history rewrite; no earlier hash
+repinned. Branch `claude/slack-session-62m83z`, branched from the failed-T5-B evidence commit
+`c55813e` (preserved as an ancestor).
+
+### Exact findings (replacing the failed packet's "~21" estimate)
+- Deterministic full-bank (1,784) `definitionUa` scan for adjacent + punctuation-separated
+  identical-word repetition: **37 candidates → 35 confirmed P1 corrected, 2 benign allowlisted
+  (`SB-0660`, `SB-1197`), 0 needing human adjudication**.
+
+### Remediated (learner-facing bytes changed)
+- New guarded post-migration stage `scripts/qa/apply_t5b_repeat_fixes.py` +
+  `scripts/qa/t5b_repeat_corrections.json`: `definitionUa` only (+ `translationQa` stamp; `SB-0420`'s
+  existing P1 stamp appended, not overwritten). Fail-closed input blob `9282d201` → new pinned output
+  **`bb173f3614dbf35558d96a17b7f692d28f82f303`**. Workbook untouched (base blob `4ed00c96` not
+  repinned; correction layered post-migration like P0/T2/T3/T4/SB-0773).
+- `web/vocabulary.js` committed with the corrected bytes.
+
+### Added / extended
+- `tests/g4a_t5b_repeat_guard.py` (full-bank adjacent/punctuation repeat guard, non-vacuous, 2-entry
+  benign allowlist, cross-checks the open connector-separated class against the register).
+- `tests/g4a_t5b_supplemental_accounting.py` (register ↔ shipped bytes ↔ payload reconciliation).
+- `tests/g4a_sb0773_source_chain.py` extended: chain now ends at `bb173f36`; no earlier stage repinned.
+- `docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv` — new supplemental register (35 corrected + 2 benign +
+  64 open connector-separated). The historical `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (142/314/246)
+  is untouched.
+
+### Found (keeps CHANGES REQUESTED)
+- **NEW distinct class: connector-separated repeats** ("X або X", "X чи X"), **64 entries** on the
+  corrected bank (e.g. `SB-1285` "стан або стан", `SB-1323` "допомога або допомога"). Out of T5-B's
+  scan scope; registered open-deferred as a follow-up ticket. Because these are unresolved P1-class
+  defects, disposition stays **CHANGES REQUESTED** (D-027).
+
+### Fresh T5-B
+- Corrected-material re-review: 35/35 clean. Blind stratified sample seed `20260910` (fixed before
+  inspection), n=40 by POS over 1,683 unflagged entries: **0/40** repeat-class defects.
+
+### Validated (all run this session)
+- **20 non-browser + 11 browser** checks PASS (browser at 320/375/430/768/1024/1440,
+  `/opt/pw-browsers/chromium-1194`; `playwright install` not run). Deterministic G4-A gate, P1
+  closeout (314/314 · 0 unresolved · 246 P2), migration portability (`4ed00c96`/`2a01f381`, no CRLF),
+  source-chain (through `bb173f36`), and the new repeat guard + seeded negative all PASS.
+
+### Decisions
+- **D-028** (Proposed) — T5-B repeat corrections are a guarded post-migration stage (workbook not
+  edited, no historical repin); connector-separated repeats are a registered deferred follow-up.
+
 ## 2026-09-10 — G4-A T5-B: fresh promotion evidence packet (issue #4)
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
