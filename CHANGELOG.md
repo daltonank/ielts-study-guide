@@ -2,6 +2,30 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-10 — G4-A: migration output byte-determinism (PR #6 follow-up)
+
+**Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+No G4-A PASS is claimed; T5-B fresh promotion packet remains outstanding; D-026/D-027 status unchanged.
+
+### Fixed
+- **Portability / byte-determinism (REQ-072).** `scripts/migrate_vocabulary.py` wrote its two
+  generated artifacts (`web/vocabulary.js`, `docs/vocabulary_migration_manifest.json`) via
+  `Path.write_text(...)`, which opens in text mode (`newline=None`) and translates `\n` →
+  `os.linesep`. On Windows that emits CRLF, changing the raw git blob away from the reviewed LF
+  artifact and breaking the raw-byte source-chain guard (`tests/g4a_sb0773_source_chain.py` fails
+  under `PYTHONUTF8=1` on a Windows-style checkout). Both artifacts are now written with
+  `write_bytes(payload.encode("utf-8"))` and explicit `\n`, so output is byte-identical on
+  Windows/Linux/macOS. **No content change:** `web/vocabulary.js` blob stays
+  `9282d201…`; the manifest blob stays `2a01f381…`; regenerating on Linux reproduces the pinned
+  migration base blob `4ed00c96…`. **No hash/pin was repinned.**
+
+### Added
+- **`tests/g4a_migration_portability.py`** — portability regression that fails closed if the
+  generator reintroduces CRLF or drifts from the pinned byte output. It combines a dependency-free
+  static source guard (both artifacts must use `write_bytes`, never `write_text`, no CRLF literal)
+  with a dynamic regeneration guard (re-runs the real migration and asserts zero CRLF + exact pinned
+  blobs, restoring on-disk artifacts). Proven non-vacuous: it fails when `write_text` is reintroduced.
+
 ## 2026-09-10 — G4-A T5-A: review corrections (PR #6)
 
 **Gate:** unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.

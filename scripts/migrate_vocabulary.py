@@ -192,13 +192,19 @@ def main(path):
         'gate': 'G2 SOURCE RECONCILED'
     }
 
+    # Write with explicit UTF-8 bytes and LF line endings so the generated blob is
+    # byte-identical on Windows/Linux/macOS. Path.write_text() opens in text mode
+    # (newline=None), which translates "\n" -> os.linesep and emits CRLF on Windows,
+    # changing the raw git blob away from the reviewed LF artifact. write_bytes()
+    # writes the exact bytes we build here, independent of platform.
     out = Path(__file__).resolve().parents[1] / 'web' / 'vocabulary.js'
-    out.write_text("window.VOCABULARY_META=" + json.dumps(meta, ensure_ascii=False) + ";\n" +
-                   "window.VOCABULARY=" + json.dumps(records, ensure_ascii=False) + ";\n",
-                   encoding='utf-8')
+    vocab_payload = ("window.VOCABULARY_META=" + json.dumps(meta, ensure_ascii=False) + ";\n" +
+                     "window.VOCABULARY=" + json.dumps(records, ensure_ascii=False) + ";\n")
+    out.write_bytes(vocab_payload.encode('utf-8'))
 
     manifest = Path(__file__).resolve().parents[1] / 'docs' / 'vocabulary_migration_manifest.json'
-    manifest.write_text(json.dumps({'meta': meta, 'ids': [r['id'] for r in records], 'sample': records[:5]}, ensure_ascii=False, indent=2), encoding='utf-8')
+    manifest_payload = json.dumps({'meta': meta, 'ids': [r['id'] for r in records], 'sample': records[:5]}, ensure_ascii=False, indent=2)
+    manifest.write_bytes(manifest_payload.encode('utf-8'))
     print(f"G2 PASS: {len(records)}/{EXPECTED} records migrated -> {out}")
 
 if __name__ == '__main__':
