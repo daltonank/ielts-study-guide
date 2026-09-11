@@ -419,3 +419,68 @@ Amends only the "mandatory pre-release" aspect of D-026's human-review requireme
 
 ### Provenance note
 This decision originates from an instruction attributed to Dalton but relayed to the executor through a ChatGPT-authored Slack message, not stated by Dalton directly in-session. It is therefore recorded as Proposed and requires Dalton's explicit approval to become the governing G4-A acceptance standard. Until approved, the prior standard is not treated as satisfied and no G4-A PASS is claimed. Approval received: Dalton approved this decision directly in-session on 2026-09-08; it is now the governing G4-A acceptance standard.
+
+## D-028 — G4-A T5-B definitionUa repeat corrections are a guarded post-migration stage; connector-separated repeats are a registered deferred follow-up
+
+**Date:** 2026-09-10 · **Status:** Approved (Dalton approved directly in the Slack thread on 2026-09-10)
+
+### Context
+The failed T5-B promotion packet (see `docs/phase_4a_t5b_promotion_report.md` §6) flagged, but did not
+fix, an untracked P1-class defect: adjacent identical-word repetition in `definitionUa`. Issue #4
+remediates it. Two structural choices had to be made and are recorded here.
+
+### Decision
+1. **Post-migration guarded stage, workbook NOT edited.** `definitionUa` flows from Study Bank
+   column D through `scripts/migrate_vocabulary.py` into the pinned migration base blob `4ed00c96`.
+   Every prior Ukrainian correction (P0/T2/T3/T4/SB-0773) is layered as a post-migration guarded
+   patch, so the frozen base blob and its downstream pins are never repinned. The T5-B repeat
+   remediation follows the same model: a new guarded stage (`scripts/qa/apply_t5b_repeat_fixes.py`
+   + `t5b_repeat_corrections.json`) with a fail-closed input git-blob guard (`9282d201`) and a new
+   pinned output blob (`bb173f36`). Editing the workbook would change base blob `4ed00c96` and repin
+   an earlier historical stage, which the ticket forbids. This is a deliberate, flagged deviation
+   from the ticket's "if the repetition exists in the source workbook, fix it there too" instruction:
+   the correction-layering architecture already prevents re-migration from reintroducing the fix
+   (the source-chain guard proves workbook → full chain reproduces the corrected bytes), and honoring
+   the "no repin" hard constraint takes precedence. If a reviewer prefers a source-of-record edit, it
+   must be done as its own base-blob re-pin ticket, not silently here.
+2. **Connector-separated repeats are a separate open finding.** The exhaustive scan surfaced a
+   distinct class the T5-B scan definition (adjacent + punctuation-separated) does not cover:
+   connector-separated identical-word repetition ("X або X", "X чи X"), 64 entries on the corrected
+   bank. These are genuine P1-class defects, registered as `open-deferred-followup` in
+   `docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv` with mechanical, unadjudicated proposed corrections, and
+   left for a follow-up ticket. Their existence keeps the G4-A disposition at CHANGES REQUESTED
+   (D-027 requires zero unresolved P0/P1 for PASS).
+
+### Update (2026-09-10, approval + connector-separated remediation, branch `claude/slack-session-0iypwo`)
+Dalton approved D-028 directly in the Slack thread on 2026-09-10, so its structural choices are now
+governing. The connector-separated follow-up in clause 2 has since been completed under the same
+guarded-stage model:
+
+- All 64 connector-separated candidates were individually adjudicated with Ukrainian linguistic
+  judgement: **64 confirmed P1, 0 benign, 0 needs-human**. Each is a generation artifact (an English
+  near-synonym/doubled pair whose two members both mapped to a single Ukrainian lexeme), not a
+  legitimate homograph, idiom, binomial or grammatical-form distinction.
+- Corrections were applied as a **new guarded post-migration stage** (`scripts/qa/apply_t5b_connector_fixes.py`
+  + `scripts/qa/t5b_connector_corrections.json`), input git-blob guard `bb173f36` (the adjacent T5-B
+  stage output), new pinned output blob `7520f722`. Workbook untouched; base blob `4ed00c96` and all
+  earlier pins (`9282d201`, `bb173f36`) NOT repinned. Fail-closed on wrong input blob and on rerun
+  (both verified).
+- `tests/g4a_t5b_repeat_guard.py` now fails closed on connector-separated repeats too (seeded synthetic
+  connector defect proven caught: exit 1 with defect, exit 0 restored). `tests/g4a_t5b_supplemental_accounting.py`
+  reconciles both stages and reports historical vs supplemental P1 separately.
+  `tests/g4a_sb0773_source_chain.py` reproduces the full chain workbook → base → P0 → T2 → T3 → T4 →
+  SB-0773 `9282d201` → T5-B adjacent `bb173f36` → T5-B connector `7520f722`, no earlier repin.
+- Supplemental register now: **99 corrected (35 adjacent + 64 connector) + 2 benign; 0 open, 0 needs-human.**
+  Historical `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (142 P0 / 314 P1 / 246 P2) untouched.
+
+With zero unresolved supplemental P0/P1 and the historical backlog fully resolved, the disposition is
+**proposed** as `G4-A PASS CANDIDATE` per D-027 (proposal only — reviewer + Dalton decide). No canonical
+G4-A PASS is recorded, PR #7 remains unmerged, issue #4 is not closed, and G5 is not started. Canonical
+gate language is unchanged pending sign-off: `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+
+### Scope / traceability
+`web/vocabulary.js` blob `9282d201` → `bb173f36`. Guards added/extended: `tests/g4a_t5b_repeat_guard.py`,
+`tests/g4a_t5b_supplemental_accounting.py`, `tests/g4a_sb0773_source_chain.py` (new final stage, no
+earlier repin). New register `docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv`; the historical
+`docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (142 P0 / 314 P1 / 246 P2) is untouched. Gate language unchanged:
+`G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS is claimed; issue #4 not closed.
