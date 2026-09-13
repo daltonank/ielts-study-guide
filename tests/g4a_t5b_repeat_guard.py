@@ -63,17 +63,29 @@ def adjacent_repeats(text):
             if toks[i].group().casefold() == toks[i + 1].group().casefold()]
 
 
+def _gap_only_ws_punct(gap):
+    """True when the text between two word tokens is only whitespace and/or punctuation
+    (no letters or digits) — so "X, або X" (comma before the connector) counts exactly like
+    "X або X". Anything alphanumeric in the gap means a different context, not a bare repeat."""
+    return re.search(r"[0-9A-Za-zА-Яа-яІіЇїЄєҐґ]", gap) is None
+
+
 def connector_repeats(text):
-    """Repeated tokens separated by exactly one connector word ("X або X" etc.), with only
-    whitespace/punctuation between each token and the connector."""
+    """Repeated tokens separated by exactly one connector word ("X або X", "X, або X" etc.),
+    where the text on each side of the connector is only whitespace and/or punctuation.
+
+    Punctuation-aware: the previous implementation required a whitespace-only gap, so a comma
+    before the connector ("міста, або міста", "занепокоєність, або занепокоєність") slipped
+    through. The gap is now accepted when it is whitespace and/or punctuation, matching the
+    docstring's promise, so those forms are caught."""
     s = text or ""
     toks = list(WORD.finditer(s))
     out = []
     for i in range(len(toks) - 2):
         if (toks[i].group().casefold() == toks[i + 2].group().casefold()
                 and toks[i + 1].group().casefold() in CONNECTORS
-                and s[toks[i].end():toks[i + 1].start()].strip() == ""
-                and s[toks[i + 1].end():toks[i + 2].start()].strip() == ""):
+                and _gap_only_ws_punct(s[toks[i].end():toks[i + 1].start()])
+                and _gap_only_ws_punct(s[toks[i + 1].end():toks[i + 2].start()])):
             out.append(f"{toks[i].group()} {toks[i + 1].group()} {toks[i + 2].group()}")
     return out
 
@@ -87,8 +99,14 @@ def selfcheck():
     assert adjacent_repeats("стан або стан") == [], "connector-separated wrongly treated as adjacent"
     assert connector_repeats("стан або стан") == ["стан або стан"], "seeded connector repeat not caught"
     assert connector_repeats("думка чи думка") == ["думка чи думка"], "seeded connector repeat not caught"
+    # Punctuation-separated connector repeats (comma before the connector) must be caught too.
+    assert connector_repeats("міста, або міста") == ["міста або міста"], "seeded punctuation-connector repeat not caught"
+    assert connector_repeats("занепокоєність, або занепокоєність") == ["занепокоєність або занепокоєність"], \
+        "seeded punctuation-connector repeat not caught"
     assert connector_repeats("Штатів і Канади") == [], "distinct words wrongly flagged as connector repeat"
     assert connector_repeats("слово слово") == [], "adjacent repeat wrongly treated as connector"
+    # A digit/word between the tokens is a different context, not a bare connector repeat.
+    assert connector_repeats("рік 5 або рік 6") == [], "alphanumeric gap wrongly flagged as connector repeat"
 
 
 def main():

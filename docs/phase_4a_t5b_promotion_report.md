@@ -305,3 +305,126 @@ language is unchanged pending sign-off: `G4 technical PASS · G4-A CHANGES REQUE
 PR #7 remains unmerged, issue #4 is not closed, and G5 is not started. Integrity: `origin/main`
 = `128b54c…` and PR #7 head `406a951…` verified; nothing merged, no force-push, no history rewrite,
 no earlier hash repinned; work pushed only to `claude/slack-session-0iypwo`.
+
+---
+
+# T5-B follow-up — PR #7 blocking-review remediation (2026-09-13, issue #4, branch `claude/slack-session-krpw7b`)
+
+**Author:** Claude Code (AI QA) · **Base:** `origin/main` `128b54c` · **PR #7 head being remediated:**
+`ea23dc5` (branch `claude/slack-session-62m83z`). New work branches from `ea23dc5` so the entire PR #7
+history is preserved as an ancestor and a fast-forward can route this into PR #7. **Gate language
+(unchanged):** `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+
+> The prior seed-913377 blind review (§20 above) reported "0 new P0/P1". An independent PR #7 review
+> disputed that and surfaced concrete defects. §20 is **kept as historical evidence**; its 0-new
+> conclusion is **superseded** by the findings below. Claude proposes; reviewer + Dalton decide.
+
+## 22. Reviewer blocking findings — verified and remediated
+
+All corrections applied as a **fourth guarded post-migration stage** (`scripts/qa/apply_t5b_followup_fixes.py`
++ `scripts/qa/t5b_followup_corrections.json`): input git-blob guard `7520f722` (connector-stage output),
+new pinned output blob **`1c184e84e5c63e3a9f8e386af13787664a23bd66`**, `definitionUa` only (+ appended
+`translationQa` stamp). Workbook untouched; base blob `4ed00c96` and earlier pins `9282d201`/`bb173f36`/
+`7520f722` NOT repinned. Fail-closed on rerun (verified: input no longer `7520f722`).
+
+### 22.1 Punctuation-aware connector guard (finding 1)
+`connector_repeats()` promised whitespace/punctuation gaps but accepted whitespace only, so a comma
+before the connector slipped through. Fixed to accept whitespace and/or punctuation. Full-bank
+re-scan of all 1,784 `definitionUa`: **2 newly-caught candidates — `SB-0364` ("міста, або міста"),
+`SB-0818` ("занепокоєність, або занепокоєність")** — exactly the two the reviewer flagged; **both
+confirmed P1, both corrected; 0 benign in this class.** Non-vacuity proven at file level (seeded
+"X, або X" caught → guard exit 1; exit 0 after restore).
+
+### 22.2 CRLF portability of the source-chain test (finding 2)
+`tests/g4a_sb0773_source_chain.py` restored the checkout bytes then asserted the LF blob, so a
+`core.autocrlf=true` (CRLF) checkout failed. Now it preserves the checkout's exact bytes and validates
+the blob against the **canonical LF-normalized** content. Proven: **LF checkout passes; a simulated
+CRLF checkout passes (working copy preserved byte-exact); a lone-`\r`/mixed corrupt ending fails
+closed** (LF-normalization leaves the stray `\r`, so the blob no longer matches). The migrate script
+already writes `web/vocabulary.js` and the manifest with explicit `write_bytes(payload.encode("utf-8"))`
+(LF), confirmed unchanged.
+
+### 22.3 Durable blind-sample selector (finding 3)
+`scripts/qa/select_blind_sample.py` → `docs/G4A_T5B_BLIND_SAMPLE_20260912.json` records seed, pool
+definition, allocation rule and the exact selected IDs. Contract: strata by `pos`; POS keys sorted
+lexicographically, IDs ascending; n=48 largest-remainder proportional allocation with POS-lexicographic
+tie-break; a single `random.Random(20260912)` shuffling each stratum in sorted-POS order. `--check`
+re-derives the identical 48 IDs. The prior failed **seed-913377** review (§20, its 48-item sample and
+0-new conclusion) is preserved as historical evidence and not deleted.
+
+### 22.4 Known blind-review defects re-adjudicated (finding 4)
+- `SB-1698` induced — **P0**: "Принесено; спричинений трапитися." (ungrammatical) → "Спричинений або викликаний чимось; такий, що його змусили статися."
+- `SB-0005` absurd — P1 agreement ("несумісні" pl → "несумісний") + calque "простими вказівками" → "елементарними приписами здорового глузду".
+- `SB-0744` mathematical — P1 gender agreement ("пов'язане" → "пов'язаний") + "Відносно" (=relatively) mistranslating "relating to" → "Що стосується математики або пов'язаний з нею."
+- `SB-1023` rifle — P1 malformed "зброя, стріляна з плеча" → "зброя, з якої стріляють, притискаючи її до плеча; …".
+- `SB-1517` occupational — P1 literal/bureaucratic calque "Про приналежність або відношення до заняття" → "Що стосується професії або роду занять чи пов'язаний з ними …".
+
+No downgrades: all five were confirmed and corrected.
+
+### 22.5 The 64 connector-corrected entries — full-rubric re-adjudication (finding 5)
+Every one of the 64 was re-checked under the full Ukrainian rubric (not just the repeat rule):
+**56 confirmed correct; 8 carried a further semantic/grammar P1 beyond the removed repeat and are now
+fixed** — `SB-0085, SB-0448, SB-0617, SB-0684, SB-0951, SB-1015, SB-1446, SB-1657` (the exact eight the
+reviewer named). **Final defect count in the 64: 8 further-corrected, 0 remaining open.**
+
+## 23. Fresh seed-20260912 blind sample under the full rubric (real inspection)
+
+48 IDs (from the durable selector): `SB-0030, SB-0075, SB-0076, SB-0102, SB-0172, SB-0175, SB-0219,
+SB-0255, SB-0292, SB-0313, SB-0349, SB-0380, SB-0443, SB-0494, SB-0518, SB-0536, SB-0641, SB-0668,
+SB-0678, SB-0729, SB-0748, SB-0751, SB-0857, SB-0900, SB-0974, SB-0979, SB-1024, SB-1029, SB-1070,
+SB-1107, SB-1144, SB-1150, SB-1188, SB-1243, SB-1300, SB-1336, SB-1350, SB-1393, SB-1437, SB-1481,
+SB-1527, SB-1542, SB-1577, SB-1599, SB-1632, SB-1643, SB-1726, SB-1764`.
+
+Each read for semantic fidelity, contemporary idiomatic Ukrainian, grammar/morphology/syntax/word
+order, learner register, terminology, pedagogical accuracy, Russianisms/Surzhyk/calques, and format
+clarity. **Result: 0 new P0; 8 new P1, all corrected in this stage:**
+
+- `SB-0175` cease / `SB-1726` ceases — English infinitive "To stop" rendered as the purpose clause
+  "Щоб зупинитися" (=in order to stop); → "Перестати; припинити(ся)." / "Перестає; припиняє(ться)."
+- `SB-0255` conserve — same "Щоб + infinitive" calque → "Зберігати для подальшого використання, іноді за допомогою консерванту."
+- `SB-0349` deploy — "Для встановлення…" calque + IT-only narrowing omitting the primary sense → broadened to troops/resources/systems + software.
+- `SB-0380` disastrous — "Від характеру лиха" preposition calque → "Такий, що має характер лиха; згубний, катастрофічний."
+- `SB-1029` rod — word repeated ("…тростина або палиця" repeats "палиця") → second → "жезл".
+- `SB-1107` spine — subject–verb agreement/syntax ("Низка кісток, …, охоплюють…") → single grammatical sentence.
+- `SB-1336` estimate — word repeated ("вартості, розміру або вартості") → second → "обсягу".
+
+Observed P2-level nits (not corrected, consistent with the frozen 246-item P2 backlog): missing
+terminal periods (`SB-0030`, `SB-0536`), adverb-for-adjective `SB-0219` "дуже цікаво", weak gloss
+`SB-0292`, trailing ";" `SB-1070`. None reclassified.
+
+## 24. Validation packet (all actually run 2026-09-13; command → exit → result)
+
+**Environment:** `PYTHONUTF8=1`; Chromium `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`
+(`IELTS_CHROMIUM`), Chromium 141.0.7390.37; `playwright install` NOT run. Session deps installed
+(were missing): `openpyxl`, `jsonschema`, `playwright` (pip).
+
+Non-browser (all exit 0): `g4a_t5b_repeat_guard` (+ seeded punctuation-connector negative),
+`g4a_t5b_supplemental_accounting`, `g4a_sb0773_source_chain` (new final stage `1c184e84` + CRLF cases),
+`g4a_p1_closeout_accounting`, `g4a_migration_portability`, `g4a_sb0773_headword`,
+`g4a_reading_case_agreement`, `g4a_ukrainian_deterministic`, `validate_build`, `g2_vocabulary_validation`,
+`ui_vocabulary_static`, `accessibility_static`, `g3_reading_validation`, `g4_writing1_validation`,
+`g4_writing1_inventory`, `g4_writing1_claims`, `g4_writing1_content_qa`, `g4_writing1_negative`,
+`g4a_content_flag_static`, `release_integrity`, `select_blind_sample --check`.
+
+Browser (all exit 0, widths 320/375/430/768/1024/1440): `responsive_check`, `g3_reading_functional`,
+`g3_reading_responsive`, `g3_reading_accessibility`, `g4_writing1_functional`, `g4_writing1_responsive`,
+`g4_writing1_accessibility`, `g4_writing1_obstruction`, `g4_writing1_persistence`,
+`g4a_content_flag_functional`.
+
+## 25. Accounting after the follow-up
+
+- Historical register `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`: **142 P0 / 314 P1 / 246 P2, frozen and
+  untouched.**
+- Supplemental register `docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv`: **116 rows — 114 corrected
+  (1 P0 + 113 P1) + 2 benign; 0 open, 0 needs-human.** Corrected = 35 adjacent + 64 connector
+  (8 re-adjudicated) + 15 follow-up-new.
+- **Zero open P0/P1 across all classes.**
+
+## 26. Chain and integrity (follow-up)
+
+- Blob chain: `4ed00c96` (base) → P0 → T2 → T3 → T4 → SB-0773 `9282d201` → T5-B adjacent `bb173f36`
+  → T5-B connector `7520f722` → **T5-B follow-up `1c184e84`** (new final). No earlier stage repinned.
+- `origin/main` = `128b54c…` and PR #7 head `ea23dc5…` verified before changes. Nothing merged, no
+  force-push, no history rewrite, no historical blob repinned. Work pushed only to
+  `claude/slack-session-krpw7b`. Disposition proposed remains **CHANGES REQUESTED** (gate language
+  unchanged); PR #7 unmerged; issue #4 not closed; G5 not started.

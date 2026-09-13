@@ -2,24 +2,29 @@
 """Accounting reconciliation for the G4-A T5-B supplemental findings register (issue #4).
 
 Ties docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv to the actual learner-facing bytes in
-web/vocabulary.js and to BOTH guarded correction payloads, so the register cannot state
-one thing while the shipped data says another. The register now covers two remediated
-repeat classes plus the benign allowlist:
+web/vocabulary.js and to the THREE guarded correction payloads, so the register cannot state
+one thing while the shipped data says another. The three guarded stages layer in order:
 
-  * corrected — adjacent/punctuation-separated (35): id resolves; the on-disk definitionUa
-    equals the recorded correction and equals the adjacent payload correction; it carries no
-    adjacent/punctuation-separated repeat anymore.
-  * corrected — connector-separated (64): id resolves; the on-disk definitionUa equals the
-    recorded correction and equals the connector payload correction; it carries no
-    connector-separated repeat anymore.
-  * benign-allowlisted (2): id resolves; definitionUa is unchanged from the recorded
-    original; the entry STILL carries an adjacent repeat (so the allowlist is live) and the
-    set equals the adjacent payload's benign_allowlist and the guard's ADJACENT_ALLOWLIST.
-  * open-deferred-followup / needs-human-adjudication (0): none may remain. If ANY confirmed
-    supplemental P1 is still open, this fails closed and the gate stays CHANGES REQUESTED.
+  1. adjacent/punctuation-separated repeats     (scripts/qa/t5b_repeat_corrections.json,   35)
+  2. connector-separated repeats                (scripts/qa/t5b_connector_corrections.json, 64)
+  3. PR #7 follow-up full-rubric re-adjudication (scripts/qa/t5b_followup_corrections.json,  23)
 
-It also surfaces the historical P1 backlog count (314, frozen in G4A_UKRAINIAN_QA_FINDINGS.csv)
-so historical vs supplemental P1 accounting can never be conflated. These are
+The follow-up stage RE-corrects 8 of the 64 connector entries (a further semantic/grammar P1
+beyond the repeat) and adds 15 new findings, so the *effective* shipped value for an entry is the
+last stage that touched it (followup > connector > adjacent). The register's `correction` column is
+required to equal both that effective value and the on-disk bytes.
+
+Categories the register must distinguish (item 7 of the PR #7 review):
+  * supplemental-P1-confirmed/corrected and supplemental-P0-confirmed/corrected — id resolves;
+    on-disk definitionUa == register correction == effective payload value; no adjacent/connector
+    repeat remains.
+  * supplemental-benign — id resolves; definitionUa unchanged from the recorded original; the entry
+    STILL carries an adjacent repeat (allowlist live); equals the adjacent payload benign_allowlist.
+  * supplemental-open (open-deferred-followup / needs-human-adjudication) — MUST be zero. Any open
+    supplemental P0/P1 fails closed and the gate stays CHANGES REQUESTED.
+
+It also surfaces the frozen historical P1 backlog (314, in G4A_UKRAINIAN_QA_FINDINGS.csv) so
+historical-P1-resolved and supplemental-P1 accounting can never be conflated. These are
 structural/consistency assertions, not a semantic judgement of the Ukrainian.
 """
 
@@ -34,6 +39,7 @@ REGISTER = ROOT / "docs" / "G4A_T5B_SUPPLEMENTAL_FINDINGS.csv"
 VOCAB = ROOT / "web" / "vocabulary.js"
 ADJ_PAYLOAD = ROOT / "scripts" / "qa" / "t5b_repeat_corrections.json"
 CONN_PAYLOAD = ROOT / "scripts" / "qa" / "t5b_connector_corrections.json"
+FOLLOWUP_PAYLOAD = ROOT / "scripts" / "qa" / "t5b_followup_corrections.json"
 HISTORICAL = ROOT / "docs" / "G4A_UKRAINIAN_QA_FINDINGS.csv"
 
 WORD = re.compile(r"[A-Za-zА-Яа-яІіЇїЄєҐґ’']+(?:[-’'][A-Za-zА-Яа-яІіЇїЄєҐґ]+)*")
@@ -41,12 +47,6 @@ CONN = {"або", "чи", "та", "й", "і"}
 COLUMNS = ["stable_id", "word", "field", "category", "severity", "original_text",
            "correction", "rationale", "confidence", "discovery_source",
            "discovery_date", "disposition"]
-# Corrected rows split by source: adjacent/punctuation-separated (35) + connector (64) = 99.
-ADJ_SOURCE_MARK = "adjacent+punctuation-separated"
-CONN_SOURCE_MARK = "connector-separated"
-EXPECTED = {"corrected": 99, "benign-allowlisted": 2}
-EXPECTED_ADJ_CORRECTED = 35
-EXPECTED_CONN_CORRECTED = 64
 HISTORICAL_P1 = 314
 
 
@@ -56,15 +56,24 @@ def adjacent_repeats(s):
             if t[i].group().casefold() == t[i + 1].group().casefold()]
 
 
+def _gap_only_ws_punct(gap):
+    return re.search(r"[0-9A-Za-zА-Яа-яІіЇїЄєҐґ]", gap) is None
+
+
 def has_connector_repeat(s):
-    t = list(WORD.finditer(s or ""))
+    s = s or ""
+    t = list(WORD.finditer(s))
     for i in range(len(t) - 2):
         if (t[i].group().casefold() == t[i + 2].group().casefold()
                 and t[i + 1].group().casefold() in CONN
-                and s[t[i].end():t[i + 1].start()].strip() == ""
-                and s[t[i + 1].end():t[i + 2].start()].strip() == ""):
+                and _gap_only_ws_punct(s[t[i].end():t[i + 1].start()])
+                and _gap_only_ws_punct(s[t[i + 1].end():t[i + 2].start()])):
             return True
     return False
+
+
+def load(path):
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def main():
@@ -78,15 +87,29 @@ def main():
     text = VOCAB.read_text(encoding="utf-8")
     by_id = {e["id"]: e for e in json.loads(
         re.search(r"window\.VOCABULARY=(\[.*\]);", text, re.DOTALL).group(1))}
-    adj_payload = json.loads(ADJ_PAYLOAD.read_text(encoding="utf-8"))
-    conn_payload = json.loads(CONN_PAYLOAD.read_text(encoding="utf-8"))
-    adj_corr = adj_payload["corrections"]
-    conn_corr = conn_payload["corrections"]
-    pay_benign = set(adj_payload["_meta"]["benign_allowlist"])
 
-    # Payload input/output blob chain: adjacent stage output feeds the connector stage input.
-    if adj_payload["_meta"]["expected_output_blob_sha1"] != conn_payload["_meta"]["expected_input_blob_sha1"]:
+    adj = load(ADJ_PAYLOAD)
+    conn = load(CONN_PAYLOAD)
+    foll = load(FOLLOWUP_PAYLOAD)
+    adj_corr = adj["corrections"]
+    conn_corr = conn["corrections"]
+    foll_corr = foll["corrections"]
+    pay_benign = set(adj["_meta"]["benign_allowlist"])
+
+    # Payload input/output blob chain: each stage output feeds the next stage input.
+    if adj["_meta"]["expected_output_blob_sha1"] != conn["_meta"]["expected_input_blob_sha1"]:
         errors.append("adjacent stage output blob != connector stage input blob")
+    if conn["_meta"]["expected_output_blob_sha1"] != foll["_meta"]["expected_input_blob_sha1"]:
+        errors.append("connector stage output blob != follow-up stage input blob")
+
+    # Effective shipped value = last stage to touch the id (followup > connector > adjacent).
+    effective = {}
+    for cid, c in adj_corr.items():
+        effective[cid] = c["definitionUa"]
+    for cid, c in conn_corr.items():
+        effective[cid] = c["definitionUa"]
+    for cid, c in foll_corr.items():
+        effective[cid] = c["definitionUa"]
 
     ids = [r["stable_id"] for r in rows]
     if len(ids) != len(set(ids)):
@@ -98,59 +121,48 @@ def main():
     by_disp = {}
     for r in rows:
         by_disp.setdefault(r["disposition"], []).append(r)
-    for disp, n in EXPECTED.items():
-        got = len(by_disp.get(disp, []))
-        if got != n:
-            errors.append(f"disposition {disp}: {got} rows, expected {n}")
-    # No confirmed supplemental P1 may still be open (would keep the gate CHANGES REQUESTED).
+    corrected = by_disp.get("corrected", [])
+    benign = by_disp.get("benign-allowlisted", [])
     still_open = len(by_disp.get("open-deferred-followup", []))
     needs_human = len(by_disp.get("needs-human-adjudication", []))
+    other_disp = sorted(set(by_disp) - {"corrected", "benign-allowlisted",
+                                        "open-deferred-followup", "needs-human-adjudication"})
+    if other_disp:
+        errors.append(f"unexpected disposition value(s): {other_disp}")
     if still_open:
         errors.append(f"{still_open} open-deferred-followup rows remain — gate stays CHANGES REQUESTED")
     if needs_human:
         errors.append(f"{needs_human} needs-human-adjudication rows remain — gate stays CHANGES REQUESTED")
-    if len(rows) != sum(EXPECTED.values()):
-        errors.append(f"total rows {len(rows)} != {sum(EXPECTED.values())}")
 
-    corrected = by_disp.get("corrected", [])
-    adj_rows = [r for r in corrected if ADJ_SOURCE_MARK in r["discovery_source"]]
-    conn_rows = [r for r in corrected if CONN_SOURCE_MARK in r["discovery_source"]]
-    if len(adj_rows) != EXPECTED_ADJ_CORRECTED:
-        errors.append(f"adjacent corrected rows {len(adj_rows)} != {EXPECTED_ADJ_CORRECTED}")
-    if len(conn_rows) != EXPECTED_CONN_CORRECTED:
-        errors.append(f"connector corrected rows {len(conn_rows)} != {EXPECTED_CONN_CORRECTED}")
-    if len(adj_rows) + len(conn_rows) != len(corrected):
-        errors.append("corrected rows not cleanly partitioned into adjacent + connector by source")
+    # The corrected set must exactly equal the union of the three guarded payloads' ids.
+    corrected_ids = {r["stable_id"] for r in corrected}
+    payload_ids = set(adj_corr) | set(conn_corr) | set(foll_corr)
+    if corrected_ids != payload_ids:
+        errors.append(f"corrected set != union of guarded payloads "
+                      f"(only in register: {sorted(corrected_ids - payload_ids)[:5]}; "
+                      f"only in payloads: {sorted(payload_ids - corrected_ids)[:5]})")
 
-    if {r["stable_id"] for r in adj_rows} != set(adj_corr):
-        errors.append("adjacent corrected set != adjacent guarded payload corrections set")
-    for r in adj_rows:
+    p0 = p1 = 0
+    for r in corrected:
         cid = r["stable_id"]
         disk = by_id[cid]["definitionUa"]
+        if r["severity"] not in {"P0", "P1"}:
+            errors.append(f"{cid}: corrected row severity {r['severity']} not P0/P1")
+        if r["severity"] == "P0":
+            p0 += 1
+        elif r["severity"] == "P1":
+            p1 += 1
+        if not r["correction"].strip():
+            errors.append(f"{cid}: corrected row has blank correction")
         if disk != r["correction"]:
             errors.append(f"{cid}: on-disk definitionUa != register correction")
-        if disk != adj_corr.get(cid, {}).get("definitionUa"):
-            errors.append(f"{cid}: on-disk definitionUa != adjacent payload correction")
+        if cid in effective and disk != effective[cid]:
+            errors.append(f"{cid}: on-disk definitionUa != effective (layered) payload value")
         if adjacent_repeats(disk):
             errors.append(f"{cid}: still has adjacent/punctuation repeat after correction")
-        if r["severity"] != "P1" or not r["correction"].strip():
-            errors.append(f"{cid}: adjacent corrected row severity/correction invalid")
-
-    if {r["stable_id"] for r in conn_rows} != set(conn_corr):
-        errors.append("connector corrected set != connector guarded payload corrections set")
-    for r in conn_rows:
-        cid = r["stable_id"]
-        disk = by_id[cid]["definitionUa"]
-        if disk != r["correction"]:
-            errors.append(f"{cid}: on-disk definitionUa != register correction")
-        if disk != conn_corr.get(cid, {}).get("definitionUa"):
-            errors.append(f"{cid}: on-disk definitionUa != connector payload correction")
         if has_connector_repeat(disk):
             errors.append(f"{cid}: still has connector-separated repeat after correction")
-        if r["severity"] != "P1" or not r["correction"].strip():
-            errors.append(f"{cid}: connector corrected row severity/correction invalid")
 
-    benign = by_disp.get("benign-allowlisted", [])
     if {r["stable_id"] for r in benign} != pay_benign:
         errors.append("benign-allowlisted set != adjacent payload benign_allowlist")
     for r in benign:
@@ -163,8 +175,7 @@ def main():
         if r["correction"].strip():
             errors.append(f"{cid}: benign row should carry no correction")
 
-    # Historical vs supplemental separation: surface the frozen historical P1 backlog count so
-    # nobody can read this reconciliation as though it covered the whole P1 universe.
+    # Historical vs supplemental separation: surface the frozen historical P1 backlog count.
     hist_p1 = 0
     if HISTORICAL.exists():
         with HISTORICAL.open(encoding="utf-8", newline="") as fh:
@@ -174,26 +185,33 @@ def main():
     else:
         errors.append(f"{HISTORICAL} missing; cannot confirm historical P1 backlog is frozen")
 
+    # Source-based split for reporting (structural, not brittle to exact counts).
+    adj_rows = [r for r in corrected if "adjacent+punctuation-separated" in r["discovery_source"]]
+    conn_rows = [r for r in corrected if "connector-separated" in r["discovery_source"]]
+    foll_new = [r for r in corrected if r["stable_id"] in set(foll_corr) - set(conn_corr) - set(adj_corr)]
+    conn_readjudicated = [r for r in corrected if r["stable_id"] in (set(conn_corr) & set(foll_corr))]
+
     print("G4-A T5-B SUPPLEMENTAL FINDINGS ACCOUNTING")
     print("==========================================")
-    print(f"  register rows: {len(rows)} "
-          f"(corrected {len(corrected)} = adjacent {len(adj_rows)} + connector {len(conn_rows)}, "
-          f"benign {len(benign)}, open {still_open}, needs-human {needs_human})")
-    print(f"  historical P1 backlog (frozen, separate register): {hist_p1} resolved earlier "
-          f"(T2/T3/T4/SB-0773)")
-    print(f"  supplemental P1 confirmed & corrected: {len(adj_rows) + len(conn_rows)} "
-          f"(adjacent {len(adj_rows)} + connector {len(conn_rows)})")
-    print(f"  supplemental benign/allowlisted: {len(benign)}; supplemental open/needs-human: "
-          f"{still_open + needs_human}")
-    print(f"  all corrected values match guarded payloads + on-disk bytes; no residual repeats")
+    print(f"  register rows: {len(rows)} (corrected {len(corrected)}, benign {len(benign)}, "
+          f"open {still_open}, needs-human {needs_human})")
+    print(f"  historical-P1-resolved (frozen, separate register): {hist_p1} (T2/T3/T4/SB-0773)")
+    print(f"  supplemental-P0-confirmed/corrected: {p0}")
+    print(f"  supplemental-P1-confirmed/corrected: {p1}")
+    print(f"    by stage source: adjacent {len(adj_rows)}, connector {len(conn_rows)} "
+          f"(of which {len(conn_readjudicated)} re-adjudicated in the follow-up), "
+          f"follow-up-new {len(foll_new)}")
+    print(f"  supplemental-benign: {len(benign)}; supplemental-open: {still_open + needs_human}")
+    print(f"  all corrected values match the layered guarded payloads + on-disk bytes; no residual "
+          f"adjacent OR connector repeats")
     print()
     if errors:
         for e in errors:
             print("FAIL:", e)
         print(f"\nFAIL: {len(errors)} accounting assertion(s) failed.")
         return 1
-    print("PASS: supplemental register reconciles with vocabulary.js and both guarded payloads; "
-          "zero unresolved supplemental P1; historical P1 backlog reported separately.")
+    print("PASS: supplemental register reconciles with vocabulary.js and all three guarded payloads; "
+          "zero open supplemental P0/P1; historical P1 backlog reported separately.")
     return 0
 
 

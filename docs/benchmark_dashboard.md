@@ -91,6 +91,25 @@ P0/P1**; seeded-defect meta-validation **6/6**. Canonical gate language unchange
 `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`; PR #7 unmerged; issue #4 not closed; G5 not
 started; no canonical G4-A PASS recorded.
 
+**G4-A T5-B follow-up (2026-09-13, PR #7 blocking-review remediation, branch
+`claude/slack-session-krpw7b`): defects the seed-913377 review missed are now fixed; still CHANGES
+REQUESTED.** An independent PR #7 review disputed the seed-913377 "0 new P0/P1" claim (kept above as
+historical evidence, now superseded) and named concrete defects, all verified and corrected via a
+**fourth guarded post-migration stage** (`scripts/qa/apply_t5b_followup_fixes.py`; input blob
+`7520f722` → new pinned output `1c184e84`; workbook untouched; base `4ed00c96` and earlier pins not
+repinned — D-028). The 23 corrections: (1) `connector_repeats()` made **punctuation-aware**, catching
+exactly the 2 flagged misses `SB-0364`/`SB-0818` (both P1); (2) reviewer blind-review defects
+`SB-1698` (**P0**), `SB-0005`, `SB-0744`, `SB-1023`, `SB-1517`; (3) 8 of the 64 connector entries with
+a further P1 re-adjudicated under the full rubric (56/64 confirmed correct); (4) 8 P1 from the
+**durable seed-20260912 n=48** blind sample (0 new P0), selector recorded in
+`docs/G4A_T5B_BLIND_SAMPLE_20260912.json`. The source-chain guard is now **CRLF-portable** (LF +
+simulated-CRLF checkouts pass byte-exact; corrupt endings fail closed). Supplemental register:
+**116 rows — 114 corrected (1 P0 + 113 P1) + 2 benign; 0 open**; historical register (142/314/246)
+untouched. **Zero open P0/P1 across all classes.** Validation 2026-09-13: **21 non-browser + 10
+browser (320/375/430/768/1024/1440) all PASS**. Canonical gate language unchanged
+(`G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`); Claude proposes, reviewer + Dalton
+decide; PR #7 unmerged; issue #4 not closed; G5 not started; no canonical G4-A PASS recorded.
+
 ## How the Task 1 rows were verified
 
 Every figure above came from running the script, not from reading a report:

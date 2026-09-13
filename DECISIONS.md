@@ -484,3 +484,30 @@ gate language is unchanged pending sign-off: `G4 technical PASS · G4-A CHANGES 
 earlier repin). New register `docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv`; the historical
 `docs/G4A_UKRAINIAN_QA_FINDINGS.csv` (142 P0 / 314 P1 / 246 P2) is untouched. Gate language unchanged:
 `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`. No G4-A PASS is claimed; issue #4 not closed.
+
+### Update (2026-09-13, PR #7 blocking-review remediation, branch `claude/slack-session-krpw7b`)
+**Status remains Approved.** Provenance reaffirmed: Dalton approved D-028 directly in the Slack thread
+on 2026-09-13, confirming the guarded post-migration correction-layering model (workbook frozen;
+`definitionUa` fixed post-migration; no historical blob repinned) as governing for the PR #7 review
+remediation. A **fourth** guarded stage was added under the same model:
+
+- `scripts/qa/apply_t5b_followup_fixes.py` + `scripts/qa/t5b_followup_corrections.json`: 23 corrections
+  (`definitionUa` only + appended `translationQa` stamp), fail-closed input git-blob guard `7520f722`
+  (the connector-stage output), new pinned output blob `1c184e84`. Workbook NOT edited; base blob
+  `4ed00c96` and earlier pins `9282d201`/`bb173f36`/`7520f722` NOT repinned. Fail-closed on rerun (verified).
+- The 23 fix: 2 punctuation-separated connector repeats the whitespace-only detector missed
+  (`SB-0364`, `SB-0818`); 5 reviewer blind-review defects incl. one P0 (`SB-1698`); 8 of the 64
+  connector-corrected entries carrying a further semantic/grammar P1 beyond the repeat, re-adjudicated
+  under the full rubric; and 8 P1 defects surfaced by the durable seed-20260912 n=48 blind sample.
+- `tests/g4a_t5b_repeat_guard.py` `connector_repeats()` is now punctuation-aware ("X, або X" caught);
+  `tests/g4a_sb0773_source_chain.py` extended to end at `1c184e84` and made CRLF-portable;
+  `tests/g4a_t5b_supplemental_accounting.py` reconciles all three payloads and distinguishes
+  historical-P1-resolved / supplemental-P0-corrected / supplemental-P1-corrected / supplemental-benign /
+  supplemental-open (0). Durable selector `scripts/qa/select_blind_sample.py` +
+  `docs/G4A_T5B_BLIND_SAMPLE_20260912.json` record seed/pool/allocation/selected-IDs.
+- Supplemental register now **116 rows: 114 corrected (1 P0 + 113 P1) + 2 benign; 0 open, 0 needs-human.**
+  Historical register still `142 P0 / 314 P1 / 246 P2`, untouched.
+
+Claude proposes; reviewer (ChatGPT) + Dalton decide. Gate language unchanged
+(`G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`); PR #7 unmerged; issue #4 not closed;
+G5 not started.

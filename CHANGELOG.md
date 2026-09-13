@@ -2,6 +2,49 @@
 
 All notable product/gate changes are recorded here. Historical phase reports remain the detailed evidence.
 
+## 2026-09-13 — G4-A T5-B follow-up: PR #7 blocking-review remediation (issue #4)
+
+**Gate:** canonical language unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+Claude proposes; reviewer (ChatGPT) + Dalton decide. Branch `claude/slack-session-krpw7b`, branched
+from PR #7 head `ea23dc5` so the whole PR #7 history stays an ancestor. No merge, no force-push, no
+history rewrite, no earlier blob repinned; PR #7 unmerged; issue #4 not closed; G5 not started.
+
+### Remediated (learner-facing bytes changed)
+- **Fourth guarded post-migration stage** `scripts/qa/apply_t5b_followup_fixes.py` +
+  `scripts/qa/t5b_followup_corrections.json`: **23 `definitionUa` corrections**, fail-closed input
+  git-blob guard `7520f722` → new pinned output blob **`1c184e84…`**. Workbook untouched; base blob
+  `4ed00c96` and earlier pins `9282d201`/`bb173f36`/`7520f722` **not repinned** (D-028).
+- The 23: 2 punctuation-separated connector repeats the whitespace-only detector missed
+  (`SB-0364`, `SB-0818`); 5 reviewer blind-review defects incl. one **P0** (`SB-1698`); 8 of the 64
+  connector-corrected entries with a further semantic/grammar P1 re-adjudicated under the full rubric
+  (`SB-0085, SB-0448, SB-0617, SB-0684, SB-0951, SB-1015, SB-1446, SB-1657`); 8 P1 defects from the
+  seed-20260912 n=48 blind sample (`SB-0175, SB-0255, SB-0349, SB-0380, SB-1029, SB-1107, SB-1336,
+  SB-1726`).
+
+### Guards / tooling
+- `tests/g4a_t5b_repeat_guard.py`: `connector_repeats()` made **punctuation-aware** ("X, або X" now
+  caught); non-vacuity proven at file level (seeded punctuation-connector negative → exit 1, exit 0
+  restored).
+- `tests/g4a_sb0773_source_chain.py`: extended to end at `1c184e84`; made **CRLF-portable** (preserves
+  checkout bytes byte-exact, validates the LF-normalized blob). Proven: LF checkout passes, simulated
+  CRLF checkout passes, corrupt/mixed endings fail closed.
+- `tests/g4a_t5b_supplemental_accounting.py`: reconciles all three payloads (layered effective value)
+  and distinguishes historical-P1-resolved / supplemental-P0-corrected / supplemental-P1-corrected /
+  supplemental-benign / supplemental-open (0).
+- New durable selector `scripts/qa/select_blind_sample.py` → `docs/G4A_T5B_BLIND_SAMPLE_20260912.json`
+  (seed/pool/allocation/selected-IDs; `--check` re-derives).
+
+### Accounting
+- Historical `docs/G4A_UKRAINIAN_QA_FINDINGS.csv`: **142 P0 / 314 P1 / 246 P2, frozen/untouched.**
+- Supplemental `docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv`: **116 rows — 114 corrected (1 P0 + 113 P1) +
+  2 benign; 0 open.** **Zero open P0/P1 across all classes.**
+
+### Validation (all actually run 2026-09-13)
+21 non-browser + 10 browser (320/375/430/768/1024/1440) commands, **all exit 0**; plus the seeded
+punctuation-connector negative, the LF and simulated-CRLF source-chain cases, and the corrupt-ending
+fail-closed demonstration. Chromium `/opt/pw-browsers/chromium-1194` (141.0.7390.37); `playwright
+install` not run. See `docs/phase_4a_t5b_promotion_report.md` §22–26.
+
 ## 2026-09-10 — G4-A T5-B: connector-separated definitionUa repeat remediation (issue #4, follow-up)
 
 **Gate:** canonical language unchanged — `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
