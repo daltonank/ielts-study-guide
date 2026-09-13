@@ -24,7 +24,180 @@
   "speaking_part3": 0,
   "p0_defects": 0,
   "p1_defects": 0,
+  "p1_defects_note": "p0_defects/p1_defects count ONLY the historical 702-row register (docs/G4A_UKRAINIAN_QA_FINDINGS.csv): 142 P0 / 314 P1 / 246 P2, all P0+P1 resolved. They do NOT include supplemental T5-B repeat-class or follow-up findings; see p1_accounting so a reader cannot mistake 0 here for globally zero P1. All supplemental P0/P1 are corrected — 0 open.",
+  "p1_accounting": {
+    "historical_register_p1_total": 314,
+    "historical_register_p1_unresolved": 0,
+    "supplemental_t5b_p0_confirmed": 1,
+    "supplemental_t5b_p0_corrected": 1,
+    "supplemental_t5b_p0_open_or_needs_human": 0,
+    "supplemental_t5b_p1_confirmed": 113,
+    "supplemental_t5b_p1_corrected": 113,
+    "supplemental_t5b_p1_benign_allowlisted": 2,
+    "supplemental_t5b_p1_open_or_needs_human": 0,
+    "total_unresolved_p0_all_classes": 0,
+    "total_unresolved_p1_all_classes": 0,
+    "note": "Supplemental register (docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv) now 116 rows: 114 corrected (1 P0 + 113 P1) + 2 benign; 0 open. Corrected = 35 adjacent/punctuation (bb173f36) + 64 connector-separated (7520f722, 8 of them further re-adjudicated) + 15 follow-up-new (1c184e84). Historical and supplemental are tracked in separate registers and must never be conflated."
+  },
   "regression_status": "PASS through G4",
   "accessibility_score": null,
-  "performance_score": null
+  "performance_score": null,
+  "t5b_promotion": {
+    "date": "2026-09-10",
+    "base_main": "128b54c36f99b865c8b8bc49c5e835eb19c7c732",
+    "commands_run": 28,
+    "commands_passed": 28,
+    "registered_p1_unresolved": 0,
+    "registered_p2_remaining": 246,
+    "seeded_defects_caught": "8/8",
+    "new_p1_class_findings_untracked": "~21 clean entries: adjacent identical-word repetition in definitionUa",
+    "disposition": "CHANGES REQUESTED",
+    "note": "p0_defects/p1_defects above track the register backlog; the T5-B blind sample surfaced a NEW untracked P1-class defect. See docs/phase_4a_t5b_promotion_report.md.",
+    "gate_language": "G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED"
+  },
+  "t5b_repeat_remediation": {
+    "date": "2026-09-10",
+    "branch": "claude/slack-session-62m83z",
+    "issue": 4,
+    "scan_scope": "definitionUa adjacent + punctuation-separated identical-word repetition, all 1784 records",
+    "candidate_count": 37,
+    "confirmed_p1_corrected": 35,
+    "benign_allowlisted": 2,
+    "human_adjudication_needed": 0,
+    "vocab_input_blob": "9282d2013dcf382bbb439384247a0be0be0dede2",
+    "vocab_output_blob": "bb173f3614dbf35558d96a17b7f692d28f82f303",
+    "workbook_edited": false,
+    "base_blob_repinned": false,
+    "supplemental_register": "docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv",
+    "new_open_class_connector_separated_repeats": 64,
+    "fresh_blind_sample": {
+      "seed": 20260910,
+      "n": 40,
+      "strata": "part-of-speech",
+      "repeat_defects_found": 0,
+      "pool": 1683
+    },
+    "commands_run": 31,
+    "commands_passed": 31,
+    "browser_widths": [
+      320,
+      375,
+      430,
+      768,
+      1024,
+      1440
+    ],
+    "historical_register_untouched": true,
+    "disposition": "CHANGES REQUESTED",
+    "note": "In-scope adjacent/punctuation repeat class fully remediated; at the time of this stage 64 connector-separated P1-class repeats remained open. They have since been adjudicated and corrected in the connector stage below. p1_defects=0 above tracks only the historical 702-row register. See D-028 and docs/phase_4a_t5b_promotion_report.md sections 9-15.",
+    "gate_language": "G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED"
+  },
+  "t5b_connector_remediation": {
+    "date": "2026-09-10",
+    "branch": "claude/slack-session-0iypwo",
+    "issue": 4,
+    "scan_scope": "definitionUa connector-separated identical-word repetition (X або X / X чи X / X та X / X і X / X й X), all 1784 records",
+    "candidate_count": 64,
+    "adjudication": {
+      "confirmed_p1": 64,
+      "benign_allowlisted": 0,
+      "needs_human_adjudication": 0
+    },
+    "confirmed_p1_corrected": 64,
+    "vocab_input_blob": "bb173f3614dbf35558d96a17b7f692d28f82f303",
+    "vocab_output_blob": "7520f7220a64df20240523cf12fcd08a70734bc0",
+    "workbook_edited": false,
+    "base_blob_repinned": false,
+    "supplemental_register": "docs/G4A_T5B_SUPPLEMENTAL_FINDINGS.csv",
+    "supplemental_register_after": {
+      "corrected": 99,
+      "benign_allowlisted": 2,
+      "open": 0,
+      "needs_human": 0,
+      "total": 101
+    },
+    "guard": "tests/g4a_t5b_repeat_guard.py now fails closed on connector-separated repeats too (seeded synthetic connector defect proven caught: guard exit 1 with defect, exit 0 restored)",
+    "historical_register_untouched": true,
+    "remaining_supplemental_p1_open": 0,
+    "sequence": "failed T5-B (c55813e) -> 35-item adjacent-repeat remediation (406a951) -> 64-candidate connector-separated adjudication -> connector remediation (this stage, 7520f722) -> fresh T5-B promotion review",
+    "disposition": "G4-A PASS CANDIDATE (proposal only; not a recorded PASS)",
+    "note": "All connector-separated candidates adjudicated as confirmed P1 generation artifacts (English near-synonym pair collapsed to one Ukrainian lexeme) and corrected as a guarded post-migration stage; base blob 4ed00c96 and all earlier pins not repinned (D-028). Zero unresolved supplemental P0/P1 remain. Disposition proposed as G4-A PASS CANDIDATE per D-027 (zero unresolved P0/P1); NOT a recorded PASS — reviewer + Dalton sign-off required, PR #7 unmerged, issue #4 not closed, G5 not started.",
+    "gate_language": "G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED"
+  },
+  "t5b_followup_remediation": {
+    "date": "2026-09-12",
+    "branch": "claude/slack-session-krpw7b",
+    "issue": 4,
+    "context": "PR #7 blocking-review remediation",
+    "scan_scope": "punctuation-aware connector re-scan of all 1784 definitionUa + full-rubric re-adjudication of reviewer/blind-sample defects and the 64 connector-corrected entries",
+    "corrections_applied": 23,
+    "breakdown": {
+      "punctuation_connector_repeats_missed_by_old_guard": [
+        "SB-0364",
+        "SB-0818"
+      ],
+      "reviewer_blind_review_defects": [
+        "SB-1698 (P0)",
+        "SB-0005",
+        "SB-0744",
+        "SB-1023",
+        "SB-1517"
+      ],
+      "connector_batch_full_rubric_readjudicated_p1": [
+        "SB-0085",
+        "SB-0448",
+        "SB-0617",
+        "SB-0684",
+        "SB-0951",
+        "SB-1015",
+        "SB-1446",
+        "SB-1657"
+      ],
+      "seed_20260912_blind_sample_p1": [
+        "SB-0175",
+        "SB-0255",
+        "SB-0349",
+        "SB-0380",
+        "SB-1029",
+        "SB-1107",
+        "SB-1336",
+        "SB-1726"
+      ]
+    },
+    "connector_batch_readjudication": "64 re-adjudicated under full rubric: 56 confirmed correct, 8 carried a further semantic/grammar P1 now fixed; 0 benign, 0 open",
+    "blind_sample": {
+      "seed": 20260912,
+      "n": 48,
+      "strata": "part-of-speech",
+      "pool": 1784,
+      "allocation": "largest-remainder proportional, POS-lexicographic tie-break, single random.Random(20260912)",
+      "selector_artifact": "docs/G4A_T5B_BLIND_SAMPLE_20260912.json",
+      "new_p0_found": 0,
+      "new_p1_found": 8,
+      "new_p1_corrected": 8
+    },
+    "prior_failed_blind_sample_preserved": {
+      "seed": 913377,
+      "n": 48,
+      "status": "kept as historical evidence in docs/phase_4a_t5b_promotion_report.md §20; its 0-new-P0/P1 claim superseded by this review"
+    },
+    "guard_fix": "tests/g4a_t5b_repeat_guard.py connector_repeats() now punctuation-aware (catches 'X, або X'); non-vacuity proven (seeded punctuation-connector negative caught: exit 1, exit 0 restored)",
+    "crlf_fix": "tests/g4a_sb0773_source_chain.py preserves checkout bytes byte-exact and validates the LF-normalized blob; LF checkout + simulated CRLF checkout both pass, corrupt/mixed endings fail closed",
+    "vocab_input_blob": "7520f7220a64df20240523cf12fcd08a70734bc0",
+    "vocab_output_blob": "1c184e84e5c63e3a9f8e386af13787664a23bd66",
+    "workbook_edited": false,
+    "earlier_blobs_repinned": false,
+    "supplemental_register_after": {
+      "corrected": 114,
+      "benign_allowlisted": 2,
+      "open": 0,
+      "needs_human": 0,
+      "total": 116
+    },
+    "historical_register_untouched": true,
+    "remaining_supplemental_p0_open": 0,
+    "remaining_supplemental_p1_open": 0,
+    "gate_language": "G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED",
+    "note": "Claude proposes; reviewer + Dalton decide. PR #7 unmerged, no force-push, no earlier blob repinned, issue #4 not closed, G5 not started."
+  }
 }

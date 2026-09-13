@@ -1,0 +1,116 @@
+{
+  "_meta": {
+    "batch": "G4-A T5-B follow-up (PR #7 review remediation)",
+    "ticket": "GitHub issue #4 / T5-B follow-up (PR #7 blocking review)",
+    "review_date": "2026-09-12",
+    "base_commit": "128b54c36f99b865c8b8bc49c5e835eb19c7c732",
+    "expected_input_blob_sha1": "7520f7220a64df20240523cf12fcd08a70734bc0",
+    "expected_output_blob_sha1": "1c184e84e5c63e3a9f8e386af13787664a23bd66",
+    "apply_count": 23,
+    "groups": {
+      "punctuation_connector_repeats": [
+        "SB-0364",
+        "SB-0818"
+      ],
+      "reviewer_blind_review_defects": [
+        "SB-1698",
+        "SB-0005",
+        "SB-0744",
+        "SB-1023",
+        "SB-1517"
+      ],
+      "connector_batch_full_rubric_readjudication": [
+        "SB-0085",
+        "SB-0448",
+        "SB-0617",
+        "SB-0684",
+        "SB-0951",
+        "SB-1015",
+        "SB-1446",
+        "SB-1657"
+      ],
+      "seed_20260912_blind_sample_defects": [
+        "SB-0175",
+        "SB-0255",
+        "SB-0349",
+        "SB-0380",
+        "SB-1029",
+        "SB-1107",
+        "SB-1336",
+        "SB-1726"
+      ]
+    },
+    "notes": "Third guarded post-migration definitionUa stage, layered on the connector stage output blob 7520f722 (its input guard). Fixes: (1) two punctuation-separated connector repeats the whitespace-only connector detector missed (SB-0364, SB-0818); (2) reviewer-identified blind-review defects incl. one P0 (SB-1698); (3) eight of the 64 connector-corrected entries that carried a further semantic/grammar P1 beyond the repeat, re-adjudicated under the full Ukrainian rubric; (4) eight P1 defects surfaced by the seed-20260912 n=48 blind sample. definitionUa only (+ translationQa stamp; existing Reviewed stamps appended, not overwritten). Workbook NOT edited (D-028); base blob 4ed00c96 and earlier pins 9282d201/bb173f36/7520f722 NOT repinned."
+  },
+  "corrections": {
+    "SB-0005": {
+      "definitionUa": "Всупереч розуму чи пристойності; такий, що явно й категорично суперечить очевидній істині; несумісний з елементарними приписами здорового глузду; логічно суперечливий; безглуздий; смішний; дурний."
+    },
+    "SB-0085": {
+      "definitionUa": "Акт прагнення або палкого бажання; палке бажання, спрямоване насамперед до чогось піднесеного чи духовного."
+    },
+    "SB-0175": {
+      "definitionUa": "Перестати; припинити(ся)."
+    },
+    "SB-0255": {
+      "definitionUa": "Зберігати для подальшого використання, іноді за допомогою консерванту."
+    },
+    "SB-0349": {
+      "definitionUa": "Розгортати, розміщувати або вводити в дію (війська, ресурси, систему); зокрема — встановлювати й запускати комп'ютерну систему чи програму."
+    },
+    "SB-0364": {
+      "definitionUa": "Знищити багато або всі речі на великій території — наприклад, більшість чи всі будівлі в місті, усі міста регіону або дерева в лісі."
+    },
+    "SB-0380": {
+      "definitionUa": "Такий, що має характер лиха; згубний, катастрофічний."
+    },
+    "SB-0448": {
+      "definitionUa": "Тривати, витримувати попри перешкоди чи труднощі; не здаватися."
+    },
+    "SB-0617": {
+      "definitionUa": "Стан речей (у соціальній, культурній чи правовій сферах), за якого немає рівності; особливо коли він є ще й несправедливим."
+    },
+    "SB-0684": {
+      "definitionUa": "Великомасштабний; значний за кількістю, обсягом або охопленням."
+    },
+    "SB-0744": {
+      "definitionUa": "Що стосується математики або пов'язаний з нею."
+    },
+    "SB-0818": {
+      "definitionUa": "Ідея, яка породжує нав’язливу чи ірраціональну занепокоєність; а також сам стан такої занепокоєності, спричинений цією ідеєю."
+    },
+    "SB-0951": {
+      "definitionUa": "Пов'язаний з докорінними, фундаментальними змінами; такий, що усуває першопричину проблеми."
+    },
+    "SB-1015": {
+      "definitionUa": "Отримати чи дістати щось назад; повернути собі."
+    },
+    "SB-1023": {
+      "definitionUa": "Вогнепальна зброя, з якої стріляють, притискаючи її до плеча; довгий нарізний ствол забезпечує більшу дальність і точність пострілу."
+    },
+    "SB-1029": {
+      "definitionUa": "Пряма кругла палиця, древко, брусок, тростина або жезл."
+    },
+    "SB-1107": {
+      "definitionUa": "Низка кісток, що тягнеться вздовж спини від голови до таза в людини (або від голови до хвоста у тварини), захищає спинний мозок і підтримує грудну клітку та черевну порожнину."
+    },
+    "SB-1336": {
+      "definitionUa": "Приблизний розрахунок або оцінка вартості, розміру чи обсягу чогось."
+    },
+    "SB-1446": {
+      "definitionUa": "Забезпечити або гарантувати, що щось станеться чи справдиться (зазвичай стосовно майбутньої події або стану)."
+    },
+    "SB-1517": {
+      "definitionUa": "Що стосується професії або роду занять чи пов'язаний з ними (у будь-якому значенні)."
+    },
+    "SB-1657": {
+      "definitionUa": "Розташований або розміщений окремо від інших; відокремлений."
+    },
+    "SB-1698": {
+      "definitionUa": "Спричинений або викликаний чимось; такий, що його змусили статися."
+    },
+    "SB-1726": {
+      "definitionUa": "Перестає; припиняє(ться)."
+    }
+  }
+}
