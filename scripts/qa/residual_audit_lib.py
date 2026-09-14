@@ -133,27 +133,23 @@ def detect_adjacent_repeat(text):
     return hits
 
 
+_CONNECTOR_REPEAT_RE = re.compile(
+    r"(?<![а-яіїєґ'’\-])([а-яіїєґ'’\-]{2,})"          # word 1
+    r"((?:\s*(?:[,;:]|\bабо\b|\bчи\b|\bта\b|\bі\b))+\s*)"  # >=1 connector/punct
+    r"\1(?![а-яіїєґ'’\-])",                            # same word 2 (full word)
+    re.UNICODE,
+)
+
+
 def detect_connector_repeat(text):
     """Connector/punctuation-separated identical-word repeat, e.g. 'стан або стан',
     'мета, або мета'. Two identical content words separated only by a connector
-    and/or punctuation."""
+    (або/чи/та/і) and/or punctuation. Pure adjacency is handled by
+    detect_adjacent_repeat, so this requires at least one connector/punct between."""
     raw = (text or "").lower()
-    tokens = re.findall(r"[а-яіїєґ'\-]+|[,;:]|\bабо\b|\bчи\b|\bта\b|\bі\b", raw)
-    connectors = {"або", "чи", "та", "і", ",", ";", ":"}
-    content = [t for t in re.findall(r"[а-яіїєґ'\-]+", raw)]
     hits = []
-    # sliding window: word, (connector/punct)+, same word
-    idx_words = [(m.group(0), m.start()) for m in re.finditer(r"[а-яіїєґ'\-]+", raw)]
-    for i in range(len(idx_words) - 1):
-        w1, s1 = idx_words[i]
-        w2, s2 = idx_words[i + 1]
-        if len(w1) <= 1:
-            continue
-        between = raw[s1 + len(w1):s2].strip()
-        if w1 == w2 and between and all(
-            (b in connectors or b in {",", ";", ":", " "}) for b in re.split(r"\s+", between) if b
-        ):
-            hits.append(f"{w1}{'/'+between if between else ''}/{w2}")
+    for m in _CONNECTOR_REPEAT_RE.finditer(raw):
+        hits.append(f"{m.group(1)}{m.group(2).strip()}{m.group(1)}")
     return hits
 
 

@@ -1,0 +1,41 @@
+{
+  "_meta": {
+    "description": "PROPOSED corrections for confirmed P1/P2 residual defects. PROPOSALS ONLY — NOT applied to web/vocabulary.js. Field 'target' names the field to change; 'proposed' is the suggested replacement text. A reviewer (ChatGPT) and Dalton decide whether/how to apply.",
+    "not_applied": true,
+    "partition_rule": "category (grammar-calque-fragment | pos-morphology-mismatch | semantic-pedagogical-error | other) then stable ID ascending"
+  },
+  "corrections": {
+    "SB-0009": {"target": "definitionUa", "proposed": "Змусити рухатися швидше; збільшити швидкість.", "confidence": "high"},
+    "SB-0191": {"target": "definitionUa", "proposed": "Акт розподілу на класи; поділ на групи (класи, порядки, родини тощо) за спільними ознаками або атрибутами.", "confidence": "high"},
+    "SB-0295": {"target": "definitionUa", "proposed": "Такий, що коштує дорого; дорогий.", "confidence": "high"},
+    "SB-0363": {"target": "definitionUa", "proposed": "Ставати гіршим за якістю; погіршуватися; вироджуватися.", "confidence": "high"},
+    "SB-0371": {"target": "definitionUa", "proposed": "Показувати відмінність між речами або встановлювати її; розрізняти.", "confidence": "high"},
+    "SB-0467": {"target": "definitionUa", "proposed": "Те, що встановлено, зокрема форма правління, стала організація чи підприємство; також місце постійного проживання людини.", "confidence": "medium"},
+    "SB-0724": {"target": "definitionUa", "proposed": "Машини, що разом складають виробничий апарат заводу тощо.", "confidence": "high"},
+    "SB-0058": {"target": "definitionUa", "proposed": "Той, хто співпрацює з іншим або допомагає йому; спільник, союзник.", "confidence": "medium"},
+    "SB-0306": {"target": "definitionUa", "proposed": "Той або те, що щось створює чи виготовляє.", "confidence": "medium"},
+    "SB-0498": {"target": "definitionUa", "proposed": "Такий, що спричиняє смерть або руйнування; смертельний, згубний.", "confidence": "high"},
+    "SB-0749": {"target": "definitionUa", "proposed": "Такий, що стосується Середньовіччя (приблизно 500–1500 рр. н.е.) або пов'язаний з ним.", "confidence": "medium"},
+    "SB-0797": {"target": "definitionUa", "proposed": "Такий, що залишається після витрат або відрахувань; чистий (про суму).", "confidence": "high"},
+    "SB-1635": {"target": "definitionUa", "proposed": "Такий, що широко або повністю охоплює; що включає велику частку чогось.", "confidence": "high"},
+    "SB-1695": {"target": "definitionUa", "proposed": "Неконкретні правила або принципи, що дають напрям дій чи поведінки.", "confidence": "medium"},
+    "SB-1707": {"target": "definitionUa", "proposed": "Потенційна річ, яка може статися, часто сприятлива.", "confidence": "medium"},
+    "SB-1731": {"target": "definitionUa", "proposed": "Обмежений у русі; не здатний вільно рухатися.", "confidence": "high"},
+    "SB-1735": {"target": "definitionUa", "proposed": "Який має сильну емоційну прив'язаність; відданий; дуже любить когось або щось.", "confidence": "high"},
+    "SB-0142": {"target": "definitionUa", "proposed": "Лінія поділу між двома областями; межа.", "confidence": "high"},
+    "SB-0571": {"target": "definitionUa", "proposed": "Злагода або співзвуччя; погодженість.", "confidence": "high"},
+    "SB-0647": {"target": "definitionUa", "proposed": "Розумна, освічена людина, особливо та, яка займається інтелектуальною працею.", "confidence": "medium"},
+    "SB-0840": {"target": "definitionUa", "proposed": "Наглядати, контролювати або керувати діями особи чи групи.", "confidence": "medium"},
+    "SB-1211": {"target": "definitionUa", "proposed": "Рослини Nicotiana tabacum та деяких інших видів, які культивують, а їхнє листя збирають для виготовлення сигарет, сигар, нюхального тютюну, для куріння в трубках або для жування.", "confidence": "high"},
+    "SB-1464": {"target": "definitionUa", "proposed": "Академічна дисципліна, яка шукає істину через міркування, часто прагнучи пояснити загальні поняття, такі як існування та раціональність.", "confidence": "medium"},
+    "SB-1015": {"target": "ua", "proposed": "повернути; дістати назад", "confidence": "high"},
+    "SB-0067": {"target": "definitionUa", "proposed": "Безтілесний і святий або напівбожественний посланець божества чи іншої божественної сутності, традиційно зображуваний як молода крилата постать у спадному вбранні.", "confidence": "high"},
+    "SB-0014": {"target": "definitionUa", "proposed": "Відповідним чином; отже; таким чином.", "confidence": "low"},
+    "SB-0024": {"target": "definitionUa", "proposed": "Приведення в стан активності; надання чомусь дії та ефективності.", "confidence": "medium"},
+    "SB-0070": {"target": "definitionUa", "proposed": "Привабливий; такий, що викликає інтерес або симпатію.", "confidence": "medium"},
+    "SB-0474": {"target": "definitionUa", "proposed": "Такий, що становить виняток; незвичайний; рідкісний.", "confidence": "medium"},
+    "SB-0493": {"target": "definitionUa", "proposed": "Робити легшим; полегшувати.", "confidence": "low"},
+    "SB-0659": {"target": "definitionUa", "proposed": "Втрутитися в ситуацію, щоб змінити або запобігти дії.", "confidence": "medium"},
+    "SB-1081": {"target": "definitionUa", "proposed": "Інститут або соціальна практика володіння людьми як власністю, особливо для використання як примусову працю.", "confidence": "low"}
+  }
+}
