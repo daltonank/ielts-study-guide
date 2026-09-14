@@ -1,0 +1,244 @@
+{
+  "_meta": {
+    "description": "CP3 full-rubric residual audit judgments. Contains independent confirmations of the 24 known-open residual P1s and any NEW findings discovered by the exhaustive linguistic pass. Entries not present here that are in the residual roster are dispositioned 'clean' (full-rubric read, AI pass) by the CP3 generator.",
+    "method": "AI full-rubric linguistic read (grammar/calque, POS/morphology, semantic/pedagogical fidelity, repeats). NOT native-speaker review; labelled as an AI pass, consistent with docs/G4A_UKRAINIAN_QA_FINDINGS.md.",
+    "resume_marker": "COMPLETE (all 1007 residual IDs examined)",
+    "reviewed_status": "COMPLETE: 24 known-open independently confirmed; all 983 clean-pool entries read across 4 batches (SB-0001..SB-1784 residual)",
+    "pos_bar": "P1 POS mismatch = gloss states a standalone WRONG-word-class sense (e.g. adj 'net' -> noun 'Залишок'). Predicate/relative descriptive glosses for adjectives (e.g. 'fragile'->'легко ламається') are standard lexicography and dispositioned CLEAN. This bar is applied consistently across the whole residual pool and explains the density divergence from the PR#7 n=48 sample (48% P1).",
+    "depth_caveat": "Exhaustive full-rubric AI read at careful screening depth. Reliably catches grammatical breakage, structural/fragment defects, calque markers, POS word-class mismatches, and salient semantic/sense errors. It is an AI pass, NOT native-speaker review. Observed clean-pool defect density (1 new P1 + 7 P2 in 983) is far below the PR#7 n=48 sample rate (23 P1 / 48 = 48%). This divergence is reconciled two ways and flagged for human adjudication: (a) a consistent principled POS bar treats predicate/relative adjective glosses (e.g. fragile->'легко ламається') as CLEAN, whereas several PR#7 POS 'P1's are, under that bar, borderline/P2; (b) residual risk that AI screening depth misses some subtle sense errors of the boundary->'розташування' class. Consequently the clean pool is NOT asserted defect-free; deeper/native semantic review remains advisable and G4-A is NOT a PASS."
+  },
+  "known_open_confirmations": {
+    "SB-0009": {
+      "disposition": "P1",
+      "category": "grammar-calque-fragment",
+      "reviewer_agree": true,
+      "rationale": "definitionUa ends with dangling purpose-clause fragment 'щоб збільшити швидкість' appended to two finished glosses; grammatically a fragment, not a definition.",
+      "confidence": "high"
+    },
+    "SB-0191": {
+      "disposition": "P1",
+      "category": "grammar-calque-fragment",
+      "reviewer_agree": true,
+      "rationale": "'формування в клас' is a malformed calque; Ukrainian would be 'формування класів'/'розподіл на класи'.",
+      "confidence": "high"
+    },
+    "SB-0295": {
+      "disposition": "P1",
+      "category": "grammar-calque-fragment",
+      "reviewer_agree": true,
+      "rationale": "'Від високої вартості' is a malformed prepositional fragment used as a definition head for an adjective.",
+      "confidence": "high"
+    },
+    "SB-0363": {
+      "disposition": "P1",
+      "category": "grammar-calque-fragment",
+      "reviewer_agree": true,
+      "rationale": "'Гірше рости' ('to grow worse') is a malformed/calqued gloss for deteriorate; should be 'погіршуватися'.",
+      "confidence": "high"
+    },
+    "SB-0371": {
+      "disposition": "P1",
+      "category": "grammar-calque-fragment",
+      "reviewer_agree": true,
+      "rationale": "'бути різницею' is a calque of 'to be the difference'; malformed Ukrainian construction.",
+      "confidence": "high"
+    },
+    "SB-0467": {
+      "disposition": "P1",
+      "category": "grammar-calque-fragment",
+      "reviewer_agree": true,
+      "rationale": "Run-on, malformed establishment list ('...постійна організація, бізнес або сила...'); 'сила' is an off gloss and the list is grammatically awkward.",
+      "confidence": "medium"
+    },
+    "SB-0724": {
+      "disposition": "P1",
+      "category": "grammar-calque-fragment",
+      "reviewer_agree": true,
+      "rationale": "Malformed word order: trailing 'разом' dangles at the end of the definition.",
+      "confidence": "high"
+    },
+    "SB-0058": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": "genuine-defect-milder-severity",
+      "rationale": "For noun 'ally', gloss includes adjective/participle 'асоційований' as a synonym; POS mismatch.",
+      "confidence": "medium",
+      "independent_severity_note": "independent severity P2: an extra adjective synonym in a noun gloss; mild."
+    },
+    "SB-0306": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": "genuine-defect-milder-severity",
+      "rationale": "Relative-pronoun agreement error 'Щось або хтось, який' (should be 'що'); morphology/agreement defect.",
+      "confidence": "medium",
+      "independent_severity_note": "independent severity P2: this is a relative-pronoun agreement (grammar) issue rather than a POS mismatch."
+    },
+    "SB-0498": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": true,
+      "rationale": "Adjective 'fatal' defined with a noun head 'Заподіяння' ('the causing'); should be adjectival (смертельний/згубний).",
+      "confidence": "high"
+    },
+    "SB-0749": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": true,
+      "rationale": "Adjective 'medieval' defined starting with the noun 'Середньовіччя'; POS mismatch.",
+      "confidence": "medium"
+    },
+    "SB-0797": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": true,
+      "rationale": "Adjective 'net' defined with noun head 'Залишок' (remainder); POS mismatch.",
+      "confidence": "high"
+    },
+    "SB-1635": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": "genuine-defect-milder-severity",
+      "rationale": "Adjective 'comprehensive' defined with finite verb 'покриває' (3sg 'covers'); should be adjectival.",
+      "confidence": "high",
+      "independent_severity_note": "independent severity P2: 'Широко або повністю покриває' is a predicate-style gloss (cf. clean 'fragile'->'легко ламається'); a defect but borderline, not a hard word-class mismatch."
+    },
+    "SB-1695": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": "genuine-defect-milder-severity",
+      "rationale": "Plural headword 'guidelines' glossed with singular 'правило/принцип'; number mismatch.",
+      "confidence": "medium",
+      "independent_severity_note": "independent severity P2: singular/plural (number) issue, milder than a word-class mismatch."
+    },
+    "SB-1707": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": "genuine-defect-milder-severity",
+      "rationale": "Singular 'prospect' defined with plural 'Потенційні речі'; number/morphology mismatch.",
+      "confidence": "medium",
+      "independent_severity_note": "independent severity P2: singular/plural (number) issue, milder than a word-class mismatch."
+    },
+    "SB-1731": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": "genuine-defect-milder-severity",
+      "rationale": "Adjective/participle 'confined' glossed with infinitive phrase 'Не вільно рухатися'; POS mismatch.",
+      "confidence": "high",
+      "independent_severity_note": "independent severity P2: 'Не вільно рухатися' is a predicate-style gloss for a participial adjective; borderline rather than hard POS mismatch."
+    },
+    "SB-1735": {
+      "disposition": "P1",
+      "category": "pos-morphology-mismatch",
+      "reviewer_agree": true,
+      "rationale": "Adjective 'devoted' glossed with noun phrase 'Сильна емоційна прив'язаність' + infinitive 'любити'; POS mismatch.",
+      "confidence": "high"
+    },
+    "SB-0142": {
+      "disposition": "P1",
+      "category": "semantic-pedagogical-error",
+      "reviewer_agree": true,
+      "rationale": "'розташування' (location/arrangement) is wrong for boundary; boundary is a line of division ('поділу/межа').",
+      "confidence": "high"
+    },
+    "SB-0571": {
+      "disposition": "P1",
+      "category": "semantic-pedagogical-error",
+      "reviewer_agree": true,
+      "rationale": "'Договір' (a contract) is wrong for harmony; harmony = 'співзвуччя/злагода'.",
+      "confidence": "high"
+    },
+    "SB-0647": {
+      "disposition": "P1",
+      "category": "semantic-pedagogical-error",
+      "reviewer_agree": true,
+      "rationale": "Defining trait 'говорить про вчені питання' (merely talks about learned matters) misrepresents 'intellectual'.",
+      "confidence": "medium"
+    },
+    "SB-0840": {
+      "disposition": "P1",
+      "category": "semantic-pedagogical-error",
+      "reviewer_agree": true,
+      "rationale": "Includes off-sense verbs 'переглядати/направляти' for oversee; oversee = наглядати/контролювати.",
+      "confidence": "medium"
+    },
+    "SB-1211": {
+      "disposition": "P1",
+      "category": "semantic-pedagogical-error",
+      "reviewer_agree": true,
+      "rationale": "'Листя ... культивують' says leaves (not plants) are cultivated; plants are cultivated, leaves harvested.",
+      "confidence": "high"
+    },
+    "SB-1464": {
+      "disposition": "P1",
+      "category": "semantic-pedagogical-error",
+      "reviewer_agree": true,
+      "rationale": "Falsely frames philosophy as seeking truth 'а не через емпіризм' (opposed to empiricism); empiricism is itself a philosophical stance.",
+      "confidence": "medium"
+    },
+    "SB-1015": {
+      "disposition": "P1",
+      "category": "semantic-pedagogical-error",
+      "reviewer_agree": true,
+      "rationale": "learner-facing ua 'отримати' is too generic and omits the essential back/recover direction that definitionUa supplies; ua conflicts with definitionUa.",
+      "confidence": "high"
+    }
+  },
+  "new_findings": {
+    "SB-0067": {
+      "disposition": "P1",
+      "category": "grammar-calque-fragment",
+      "rationale": "definitionUa 'в розвіваються шатах' is ungrammatical: finite verb 'розвіваються' where an attributive participle ('розвіяних/розвіюваних') is required.",
+      "confidence": "high",
+      "discovered_by": "cp3-exhaustive-read"
+    },
+    "SB-0024": {
+      "disposition": "P2",
+      "category": "pos-morphology-mismatch",
+      "rationale": "noun 'activation' led with an infinitive-verb phrase 'Робити активними та ефективними'; a correct nominal gloss follows, so partial POS inconsistency.",
+      "confidence": "medium",
+      "discovered_by": "cp3-exhaustive-read"
+    },
+    "SB-0070": {
+      "disposition": "P2",
+      "category": "semantic-pedagogical-error",
+      "rationale": "'appealing' (attractive) led with 'Наявність апеляції' (presence of a legal appeal), a wrong-sense calque; correct 'привабливий' follows.",
+      "confidence": "medium",
+      "discovered_by": "cp3-exhaustive-read"
+    },
+    "SB-0014": {
+      "disposition": "P2",
+      "category": "semantic-pedagogical-error",
+      "rationale": "'accordingly' primary gloss 'У природній послідовності' (in natural sequence) is a dubious archaic sense; core sense 'отже' present.",
+      "confidence": "low",
+      "discovered_by": "cp3-exhaustive-read"
+    },
+    "SB-0474": {
+      "disposition": "P2",
+      "category": "grammar-calque-fragment",
+      "rationale": "'exceptional' led with awkward calque 'Формування винятку' (formation of an exception) and ends with number-disagreeing plural adj 'рідкісні' (should be sing. 'рідкісний'); core sense 'незвичайний' present.",
+      "confidence": "medium",
+      "discovered_by": "cp3-exhaustive-read"
+    },
+    "SB-0493": {
+      "disposition": "P2",
+      "category": "grammar-calque-fragment",
+      "rationale": "'facilitate' glossed 'Зробити легко' uses adverb 'легко' where 'зробити легким/полегшити' is required; 'або легше' is fine.",
+      "confidence": "low",
+      "discovered_by": "cp3-exhaustive-read"
+    },
+    "SB-0659": {
+      "disposition": "P2",
+      "category": "other",
+      "rationale": "definitionUa carries a stray editorial artifact '[з в]' leaked into learner-facing text.",
+      "confidence": "medium",
+      "discovered_by": "cp3-exhaustive-read"
+    },
+    "SB-1081": {
+      "disposition": "P2",
+      "category": "other",
+      "rationale": "definitionUa uses the mild russianism/calque 'в якості примусової праці' (в качестве -> в якості); idiomatic Ukrainian prefers 'як примусову працю'/'у ролі'. Corroborated by the CP2 mechanical calque detector.",
+      "confidence": "low",
+      "discovered_by": "cp3-exhaustive-read + cp2-mechanical"
+    }
+  }
+}
