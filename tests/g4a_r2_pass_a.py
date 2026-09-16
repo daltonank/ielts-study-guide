@@ -84,6 +84,15 @@ def main() -> int:
 
     assert len(all_ids) == len(set(all_ids))
     assert git("rev-parse", "HEAD:web/vocabulary.js") == LEARNER_BLOB
+    if args.through_chunk == 4:
+        summary_script = ROOT / "scripts" / "qa" / "r2_pass_a_summary.py"
+        summary_spec = importlib.util.spec_from_file_location("r2_pass_a_summary", summary_script)
+        assert summary_spec and summary_spec.loader
+        summary_module = importlib.util.module_from_spec(summary_spec)
+        summary_spec.loader.exec_module(summary_module)
+        summary_path = ROOT / "docs" / "G4A_R2_PASS_A_SUMMARY.md"
+        assert summary_path.read_bytes() == summary_module.render()
+        assert b"\r\n" not in summary_path.read_bytes()
     print("G4-A R2 PASS-A GUARD PASS")
     print(f"through_chunk={args.through_chunk} rows={len(all_ids)} counts={dict(combined)}")
     print("negative cases: missing/fallback, duplicate, missing-axis, invalid-disposition rejected")
