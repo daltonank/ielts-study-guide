@@ -80,7 +80,9 @@ def main() -> None:
         w.writeheader()
         for sid in ids:
             a, b, j = A[sid], B[sid], J[sid]
-            fd = j["fd"]
+            # Final disposition defaults to Pass A's (confirmed on the frozen
+            # text) unless the reviewer explicitly overrides it.
+            fd = j.get("fd", a["pass_a_disposition"])
             counts[fd] = counts.get(fd, 0) + 1
             if fd in DEFECTS:
                 cat = j.get("cat", a["category"])
@@ -96,7 +98,7 @@ def main() -> None:
                 "pass_b_disposition": b["disposition"],
                 "pass_b_rationale": b["rationale"],
                 "evidence_quote": j["ev"], "final_disposition": fd,
-                "confidence": j["conf"], "category": cat,
+                "confidence": j.get("conf", "high"), "category": cat,
                 "rationale": j["why"], "proposed_target": tgt,
                 "proposed_value": val,
             })
