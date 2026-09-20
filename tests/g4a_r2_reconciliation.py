@@ -76,10 +76,12 @@ def git_blob(rev: str, path: str) -> str:
                           capture_output=True, text=True).stdout.strip()
 
 
-def recorded(label: str) -> str | None:
+def recorded_sha(label: str) -> str | None:
+    """Return the last backtick-quoted token on the line naming `label` + SHA-256."""
     for line in REPORT.read_text(encoding="utf-8").splitlines():
-        if label in line and "`" in line:
-            return line.split("`")[1]
+        if label in line and "SHA-256" in line and "`" in line:
+            toks = [t for t in line.split("`") if t.strip()]
+            return toks[-1].strip() if toks else None
     return None
 
 
@@ -99,8 +101,9 @@ def check_roster() -> dict[str, int]:
     if ROSTER.read_bytes() != committed:
         err("roster is not reproducible: regeneration changed the bytes")
     sha = hashlib.sha256(ROSTER.read_bytes()).hexdigest()
-    if recorded("Roster:") not in (sha, None) and recorded("Roster:") != sha:
-        err(f"roster SHA-256 mismatch: report={recorded('Roster:')} actual={sha}")
+    rec = recorded_sha("Roster:")
+    if rec != sha:
+        err(f"roster SHA-256 mismatch: report={rec} actual={sha}")
     id_to_chunk = {}
     for r in csv.DictReader(ROSTER.open(encoding="utf-8")):
         id_to_chunk[r["id"]] = int(r["chunk"])
