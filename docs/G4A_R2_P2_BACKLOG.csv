@@ -1,0 +1,150 @@
+id,word,pos,source,proposed_target,proposed_value
+SB-0026,acute,adj.,reconciled,definitionUa,Інтенсивний; чутливий; різкий.
+SB-0030,adjustment,n.,reconciled,definitionUa,Дія регулювання або незначної зміни чогось.
+SB-0098,attorney,n.,reconciled,definitionUa,"Юрист, який професійно консультує або представляє інших у правових питаннях."
+SB-0107,backdrop,n.,reconciled,definitionUa,"Тло сцени або обставини, на тлі яких відбувається подія."
+SB-0112,banner,n.,floor,,
+SB-0126,beneficiary,n.,reconciled,definitionUa,"Особа або організація, яка отримує вигоду, виплату чи інше право."
+SB-0132,blade,n.,reconciled,definitionUa,"Гостра ріжуча частина ножа, меча, бритви чи іншого інструмента."
+SB-0136,bless,v.,reconciled,definitionUa,Просити Божої ласки для когось або освячувати когось чи щось.
+SB-0162,capability,n.,reconciled,definitionUa,Здатність або можливість досягти певного результату.
+SB-0165,cargo,n.,reconciled,definitionUa,"Товари або речі, які перевозять судном, літаком чи транспортним засобом."
+SB-0173,caution,n.,floor,,
+SB-0186,citizenship,n.,reconciled,definitionUa,Правовий статус людини як громадянина певної держави.
+SB-0187,civic,adj.,reconciled,definitionUa,"Пов’язаний із громадянами, громадою, їхніми правами та обов’язками."
+SB-0190,clash,n.,reconciled,definitionUa,"Протистояння або суперечність між різними інтересами, поглядами чи цілями."
+SB-0196,coalition,n.,reconciled,definitionUa,"Тимчасовий союз організацій або груп, створений для досягнення спільної мети."
+SB-0223,competent,adj.,floor,,
+SB-0241,configuration,n.,reconciled,definitionUa,"Взаємне розташування набору речей; спосіб, у який вони розташовані або зібрані."
+SB-0252,consecutive,adj.,reconciled,definitionUa,"Такий, що відбувається один за одним без перерви."
+SB-0280,coordinate,v.,floor,,
+SB-0310,critique,n.,reconciled,definitionUa,"Критичний аналіз або оцінка твору, ідеї чи роботи."
+SB-0320,cynical,adj.,reconciled,definitionUa,"Схильний сумніватися в чесності, щирості або мотивах інших."
+SB-0359,destructive,adj.,reconciled,definitionUa,"Такий, що руйнує або завдає значної шкоди."
+SB-0366,devise,v.,reconciled,definitionUa,"Використовуючи кмітливість, придумувати або розробляти щось."
+SB-0377,diplomat,n.,reconciled,definitionUa,"Особа, наприклад посол, офіційно уповноважена представляти уряд у відносинах з іншими державами чи міжнародними організаціями."
+SB-0383,disclose,v.,floor,,
+SB-0400,disturbing,adj.,reconciled,definitionUa,"Такий, що спричиняє тривогу, занепокоєння або сильний душевний дискомфорт."
+SB-0406,dominance,n.,floor,,
+SB-0438,empirical,adj.,reconciled,definitionUa,"Такий, що ґрунтується на досвіді або спостереженні, а не лише на теорії."
+SB-0442,encouragement,n.,reconciled,definitionUa,"Слова чи дії, які підвищують чиюсь впевненість."
+SB-0445,endless,adj.,reconciled,definitionUa,"Такий, що не має кінця; нескінченний."
+SB-0461,epidemic,n.,floor,,
+SB-0472,exaggerate,v.,reconciled,definitionUa,"Представляти щось більшим, кращим, гіршим або важливішим, ніж воно є насправді."
+SB-0492,extremist,n.,reconciled,definitionUa,"Людина, яка дотримується або активно обстоює крайні погляди; радикал."
+SB-0508,firearm,n.,reconciled,definitionUa,"Зброя, що вистрілює снаряд завдяки вибуху пороху."
+SB-0512,flawed,adj.,floor,,
+SB-0527,fragile,adj.,reconciled,definitionUa,"Такий, що легко ламається або пошкоджується; неміцний."
+SB-0533,functional,adj.,reconciled,definitionUa,"Практичний, корисний або здатний виконувати призначену функцію."
+SB-0542,genocide,n.,reconciled,definitionUa,"Умисне систематичне знищення людей через їхню етнічну належність, релігію, національність або іншу групову ознаку."
+SB-0592,humble,adj.,reconciled,definitionUa,Скромний і не схильний вважати себе кращим за інших.
+SB-0619,infant,n.,floor,,
+SB-0620,infect,v.,reconciled,definitionUa,"Заразити організм збудником хвороби, щоб той почав у ньому розмножуватися або діяти."
+SB-0622,influential,adj.,reconciled,definitionUa,"Такий, що має значний вплив на людей або події."
+SB-0623,inherent,adj.,reconciled,definitionUa,Властивий чомусь від природи й невід’ємний від нього.
+SB-0642,intake,n.,reconciled,definitionUa,"Кількість їжі, напою, повітря або іншої речовини, яку споживає чи приймає організм."
+SB-0644,integrated,adj.,reconciled,definitionUa,"Складений і скоординований так, щоб утворювати єдине ціле."
+SB-0649,intensity,n.,reconciled,definitionUa,"Ступінь сили, яскравості або вираженості чогось."
+SB-0654,interfere,v.,reconciled,definitionUa,"Втручатися в ситуацію так, що це заважає або створює проблеми."
+SB-0662,intriguing,adj.,reconciled,definitionUa,"Такий, що викликає цікавість і бажання дізнатися більше."
+SB-0664,invisible,adj.,reconciled,definitionUa,"Такий, якого неможливо побачити або який перебуває поза полем зору."
+SB-0693,legendary,adj.,reconciled,definitionUa,"Надзвичайно відомий або визначний, гідний легенд."
+SB-0700,lesser,adj.,reconciled,definitionUa,"Менший за розміром, цінністю або важливістю з двох чи кількох предметів."
+SB-0719,long-standing,adj.,reconciled,definitionUa,"Такий, що існує або триває протягом тривалого часу."
+SB-0733,mandatory,adj.,reconciled,definitionUa,"Такий, що вимагається правилом, законом або наказом уповноваженого органу."
+SB-0736,manipulation,n.,reconciled,definitionUa,Прихований або нечесний вплив на людину чи ситуацію для досягнення власної мети.
+SB-0737,manuscript,n.,floor,,
+SB-0753,memoir,n.,reconciled,definitionUa,"Автобіографічна книга, у якій автор описує власний досвід і спогади."
+SB-0754,memorial,n.,reconciled,definitionUa,"Об’єкт або споруда, створені на пам’ять про людину чи подію."
+SB-0765,migration,n.,reconciled,definitionUa,"Переміщення людей або тварин з одного місця до іншого, тимчасове чи постійне."
+SB-0769,minimal,adj.,reconciled,definitionUa,"Найменший можливий за кількістю, розміром або ступенем."
+SB-0775,misery,n.,reconciled,definitionUa,"Сильне фізичне або душевне страждання, горе чи крайнє нещастя."
+SB-0806,non-profit,adj.,reconciled,definitionUa,"Такий, основною метою якого не є отримання прибутку."
+SB-0823,offspring,n.,reconciled,definitionUa,Дочка або син людини; її дитина чи нащадок.
+SB-0827,optimism,n.,reconciled,definitionUa,Схильність очікувати найкращого або принаймні сприятливого результату.
+SB-0842,overwhelm,v.,reconciled,definitionUa,"Повністю долати силою, кількістю або сильними емоціями."
+SB-0852,passive,adj.,reconciled,definitionUa,"Такий, що не діє активно або не чинить опору."
+SB-0853,pastor,n.,reconciled,definitionUa,"Християнський священнослужитель, який очолює громаду або опікується нею."
+SB-0870,pipeline,n.,floor,,
+SB-0872,pit,n.,reconciled,definitionUa,Глибоке заглиблення або отвір у землі.
+SB-0878,pole,n.,floor,,
+SB-0882,portfolio,n.,reconciled,ua,портфель (інвестиційний)
+SB-0892,predominantly,adv.,reconciled,definitionUa,Головним чином; здебільшого або у значно більшій мірі.
+SB-0895,preliminary,adj.,reconciled,definitionUa,"Початковий або підготовчий; такий, що передує основну дію."
+SB-0906,prestigious,adj.,reconciled,definitionUa,"Такий, що має високий статус і викликає повагу."
+SB-0910,prevalence,n.,reconciled,definitionUa,Ступінь поширення явища або частота його наявності в певній групі.
+SB-0925,profitable,adj.,reconciled,definitionUa,"Такий, що приносить прибуток."
+SB-0928,prominent,adj.,floor,,
+SB-0936,prosperity,n.,reconciled,definitionUa,"Стан успішного розвитку, добробуту й достатку."
+SB-0972,reflection,n.,reconciled,definitionUa,"Зображення, утворене світлом, що відбилося від поверхні; також сам процес відбиття."
+SB-0981,rehabilitation,n.,reconciled,definitionUa,"Процес відновлення здоров’я, здібностей, репутації або належного стану."
+SB-1000,reproduction,n.,floor,,
+SB-1025,rip,v.,reconciled,definitionUa,Розривати матеріал або силоміць відривати одну частину від іншої.
+SB-1026,ritual,n.,reconciled,definitionUa,"Обряд або повторюваний набір дій, особливо в релігійному контексті."
+SB-1073,simultaneously,adv.,reconciled,definitionUa,В один і той самий час; одночасно.
+SB-1075,situated,adj.,reconciled,definitionUa,Розташований у певному місці або становищі.
+SB-1089,solely,adv.,reconciled,definitionUa,Лише; без участі або впливу інших.
+SB-1124,stir,v.,reconciled,ua,розмішувати; помішувати
+SB-1137,submission,n.,reconciled,definitionUa,"Акт подання; також матеріал, поданий на розгляд, наприклад завершена робота."
+SB-1152,suicide,n.,reconciled,definitionUa,Навмисне позбавлення себе життя.
+SB-1155,superb,adj.,reconciled,definitionUa,"Першокласний, винятково добрий або найвищої якості."
+SB-1162,supposedly,adv.,reconciled,definitionUa,"За припущенням або за твердженнями інших, без певного підтвердження."
+SB-1175,sword,n.,reconciled,definitionUa,"Довга клинкова зброя з руків’ям, призначена для рубання або колючих ударів."
+SB-1176,symbolic,adj.,reconciled,definitionUa,"Такий, що слугує символом або непрямо представляє іншу річ."
+SB-1189,terminate,v.,floor,,
+SB-1191,terrific,adj.,reconciled,definitionUa,"Надзвичайно добрий, чудовий або дивовижний."
+SB-1194,texture,n.,floor,,
+SB-1229,transparency,n.,reconciled,definitionUa,Відкритість і доступність для перевірки.
+SB-1236,tribute,n.,reconciled,definitionUa,"Вияв вдячності, поваги чи захоплення, іноді у формі подарунка."
+SB-1241,troubled,adj.,reconciled,definitionUa,"Стурбований, занепокоєний або обтяжений проблемами."
+SB-1254,upcoming,adj.,reconciled,definitionUa,"Такий, що має відбутися або з’явитися найближчим часом."
+SB-1255,upgrade,"v., n.",floor,,
+SB-1273,vessel,n.,reconciled,both,"ua: судно; літальний або космічний апарат | definitionUa: Засіб пересування по воді, у повітрі або в космосі."
+SB-1274,veteran,n.,floor,,
+SB-1303,widow,n.,reconciled,definitionUa,"Жінка, чоловік якої помер і яка не одружилася повторно."
+SB-1312,worthy,adj.,reconciled,definitionUa,"Гідний уваги, поваги або винагороди завдяки своїм якостям."
+SB-1373,achieve,word family,reconciled,definitionUa,Успішно досягти мети або виконати складне завдання.
+SB-1384,computer,word family,reconciled,definitionUa,"Програмований електронний пристрій, що обробляє, зберігає й відтворює дані та виконує обчислення."
+SB-1386,conduct,word family,floor,,
+SB-1398,impact,word family,floor,,
+SB-1400,institute,word family,reconciled,definitionUa,"Організація, заснована для розвитку певної галузі, науки або суспільної справи."
+SB-1410,previous,word family,reconciled,definitionUa,"Такий, що відбувається або розташований раніше в часі чи порядку."
+SB-1414,region,word family,reconciled,definitionUa,"Значна безперервна частина території, простору або поверхні."
+SB-1418,resources,word family,reconciled,definitionUa,"Засоби, матеріали або люди, які використовують для досягнення мети, наприклад сировина чи персонал."
+SB-1442,demonstrate,word family,reconciled,definitionUa,"Показувати, представляти або доводити щось так, щоб воно стало очевидним."
+SB-1455,interaction,word family,reconciled,definitionUa,"Взаємний вплив або обмін між людьми, об’єктами чи системами."
+SB-1463,partnership,word family,reconciled,definitionUa,Об’єднання двох або більше сторін для спільної діяльності чи мети.
+SB-1476,specified,word family,reconciled,both,"ua: зазначений; визначений | definitionUa: Чітко названий, визначений або докладно пояснений."
+SB-1477,sufficient,word family,reconciled,definitionUa,"Такий, якого досить для задоволення вимог або потреб."
+SB-1481,technology,word family,reconciled,ua,технологія
+SB-1487,approximated,word family,reconciled,definitionUa,"Оцінений або розрахований наближено, а не точно."
+SB-1491,code,word family,reconciled,definitionUa,"Набір інструкцій, написаних мовою програмування для виконання комп’ютером."
+SB-1502,emerged,word family,reconciled,definitionUa,"З’явився, виник або став помітним."
+SB-1503,error,word family,reconciled,definitionUa,"Ненавмисна неправильна дія, обчислення або неправдиве твердження."
+SB-1513,job,word family,reconciled,definitionUa,Оплачувана робота або конкретне завдання чи обов’язок.
+SB-1521,parallel,word family,reconciled,definitionUa,"Такий, що в усіх точках залишається на однаковій відстані від іншої лінії чи площини."
+SB-1532,statistics,word family,reconciled,definitionUa,"Числові дані та наука про їх збирання, аналіз і тлумачення."
+SB-1540,alter,word family,reconciled,definitionUa,"Змінювати форму, властивість або структуру чогось."
+SB-1565,modified,word family,reconciled,definitionUa,Змінений порівняно з початковою формою.
+SB-1573,psychology,word family,reconciled,definitionUa,"Наука про психіку, поведінку та психічні процеси людей."
+SB-1575,rejected,word family,reconciled,ua,відхилений
+SB-1622,overseas,word family,floor,,
+SB-1627,subsidiary,word family,reconciled,definitionUa,"Компанія, яку контролює материнська або холдингова компанія."
+SB-1637,confirmed,word family,reconciled,ua,підтверджений
+SB-1640,decades,word family,reconciled,ua,десятиліття
+SB-1663,prohibited,word family,reconciled,both,"ua: заборонений | definitionUa: Не дозволений правилом, законом або владою."
+SB-1678,ambiguous,word family,reconciled,definitionUa,"Такий, що допускає кілька різних тлумачень і не має одного ясного значення."
+SB-1680,automatically,word family,reconciled,definitionUa,"Без ручного втручання або свідомого рішення, завдяки заданому процесу."
+SB-1688,detected,word family,reconciled,both,ua: виявлений | definitionUa: Помічений або встановлений унаслідок перевірки чи спостереження.
+SB-1715,theme,word family,reconciled,definitionUa,"Головний предмет розмови, дослідження або художнього твору."
+SB-1730,concurrent,word family,reconciled,definitionUa,"Такий, що відбувається в той самий час, що й інша подія."
+SB-1737,duration,word family,reconciled,definitionUa,"Кількість часу, протягом якого щось триває."
+SB-1754,revolution,word family,floor,,
+SB-1762,temporary,word family,floor,,
+SB-1768,conceived,word family,reconciled,definitionUa,Сформований або створений у свідомості як ідея чи задум.
+SB-1770,depression,word family,floor,,
+SB-1771,encountered,word family,reconciled,both,"ua: зустрінутий; виявлений | definitionUa: Зустрінутий або знайдений, особливо несподівано."
+SB-1777,likewise,word family,reconciled,definitionUa,Так само; також або подібним чином.
+SB-1778,notwithstanding,word family,reconciled,definitionUa,Попри це; проте або все ж.
+SB-1783,so-called,word family,reconciled,both,"ua: т. зв. | definitionUa: Так званий; відомий під певною назвою, іноді сумнівною."
+SB-1784,undergo,word family,floor,,
