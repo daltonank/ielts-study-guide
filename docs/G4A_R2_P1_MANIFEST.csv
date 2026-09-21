@@ -1,0 +1,266 @@
+id,word,pos,source,stage,proposed_target,proposed_value,gap
+SB-0009,accelerate,v.,floor,A,definitionUa,Змусити рухатися швидше; збільшити швидкість.,false
+SB-0014,accordingly,adv.,floor,A,definitionUa,Відповідним чином; отже; таким чином.,false
+SB-0015,accountability,n.,reconciled,A,definitionUa,Обов’язок пояснювати свої дії та нести за них відповідальність.,false
+SB-0024,activation,n.,floor,A,definitionUa,Процес приведення в активний стан; уведення в дію.,false
+SB-0039,aesthetic,adj.,reconciled,A,definitionUa,"Пов’язаний із красою, мистецтвом або привабливим зовнішнім виглядом.",false
+SB-0043,agricultural,adj.,floor,A,,,true
+SB-0047,alien,adj.,reconciled,A,definitionUa,"Такий, що належить іншій країні або є чужим для певного середовища.",false
+SB-0048,align,v.,reconciled,A,both,ua: вирівнювати; узгоджувати | definitionUa: Розташовувати по прямій лінії або приводити у відповідність.,false
+SB-0055,allocate,v.,reconciled,A,definitionUa,Призначати або виділяти щось для певної мети.,false
+SB-0058,ally,n.,floor,A,definitionUa,"Той, хто співпрацює з іншим або допомагає йому; спільник, союзник.",false
+SB-0060,amateur,"adj., n.",reconciled,A,both,"ua: аматор; аматорський | definitionUa: Людина, яка займається чимось не професійно; також такий, що стосується непрофесійної діяльності.",false
+SB-0061,ambassador,n.,floor,A,,,true
+SB-0063,amendment,n.,reconciled,A,definitionUa,"Зміна або доповнення до документа, закону чи угоди, зокрема до конституції.",false
+SB-0067,angel,n.,floor,A,definitionUa,"Безтілесний святий або напівбожественний посланець божества чи іншої божественної сутності, якого традиційно зображують молодою крилатою постаттю у просторих шатах, що розвіваються.",false
+SB-0069,apparatus,n.,reconciled,A,definitionUa,"Набір обладнання або засобів, потрібних для виконання певного завдання.",false
+SB-0070,appealing,adj.,floor,A,definitionUa,"Привабливий; такий, що викликає інтерес або симпатію.",false
+SB-0073,applicable,adj.,floor,A,,,true
+SB-0081,arm,v.,reconciled,A,definitionUa,Забезпечувати когось зброєю або готувати до збройної дії.,false
+SB-0084,ash,n.,reconciled,A,definitionUa,Твердий порошкоподібний залишок після згоряння речовини.,false
+SB-0087,assassination,n.,reconciled,A,ua,політичне або замовне вбивство,false
+SB-0088,assault,"n., v.",reconciled,A,both,Фізична або словесна атака; також нападати на когось чи щось.,false
+SB-0092,assertion,n.,reconciled,A,definitionUa,Упевнене й чітке твердження або заява.,false
+SB-0099,attribute,"v., n.",reconciled,A,both,ua: ознака; приписувати | definitionUa: Характерна риса; також вважати щось наслідком чи твором певної особи або причини.,false
+SB-0114,barrel,n.,reconciled,A,definitionUa,"Циліндрична посудина, довша, ніж ширша, опукла посередині й складена з клепок, стягнутих обручами.",false
+SB-0118,bay,n.,reconciled,A,definitionUa,"Частина моря чи озера, що вдається в суходіл і частково оточена берегом.",false
+SB-0122,beloved,adj.,reconciled,A,definitionUa,Дуже дорогий або коханий.,false
+SB-0129,biography,n.,reconciled,A,definitionUa,"Опис життя людини, написаний іншою особою.",false
+SB-0134,bleed,v.,reconciled,A,definitionUa,Втрачати кров через ушкодження кровоносної судини.,false
+SB-0142,boundary,n.,floor,A,definitionUa,Лінія поділу між двома областями; межа.,false
+SB-0152,buddy,n.,reconciled,A,definitionUa,"Друг або приятель, з яким мають близькі чи невимушені стосунки.",false
+SB-0156,bureaucracy,n.,reconciled,A,definitionUa,"Система управління, у якій важливу роль відіграють численні установи, правила й посадовці.",false
+SB-0158,burst,v.,reconciled,A,definitionUa,Раптово розірватися або лопнути під внутрішнім тиском.,false
+SB-0172,cattle,n.,reconciled,A,definitionUa,"Свійські тварини виду Bos taurus, зокрема корови, бики й воли.",false
+SB-0188,civilian,"n., adj.",reconciled,A,both,"ua: цивільна особа; цивільний | definitionUa: Людина, яка не є військовослужбовцем; також пов’язаний із цивільним життям.",false
+SB-0191,classification,n.,floor,A,definitionUa,"Акт розподілу на класи; поділ на групи (класи, порядки, родини тощо) за спільними ознаками або атрибутами.",false
+SB-0199,cognitive,adj.,reconciled,A,definitionUa,"Пов’язаний із пізнанням, мисленням, пам’яттю та іншими розумовими процесами.",false
+SB-0205,colonial,adj.,reconciled,A,definitionUa,"Такий, що стосується колонії або колоніалізму.",false
+SB-0215,companion,n.,reconciled,A,definitionUa,"Людина, з якою проводять час або яка супроводжує когось; товариш чи партнер.",false
+SB-0217,compassion,n.,reconciled,A,definitionUa,"Глибоке співчуття до чужих страждань, що спонукає допомогти.",false
+SB-0257,consolidate,v.,reconciled,A,definitionUa,Об’єднувати окремі частини в єдине ціле; зміцнювати досягнуте.,false
+SB-0271,contractor,n.,reconciled,A,definitionUa,"Особа або компанія, що за договором виконує роботи чи надає послуги.",false
+SB-0276,convict,v.,reconciled,A,definitionUa,Офіційно визнати особу винною за рішенням суду.,false
+SB-0285,copyright,n.,reconciled,A,definitionUa,"Закріплене законом виключне право автора визначати, хто може відтворювати, публікувати й поширювати твір.",false
+SB-0290,correspondence,n.,reconciled,A,definitionUa,Обмін листами або іншими письмовими повідомленнями.,false
+SB-0295,costly,adj.,floor,A,definitionUa,"Такий, що коштує дорого; дорогий.",false
+SB-0306,creator,n.,floor,A,definitionUa,"Той або те, що щось створює чи виготовляє.",false
+SB-0313,crush,v.,reconciled,A,definitionUa,"Сильно стискати або розчавлювати щось так, що воно деформується чи руйнується.",false
+SB-0328,declaration,n.,floor,A,,,true
+SB-0337,deficit,n.,reconciled,A,definitionUa,"Нестача коштів або сума, на яку витрати перевищують доходи.",false
+SB-0352,deprive,v.,reconciled,A,definitionUa,"Позбавляти когось чогось або не давати йому того, що він має чи потребує.",false
+SB-0353,deputy,n.,reconciled,A,definitionUa,"Особа, призначена діяти замість іншої або допомагати посадовцеві як його заступник.",false
+SB-0360,detain,v.,reconciled,A,definitionUa,Не дозволяти комусь піти або тимчасово тримати під вартою.,false
+SB-0363,deteriorate,v.,floor,A,definitionUa,Ставати гіршим за якістю; погіршуватися; вироджуватися.,false
+SB-0371,differentiate,v.,floor,A,definitionUa,Показувати відмінність між речами або встановлювати її; розрізняти.,false
+SB-0385,discourse,n.,reconciled,A,definitionUa,Усне або письмове висловлення думок; зв’язна мова чи обговорення певної теми.,false
+SB-0428,electoral,adj.,floor,A,,,true
+SB-0430,eligible,adj.,reconciled,A,both,"ua: той, хто має право; придатний | definitionUa: Такий, що відповідає вимогам і тому має право брати участь або бути обраним.",false
+SB-0435,embed,v.,reconciled,A,definitionUa,"Вставляти один об’єкт, файл або фрагмент даних в інший.",false
+SB-0437,emergence,n.,reconciled,A,definitionUa,"Процес появи, виникнення або виходу з прихованого стану.",false
+SB-0441,encompass,v.,reconciled,A,definitionUa,"Охоплювати, включати до свого складу або оточувати.",false
+SB-0446,endorse,v.,reconciled,A,definitionUa,Публічно або офіційно висловлювати підтримку чи схвалення.,false
+SB-0467,establishment,n.,floor,A,definitionUa,"Установа, заклад або підприємство, створені для сталої діяльності; також сам процес заснування.",false
+SB-0471,evolutionary,adj.,reconciled,A,definitionUa,Пов’язаний з еволюцією або теорією еволюції.,false
+SB-0474,exceptional,adj.,floor,A,definitionUa,"Такий, що становить виняток; незвичайний; рідкісний.",false
+SB-0475,excess,"n., adj.",reconciled,A,both,"ua: надлишок; надмірний | definitionUa: Кількість понад необхідну норму; також більший, ніж потрібно або дозволено.",false
+SB-0478,exclusively,adv.,reconciled,A,definitionUa,"Лише для когось або чогось, без залучення інших; винятково.",false
+SB-0485,experimental,adj.,reconciled,A,definitionUa,"Такий, що стосується експерименту або ґрунтується на ньому.",false
+SB-0493,facilitate,v.,floor,A,definitionUa,Робити легшим; полегшувати.,false
+SB-0494,faction,n.,reconciled,A,definitionUa,"Група всередині більшої організації, члени якої мають спільні погляди, відмінні від поглядів інших членів.",false
+SB-0498,fatal,adj.,floor,A,definitionUa,"Такий, що спричиняє смерть або руйнування; смертельний, згубний.",false
+SB-0500,favourable,adj.,reconciled,A,definitionUa,"Такий, що виражає схвалення або створює добрі умови для успіху.",false
+SB-0516,flexibility,n.,floor,A,,,true
+SB-0518,fluid,n.,reconciled,A,both,"ua: рідина; текуча речовина | definitionUa: Речовина, що може текти й набувати форми посудини, зокрема рідина або газ.",false
+SB-0519,footage,n.,reconciled,A,definitionUa,"Відеоматеріал або кадри, записані для фільму, телебачення чи іншої мети.",false
+SB-0539,gaze,"n., v.",reconciled,A,both,ua: пильний погляд; пильно дивитися | definitionUa: Тривалий уважний погляд; також довго й уважно дивитися.,false
+SB-0543,glance,"n., v.",reconciled,A,both,ua: швидкий погляд; швидко глянути | definitionUa: Короткий погляд; також швидко подивитися на когось або щось.,false
+SB-0545,glorious,adj.,reconciled,A,definitionUa,"Такий, що заслуговує великої слави або викликає захоплення.",false
+SB-0547,governance,n.,reconciled,A,definitionUa,"Система й процеси, за допомогою яких організацією або державою керують і контролюють її діяльність.",false
+SB-0556,grind,v.,floor,A,,,true
+SB-0567,handling,n.,reconciled,A,definitionUa,"Спосіб поводження з предметом, ситуацією або питанням; керування чи оброблення.",false
+SB-0571,harmony,n.,floor,A,definitionUa,Злагода або співзвуччя; погодженість.,false
+SB-0573,harvest,"n., v.",reconciled,A,both,ua: урожай; збирати врожай | definitionUa: Зібрані сільськогосподарські культури; також збирати їх після дозрівання.,false
+SB-0581,hint,"n., v.",reconciled,A,both,ua: натяк; натякати | definitionUa: Непряма підказка; також давати зрозуміти щось без прямого твердження.,false
+SB-0588,hostile,adj.,reconciled,A,definitionUa,"Недружній або ворожий; такий, що виявляє злу волю чи бажання завдати шкоди.",false
+SB-0599,imagery,n.,reconciled,A,both,"ua: образність; образи | definitionUa: Виразні мовні образи й описи, що викликають чуттєві уявлення.",false
+SB-0602,implementation,n.,reconciled,A,definitionUa,"Процес практичного здійснення плану, ідеї, системи або рішення.",false
+SB-0614,indigenous,adj.,reconciled,A,definitionUa,"Корінний для певної країни чи регіону; такий, що походить звідти природно або історично.",false
+SB-0634,inspiration,n.,reconciled,A,definitionUa,"Вплив або ідея, що спонукає до творчості, дії чи нового задуму.",false
+SB-0636,institutional,adj.,reconciled,A,definitionUa,Пов’язаний з установою або характерний для неї.,false
+SB-0639,insufficient,adj.,reconciled,A,definitionUa,"Такий, якого замало для задоволення вимог або потреб.",false
+SB-0647,intellectual,n.,floor,A,definitionUa,"Розумна, освічена людина, особливо та, яка займається інтелектуальною працею.",false
+SB-0651,intent,n.,floor,A,,,true
+SB-0652,interactive,adj.,floor,A,,,true
+SB-0658,intermediate,adj.,reconciled,A,definitionUa,"Розташований або такий, що перебуває між двома рівнями чи крайнощами.",false
+SB-0659,intervene,v.,floor,A,definitionUa,"Втрутитися в ситуацію, щоб змінити або запобігти дії.",false
+SB-0694,legislation,n.,reconciled,A,definitionUa,Сукупність законів або процес їх ухвалення законодавчим органом.,false
+SB-0695,legislative,adj.,reconciled,A,definitionUa,Пов’язаний з ухваленням законів або наділений повноваженнями їх ухвалювати.,false
+SB-0710,linear,adj.,floor,A,,,true
+SB-0718,logic,n.,reconciled,A,definitionUa,Система принципів правильного міркування та встановлення обґрунтованих висновків.,false
+SB-0724,machinery,n.,floor,A,definitionUa,"Машини, що разом складають виробничий апарат заводу тощо.",false
+SB-0740,marine,adj.,reconciled,A,definitionUa,"Пов’язаний із морем; такий, що існує, утворюється або відбувається в морі.",false
+SB-0748,meantime,n.,reconciled,A,both,ua: проміжний час | definitionUa: Період між двома подіями або до настання очікуваної події.,false
+SB-0749,medieval,adj.,floor,A,definitionUa,"Такий, що стосується Середньовіччя (приблизно 500–1500 рр. н.е.) або пов'язаний з ним.",false
+SB-0761,merger,n.,reconciled,A,definitionUa,"Юридичне об’єднання двох або більше компаній в одну, за якого активи й зобов’язання переходять до об’єднаної компанії.",false
+SB-0764,midst,n.,reconciled,A,both,ua: середина; центр | definitionUa: Середня частина або оточення чогось; часто у вислові «посеред чогось».,false
+SB-0782,modification,n.,reconciled,A,definitionUa,Зміна чогось або результат такої зміни; нова чи змінена форма.,false
+SB-0789,municipal,adj.,reconciled,A,definitionUa,"Пов’язаний з містом, громадою або органом місцевого самоврядування.",false
+SB-0790,mutual,adj.,reconciled,A,definitionUa,"Спільний для двох чи більше сторін або такий, що діє взаємно.",false
+SB-0794,neglect,"v., n.",reconciled,A,both,ua: нехтування; нехтувати | definitionUa: Брак належної уваги чи догляду; також не дбати або не звертати уваги.,false
+SB-0797,net,adj.,floor,A,definitionUa,"Такий, що залишається після витрат або відрахувань; чистий (про суму).",false
+SB-0799,niche,n.,reconciled,A,definitionUa,"Спеціалізована сфера або позиція, що добре відповідає певним здібностям чи потребам, зокрема сегмент ринку.",false
+SB-0800,noble,adj.,reconciled,A,definitionUa,"Такий, що має високі моральні якості й не виявляє ницості чи підлості.",false
+SB-0812,notorious,adj.,reconciled,A,definitionUa,Широко відомий чимось поганим або ганебним.,false
+SB-0840,oversee,v.,floor,A,definitionUa,"Наглядати, контролювати або керувати діями особи чи групи.",false
+SB-0848,parliamentary,adj.,reconciled,A,definitionUa,"Пов’язаний із парламентом, здійснюваний або ухвалений ним.",false
+SB-0860,peasant,n.,reconciled,A,definitionUa,"Представник сільського населення, який обробляє землю, зазвичай дрібний землероб або орендар.",false
+SB-0865,petition,n.,reconciled,A,definitionUa,"Офіційне письмове звернення до влади з проханням про дію або зміну, часто підписане багатьма людьми.",false
+SB-0871,pirate,n.,reconciled,A,definitionUa,"Злочинець, який нападає на судна або прибережні місця й грабує їх.",false
+SB-0883,portray,v.,reconciled,A,definitionUa,"Зображувати людину, персонажа, ситуацію чи подію, зокрема грати роль у виставі або фільмі.",false
+SB-0885,post-war,adj.,floor,A,,,true
+SB-0899,prescribe,v.,floor,A,,,true
+SB-0907,presumably,adv.,floor,A,,,true
+SB-0911,prevention,n.,reconciled,A,definitionUa,"Дії або заходи, спрямовані на те, щоб не допустити небажаної події чи зменшити її ризик.",false
+SB-0914,privatization,n.,reconciled,A,definitionUa,Передача підприємства або організації з державної власності й контролю у приватну власність.,false
+SB-0917,problematic,adj.,reconciled,A,definitionUa,"Такий, що створює проблему, викликає труднощі або потребує обережного розгляду.",false
+SB-0943,psychiatric,adj.,reconciled,A,definitionUa,Пов’язаний із психіатрією або лікуванням психічних розладів.,false
+SB-0944,pulse,n.,reconciled,A,definitionUa,"Ритмічне розширення артерій, спричинене серцебиттям і відчутне, наприклад, на зап’ясті чи шиї.",false
+SB-0956,rape,"n., v.",reconciled,A,both,ua: зґвалтування; ґвалтувати | definitionUa: Статевий акт або інша сексуальна дія без згоди; також примушувати когось до такої дії.,false
+SB-0963,rear,"adj., n.",reconciled,A,both,ua: задній; задня частина | definitionUa: Розташований позаду; також задня частина чогось.,false
+SB-0965,reassure,v.,reconciled,A,definitionUa,"Заспокоювати когось, відновлюючи його впевненість або усуваючи страх чи сумнів.",false
+SB-0966,rebel,n.,reconciled,A,definitionUa,"Людина, яка чинить опір установленій владі, часто із застосуванням сили.",false
+SB-0977,regardless,adv.,reconciled,A,definitionUa,Не беручи до уваги певну обставину; попри неї.,false
+SB-0980,regulatory,adj.,reconciled,A,definitionUa,Пов’язаний із регулюванням або призначений для нього.,false
+SB-0987,remainder,n.,reconciled,A,definitionUa,"Частина, що залишається після того, як решту використали, видалили або врахували.",false
+SB-0993,renew,v.,reconciled,A,definitionUa,"Відновлювати свіжість, чинність або початковий стан; робити новим знову.",false
+SB-0995,rental,n.,reconciled,A,both,ua: оренда; орендна плата | definitionUa: Користування майном за плату; також плата за таке користування.,false
+SB-0999,reproduce,v.,reconciled,A,definitionUa,Створювати копію або повторювати щось; також давати потомство.,false
+SB-1003,reside,v.,floor,A,,,true
+SB-1009,respective,adj.,reconciled,A,definitionUa,"Такий, що окремо стосується кожної з названих осіб або речей.",false
+SB-1010,respectively,adv.,reconciled,A,definitionUa,У тому самому порядку для кожного з уже названих елементів.,false
+SB-1015,retrieve,v.,floor,A,ua,повернути; дістати назад,false
+SB-1037,saint,n.,reconciled,A,definitionUa,"Особа, яку релігійна спільнота вважає особливо святою або зразково благочестивою.",false
+SB-1041,scattered,adj.,reconciled,A,definitionUa,Розміщений у різних місцях і не зосереджений разом.,false
+SB-1048,seemingly,adv.,floor,A,,,true
+SB-1058,serial,adj.,reconciled,A,definitionUa,"Розташований або такий, що відбувається послідовно, один за одним.",false
+SB-1065,sheer,adj.,reconciled,A,both,ua: цілковитий; прямовисний; прозорий | definitionUa: Повний або абсолютний; також дуже крутий чи тонкий і прозорий.,false
+SB-1068,shrink,v.,reconciled,A,definitionUa,"Ставати меншим за розміром, обсягом або кількістю; стискатися.",false
+SB-1081,slavery,n.,floor,A,definitionUa,"Інститут або соціальна практика, за якої одні люди володіють іншими як власністю та примусово використовують їхню працю.",false
+SB-1082,slot,n.,reconciled,A,definitionUa,"Вузький отвір або паз, у який вставляють предмет; також визначене місце чи час.",false
+SB-1085,soak,v.,reconciled,A,both,"ua: замочувати; просочуватися | definitionUa: Занурювати в рідину, щоб добре намочити; також насичуватися рідиною.",false
+SB-1087,socialist,adj.,reconciled,A,definitionUa,"Пов’язаний із соціалізмом або такий, що підтримує його.",false
+SB-1092,solo,"adj., n.",reconciled,A,both,ua: соло; сольний | definitionUa: Виконання однією особою; також призначений для одного виконавця.,false
+SB-1094,sovereignty,n.,reconciled,A,definitionUa,"Право й здатність держави самостійно керувати собою, ухвалювати закони та контролювати свої ресурси.",false
+SB-1096,span,"v., n.",reconciled,A,both,ua: охоплювати; проміжок | definitionUa: Простягатися через відстань або тривати певний час; також сама відстань чи тривалість.,false
+SB-1099,specialized,adj.,reconciled,A,definitionUa,"Такий, що має вузьку спеціалізацію або спеціально пристосований до певної галузі.",false
+SB-1100,specification,n.,reconciled,A,definitionUa,"Чіткий набір вимог, яким має відповідати матеріал, продукт або послуга.",false
+SB-1108,spotlight,n.,reconciled,A,definitionUa,Спрямований яскравий прожектор; також зосереджена суспільна увага.,false
+SB-1111,squad,n.,floor,A,,,true
+SB-1118,stark,adj.,reconciled,A,both,ua: разючий; суворий; голий | definitionUa: Дуже виразний або різкий; також суворий і позбавлений прикрас.,false
+SB-1119,statistical,adj.,reconciled,A,definitionUa,Пов’язаний зі статистикою або заснований на статистичних даних.,false
+SB-1129,strategic,adj.,reconciled,A,definitionUa,Пов’язаний зі стратегією або важливий для досягнення довгострокової мети.,false
+SB-1141,substantial,adj.,reconciled,A,definitionUa,"Значний за розміром, кількістю, вартістю або важливістю.",false
+SB-1149,successor,n.,floor,A,,,true
+SB-1166,surgical,adj.,reconciled,A,definitionUa,"Пов’язаний із хірургією, використовуваний під час операції або спричинений нею.",false
+SB-1168,surrender,v.,floor,A,,,true
+SB-1171,suspicion,n.,floor,A,,,true
+SB-1184,tempt,v.,reconciled,A,definitionUa,Спонукати когось зробити щось привабливою обіцянкою або бажаною винагородою.,false
+SB-1200,thereby,adv.,reconciled,A,definitionUa,Таким чином або внаслідок цього.,false
+SB-1203,thread,n.,reconciled,A,definitionUa,"Тонка довга пряжа зі скручених волокон, яку використовують для шиття або ткацтва.",false
+SB-1211,tobacco,n.,floor,A,definitionUa,"Рослини Nicotiana tabacum та деяких інших видів, які культивують, а їхнє листя збирають для виготовлення сигарет, сигар, нюхального тютюну, для куріння в трубках або для жування.",false
+SB-1223,trailer,n.,reconciled,A,definitionUa,"Безмоторний колісний транспортний засіб, який буксирує інший транспортний засіб для перевезення вантажу.",false
+SB-1235,tribunal,n.,reconciled,A,definitionUa,"Суд або спеціальний орган з одним чи кількома суддями, який розглядає певні справи.",false
+SB-1245,turnover,n.,reconciled,A,definitionUa,Загальна сума доходу від продажів за певний період.,false
+SB-1246,twist,"v., n.",reconciled,A,both,"ua: крутити; поворот | definitionUa: Обертати або скручувати; також поворот, вигин чи несподівана зміна.",false
+SB-1247,undergraduate,n.,floor,A,,,true
+SB-1252,unprecedented,adj.,reconciled,A,definitionUa,"Такий, якого раніше не було або який не має відомого прецеденту.",false
+SB-1270,verify,v.,floor,A,,,true
+SB-1275,viable,adj.,floor,A,,,true
+SB-1293,weave,v.,reconciled,A,definitionUa,"Утворювати тканину або інший виріб, переплітаючи нитки чи смуги над і під одна одною.",false
+SB-1310,worship,"n., v.",reconciled,A,both,ua: поклоніння; поклонятися | definitionUa: Виявляти найвищу релігійну шану; також акт такого вшанування.,false
+SB-1327,contract,word family,reconciled,A,definitionUa,Юридична угода; також укладати таку угоду або зменшуватися в розмірі.,false
+SB-1335,established,word family,floor,A,,,true
+SB-1338,export,word family,reconciled,A,definitionUa,Вивезення товарів за кордон для продажу; також вивозити або передавати дані назовні.,false
+SB-1339,factors,word family,reconciled,A,definitionUa,"Елементи, обставини або впливи, що сприяють певному результату.",false
+SB-1340,financial,word family,reconciled,A,definitionUa,"Пов’язаний із фінансами, грошима або управлінням коштами.",false
+SB-1341,function,word family,reconciled,A,definitionUa,Призначення або роль чогось; також працювати чи діяти належним чином.,false
+SB-1345,individual,word family,reconciled,A,definitionUa,"Окрема людина, яку розглядають не як частину групи.",false
+SB-1352,method,word family,reconciled,A,definitionUa,Упорядкований спосіб або процедура виконання завдання.,false
+SB-1356,policy,word family,reconciled,A,definitionUa,"Принцип або курс дій, якого дотримується уряд чи організація, особливо коли його офіційно затверджено.",false
+SB-1371,theory,word family,reconciled,A,definitionUa,"Система взаємопов’язаних ідей, що пояснює факти або явища й дає змогу робити перевірні передбачення.",false
+SB-1374,administration,word family,reconciled,A,definitionUa,"Процес управління установою чи справами; також орган або посадовці, які здійснюють таке управління.",false
+SB-1377,aspects,word family,reconciled,A,definitionUa,"Окремі особливості, частини або сторони чогось.",false
+SB-1394,evaluation,word family,reconciled,A,definitionUa,"Систематичне визначення якості, ефективності або цінності когось чи чогось.",false
+SB-1415,regulations,word family,reconciled,A,definitionUa,"Офіційні правила або нормативні акти, що визначають чи обмежують поведінку.",false
+SB-1424,strategies,word family,reconciled,A,definitionUa,"Плани дій, спрямовані на досягнення конкретних цілей.",false
+SB-1431,comments,word family,reconciled,A,definitionUa,Усні або письмові зауваження чи пояснення.,false
+SB-1432,components,word family,reconciled,A,definitionUa,"Окремі частини, з яких складається більша система або предмет.",false
+SB-1438,core,word family,reconciled,A,definitionUa,Центральна або найважливіша частина чогось.,false
+SB-1443,document,word family,reconciled,A,definitionUa,"Письмовий або цифровий матеріал, що містить інформацію чи слугує офіційним записом або доказом.",false
+SB-1452,implies,word family,reconciled,A,definitionUa,"Непрямо вказує на щось, не висловлюючи цього прямо.",false
+SB-1457,link,word family,reconciled,A,both,"ua: зв’язок; посилання | definitionUa: Відношення між людьми, подіями, речами чи ідеями; також гіперпосилання.",false
+SB-1462,outcomes,word family,reconciled,A,definitionUa,"Результати, що виникають унаслідок подій або процесів.",false
+SB-1464,philosophy,word family,floor,A,definitionUa,"Дисципліна, що за допомогою критичного міркування досліджує фундаментальні питання буття, знання, цінностей, розуму та мови.",false
+SB-1465,physical,word family,reconciled,A,definitionUa,Пов’язаний із матеріальним світом або тілом; відчутний і конкретний.,false
+SB-1469,registered,word family,reconciled,A,both,ua: зареєстрований | definitionUa: Офіційно внесений до реєстру або списку.,false
+SB-1479,technical,word family,reconciled,A,definitionUa,"Пов’язаний із технікою, технологією або спеціальними практичними знаннями.",false
+SB-1480,techniques,word family,reconciled,A,definitionUa,"Практичні способи виконання дії, особливо ті, що потребують навичок.",false
+SB-1482,volume,word family,reconciled,A,definitionUa,"Кількість тривимірного простору, яку займає тіло; вимірюється в кубічних одиницях.",false
+SB-1484,adequate,word family,reconciled,A,definitionUa,"Достатній для певної мети або такий, що відповідає вимогам.",false
+SB-1495,conference,word family,floor,A,,,true
+SB-1509,implications,word family,reconciled,A,definitionUa,"Можливі або непрямі наслідки рішення, дії чи твердження.",false
+SB-1510,imposed,word family,reconciled,A,definitionUa,Нав’язаний або установлений владою як обов’язковий.,false
+SB-1511,internal,word family,reconciled,A,definitionUa,Розташований усередині або пов’язаний із внутрішньою частиною.,false
+SB-1518,option,word family,reconciled,A,definitionUa,"Одна з можливостей, яку можна вибрати.",false
+SB-1522,parameters,word family,reconciled,A,definitionUa,"Значення або умови, що визначають систему, обчислення чи експеримент.",false
+SB-1523,phase,word family,floor,A,,,true
+SB-1524,predicted,word family,reconciled,A,both,ua: передбачений | definitionUa: Визначений або очікуваний заздалегідь.,false
+SB-1525,prior,word family,reconciled,A,definitionUa,"Попередній у часі, порядку або важливості.",false
+SB-1530,retained,word family,reconciled,A,both,"ua: збережений | definitionUa: Утриманий, збережений або залишений для подальшого використання чи пам’яті.",false
+SB-1544,clause,word family,reconciled,A,both,"ua: речення; клауза | definitionUa: Група слів із підметом і присудком, що є частиною складного речення або окремим реченням.",false
+SB-1545,compounds,word family,reconciled,A,definitionUa,"Речовини або об’єкти, утворені поєднанням двох чи більше складників.",false
+SB-1552,entities,word family,reconciled,A,definitionUa,Окремі самостійні об’єкти або організації.,false
+SB-1557,external,word family,reconciled,A,definitionUa,Розташований поза чимось або пов’язаний із зовнішньою стороною.,false
+SB-1558,fundamental,word family,reconciled,A,definitionUa,"Основний, базовий або надзвичайно важливий.",false
+SB-1559,generated,word family,reconciled,A,definitionUa,"Створений, вироблений або породжений певним процесом.",false
+SB-1560,generation,word family,reconciled,A,definitionUa,"Група людей, народжених приблизно в один період і сформованих спільними історичними та культурними умовами.",false
+SB-1563,medical,word family,reconciled,A,definitionUa,Пов’язаний із медициною або медичною практикою.,false
+SB-1570,perspective,word family,floor,A,,,true
+SB-1585,abstract,word family,floor,A,,,true
+SB-1590,attached,word family,floor,A,,,true
+SB-1594,capable,word family,reconciled,A,definitionUa,"Такий, що має потрібні здібності або спроможний виконати певне завдання.",false
+SB-1603,federal,word family,reconciled,A,definitionUa,Пов’язаний із федеральним або загальнонаціональним рівнем влади у федерації.,false
+SB-1613,input,word family,reconciled,A,definitionUa,"Дані або ресурси, що надходять у процес і впливають на його результат.",false
+SB-1617,lecture,word family,reconciled,A,definitionUa,Усний навчальний виклад або виступ перед групою слухачів.,false
+SB-1630,adults,word family,floor,A,,,true
+SB-1633,chemical,word family,reconciled,A,definitionUa,Пов’язаний із хімією або хімічними речовинами.,false
+SB-1635,comprehensive,word family,floor,A,definitionUa,"Такий, що охоплює всі або майже всі аспекти чогось; всебічний.",false
+SB-1638,converted,word family,reconciled,A,definitionUa,"Перетворений на іншу форму, функцію або систему.",false
+SB-1650,grade,word family,reconciled,A,both,"ua: оцінка | definitionUa: Результат оцінювання, виражений числом, літерою чи іншим символом.",false
+SB-1653,identical,word family,reconciled,A,both,ua: однаковий; ідентичний | definitionUa: Цілком такий самий за всіма істотними ознаками.,false
+SB-1661,phenomenon,word family,reconciled,A,definitionUa,"Подія, факт або процес, які можна спостерігати чи досліджувати.",false
+SB-1665,quotation,word family,reconciled,A,definitionUa,Точне відтворення слів іншої людини або уривка з тексту.,false
+SB-1668,submitted,word family,floor,A,,,true
+SB-1669,survive,word family,reconciled,A,definitionUa,Залишатися живим після небезпеки; також продовжувати існувати.,false
+SB-1677,accompanied,word family,reconciled,A,both,"ua: супроводжуваний; у супроводі | definitionUa: Такий, що прибув або відбувся разом із кимось чи чимось.",false
+SB-1690,displacement,word family,reconciled,A,definitionUa,Переміщення з попереднього місця або витіснення; також відстань такого переміщення.,false
+SB-1692,eventually,word family,reconciled,A,definitionUa,"Зрештою, особливо після тривалого часу, серії проблем, затримок або невдач.",false
+SB-1695,guidelines,word family,floor,A,definitionUa,"Загальні правила, принципи або рекомендації, що спрямовують дії чи поведінку.",false
+SB-1697,implicit,word family,reconciled,A,definitionUa,Мається на увазі без прямого висловлення.,false
+SB-1707,prospect,word family,floor,A,definitionUa,"Можливість або очікування майбутньої події, часто сприятливої.",false
+SB-1709,reinforced,word family,reconciled,B,definitionUa,"Посилений додатковою опорою, матеріалом або аргументом.",false
+SB-1721,visual,word family,reconciled,B,definitionUa,"Пов’язаний із зором або тим, що сприймається очима.",false
+SB-1723,analogous,word family,reconciled,B,definitionUa,Подібний до чогось за певними ознаками або відношеннями; англійською вживається з «to».,false
+SB-1724,anticipated,word family,reconciled,B,definitionUa,Очікуваний або передбачений заздалегідь.,false
+SB-1731,confined,word family,floor,B,definitionUa,Обмежений у русі; не здатний вільно рухатися.,false
+SB-1733,conversely,word family,reconciled,B,definitionUa,Навпаки; якщо розглянути протилежне співвідношення.,false
+SB-1735,devoted,word family,floor,B,definitionUa,Який має сильну емоційну прив'язаність; відданий; дуже любить когось або щось.,false
+SB-1738,erosion,word family,reconciled,B,definitionUa,"Поступове руйнування й перенесення ґрунту або породи водою, вітром, льодом чи іншими чинниками.",false
+SB-1747,norms,word family,floor,B,,,true
+SB-1750,qualitative,word family,reconciled,B,definitionUa,"Заснований на якості, властивостях або описі, а не на числовій кількості.",false
+SB-1752,relaxed,word family,reconciled,B,definitionUa,Вільний від напруги або тривоги; спокійний і невимушений.,false
+SB-1753,restraints,word family,reconciled,B,definitionUa,"Засоби або правила, що обмежують свободу дії чи руху; стримувальні заходи.",false
+SB-1759,supplementary,word family,reconciled,B,definitionUa,"Додатковий; призначений доповнити те, чого бракує.",false
+SB-1760,suspended,word family,reconciled,B,both,"ua: призупинений | definitionUa: Тимчасово зупинений, відкладений або усунений від виконання обов’язків.",false
+SB-1769,convinced,word family,reconciled,B,definitionUa,Твердий у певному переконанні або впевнений у його правдивості.,false
