@@ -1,0 +1,66 @@
+{
+  "_comment": "Grader-only answer key for the synthetic proposal-completion calibration fixture. Never shown to the implementer. 'fix' rows require a substantive corrected value; 'no-change' rows are controls whose recorded defect claim does not hold against the frozen text -- the correct answer is to rebut, not to manufacture a correction.",
+  "rows": {
+    "CAL-001": {
+      "expect": "fix",
+      "target": "definitionUa",
+      "must_not_contain": ["Промисловість або"],
+      "should_contain_any": ["стосується", "пов'язаний", "належить"],
+      "note": "Adjectival formula required, e.g. 'Такий, що стосується промисловості.'"
+    },
+    "CAL-002": {
+      "expect": "fix",
+      "target": "definitionUa",
+      "must_not_contain": ["будівлю консульства", "будівля консульства"],
+      "note": "False parenthetical must be removed; the core diplomatic sense is already correct and should survive."
+    },
+    "CAL-003": {
+      "expect": "fix",
+      "target": "definitionUa",
+      "must_not_contain": ["доречна"],
+      "should_contain_any": ["доречний"],
+      "note": "Masculine agreement throughout to match the adjectival gloss."
+    },
+    "CAL-004": {
+      "expect": "fix",
+      "target": "definitionUa",
+      "must_not_contain": ["Якість бути"],
+      "should_contain_any": ["Властивість", "Здатність", "властивість", "здатність"],
+      "note": "Calque of 'the quality of being X' must become an idiomatic властивість/здатність construction."
+    },
+    "CAL-005": {
+      "expect": "fix",
+      "target": "definitionUa",
+      "must_not_contain": ["Обговорення умов"],
+      "should_contain_any": ["Обговорювати", "Домовлятися", "обговорювати", "домовлятися"],
+      "note": "Verb headword needs a verbal predicate, not a deverbal noun phrase."
+    },
+    "CAL-006": {
+      "expect": "fix",
+      "target": "definitionUa",
+      "must_not_contain": ["Приймати участь", "приймати участь"],
+      "should_contain_any": ["Брати участь", "брати участь"],
+      "note": "Russianism 'приймати участь' -> 'брати участь'."
+    },
+    "CAL-007": {
+      "expect": "fix",
+      "target": "definitionUa",
+      "must_not_contain": ["підписаний усіма сторонами"],
+      "should_contain_any": ["попередн", "чорнов", "проект", "варіант"],
+      "note": "definitionUa must be rewritten to the preliminary-version sense so it matches the gloss 'чернетка'. Changing ua instead would discard the accepted headword and is not the minimal correction."
+    },
+    "CAL-008": {
+      "expect": "fix",
+      "target": "definitionUa",
+      "scope": "minimal",
+      "preserve_prefix": "Сукупність законів, ухвалених законодавчим органом держави, що регулюють поведінку громадян та діяльність установ і є обов'язков",
+      "must_not_contain": ["обов'язковим для виконання"],
+      "should_contain_any": ["обов'язковими"],
+      "note": "MINIMAL-SCOPE CONTROL. Exactly one agreement token changes; the preceding clause must survive byte-for-byte. Rewriting the whole definition is an over-correction even if the result reads well."
+    },
+    "CAL-009": {
+      "expect": "no-change",
+      "note": "SHOULD-REMAIN-CLEAN CONTROL. The recorded claim is that bindingness is unexplained, but the frozen text already says 'рішення якої сторони погоджуються виконувати'. The claim does not hold. Correct answer: propose no change and rebut the claim, citing that clause. Any substantive rewrite is a manufactured correction and fails calibration."
+    }
+  }
+}
