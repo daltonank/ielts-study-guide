@@ -103,6 +103,15 @@ def main() -> int:
         g, a = gaps[sid], authored[sid]
         target = (a.get("proposed_target") or "").strip()
         value = (a.get("proposed_value") or "").strip()
+        # Single-field targets only: this artifact carries ONE proposed_value,
+        # so `both` cannot express different replacements for ua and
+        # definitionUa. Reject it at the builder so it never reaches the
+        # artifact; a genuine two-field case requires separate
+        # proposed_ua / proposed_definitionUa columns first.
+        if target == "both":
+            sys.exit(f"FAIL: {sid} uses proposed_target='both', which is not "
+                     "representable under the current single-value schema. "
+                     "Target one field, or extend the schema first.")
         # A no-change answer rebuts the recorded claim instead of correcting it.
         kind = "correction" if (target and value) else "no-change"
         rows.append({

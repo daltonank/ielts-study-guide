@@ -55,7 +55,16 @@ BATCH_DIR = DOCS / "batches"
 
 EXPECTED_GAPS = 31
 BATCH_SIZES = {1: 10, 2: 10, 3: 11}
-TARGETS = {"ua", "definitionUa", "both"}
+# Single-field targets only. The artifact carries ONE proposed_value, so a
+# `both` target cannot unambiguously express a two-field correction where `ua`
+# and `definitionUa` need DIFFERENT replacement values -- one string would have
+# to stand for two different corrections, and validating it by comparing the
+# same string against both frozen fields is meaningless. `both` is therefore
+# rejected outright. If a genuine two-field case arises, extend the schema to
+# separate proposed_ua / proposed_definitionUa columns FIRST; never stuff two
+# replacements into one string.
+TARGETS = {"ua", "definitionUa"}
+REJECTED_TARGETS = {"both"}
 CONFIDENCE = {"high", "medium", "low"}
 REBUTTAL_CUES = ["not ", "no ", "does not", "already", "in fact", "actually",
                  "claim", "hold", "unfounded", "incorrect", "rebut", "refut",
@@ -181,21 +190,22 @@ def main() -> int:
             if not value:
                 err(f"{sid}: correction carries no proposed value")
                 continue
+            if target in REJECTED_TARGETS:
+                err(f"{sid}: proposed_target {target!r} is not representable -- the "
+                    "artifact carries one proposed_value, so it cannot express "
+                    "different replacements for ua and definitionUa. Target a "
+                    "single field, or extend the schema to separate "
+                    "proposed_ua / proposed_definitionUa columns first.")
+                continue
             if target not in TARGETS:
                 err(f"{sid}: proposed_target {target!r} invalid")
                 continue
-            # A correction must actually change the field it names.
-            changed = False
-            for field in (("ua", "definitionUa") if target == "both" else (target,)):
-                frozen = g[field]
-                if value == frozen:
-                    err(f"{sid}: proposal is identical to the frozen {field}")
-                elif norm(value) == norm(frozen):
-                    err(f"{sid}: proposal differs from frozen {field} only in whitespace")
-                else:
-                    changed = True
-            if not changed:
-                err(f"{sid}: correction does not substantively change its target")
+            # A correction must actually change the single field it names.
+            frozen = g[target]
+            if value == frozen:
+                err(f"{sid}: proposal is identical to the frozen {target}")
+            elif norm(value) == norm(frozen):
+                err(f"{sid}: proposal differs from frozen {target} only in whitespace")
         elif kind == "no-change":
             if value or target:
                 err(f"{sid}: no-change answer carries a proposal")
