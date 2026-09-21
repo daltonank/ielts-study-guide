@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "description": "R2 replacements for the eight R1 proposals rejected by independent review. Proposals only; not applied to learner bytes.",
+    "baseline_commit": "f34f109ae5b8564e7fa10317c167a6ca728c52fd",
+    "input_blob_expected": "1c184e84e5c63e3a9f8e386af13787664a23bd66",
+    "not_applied": true
+  },
+  "corrections": {
+    "SB-0024": {
+      "target": "definitionUa",
+      "proposed": "Процес приведення в активний стан; уведення в дію.",
+      "rationale": "Uses a nominal definition for activation and removes the non-idiomatic phrase про надання чомусь дії та ефективності.",
+      "confidence": "high"
+    },
+    "SB-0067": {
+      "target": "definitionUa",
+      "proposed": "Безтілесний святий або напівбожественний посланець божества чи іншої божественної сутності, якого традиційно зображують молодою крилатою постаттю у просторих шатах, що розвіваються.",
+      "rationale": "Repairs the malformed participle and renders flowing robes idiomatically rather than as спадне вбрання.",
+      "confidence": "high"
+    },
+    "SB-0467": {
+      "target": "definitionUa",
+      "proposed": "Установа, заклад або підприємство, створені для сталої діяльності; також сам процес заснування.",
+      "rationale": "Separates usable establishment senses and removes the mixed, malformed list containing форма правління, бізнес або сила.",
+      "confidence": "high"
+    },
+    "SB-1081": {
+      "target": "definitionUa",
+      "proposed": "Інститут або соціальна практика, за якої одні люди володіють іншими як власністю та примусово використовують їхню працю.",
+      "rationale": "Removes в якості and repairs the missing object and case relationship in the rejected proposal.",
+      "confidence": "high"
+    },
+    "SB-1464": {
+      "target": "definitionUa",
+      "proposed": "Дисципліна, що за допомогою критичного міркування досліджує фундаментальні питання буття, знання, цінностей, розуму та мови.",
+      "rationale": "Removes the false opposition to empiricism without reducing philosophy to a generic search for truth.",
+      "confidence": "high"
+    },
+    "SB-1635": {
+      "target": "definitionUa",
+      "proposed": "Такий, що охоплює всі або майже всі аспекти чогось; всебічний.",
+      "rationale": "Supplies an adjectival and semantically complete gloss instead of the weak phrase включає велику частку.",
+      "confidence": "high"
+    },
+    "SB-1695": {
+      "target": "definitionUa",
+      "proposed": "Загальні правила, принципи або рекомендації, що спрямовують дії чи поведінку.",
+      "rationale": "Preserves plural agreement and replaces the non-idiomatic Неконкретні правила.",
+      "confidence": "high"
+    },
+    "SB-1707": {
+      "target": "definitionUa",
+      "proposed": "Можливість або очікування майбутньої події, часто сприятливої.",
+      "rationale": "Defines prospect idiomatically and removes the literal calque Потенційна річ, яка може статися.",
+      "confidence": "high"
+    }
+  }
+}

@@ -1,0 +1,97 @@
+id,disposition,category,rationale
+SB-0033,clean,,No defect found in the blinded full-rubric review.
+SB-0035,clean,,No defect found in the blinded full-rubric review.
+SB-0043,P1,pos-morphology,"Adjective agricultural is defined by the noun phrase 'Сільське господарство' plus an elliptical fragment; use 'Такий, що стосується сільського господарства'."
+SB-0061,P1,semantic-pedagogical,"The parenthetical says the ambassador is sometimes called the ambassador's residence, which is false and likely leaked from another sense."
+SB-0065,clean,,No defect found in the blinded full-rubric review.
+SB-0073,P1,grammar-syntax,The predicate switches from masculine 'Підходить' to feminine 'актуальна' for the same adjective gloss.
+SB-0077,clean,,No defect found in the blinded full-rubric review.
+SB-0093,clean,,No defect found in the blinded full-rubric review.
+SB-0112,P2,semantic-scope,"Banner is narrowed to a large sign, although banners need not be large and may function as flags or display strips."
+SB-0173,P2,learner-register,"The second-person, repetitive danger phrasing is serviceable but clumsy for a concise dictionary gloss."
+SB-0180,clean,,No defect found in the blinded full-rubric review.
+SB-0183,clean,,No defect found in the blinded full-rubric review.
+SB-0223,P2,pos-style,"The noun phrase 'Наявність...' is understandable but weak for an adjective; 'Такий, що має...' is clearer."
+SB-0265,clean,,No defect found in the blinded full-rubric review.
+SB-0280,P2,semantic-scope,The definition covers synchronising activities only and omits organising people or elements to work together.
+SB-0299,clean,,No defect found in the blinded full-rubric review.
+SB-0311,clean,,No defect found in the blinded full-rubric review.
+SB-0328,P1,grammar-syntax,The phrase ending 'усним або письмовим' does not agree cleanly with 'акт' and the definition is a malformed source-language calque.
+SB-0335,clean,,No defect found in the blinded full-rubric review.
+SB-0383,P2,grammar-style,The synonym list mixes imperfective and perfective infinitives without a consistent learner-facing form.
+SB-0402,clean,,No defect found in the blinded full-rubric review.
+SB-0406,P2,grammar-style,The semicolon list is nonparallel and includes the fragment 'першорядної важливості'.
+SB-0407,clean,,No defect found in the blinded full-rubric review.
+SB-0419,clean,,No defect found in the blinded full-rubric review.
+SB-0428,P1,grammar-calque,'Щодо виборів або щодо них' repeats the same object and is not a usable Ukrainian definition.
+SB-0461,P2,semantic-precision,"An epidemic is an outbreak or unusually high occurrence, not simply a widely spread disease."
+SB-0511,clean,,No defect found in the blinded full-rubric review.
+SB-0512,P2,pos-style,The noun phrase 'Наявність недоліку' is understandable but weak for adjective flawed.
+SB-0515,clean,,No defect found in the blinded full-rubric review.
+SB-0516,P1,grammar-calque,'Якість бути гнучким' is an English-pattern calque; idiomatic Ukrainian requires 'здатність/властивість бути гнучким'.
+SB-0556,P1,semantic-pedagogical,"Grind is rendered as cutting by sideways movements; the core action is crushing, rubbing, or milling into smaller particles."
+SB-0560,clean,,No defect found in the blinded full-rubric review.
+SB-0605,clean,,No defect found in the blinded full-rubric review.
+SB-0619,P2,semantic-scope,The six-month-to-two-year boundary is unnecessarily rigid and culturally/source dependent.
+SB-0651,P1,semantic-pedagogical,"Intent is defined as 'Щось призначене' rather than an intention, purpose, or aim."
+SB-0652,P1,pos-morphology,Adjective interactive is led by the noun 'Пропозиція'; the phrase is ungrammatical and does not define the adjective.
+SB-0674,clean,,No defect found in the blinded full-rubric review.
+SB-0710,P1,grammar-syntax,"After singular 'Має форму лінії', the gloss shifts to plural adjectives 'прямі ... прямі'."
+SB-0714,clean,,No defect found in the blinded full-rubric review.
+SB-0737,P2,semantic-scope,"The handwritten/typewritten, not mechanically reproduced definition is dated and omits modern unpublished manuscript use."
+SB-0796,clean,,No defect found in the blinded full-rubric review.
+SB-0847,clean,,No defect found in the blinded full-rubric review.
+SB-0859,clean,,No defect found in the blinded full-rubric review.
+SB-0870,P2,learner-register,'Трубопровід із труб' is circular and adds little beyond the headword.
+SB-0878,P2,semantic-scope,The 'originally ... now specifically' framing is unsupported and narrows pole to construction/support uses.
+SB-0885,P1,russianism-calque,"'Відноситься до' is a Russian-pattern calque here, and 'де є припинення конфлікту' is an ill-formed appended clause."
+SB-0899,P1,semantic-pedagogical,The definition uses 'Замовити' (order/purchase) for prescribe instead of 'призначити'.
+SB-0903,clean,,No defect found in the blinded full-rubric review.
+SB-0907,P1,pos-morphology,Adverb presumably is defined as the adjective presumable: 'Здатний бути ... припущеним'.
+SB-0928,P2,pos-style,"The future clause 'Ймовірно, приверне' is awkward for an adjective though the intended sense remains recoverable."
+SB-1000,P2,semantic-scope,Only biological reproduction is supplied; common copying/duplication senses are omitted.
+SB-1001,clean,,No defect found in the blinded full-rubric review.
+SB-1003,P1,grammar-semantic,'мати постійне місце проживання на час' is internally contradictory and not idiomatic Ukrainian.
+SB-1048,P1,grammar-calque,'Як з'являється' is a false calque of 'as it appears'; Ukrainian requires 'як видається/на перший погляд'.
+SB-1111,P1,semantic-pedagogical,The claim that a squad usually has ten members is over-specific and false across ordinary military and nonmilitary senses.
+SB-1133,clean,,No defect found in the blinded full-rubric review.
+SB-1149,P1,russianism-calque,"'слідує за' and 'у займанні посади' are calqued, non-idiomatic constructions for succeeding someone in office."
+SB-1168,P1,grammar-semantic,'особливо в полоні; подати або поступитися' is malformed and adds verbs that do not express surrender.
+SB-1171,P1,grammar-syntax,'Дія підозрювати' and 'в чомусь недобре' are ungrammatical; the noun requires an idiomatic nominal definition.
+SB-1189,P2,semantic-precision,The added condition that the thing remains unfinished overstates a nonessential nuance of terminate.
+SB-1194,P2,semantic-precision,'Відчуття або форма поверхні' is vague and does not clearly explain surface structure or feel.
+SB-1247,P1,ua-definition-consistency,ua 'студент' is broader than undergraduate and conflicts with the definition's first-degree constraint.
+SB-1249,clean,,No defect found in the blinded full-rubric review.
+SB-1255,P2,semantic-scope,The entry lists verb and noun but ua and definition cover only the noun upgrade.
+SB-1270,P1,grammar-calque,The definition begins with the purpose-clause calque 'Щоб підтвердити' instead of an infinitive definition.
+SB-1274,P2,semantic-scope,The definition is military-only and the 'old soldier' phrasing is dated; experienced-person senses are omitted.
+SB-1275,P1,grammar-syntax,"'Можна зробити, можливо, практично, здійсненно' mixes incompatible forms and is not a grammatical definition."
+SB-1291,clean,,No defect found in the blinded full-rubric review.
+SB-1310,clean,,No defect found in the blinded full-rubric review.
+SB-1322,clean,,No defect found in the blinded full-rubric review.
+SB-1330,clean,,No defect found in the blinded full-rubric review.
+SB-1333,clean,,No defect found in the blinded full-rubric review.
+SB-1335,P1,pos-morphology,Established is defined with the adverbial participle 'Існуючи' rather than an adjectival/participial construction.
+SB-1346,clean,,No defect found in the blinded full-rubric review.
+SB-1386,P2,semantic-scope,The word-family entry covers noun conduct only and omits the verb sense.
+SB-1398,P2,circular-definition,"The definition repeats 'вплив' and relies mostly on the near-synonym 'ефект', so it teaches little."
+SB-1405,clean,,No defect found in the blinded full-rubric review.
+SB-1457,clean,,No defect found in the blinded full-rubric review.
+SB-1495,P1,pos-morphology,"Singular conference is translated with 'конференції', not nominative singular 'конференція'."
+SB-1523,P1,semantic-pedagogical,"'Визначна частина' means a notable/prominent part, not a distinct stage or phase."
+SB-1570,P1,semantic-pedagogical,Perspective is incorrectly reduced to the choice of one angle rather than a viewpoint or way of understanding.
+SB-1585,P1,semantic-pedagogical,"Academic abstract is defined with 'Скорочення' (abbreviation/shortening), not a concise summary; the wording misleads."
+SB-1590,P1,pos-morphology,Attached is rendered with impersonal/present 'додається' and then mixed adjective/past-verb forms 'Підключений; приєднався'.
+SB-1606,clean,,No defect found in the blinded full-rubric review.
+SB-1622,P2,semantic-scope,Only directional 'за кордон' is represented; locative 'за кордоном' and overseas-across-the-sea use are not distinguished.
+SB-1623,clean,,No defect found in the blinded full-rubric review.
+SB-1630,P1,pos-morphology,Plural adults/дорослі is defined with singular 'Особа'.
+SB-1644,clean,,No defect found in the blinded full-rubric review.
+SB-1649,clean,,No defect found in the blinded full-rubric review.
+SB-1668,P1,pos-morphology,Submitted is rendered as impersonal 'подано' but defined by active infinitives 'Внести або винести'.
+SB-1683,clean,,No defect found in the blinded full-rubric review.
+SB-1747,P1,pos-morphology,"Plural norms/норми is defined with singular 'Те, що є нормальним', losing the plural social-standard sense."
+SB-1754,P2,semantic-scope,The definition covers political revolution only and uses the awkward phrase 'переворот в уряді чи державі'.
+SB-1762,P2,learner-register,'протягом періоду або періодів часу' is redundant and needlessly opaque.
+SB-1770,P2,semantic-scope,"The definition is dense, clinical-only, and omits ordinary and economic senses carried by this word-family entry."
+SB-1784,P2,semantic-scope,"The definition narrows undergo to experiences or a phase and does not cover processes, treatment, or change generally."
