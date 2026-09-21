@@ -19,7 +19,7 @@ SB-0073,applicable,adj.,floor,A,,,true
 SB-0081,arm,v.,reconciled,A,definitionUa,Забезпечувати когось зброєю або готувати до збройної дії.,false
 SB-0084,ash,n.,reconciled,A,definitionUa,Твердий порошкоподібний залишок після згоряння речовини.,false
 SB-0087,assassination,n.,reconciled,A,ua,політичне або замовне вбивство,false
-SB-0088,assault,"n., v.",reconciled,A,both,Фізична або словесна атака; також нападати на когось чи щось.,false
+SB-0088,assault,"n., v.",reconciled,A,both,ua: напад; нападати | definitionUa: Фізична або словесна атака; також нападати на когось чи щось.,false
 SB-0092,assertion,n.,reconciled,A,definitionUa,Упевнене й чітке твердження або заява.,false
 SB-0099,attribute,"v., n.",reconciled,A,both,ua: ознака; приписувати | definitionUa: Характерна риса; також вважати щось наслідком чи твором певної особи або причини.,false
 SB-0114,barrel,n.,reconciled,A,definitionUa,"Циліндрична посудина, довша, ніж ширша, опукла посередині й складена з клепок, стягнутих обручами.",false
