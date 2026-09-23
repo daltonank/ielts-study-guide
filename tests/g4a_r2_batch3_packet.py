@@ -26,8 +26,6 @@ FROZEN_FIELDS = (
 COLUMNS = ("id", "batch", *FROZEN_FIELDS)
 FROZEN_PATHS = (
     INVENTORY,
-    "docs/G4A_R2_PROPOSAL_REVIEW_LOG.md",
-    SUPPLEMENTAL,
     "docs/G4A_R2_RECON_CHUNK1.csv",
     "docs/G4A_R2_RECON_CHUNK2.csv",
     "docs/G4A_R2_RECON_CHUNK3.csv",
@@ -101,11 +99,11 @@ def validate_packet(expected: bytes) -> None:
 def validate_supplemental() -> None:
     _, rows = read_csv((ROOT / SUPPLEMENTAL).read_bytes(), SUPPLEMENTAL)
     ids = [row["id"] for row in rows]
-    if len(rows) != 20 or len(set(ids)) != 20:
-        raise ValueError("supplemental proposals must retain 20 unique accepted rows")
+    if len(rows) != 31 or len(set(ids)) != 31:
+        raise ValueError("supplemental proposals must contain 31 unique accepted rows")
     _, gaps = read_csv((ROOT / INVENTORY).read_bytes(), INVENTORY)
-    if set(ids) != {row["id"] for row in gaps} - set(IDS):
-        raise ValueError("supplemental proposals must cover only Batches 1 and 2")
+    if set(ids) != {row["id"] for row in gaps}:
+        raise ValueError("supplemental proposals must cover all gap rows")
 
 
 def main() -> int:

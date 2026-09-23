@@ -45,14 +45,53 @@ BATCH_SIZES = {1: 10, 2: 10, 3: 11}
 COLS = [
     "id", "batch", "word", "pos", "ua", "definitionUa",
     "category", "existing_rationale",
-    "evidence_quote", "proposed_target", "proposed_value",
+    "evidence_quote", "proposed_ua", "proposed_definitionUa",
     "rationale", "confidence", "answer_kind",
 ]
+LEGACY_COLS = ["id", "evidence_quote", "proposed_target", "proposed_value",
+               "rationale", "confidence"]
 
 
 def read_csv(path: Path) -> list[dict]:
     with path.open(encoding="utf-8", newline="") as fh:
-        return list(csv.DictReader(fh))
+        reader = csv.DictReader(fh)
+        if not reader.fieldnames or len(reader.fieldnames) != len(set(reader.fieldnames)):
+            sys.exit(f"FAIL: {path}: missing or duplicate CSV header")
+        rows = list(reader)
+        if any(None in row or any(value is None for value in row.values()) for row in rows):
+            sys.exit(f"FAIL: {path}: malformed CSV row")
+        return rows
+
+
+def normalize_authored(row: dict, batch: int, gap: dict) -> dict:
+    """Map accepted legacy rows mechanically; Batch 3 uses the native schema."""
+    sid = row["id"]
+    if batch in (1, 2):
+        if set(row) != set(LEGACY_COLS):
+            sys.exit(f"FAIL: {sid}: legacy batch has unexpected columns")
+        target, value = row["proposed_target"].strip(), row["proposed_value"].strip()
+        if target == "both":
+            sys.exit(f"FAIL: {sid}: ambiguous legacy proposed_target='both'")
+        if target not in ("", "ua", "definitionUa") or bool(target) != bool(value):
+            sys.exit(f"FAIL: {sid}: invalid legacy target/value pair")
+        return {
+            "evidence_quote": row["evidence_quote"],
+            "proposed_ua": value if target == "ua" else "",
+            "proposed_definitionUa": value if target == "definitionUa" else "",
+            "rationale": row["rationale"], "confidence": row["confidence"],
+            "answer_kind": "correction" if target else "no-change",
+        }
+
+    if set(row) != set(COLS):
+        sys.exit(f"FAIL: {sid}: Batch 3 must use the explicit proposal columns")
+    if row["batch"] != str(batch):
+        sys.exit(f"FAIL: {sid}: source batch {row['batch']!r}, expected {batch}")
+    for field in ("word", "pos", "ua", "definitionUa", "category", "existing_rationale"):
+        if row[field] != gap[field]:
+            sys.exit(f"FAIL: {sid}: source {field} differs from frozen gap roster")
+    return {field: row[field] for field in COLS if field not in
+            ("id", "batch", "word", "pos", "ua", "definitionUa", "category",
+             "existing_rationale")}
 
 
 def stable_key(sid: str) -> tuple[str, int, str]:
@@ -101,19 +140,7 @@ def main() -> int:
     rows = []
     for sid in sorted(authored, key=stable_key):
         g, a = gaps[sid], authored[sid]
-        target = (a.get("proposed_target") or "").strip()
-        value = (a.get("proposed_value") or "").strip()
-        # Single-field targets only: this artifact carries ONE proposed_value,
-        # so `both` cannot express different replacements for ua and
-        # definitionUa. Reject it at the builder so it never reaches the
-        # artifact; a genuine two-field case requires separate
-        # proposed_ua / proposed_definitionUa columns first.
-        if target == "both":
-            sys.exit(f"FAIL: {sid} uses proposed_target='both', which is not "
-                     "representable under the current single-value schema. "
-                     "Target one field, or extend the schema first.")
-        # A no-change answer rebuts the recorded claim instead of correcting it.
-        kind = "correction" if (target and value) else "no-change"
+        proposal = normalize_authored(a, assignment[sid], g)
         rows.append({
             "id": sid,
             "batch": assignment[sid],
@@ -121,12 +148,7 @@ def main() -> int:
             "ua": g["ua"], "definitionUa": g["definitionUa"],
             "category": g["category"],
             "existing_rationale": g["existing_rationale"],
-            "evidence_quote": a["evidence_quote"],
-            "proposed_target": target,
-            "proposed_value": value,
-            "rationale": a["rationale"],
-            "confidence": a["confidence"],
-            "answer_kind": kind,
+            **proposal,
         })
 
     buf = io.StringIO(newline="")

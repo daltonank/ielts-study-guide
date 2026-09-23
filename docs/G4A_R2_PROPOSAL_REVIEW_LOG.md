@@ -100,9 +100,31 @@ folded into any correction:
   academic usage, whereas a bachelor's is an `освітній ступінь`, so the frozen
   definition is arguably imprecise on its own terms.
 
-## Status
+## Status after Batch 2
 
 20 of 31 authored (batches 1–2), 20 corrections, 0 no-change, confidence
 11 high / 9 medium. Batch 3 (11 rows) pending under the same cadence.
 
 Gate unchanged: `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.
+
+## Batch 3 — 11 accepted corrections
+
+ChatGPT semantically adjudicated the 11 Batch-3 rows against the frozen input
+packet. There were 11 accepted corrections and 0 no-change answers. No Batch-3
+first-pass artifact was created. The accepted rows are in
+`docs/batches/G4A_R2_PROPOSAL_BATCH3.csv`.
+
+Dalton approved the explicit `proposed_ua` and `proposed_definitionUa` schema
+because SB-1590 is a genuine two-field correction. The combined supplemental
+artifact now carries those two nullable columns. The builder mechanically maps
+the accepted legacy Batch-1 and Batch-2 target/value pairs into them. Their
+proposal values, rationales, evidence quotes, confidence values, and answer
+kinds retain the accepted semantics; their source CSVs were not rewritten.
+
+Review kept each Batch-3 correction within its recorded defect. Possible
+improvements outside those defects were intentionally left out of the accepted
+proposals. No learner-facing vocabulary was changed.
+
+The combined artifact now has 31 of 31 authored rows: Batch 1 = 10, Batch 2 =
+10, Batch 3 = 11; 31 corrections, 0 no-change. SB-1590 is its only two-field
+row. Gate unchanged: `G4 technical PASS · G4-A CHANGES REQUESTED · G5 BLOCKED`.

@@ -13,10 +13,10 @@ Fails closed on any of:
     definitionUa;
   * a correction is not SUBSTANTIVE -- empty, identical to the frozen value, or
     differing from it only in whitespace;
-  * a correction targets a field it does not change;
+  * each populated proposal field changes its corresponding frozen field;
   * a no-change answer carries a proposed value, or fails to rebut the recorded
     claim;
-  * two rows share a rationale verbatim (the generic-boilerplate tell);
+  * two rows share a rationale after whitespace and case normalization;
   * rationale is too short, or confidence is outside {high, medium, low};
   * when all three batches are present, coverage is not exactly 31/31.
 
@@ -39,6 +39,7 @@ DOCS = ROOT / "docs"
 
 CANONICAL_HEAD = "39d6f918c7087d3616acc9654eecfaf5219aefc4"
 EXPECTED_VOCAB_BLOB = "1c184e84e5c63e3a9f8e386af13787664a23bd66"
+EXPECTED_FLOOR_BLOB = "7f34785e379ac76ee5341d4f65f33b123d57bc43"
 
 FROZEN_PATHS = [
     "web/vocabulary.js",
@@ -46,7 +47,10 @@ FROZEN_PATHS = [
     "docs/G4A_R2_RECON_CHUNK1.csv",
     "docs/G4A_R2_RECON_CHUNK2.csv",
     "docs/G4A_R2_RECON_CHUNK3.csv",
+    "docs/G4A_R2_RECON_CONSENSUS_CLEAN.csv",
     "docs/G4A_R2_RECON_ROSTER.csv",
+    "docs/G4A_R2_RECON_SUMMARY.md",
+    "docs/G4A_R2_SEED_20260914_REVIEW.csv",
 ]
 
 ARTIFACT = DOCS / "G4A_R2_SUPPLEMENTAL_PROPOSALS.csv"
@@ -55,16 +59,9 @@ BATCH_DIR = DOCS / "batches"
 
 EXPECTED_GAPS = 31
 BATCH_SIZES = {1: 10, 2: 10, 3: 11}
-# Single-field targets only. The artifact carries ONE proposed_value, so a
-# `both` target cannot unambiguously express a two-field correction where `ua`
-# and `definitionUa` need DIFFERENT replacement values -- one string would have
-# to stand for two different corrections, and validating it by comparing the
-# same string against both frozen fields is meaningless. `both` is therefore
-# rejected outright. If a genuine two-field case arises, extend the schema to
-# separate proposed_ua / proposed_definitionUa columns FIRST; never stuff two
-# replacements into one string.
-TARGETS = {"ua", "definitionUa"}
-REJECTED_TARGETS = {"both"}
+COLS = ["id", "batch", "word", "pos", "ua", "definitionUa", "category",
+        "existing_rationale", "evidence_quote", "proposed_ua",
+        "proposed_definitionUa", "rationale", "confidence", "answer_kind"]
 CONFIDENCE = {"high", "medium", "low"}
 REBUTTAL_CUES = ["not ", "no ", "does not", "already", "in fact", "actually",
                  "claim", "hold", "unfounded", "incorrect", "rebut", "refut",
@@ -79,7 +76,13 @@ def err(msg: str) -> None:
 
 def read_csv(path: Path) -> list[dict]:
     with path.open(encoding="utf-8", newline="") as fh:
-        return list(csv.DictReader(fh))
+        reader = csv.DictReader(fh)
+        if reader.fieldnames != COLS and path == ARTIFACT:
+            err("combined artifact header does not use explicit proposal columns")
+        rows = list(reader)
+        if any(None in row or any(value is None for value in row.values()) for row in rows):
+            err(f"{path.name}: malformed CSV row")
+        return rows
 
 
 def git_blob(rev: str, path: str) -> str:
@@ -101,10 +104,17 @@ def check_frozen() -> None:
         head, canon = git_blob("HEAD", path), git_blob(CANONICAL_HEAD, path)
         if not canon:
             err(f"{path}: missing at canonical head")
-        elif head != canon:
-            err(f"{path}: drifted from canonical head ({head[:8]} != {canon[:8]})")
+        elif head != canon or git_blob_worktree(path) != canon:
+            err(f"{path}: drifted from canonical head")
     if git_blob("HEAD", "web/vocabulary.js") != EXPECTED_VOCAB_BLOB:
         err("learner web/vocabulary.js blob changed")
+    if git_blob("HEAD", "docs/G4A_RESIDUAL_AUDIT_R2_INTAKE.csv") != EXPECTED_FLOOR_BLOB:
+        err("accepted 88-row floor blob changed")
+
+
+def git_blob_worktree(path: str) -> str:
+    return subprocess.run(["git", "hash-object", path], cwd=ROOT,
+                          capture_output=True, text=True).stdout.strip()
 
 
 def check_reproducible() -> None:
@@ -161,9 +171,9 @@ def main() -> int:
             continue
         g = gaps[sid]
 
-        if int(row["batch"]) != assignment[sid]:
+        if row["batch"] != str(assignment[sid]):
             err(f"{sid}: batch {row['batch']}, expected {assignment[sid]}")
-        for field in ("word", "pos", "ua", "definitionUa", "category"):
+        for field in ("word", "pos", "ua", "definitionUa", "category", "existing_rationale"):
             if row[field] != g[field]:
                 err(f"{sid}: {field} disagrees with the frozen gap roster")
 
@@ -174,40 +184,27 @@ def main() -> int:
         rationale = (row["rationale"] or "").strip()
         if len(rationale) < 25:
             err(f"{sid}: rationale too short")
-        if rationale in rationales:
-            err(f"{sid}: rationale is verbatim identical to {rationales[rationale]}")
+        rationale_key = norm(rationale).casefold()
+        if rationale_key in rationales:
+            err(f"{sid}: rationale duplicates {rationales[rationale_key]}")
         else:
-            rationales[rationale] = sid
+            rationales[rationale_key] = sid
 
         if row["confidence"] not in CONFIDENCE:
             err(f"{sid}: confidence {row['confidence']!r} invalid")
 
-        target = (row["proposed_target"] or "").strip()
-        value = (row["proposed_value"] or "").strip()
+        proposals = {"ua": (row["proposed_ua"] or "").strip(),
+                     "definitionUa": (row["proposed_definitionUa"] or "").strip()}
         kind = row["answer_kind"]
 
         if kind == "correction":
-            if not value:
+            if not any(proposals.values()):
                 err(f"{sid}: correction carries no proposed value")
-                continue
-            if target in REJECTED_TARGETS:
-                err(f"{sid}: proposed_target {target!r} is not representable -- the "
-                    "artifact carries one proposed_value, so it cannot express "
-                    "different replacements for ua and definitionUa. Target a "
-                    "single field, or extend the schema to separate "
-                    "proposed_ua / proposed_definitionUa columns first.")
-                continue
-            if target not in TARGETS:
-                err(f"{sid}: proposed_target {target!r} invalid")
-                continue
-            # A correction must actually change the single field it names.
-            frozen = g[target]
-            if value == frozen:
-                err(f"{sid}: proposal is identical to the frozen {target}")
-            elif norm(value) == norm(frozen):
-                err(f"{sid}: proposal differs from frozen {target} only in whitespace")
+            for field, value in proposals.items():
+                if value and norm(value) == norm(g[field]):
+                    err(f"{sid}: proposal for {field} does not substantively change frozen text")
         elif kind == "no-change":
-            if value or target:
+            if any(proposals.values()):
                 err(f"{sid}: no-change answer carries a proposal")
             low = rationale.lower()
             if not any(cue in low for cue in REBUTTAL_CUES):
@@ -221,9 +218,15 @@ def main() -> int:
     if complete and seen != set(gaps):
         err(f"full coverage required but {len(set(gaps) - seen)} gap ids unauthored")
     for batch in present:
-        got = sum(1 for r in rows if int(r["batch"]) == batch)
+        got = sum(1 for r in rows if r["batch"] == str(batch))
         if got != BATCH_SIZES[batch]:
             err(f"batch {batch}: {got} rows, expected {BATCH_SIZES[batch]}")
+    if complete:
+        two_field = [r["id"] for r in rows if r["proposed_ua"] and r["proposed_definitionUa"]]
+        if two_field != ["SB-1590"]:
+            err(f"two-field rows {two_field}, expected only SB-1590")
+        if sum(r["answer_kind"] == "correction" for r in rows) != 31:
+            err("complete artifact must contain 31 corrections")
 
     print(f"batches present: {present}")
     print(f"rows authored  : {len(seen)} / {EXPECTED_GAPS}")
