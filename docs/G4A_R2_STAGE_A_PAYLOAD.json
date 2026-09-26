@@ -1,0 +1,1799 @@
+{
+  "_meta": {
+    "ticket": "G4A-CX-07",
+    "stage": "A",
+    "source_manifest_commit": "54daff49e05452eac3fef54e58a42c8719c673e5",
+    "source_manifest_sha256": "99aeb25b16e697fd3cbe42349a09d7bda80e50079ac5e6c5507f960f4b2c187a",
+    "expected_input_learner_git_blob": "1c184e84e5c63e3a9f8e386af13787664a23bd66",
+    "expected_output_learner_git_blob": "d3153cdb71f4768a04bed883953ea788a38e0aaf",
+    "row_count": 250,
+    "effective_ua_count": 38,
+    "effective_definitionUa_count": 246
+  },
+  "rows": [
+    {
+      "id": "SB-0009",
+      "current_pair_sha256": "5604bc386fa829d9462ec2cb2639d7f3b4a2487d609984eb761b32bc524f6fbe",
+      "changes": {
+        "definitionUa": "Змусити рухатися швидше; збільшити швидкість."
+      }
+    },
+    {
+      "id": "SB-0014",
+      "current_pair_sha256": "2c549c8fc01b381210bdba95c4a1842805dc72ffb5ed9002a1ee8f90bb8e888d",
+      "changes": {
+        "definitionUa": "Відповідним чином; отже; таким чином."
+      }
+    },
+    {
+      "id": "SB-0015",
+      "current_pair_sha256": "2a4b9624b808e5c8469a75b50d8429ec944be7086d1039db35e4730064a829b3",
+      "changes": {
+        "definitionUa": "Обов’язок пояснювати свої дії та нести за них відповідальність."
+      }
+    },
+    {
+      "id": "SB-0024",
+      "current_pair_sha256": "736aa6b187184946c2498e802eb9af1669cd7240d84fe65666c6c05431f2ad0d",
+      "changes": {
+        "definitionUa": "Процес приведення в активний стан; уведення в дію."
+      }
+    },
+    {
+      "id": "SB-0039",
+      "current_pair_sha256": "86ae8789b3e3d0c6c57b32c1bb9efd96d173799ac846e31ce3fc662e05d6ccd4",
+      "changes": {
+        "definitionUa": "Пов’язаний із красою, мистецтвом або привабливим зовнішнім виглядом."
+      }
+    },
+    {
+      "id": "SB-0043",
+      "current_pair_sha256": "57e4ea57318045c0a20151471edc854a7edd2c2eb7be7cc9eff7f2608b2b9384",
+      "changes": {
+        "definitionUa": "Такий, що стосується сільського господарства або пов'язаний із ним."
+      }
+    },
+    {
+      "id": "SB-0047",
+      "current_pair_sha256": "29616cd5a0ee159a8afc7ed3a14c2597afeb56380e836836066ac973238af423",
+      "changes": {
+        "definitionUa": "Такий, що належить іншій країні або є чужим для певного середовища."
+      }
+    },
+    {
+      "id": "SB-0048",
+      "current_pair_sha256": "55bb41039e678d38b676aa9fb82116252db88af3ad78a54b1b8a5af674f1a4dc",
+      "changes": {
+        "ua": "вирівнювати; узгоджувати",
+        "definitionUa": "Розташовувати по прямій лінії або приводити у відповідність."
+      }
+    },
+    {
+      "id": "SB-0055",
+      "current_pair_sha256": "433bea9e9c2b7ec433069304f62f51838a2ae0030a90c501b53ccb1296714570",
+      "changes": {
+        "definitionUa": "Призначати або виділяти щось для певної мети."
+      }
+    },
+    {
+      "id": "SB-0058",
+      "current_pair_sha256": "69f68a66fa5c765da3a832977458b3fba1f6731555018e9af541206de0b0c4f9",
+      "changes": {
+        "definitionUa": "Той, хто співпрацює з іншим або допомагає йому; спільник, союзник."
+      }
+    },
+    {
+      "id": "SB-0060",
+      "current_pair_sha256": "72cbadb2df9934c8214fbfdc196bdb50c4fd7231ffb306647a37424d46e96091",
+      "changes": {
+        "ua": "аматор; аматорський",
+        "definitionUa": "Людина, яка займається чимось не професійно; також такий, що стосується непрофесійної діяльності."
+      }
+    },
+    {
+      "id": "SB-0061",
+      "current_pair_sha256": "79d6b9f75778995cf04a7fc7cd9cf8bcfc150de2df39d056f737369924e495de",
+      "changes": {
+        "definitionUa": "Дипломат найвищого рангу, посланий до іноземного двору, щоб представляти там свого суверена або країну."
+      }
+    },
+    {
+      "id": "SB-0063",
+      "current_pair_sha256": "908f7cc103429126c72a24d8fe0438623b1ddaaf53cc7dc4e6bf9e1daa251d6c",
+      "changes": {
+        "definitionUa": "Зміна або доповнення до документа, закону чи угоди, зокрема до конституції."
+      }
+    },
+    {
+      "id": "SB-0067",
+      "current_pair_sha256": "ff52a1b3b13116dd743881b99e61dc72de2674e81da6d878907c6cf2e4ea8bed",
+      "changes": {
+        "definitionUa": "Безтілесний святий або напівбожественний посланець божества чи іншої божественної сутності, якого традиційно зображують молодою крилатою постаттю у просторих шатах, що розвіваються."
+      }
+    },
+    {
+      "id": "SB-0069",
+      "current_pair_sha256": "9fabd653238455f7ac69db41a74ae1d3379ca3dbd96d30615ed93522ad52c097",
+      "changes": {
+        "definitionUa": "Набір обладнання або засобів, потрібних для виконання певного завдання."
+      }
+    },
+    {
+      "id": "SB-0070",
+      "current_pair_sha256": "bfeb3d93b554ea9d10ebf90edb4acc0f6f87426c583c66793524a4354a7dc085",
+      "changes": {
+        "definitionUa": "Привабливий; такий, що викликає інтерес або симпатію."
+      }
+    },
+    {
+      "id": "SB-0073",
+      "current_pair_sha256": "23a871ec063b531027df6116355b5bae2e9132c3b5c8cd891ee9e7edd7e2edd6",
+      "changes": {
+        "definitionUa": "Підходить для застосування, актуальний."
+      }
+    },
+    {
+      "id": "SB-0081",
+      "current_pair_sha256": "fed4110fba1f74b564a940e95f77d96a45a3607559db50ce3f19d6a8b66913b5",
+      "changes": {
+        "definitionUa": "Забезпечувати когось зброєю або готувати до збройної дії."
+      }
+    },
+    {
+      "id": "SB-0084",
+      "current_pair_sha256": "dff945364af2d3594b261918b3370598233bf8a6d1780bc21f84967f4aa31966",
+      "changes": {
+        "definitionUa": "Твердий порошкоподібний залишок після згоряння речовини."
+      }
+    },
+    {
+      "id": "SB-0087",
+      "current_pair_sha256": "e15d642e5c238b1437038bddad4097af0a28a722a91eee9a2f44bb93ebc3d39b",
+      "changes": {
+        "ua": "політичне або замовне вбивство"
+      }
+    },
+    {
+      "id": "SB-0088",
+      "current_pair_sha256": "23ef741b0e2cc5aa066d85c1d48b8ddbb239130bd405ecf0bc181e1b10b1cf4b",
+      "changes": {
+        "ua": "напад; нападати",
+        "definitionUa": "Фізична або словесна атака; також нападати на когось чи щось."
+      }
+    },
+    {
+      "id": "SB-0092",
+      "current_pair_sha256": "0ed4ad4cf3256aee013620419d28e1f31c848d4554741bce5fae754b825c55bc",
+      "changes": {
+        "definitionUa": "Упевнене й чітке твердження або заява."
+      }
+    },
+    {
+      "id": "SB-0099",
+      "current_pair_sha256": "7f52361297b753326ec9713a3be305236aa4b109df1de7b6929ad44324f1ce80",
+      "changes": {
+        "ua": "ознака; приписувати",
+        "definitionUa": "Характерна риса; також вважати щось наслідком чи твором певної особи або причини."
+      }
+    },
+    {
+      "id": "SB-0114",
+      "current_pair_sha256": "a19a4f803b88e62bd45f9009293bb194ff687d99bf722a7338fa35543cf08e08",
+      "changes": {
+        "definitionUa": "Циліндрична посудина, довша, ніж ширша, опукла посередині й складена з клепок, стягнутих обручами."
+      }
+    },
+    {
+      "id": "SB-0118",
+      "current_pair_sha256": "8add59dbee33e78fd6ef8d29c38c1d4583ee0e96a6e384f2154d70d84324190f",
+      "changes": {
+        "definitionUa": "Частина моря чи озера, що вдається в суходіл і частково оточена берегом."
+      }
+    },
+    {
+      "id": "SB-0122",
+      "current_pair_sha256": "e95b0f68dcf6a122621eb3ee993f111ce2fc1a346ceeee189f5a08a3d33e27ce",
+      "changes": {
+        "definitionUa": "Дуже дорогий або коханий."
+      }
+    },
+    {
+      "id": "SB-0129",
+      "current_pair_sha256": "52f19e19a4dc4360dc0222f409099c2ba892ae88776f4006fe30c2f2b3972dd5",
+      "changes": {
+        "definitionUa": "Опис життя людини, написаний іншою особою."
+      }
+    },
+    {
+      "id": "SB-0134",
+      "current_pair_sha256": "05d137ffbe9da5e102c19038acfeb08d53e4157d4a44f3d9382096a8ff301017",
+      "changes": {
+        "definitionUa": "Втрачати кров через ушкодження кровоносної судини."
+      }
+    },
+    {
+      "id": "SB-0142",
+      "current_pair_sha256": "f35ef274dbebb16630f82acdf65cc6c9fde9da0de928c75d04c5ea96a3fd2918",
+      "changes": {
+        "definitionUa": "Лінія поділу між двома областями; межа."
+      }
+    },
+    {
+      "id": "SB-0152",
+      "current_pair_sha256": "208a75dfa41719995f44057557aa688317305b25b177ff5a78b32e89a2c3ab18",
+      "changes": {
+        "definitionUa": "Друг або приятель, з яким мають близькі чи невимушені стосунки."
+      }
+    },
+    {
+      "id": "SB-0156",
+      "current_pair_sha256": "feb990bb9b240cfa756a44d1dd21b3c17198972f26d2abd8be9651a55bd5cb74",
+      "changes": {
+        "definitionUa": "Система управління, у якій важливу роль відіграють численні установи, правила й посадовці."
+      }
+    },
+    {
+      "id": "SB-0158",
+      "current_pair_sha256": "8af74610b45cb3eb0f1e23628b3412d08a19c78a8e623b5d1eb287b691c63ede",
+      "changes": {
+        "definitionUa": "Раптово розірватися або лопнути під внутрішнім тиском."
+      }
+    },
+    {
+      "id": "SB-0172",
+      "current_pair_sha256": "fefb74fb54e032e00491f3de276610736532ba4a400f5a09b400e3864dcb57f2",
+      "changes": {
+        "definitionUa": "Свійські тварини виду Bos taurus, зокрема корови, бики й воли."
+      }
+    },
+    {
+      "id": "SB-0188",
+      "current_pair_sha256": "c9048547cfedaabc3ef36672b5d118efcc2a72681b8f48b131dd41daedf3c08b",
+      "changes": {
+        "ua": "цивільна особа; цивільний",
+        "definitionUa": "Людина, яка не є військовослужбовцем; також пов’язаний із цивільним життям."
+      }
+    },
+    {
+      "id": "SB-0191",
+      "current_pair_sha256": "1ecb9c37eaa56114e1052cb8f89d1ba9a66780b4cd362aef90a1bc3b0faa24af",
+      "changes": {
+        "definitionUa": "Акт розподілу на класи; поділ на групи (класи, порядки, родини тощо) за спільними ознаками або атрибутами."
+      }
+    },
+    {
+      "id": "SB-0199",
+      "current_pair_sha256": "62cb0693bacee631001d5de31fcf00b3b09982b3d4017efe73d6f4d4126ce654",
+      "changes": {
+        "definitionUa": "Пов’язаний із пізнанням, мисленням, пам’яттю та іншими розумовими процесами."
+      }
+    },
+    {
+      "id": "SB-0205",
+      "current_pair_sha256": "6a5da69d9af4170837492934bc1abcd98b6a8baa93bc9399e52b8581448e29d0",
+      "changes": {
+        "definitionUa": "Такий, що стосується колонії або колоніалізму."
+      }
+    },
+    {
+      "id": "SB-0215",
+      "current_pair_sha256": "1764125d8fc30c96ea24c913e6c426f83ba9e865e6d38f73b3e5f7fb86f23507",
+      "changes": {
+        "definitionUa": "Людина, з якою проводять час або яка супроводжує когось; товариш чи партнер."
+      }
+    },
+    {
+      "id": "SB-0217",
+      "current_pair_sha256": "78ab563eafbae7782732abca49ebe18f3a78011d2afeb7ace306a7007dffd773",
+      "changes": {
+        "definitionUa": "Глибоке співчуття до чужих страждань, що спонукає допомогти."
+      }
+    },
+    {
+      "id": "SB-0257",
+      "current_pair_sha256": "0b5c241729cb89fae89ec6529e198b3ad5daf3a615c9743af3c13ed4c09adce2",
+      "changes": {
+        "definitionUa": "Об’єднувати окремі частини в єдине ціле; зміцнювати досягнуте."
+      }
+    },
+    {
+      "id": "SB-0271",
+      "current_pair_sha256": "64257d00c654c6c292c76cced65eac81f5f15184b44d9e195bf23e5741dca356",
+      "changes": {
+        "definitionUa": "Особа або компанія, що за договором виконує роботи чи надає послуги."
+      }
+    },
+    {
+      "id": "SB-0276",
+      "current_pair_sha256": "10df89cbc0e80050e7a74e63721025fba8df27a541eba0c68e9e3409818a24d9",
+      "changes": {
+        "definitionUa": "Офіційно визнати особу винною за рішенням суду."
+      }
+    },
+    {
+      "id": "SB-0285",
+      "current_pair_sha256": "4f4f3384b048898e85d21085a63a72dac009494f449805197a14426dc92de9b0",
+      "changes": {
+        "definitionUa": "Закріплене законом виключне право автора визначати, хто може відтворювати, публікувати й поширювати твір."
+      }
+    },
+    {
+      "id": "SB-0290",
+      "current_pair_sha256": "5b7054d58e8e94e6f8e0778fb81cfba3f8c04b9eac9f5deddcfd14901c4973de",
+      "changes": {
+        "definitionUa": "Обмін листами або іншими письмовими повідомленнями."
+      }
+    },
+    {
+      "id": "SB-0295",
+      "current_pair_sha256": "87dbec5b7e250e23ceb9dc9fc864ca6f2c77747389db852d933cacd627813a9b",
+      "changes": {
+        "definitionUa": "Такий, що коштує дорого; дорогий."
+      }
+    },
+    {
+      "id": "SB-0306",
+      "current_pair_sha256": "e72c999b70ff170474b65e107d8df68aafe41e37b47d279dda4f26921de29fd0",
+      "changes": {
+        "definitionUa": "Той або те, що щось створює чи виготовляє."
+      }
+    },
+    {
+      "id": "SB-0313",
+      "current_pair_sha256": "9150ad66bc983fd739eee494fcc4eed3bd26e538c7103f68a2651412c8f61e10",
+      "changes": {
+        "definitionUa": "Сильно стискати або розчавлювати щось так, що воно деформується чи руйнується."
+      }
+    },
+    {
+      "id": "SB-0328",
+      "current_pair_sha256": "9aea7cc764a7b791ba14fff97025ec997e87fb629ac1d3b690f7cac9c7a45372",
+      "changes": {
+        "definitionUa": "Емфатичний або формальний акт висловлювання, розповіді або ствердження чогось, усний або письмовий; рішуче твердження чи проголошення."
+      }
+    },
+    {
+      "id": "SB-0337",
+      "current_pair_sha256": "ab1efddba656f7cfacf6cb1f938022f85110382467ff4297565cf575257a284c",
+      "changes": {
+        "definitionUa": "Нестача коштів або сума, на яку витрати перевищують доходи."
+      }
+    },
+    {
+      "id": "SB-0352",
+      "current_pair_sha256": "0122eb5adc5fb8f20d8dd9f344a7e8747429e2cb8259538d298e5df6f6d0152d",
+      "changes": {
+        "definitionUa": "Позбавляти когось чогось або не давати йому того, що він має чи потребує."
+      }
+    },
+    {
+      "id": "SB-0353",
+      "current_pair_sha256": "eca0ee5092bb58129b4fd3d95df16254373671a1bf6345c2ea718827908488e6",
+      "changes": {
+        "definitionUa": "Особа, призначена діяти замість іншої або допомагати посадовцеві як його заступник."
+      }
+    },
+    {
+      "id": "SB-0360",
+      "current_pair_sha256": "692d2a44ebb2a96f299fc2aab8171660c0c629537754d61d8d287087dd93ee0e",
+      "changes": {
+        "definitionUa": "Не дозволяти комусь піти або тимчасово тримати під вартою."
+      }
+    },
+    {
+      "id": "SB-0363",
+      "current_pair_sha256": "b5580fc09243ec0c2ee9eee5a6921696e71e2e9311b48ba662d4da891385789a",
+      "changes": {
+        "definitionUa": "Ставати гіршим за якістю; погіршуватися; вироджуватися."
+      }
+    },
+    {
+      "id": "SB-0371",
+      "current_pair_sha256": "2c1adc7db2cb26d833c9351f49d59a72e2922b5c35bfe8bf590cf630adcacc32",
+      "changes": {
+        "definitionUa": "Показувати відмінність між речами або встановлювати її; розрізняти."
+      }
+    },
+    {
+      "id": "SB-0385",
+      "current_pair_sha256": "e9a42519b9bb49123de93842c3270855a4376ead349e5facbf68513e671869c3",
+      "changes": {
+        "definitionUa": "Усне або письмове висловлення думок; зв’язна мова чи обговорення певної теми."
+      }
+    },
+    {
+      "id": "SB-0428",
+      "current_pair_sha256": "f30b8a641c9f47d0c63e5fc2159b80b566a667015b10686764220d7bd7e3e44c",
+      "changes": {
+        "definitionUa": "Такий, що стосується виборів, або пов'язаний із ними."
+      }
+    },
+    {
+      "id": "SB-0430",
+      "current_pair_sha256": "b8c4bed30957bdb7dc7a4f8fc47187ec61ccd2f8440763730061780e5eedae6b",
+      "changes": {
+        "ua": "той, хто має право; придатний",
+        "definitionUa": "Такий, що відповідає вимогам і тому має право брати участь або бути обраним."
+      }
+    },
+    {
+      "id": "SB-0435",
+      "current_pair_sha256": "5144e4865fa06ca6ea6628e7153e6ff8bd4f2ac64ee6582b005e1476406703ec",
+      "changes": {
+        "definitionUa": "Вставляти один об’єкт, файл або фрагмент даних в інший."
+      }
+    },
+    {
+      "id": "SB-0437",
+      "current_pair_sha256": "a45906cac57edb00a7862411d5c0507ef4d3691d9c784748c46dc7dd9fade44b",
+      "changes": {
+        "definitionUa": "Процес появи, виникнення або виходу з прихованого стану."
+      }
+    },
+    {
+      "id": "SB-0441",
+      "current_pair_sha256": "63e754c51575d5a453609d086187e5a59ec26c75ecbae107b51766d624536c60",
+      "changes": {
+        "definitionUa": "Охоплювати, включати до свого складу або оточувати."
+      }
+    },
+    {
+      "id": "SB-0446",
+      "current_pair_sha256": "54d146b60d359889f972993dae453f30ce08a61918e85c825273dc39d83f7a22",
+      "changes": {
+        "definitionUa": "Публічно або офіційно висловлювати підтримку чи схвалення."
+      }
+    },
+    {
+      "id": "SB-0467",
+      "current_pair_sha256": "9b81dc72b1c84da9defec6e41b4b52e49863560ff9c36a96b29d429694081305",
+      "changes": {
+        "definitionUa": "Установа, заклад або підприємство, створені для сталої діяльності; також сам процес заснування."
+      }
+    },
+    {
+      "id": "SB-0471",
+      "current_pair_sha256": "9a4d853fdac013b6c1017a63248b29ba5e432f9e5907413eabf6da4ca6cf3150",
+      "changes": {
+        "definitionUa": "Пов’язаний з еволюцією або теорією еволюції."
+      }
+    },
+    {
+      "id": "SB-0474",
+      "current_pair_sha256": "a67df83062089775df1a4c066b4cc41ec084c8b3e7fd841e7b83ae584be43390",
+      "changes": {
+        "definitionUa": "Такий, що становить виняток; незвичайний; рідкісний."
+      }
+    },
+    {
+      "id": "SB-0475",
+      "current_pair_sha256": "5016e1ba0e7b01b80c4ed2b9a6fe44a23e0ce95bdd2bffea21b3869b64e18927",
+      "changes": {
+        "ua": "надлишок; надмірний",
+        "definitionUa": "Кількість понад необхідну норму; також більший, ніж потрібно або дозволено."
+      }
+    },
+    {
+      "id": "SB-0478",
+      "current_pair_sha256": "1af694a4daa6dcb19c022c83219db713326901833dfccec3234d68ee1eaca095",
+      "changes": {
+        "definitionUa": "Лише для когось або чогось, без залучення інших; винятково."
+      }
+    },
+    {
+      "id": "SB-0485",
+      "current_pair_sha256": "e3b87d36cfdd4bd8938a8f140c09b20029d1a8da80a6940f5069357daa206ecb",
+      "changes": {
+        "definitionUa": "Такий, що стосується експерименту або ґрунтується на ньому."
+      }
+    },
+    {
+      "id": "SB-0493",
+      "current_pair_sha256": "5a19a78b9f7f7dc84943a5b581de25df7c0707296e5f573ccd8a87c09cfb0a01",
+      "changes": {
+        "definitionUa": "Робити легшим; полегшувати."
+      }
+    },
+    {
+      "id": "SB-0494",
+      "current_pair_sha256": "7511f3f2de569e0ec31b75ba9f563b761a64740ad1acf90f3b4a3aac701d3810",
+      "changes": {
+        "definitionUa": "Група всередині більшої організації, члени якої мають спільні погляди, відмінні від поглядів інших членів."
+      }
+    },
+    {
+      "id": "SB-0498",
+      "current_pair_sha256": "b0a16c5b3eff9bc2e341b3d293bf2fc59e5471b8d55c6a106059b0010794d6ba",
+      "changes": {
+        "definitionUa": "Такий, що спричиняє смерть або руйнування; смертельний, згубний."
+      }
+    },
+    {
+      "id": "SB-0500",
+      "current_pair_sha256": "1ff5b7516f5fbb21af80e7cd7c6599e6ea94fe3649a52a82bb81f3f998479920",
+      "changes": {
+        "definitionUa": "Такий, що виражає схвалення або створює добрі умови для успіху."
+      }
+    },
+    {
+      "id": "SB-0516",
+      "current_pair_sha256": "3481787de618a464d1719915b85ea5df594576ce678a6838464bd8263d75c9aa",
+      "changes": {
+        "definitionUa": "Здатність бути гнучким, фізично чи метафорично."
+      }
+    },
+    {
+      "id": "SB-0518",
+      "current_pair_sha256": "11e03209b5637029631a85b2ea1cd9592996b23c7caa0a96be3dc64c94cb6c2f",
+      "changes": {
+        "ua": "рідина; текуча речовина",
+        "definitionUa": "Речовина, що може текти й набувати форми посудини, зокрема рідина або газ."
+      }
+    },
+    {
+      "id": "SB-0519",
+      "current_pair_sha256": "74cd0c1874adbebfe2de09655331f441a1873fe263498aa89f46fe131a500e00",
+      "changes": {
+        "definitionUa": "Відеоматеріал або кадри, записані для фільму, телебачення чи іншої мети."
+      }
+    },
+    {
+      "id": "SB-0539",
+      "current_pair_sha256": "efafeacc4022bb1abbe28fd85e4fffa5368128daa45e4ae0afeaaef270dbe1b2",
+      "changes": {
+        "ua": "пильний погляд; пильно дивитися",
+        "definitionUa": "Тривалий уважний погляд; також довго й уважно дивитися."
+      }
+    },
+    {
+      "id": "SB-0543",
+      "current_pair_sha256": "308d9b1c325aeaf158e219e9d7036e29fbaf94248621be35e956509255ea77be",
+      "changes": {
+        "ua": "швидкий погляд; швидко глянути",
+        "definitionUa": "Короткий погляд; також швидко подивитися на когось або щось."
+      }
+    },
+    {
+      "id": "SB-0545",
+      "current_pair_sha256": "c7cbf341947be5ba9bd3cabd11629acc740ba5573e8bbfe0419e5b5d97f6190e",
+      "changes": {
+        "definitionUa": "Такий, що заслуговує великої слави або викликає захоплення."
+      }
+    },
+    {
+      "id": "SB-0547",
+      "current_pair_sha256": "053df36d4a7a4074edbc6208060ce805df0c454d7d872db423ef7fe98cbf3d2d",
+      "changes": {
+        "definitionUa": "Система й процеси, за допомогою яких організацією або державою керують і контролюють її діяльність."
+      }
+    },
+    {
+      "id": "SB-0556",
+      "current_pair_sha256": "ad394d01d2204cc9f3e050f3842cecb8cba3e7df1e08050d719ba2b12974b2e5",
+      "changes": {
+        "definitionUa": "Перетворювати щось на дрібні частинки, розтираючи або розмелюючи його."
+      }
+    },
+    {
+      "id": "SB-0567",
+      "current_pair_sha256": "ec830c1fcea7320e078c3ea15bea021076a5ecdc9520089a3112d7a5e21cd0b5",
+      "changes": {
+        "definitionUa": "Спосіб поводження з предметом, ситуацією або питанням; керування чи оброблення."
+      }
+    },
+    {
+      "id": "SB-0571",
+      "current_pair_sha256": "36f26c69b7178a4afacd16f38ca297ddbdeece0b436e6d2b1edd0c23c0965dad",
+      "changes": {
+        "definitionUa": "Злагода або співзвуччя; погодженість."
+      }
+    },
+    {
+      "id": "SB-0573",
+      "current_pair_sha256": "538b231b2a643b9c5567a04822303dfb1f684678ca9e7454aa23438588e6adb9",
+      "changes": {
+        "ua": "урожай; збирати врожай",
+        "definitionUa": "Зібрані сільськогосподарські культури; також збирати їх після дозрівання."
+      }
+    },
+    {
+      "id": "SB-0581",
+      "current_pair_sha256": "271fb2bb7aedc3ed0af32fedbc7822653405ab10759abbf120218ac9f51a4c8d",
+      "changes": {
+        "ua": "натяк; натякати",
+        "definitionUa": "Непряма підказка; також давати зрозуміти щось без прямого твердження."
+      }
+    },
+    {
+      "id": "SB-0588",
+      "current_pair_sha256": "0c1d43487171819814ac79f750ac20b5ee6f65303c8f6f9251465e6371d86bcd",
+      "changes": {
+        "definitionUa": "Недружній або ворожий; такий, що виявляє злу волю чи бажання завдати шкоди."
+      }
+    },
+    {
+      "id": "SB-0599",
+      "current_pair_sha256": "155d7d9760e70426a83fa395cbf2924eb10297469f4bb1e964bafac17be959ab",
+      "changes": {
+        "ua": "образність; образи",
+        "definitionUa": "Виразні мовні образи й описи, що викликають чуттєві уявлення."
+      }
+    },
+    {
+      "id": "SB-0602",
+      "current_pair_sha256": "9c98c8d20fa27f1db35e5bf0aeed72b481007a8c1e5f924084b92047cb088918",
+      "changes": {
+        "definitionUa": "Процес практичного здійснення плану, ідеї, системи або рішення."
+      }
+    },
+    {
+      "id": "SB-0614",
+      "current_pair_sha256": "3a414f1a985ed8cbe393effb327c6e1c3e13926bb881752946f84fd49f6e32bc",
+      "changes": {
+        "definitionUa": "Корінний для певної країни чи регіону; такий, що походить звідти природно або історично."
+      }
+    },
+    {
+      "id": "SB-0634",
+      "current_pair_sha256": "d2688c2546885b50eb00e279b0d542909232bce2f327b1a4a87e50d40f43a18e",
+      "changes": {
+        "definitionUa": "Вплив або ідея, що спонукає до творчості, дії чи нового задуму."
+      }
+    },
+    {
+      "id": "SB-0636",
+      "current_pair_sha256": "189ae1d8080d946f3cdbcb8845bfe2ed0b78120b30dbf3c0b7eab3a58472fddc",
+      "changes": {
+        "definitionUa": "Пов’язаний з установою або характерний для неї."
+      }
+    },
+    {
+      "id": "SB-0639",
+      "current_pair_sha256": "1c7fc06f62ec9492cc16be5c2ce007786555cb270f1443432a06abebc429a63b",
+      "changes": {
+        "definitionUa": "Такий, якого замало для задоволення вимог або потреб."
+      }
+    },
+    {
+      "id": "SB-0647",
+      "current_pair_sha256": "6d5a633abf27666518ec375c082697643c6ddb8a38739651160a42ab3b16178c",
+      "changes": {
+        "definitionUa": "Розумна, освічена людина, особливо та, яка займається інтелектуальною працею."
+      }
+    },
+    {
+      "id": "SB-0651",
+      "current_pair_sha256": "c32eaf71b7a02cb720239047bf05edc44383849735d6c26df28fabc08dd75040",
+      "changes": {
+        "definitionUa": "Мета або задум зробити щось; свідоме прагнення досягти певного результату."
+      }
+    },
+    {
+      "id": "SB-0652",
+      "current_pair_sha256": "bc98b8b92208aa7ba222375c1c574fb7f5194c9b1ac07ecde0811cc88817f7df",
+      "changes": {
+        "definitionUa": "Такий, що передбачає взаємодію з користувачем."
+      }
+    },
+    {
+      "id": "SB-0658",
+      "current_pair_sha256": "ed18ae1ff85af7ed7b8962f88afcbeb5edf7d9aa074ea97676dcad3bad221b2a",
+      "changes": {
+        "definitionUa": "Розташований або такий, що перебуває між двома рівнями чи крайнощами."
+      }
+    },
+    {
+      "id": "SB-0659",
+      "current_pair_sha256": "b24e612663495d68fb92f3bfb6d42ba341546a9e70586b1bcd170aa2b7141cfb",
+      "changes": {
+        "definitionUa": "Втрутитися в ситуацію, щоб змінити або запобігти дії."
+      }
+    },
+    {
+      "id": "SB-0694",
+      "current_pair_sha256": "cec838f7ebdee0e62c34053b11e9bfe9b0709d430b75c08a04d44e7510bdc846",
+      "changes": {
+        "definitionUa": "Сукупність законів або процес їх ухвалення законодавчим органом."
+      }
+    },
+    {
+      "id": "SB-0695",
+      "current_pair_sha256": "e52b8db96eacf4f92a7f3c71e60893f6608d04692ea51a3227d1fffbc081d4c0",
+      "changes": {
+        "definitionUa": "Пов’язаний з ухваленням законів або наділений повноваженнями їх ухвалювати."
+      }
+    },
+    {
+      "id": "SB-0710",
+      "current_pair_sha256": "ec0e79b756607eb90058266d380e45e58c6f77b81da63d8d7a16d68db09fd107",
+      "changes": {
+        "definitionUa": "Має форму лінії; прямий або приблизно прямий; за прямим курсом."
+      }
+    },
+    {
+      "id": "SB-0718",
+      "current_pair_sha256": "502707ae4f5534b77f57811430eff2b069ac5a1ba0a0181be2b1d38a72ed23b7",
+      "changes": {
+        "definitionUa": "Система принципів правильного міркування та встановлення обґрунтованих висновків."
+      }
+    },
+    {
+      "id": "SB-0724",
+      "current_pair_sha256": "4e0118684a83c1d1b54b8dd4cf4fc92e28633b04a47a723a3e3b549f1c3027ca",
+      "changes": {
+        "definitionUa": "Машини, що разом складають виробничий апарат заводу тощо."
+      }
+    },
+    {
+      "id": "SB-0740",
+      "current_pair_sha256": "20f8d52e70c849db260707c616ddc0a8cc50ff74a2fbd7349b90df244c882be7",
+      "changes": {
+        "definitionUa": "Пов’язаний із морем; такий, що існує, утворюється або відбувається в морі."
+      }
+    },
+    {
+      "id": "SB-0748",
+      "current_pair_sha256": "3f4eec7d3a6c64ef4c8f6037726cbbd9e26b272cba40b0d4292d9d9d40d72eb7",
+      "changes": {
+        "ua": "проміжний час",
+        "definitionUa": "Період між двома подіями або до настання очікуваної події."
+      }
+    },
+    {
+      "id": "SB-0749",
+      "current_pair_sha256": "e329b37384bebb6ee6b1d1e901bf20d7fa077d78cf56822eba5509dbfb28e534",
+      "changes": {
+        "definitionUa": "Такий, що стосується Середньовіччя (приблизно 500–1500 рр. н.е.) або пов'язаний з ним."
+      }
+    },
+    {
+      "id": "SB-0761",
+      "current_pair_sha256": "f49ca8fedf28ab404e43ec7553e4de7cf8177eeac9087c55fecb523f9bd3adf2",
+      "changes": {
+        "definitionUa": "Юридичне об’єднання двох або більше компаній в одну, за якого активи й зобов’язання переходять до об’єднаної компанії."
+      }
+    },
+    {
+      "id": "SB-0764",
+      "current_pair_sha256": "d646700eedbff00919e9496d927f96f58365ad517b8322374badc392023260dd",
+      "changes": {
+        "ua": "середина; центр",
+        "definitionUa": "Середня частина або оточення чогось; часто у вислові «посеред чогось»."
+      }
+    },
+    {
+      "id": "SB-0782",
+      "current_pair_sha256": "91f4d1c0ea8218115f073ab3b66f1d70bf385c3f0a2c1122eb59a7f22d1c1df6",
+      "changes": {
+        "definitionUa": "Зміна чогось або результат такої зміни; нова чи змінена форма."
+      }
+    },
+    {
+      "id": "SB-0789",
+      "current_pair_sha256": "d80dbc5c822e0b719b8cc454f17223088d5420ec3625f3fcb1d54484da3c48db",
+      "changes": {
+        "definitionUa": "Пов’язаний з містом, громадою або органом місцевого самоврядування."
+      }
+    },
+    {
+      "id": "SB-0790",
+      "current_pair_sha256": "1986bec8358200b19f3127792f3eed66140239a8f5b392bbf546a3365db0a571",
+      "changes": {
+        "definitionUa": "Спільний для двох чи більше сторін або такий, що діє взаємно."
+      }
+    },
+    {
+      "id": "SB-0794",
+      "current_pair_sha256": "95e2597a778e39a100339407de45a508c584d0f14dd622eb74c029bb944c1163",
+      "changes": {
+        "ua": "нехтування; нехтувати",
+        "definitionUa": "Брак належної уваги чи догляду; також не дбати або не звертати уваги."
+      }
+    },
+    {
+      "id": "SB-0797",
+      "current_pair_sha256": "ecc5d276a5ba9ed4ca981353088cbb62d4788de4007b8603c051453bdf7446d8",
+      "changes": {
+        "definitionUa": "Такий, що залишається після витрат або відрахувань; чистий (про суму)."
+      }
+    },
+    {
+      "id": "SB-0799",
+      "current_pair_sha256": "95f589ef03571010139b56f5f3355b03d9a59c57ff9f033c1027f9752d603898",
+      "changes": {
+        "definitionUa": "Спеціалізована сфера або позиція, що добре відповідає певним здібностям чи потребам, зокрема сегмент ринку."
+      }
+    },
+    {
+      "id": "SB-0800",
+      "current_pair_sha256": "ffc248984d014eb630280885c03d804ae8544b104b198c4f16cd11e6ccde663a",
+      "changes": {
+        "definitionUa": "Такий, що має високі моральні якості й не виявляє ницості чи підлості."
+      }
+    },
+    {
+      "id": "SB-0812",
+      "current_pair_sha256": "c85a7099cacae075c30c973dd978e1f1b6645ea0873dc179d825fa09a63224b0",
+      "changes": {
+        "definitionUa": "Широко відомий чимось поганим або ганебним."
+      }
+    },
+    {
+      "id": "SB-0840",
+      "current_pair_sha256": "a9872adbcca8fa7d0dfa87c28b0b1435760a9d03e02938a7e03c7b8a429e543a",
+      "changes": {
+        "definitionUa": "Наглядати, контролювати або керувати діями особи чи групи."
+      }
+    },
+    {
+      "id": "SB-0848",
+      "current_pair_sha256": "74d11d6b2ed852cc0047336f327d6cdd7065badba58ca23303a707428c176139",
+      "changes": {
+        "definitionUa": "Пов’язаний із парламентом, здійснюваний або ухвалений ним."
+      }
+    },
+    {
+      "id": "SB-0860",
+      "current_pair_sha256": "49856612dc897771b6eabdfd4503419565747926aadc2128f3b8f9b697cb9276",
+      "changes": {
+        "definitionUa": "Представник сільського населення, який обробляє землю, зазвичай дрібний землероб або орендар."
+      }
+    },
+    {
+      "id": "SB-0865",
+      "current_pair_sha256": "d8a51b969b57f4b9704cb9468924e8c0bb4a6837c261b806d78e2bb6d7e757e2",
+      "changes": {
+        "definitionUa": "Офіційне письмове звернення до влади з проханням про дію або зміну, часто підписане багатьма людьми."
+      }
+    },
+    {
+      "id": "SB-0871",
+      "current_pair_sha256": "c0133d2328a4ea4a2d1d4d0bd16141c83863b73594a106d794b37d599d0558fc",
+      "changes": {
+        "definitionUa": "Злочинець, який нападає на судна або прибережні місця й грабує їх."
+      }
+    },
+    {
+      "id": "SB-0883",
+      "current_pair_sha256": "18526675635701dacf08a53adaf03980190f2f39855f5cb4e93f5b3d6dd10934",
+      "changes": {
+        "definitionUa": "Зображувати людину, персонажа, ситуацію чи подію, зокрема грати роль у виставі або фільмі."
+      }
+    },
+    {
+      "id": "SB-0885",
+      "current_pair_sha256": "d98fc7d0f93ee681c220175c0223046bffa0e5edaff6b7929e2092a9e9bc60ac",
+      "changes": {
+        "definitionUa": "Такий, що стосується періоду часу відразу після закінчення війни."
+      }
+    },
+    {
+      "id": "SB-0899",
+      "current_pair_sha256": "df5135e877f49f3ff34abd7621376817df3339abde0f034b8527a2ca6b1befcb",
+      "changes": {
+        "definitionUa": "Призначати (лікарський засіб або медичний пристрій) для використання конкретним пацієнтом (за ліцензією)."
+      }
+    },
+    {
+      "id": "SB-0907",
+      "current_pair_sha256": "dc8dd86e41c187dfe2731d4df43838efa84daaf2277a509bb23360765c4d2eed",
+      "changes": {
+        "definitionUa": "Як можна обґрунтовано припустити; імовірно."
+      }
+    },
+    {
+      "id": "SB-0911",
+      "current_pair_sha256": "42a6951e738d92e0c967f20a818a06e3546d566a5c06866ff11f56887388af85",
+      "changes": {
+        "definitionUa": "Дії або заходи, спрямовані на те, щоб не допустити небажаної події чи зменшити її ризик."
+      }
+    },
+    {
+      "id": "SB-0914",
+      "current_pair_sha256": "6af6e5dec7ac108d563ef63fba2a3c16f776195215c0ef06d8d9e02bc16db94c",
+      "changes": {
+        "definitionUa": "Передача підприємства або організації з державної власності й контролю у приватну власність."
+      }
+    },
+    {
+      "id": "SB-0917",
+      "current_pair_sha256": "0f21e2f796ea25e61c0dc201330479e4006dd2ec1ce3c08263ba05ac42c707eb",
+      "changes": {
+        "definitionUa": "Такий, що створює проблему, викликає труднощі або потребує обережного розгляду."
+      }
+    },
+    {
+      "id": "SB-0943",
+      "current_pair_sha256": "36a117f623cb7bb24aa54fd07f911937a984dcaf597ca7600f29cb4ef77636f2",
+      "changes": {
+        "definitionUa": "Пов’язаний із психіатрією або лікуванням психічних розладів."
+      }
+    },
+    {
+      "id": "SB-0944",
+      "current_pair_sha256": "a2356d5ee8a4e5259639c0ca4381a9ed78e3d6e192abe8e750b31e295e360d14",
+      "changes": {
+        "definitionUa": "Ритмічне розширення артерій, спричинене серцебиттям і відчутне, наприклад, на зап’ясті чи шиї."
+      }
+    },
+    {
+      "id": "SB-0956",
+      "current_pair_sha256": "68e7d3f1e1c107c32e7efb6cca8e8077f6f0d46be249c13a7e56bb166ce51d15",
+      "changes": {
+        "ua": "зґвалтування; ґвалтувати",
+        "definitionUa": "Статевий акт або інша сексуальна дія без згоди; також примушувати когось до такої дії."
+      }
+    },
+    {
+      "id": "SB-0963",
+      "current_pair_sha256": "9f89991f93e34993975f1fb07843c46628c9b10364052c6af197a689db40d157",
+      "changes": {
+        "ua": "задній; задня частина",
+        "definitionUa": "Розташований позаду; також задня частина чогось."
+      }
+    },
+    {
+      "id": "SB-0965",
+      "current_pair_sha256": "c2719892760b4db4757db9fa8af13d17fa7ceb6fd400e0a44feb7fe43f37982b",
+      "changes": {
+        "definitionUa": "Заспокоювати когось, відновлюючи його впевненість або усуваючи страх чи сумнів."
+      }
+    },
+    {
+      "id": "SB-0966",
+      "current_pair_sha256": "e0f87b4619c62a425a9ee660f871bf8bc07935b84fa64e78206f560b99c6d47b",
+      "changes": {
+        "definitionUa": "Людина, яка чинить опір установленій владі, часто із застосуванням сили."
+      }
+    },
+    {
+      "id": "SB-0977",
+      "current_pair_sha256": "7eda07b929fa7ca57d648e8449559011dc46f3020a32b2bb98339991661ab826",
+      "changes": {
+        "definitionUa": "Не беручи до уваги певну обставину; попри неї."
+      }
+    },
+    {
+      "id": "SB-0980",
+      "current_pair_sha256": "09d94cd567fd9c222ad808389907fa44b5890d29dc1d5142ea6441516c19fd10",
+      "changes": {
+        "definitionUa": "Пов’язаний із регулюванням або призначений для нього."
+      }
+    },
+    {
+      "id": "SB-0987",
+      "current_pair_sha256": "729d2e6dc19193b85ef250d88e79dfa0b677ce6df61db6b1e0990a73ad436f34",
+      "changes": {
+        "definitionUa": "Частина, що залишається після того, як решту використали, видалили або врахували."
+      }
+    },
+    {
+      "id": "SB-0993",
+      "current_pair_sha256": "2006918c721f543efde0d1aa4307a713b0b882cf0b917506cc2529d9881f3efa",
+      "changes": {
+        "definitionUa": "Відновлювати свіжість, чинність або початковий стан; робити новим знову."
+      }
+    },
+    {
+      "id": "SB-0995",
+      "current_pair_sha256": "4938ad9b0ed59082d22f2e4cabf06c407d9bacebed84c5df5cc64f452f0a9329",
+      "changes": {
+        "ua": "оренда; орендна плата",
+        "definitionUa": "Користування майном за плату; також плата за таке користування."
+      }
+    },
+    {
+      "id": "SB-0999",
+      "current_pair_sha256": "e2b5988d74621780deb77ac12f5d6ecc4c3b62fd77449a19da477b31917b28dc",
+      "changes": {
+        "definitionUa": "Створювати копію або повторювати щось; також давати потомство."
+      }
+    },
+    {
+      "id": "SB-1003",
+      "current_pair_sha256": "faabbd4644154d1f93edc6f00e26b13e2a75d3f08fbf18b586e1ca66a0d72326",
+      "changes": {
+        "definitionUa": "Проживати постійно або на тривалий час; мати постійне місце проживання; залишатися надовго."
+      }
+    },
+    {
+      "id": "SB-1009",
+      "current_pair_sha256": "08ae5fc9e27e8c0e391092789c67d0b34ed35b890f990a8a9f041fe469a7c006",
+      "changes": {
+        "definitionUa": "Такий, що окремо стосується кожної з названих осіб або речей."
+      }
+    },
+    {
+      "id": "SB-1010",
+      "current_pair_sha256": "f7e232a0651e3e8e1f6cf7dca694423c992e2c4d7fc46986ca0002a1fa8e7f31",
+      "changes": {
+        "definitionUa": "У тому самому порядку для кожного з уже названих елементів."
+      }
+    },
+    {
+      "id": "SB-1015",
+      "current_pair_sha256": "5c49c46a38ca1f6cd2b6ddd4750408ba6114ec2feab2971816e126c60c8c226a",
+      "changes": {
+        "ua": "повернути; дістати назад"
+      }
+    },
+    {
+      "id": "SB-1037",
+      "current_pair_sha256": "c7b3675bb6e5affe9617b98bbaf74b9d2e5605ba00667c7f0d76da782e115289",
+      "changes": {
+        "definitionUa": "Особа, яку релігійна спільнота вважає особливо святою або зразково благочестивою."
+      }
+    },
+    {
+      "id": "SB-1041",
+      "current_pair_sha256": "d89ddeccb8a084094133fe016fbb1c213bbe443ddd50ca5eb31309034fe045ed",
+      "changes": {
+        "definitionUa": "Розміщений у різних місцях і не зосереджений разом."
+      }
+    },
+    {
+      "id": "SB-1048",
+      "current_pair_sha256": "58f3ad148a86194902e11066f018e00d62d8232ee63def8d1f888e5adc94f626",
+      "changes": {
+        "definitionUa": "Як видається; мабуть."
+      }
+    },
+    {
+      "id": "SB-1058",
+      "current_pair_sha256": "311d5886fdc894af6e7262ee8ec5a2d05c0149d04d9b690023e7041cc382ff4c",
+      "changes": {
+        "definitionUa": "Розташований або такий, що відбувається послідовно, один за одним."
+      }
+    },
+    {
+      "id": "SB-1065",
+      "current_pair_sha256": "954115349c3c7d98ab55b3250c08f8f06174b9694385490ec6852b734259f696",
+      "changes": {
+        "ua": "цілковитий; прямовисний; прозорий",
+        "definitionUa": "Повний або абсолютний; також дуже крутий чи тонкий і прозорий."
+      }
+    },
+    {
+      "id": "SB-1068",
+      "current_pair_sha256": "06e6f6cc14a0098c0fefeb35e40bb6fba558b87d3b9ba851d76e3aabead88920",
+      "changes": {
+        "definitionUa": "Ставати меншим за розміром, обсягом або кількістю; стискатися."
+      }
+    },
+    {
+      "id": "SB-1081",
+      "current_pair_sha256": "6b24bbb8f92375fac02acebdd7df8c8f3358d133e2d6c594df1f47a5b585c3eb",
+      "changes": {
+        "definitionUa": "Інститут або соціальна практика, за якої одні люди володіють іншими як власністю та примусово використовують їхню працю."
+      }
+    },
+    {
+      "id": "SB-1082",
+      "current_pair_sha256": "92b6723b77ee4ad03463c9dd0cc595f8342a9ae2ad737c3d91e82cbe44326d07",
+      "changes": {
+        "definitionUa": "Вузький отвір або паз, у який вставляють предмет; також визначене місце чи час."
+      }
+    },
+    {
+      "id": "SB-1085",
+      "current_pair_sha256": "04de6e79b06f124fd403d95c62a16c16bf3108152c862fa4e7a9556d11857ed6",
+      "changes": {
+        "ua": "замочувати; просочуватися",
+        "definitionUa": "Занурювати в рідину, щоб добре намочити; також насичуватися рідиною."
+      }
+    },
+    {
+      "id": "SB-1087",
+      "current_pair_sha256": "0bf0a99ee980fe61358fd8ac6d40c6642fc62d192125f26c3ff92eca7da0f04e",
+      "changes": {
+        "definitionUa": "Пов’язаний із соціалізмом або такий, що підтримує його."
+      }
+    },
+    {
+      "id": "SB-1092",
+      "current_pair_sha256": "b8853ebb85a9063cd7612f095cc24675a94a2d8f99748675fbd579f42e9ca2b2",
+      "changes": {
+        "ua": "соло; сольний",
+        "definitionUa": "Виконання однією особою; також призначений для одного виконавця."
+      }
+    },
+    {
+      "id": "SB-1094",
+      "current_pair_sha256": "2cdae2a259633664bb8afd73856248ea309cdaf828dfa01733faa3696e2fb734",
+      "changes": {
+        "definitionUa": "Право й здатність держави самостійно керувати собою, ухвалювати закони та контролювати свої ресурси."
+      }
+    },
+    {
+      "id": "SB-1096",
+      "current_pair_sha256": "3ff17a2a60affdfd107bc78297ba742ac805596718f5a10771abd2689b000dad",
+      "changes": {
+        "ua": "охоплювати; проміжок",
+        "definitionUa": "Простягатися через відстань або тривати певний час; також сама відстань чи тривалість."
+      }
+    },
+    {
+      "id": "SB-1099",
+      "current_pair_sha256": "775dc7ae7101de7781cb4b2d942dce36585b8a0b906d4f30fd985648eaa65df8",
+      "changes": {
+        "definitionUa": "Такий, що має вузьку спеціалізацію або спеціально пристосований до певної галузі."
+      }
+    },
+    {
+      "id": "SB-1100",
+      "current_pair_sha256": "045540c225d72696524d0ef28e8a963dcb0682fd034c3da1d78e8445d03633bd",
+      "changes": {
+        "definitionUa": "Чіткий набір вимог, яким має відповідати матеріал, продукт або послуга."
+      }
+    },
+    {
+      "id": "SB-1108",
+      "current_pair_sha256": "2a0252617908914b59a6f46202d6bc8340e77845e67cab9d17c66dafb6f26e5a",
+      "changes": {
+        "definitionUa": "Спрямований яскравий прожектор; також зосереджена суспільна увага."
+      }
+    },
+    {
+      "id": "SB-1111",
+      "current_pair_sha256": "a4d3da4e1eb67aee801acc756b16afc8c4860811b531d48db842f93774b7f7a1",
+      "changes": {
+        "definitionUa": "Група людей, організована для якоїсь спільної мети."
+      }
+    },
+    {
+      "id": "SB-1118",
+      "current_pair_sha256": "79f0377c113f22ac88b36af17670054ddb9cc44ba27dcb765af6ab8e480b71f0",
+      "changes": {
+        "ua": "разючий; суворий; голий",
+        "definitionUa": "Дуже виразний або різкий; також суворий і позбавлений прикрас."
+      }
+    },
+    {
+      "id": "SB-1119",
+      "current_pair_sha256": "be3c60727913923f9b23444c259bccb9afb2767cdf2d66acd4b5a13627a4ad9f",
+      "changes": {
+        "definitionUa": "Пов’язаний зі статистикою або заснований на статистичних даних."
+      }
+    },
+    {
+      "id": "SB-1129",
+      "current_pair_sha256": "ad01c1d974ea933a5b58389c252331ff7ed526c3c53372ef0cbb8b527f71057a",
+      "changes": {
+        "definitionUa": "Пов’язаний зі стратегією або важливий для досягнення довгострокової мети."
+      }
+    },
+    {
+      "id": "SB-1141",
+      "current_pair_sha256": "960a686a30862849061b77fe9c5c2131707ebdcd642339ff6850882603819842",
+      "changes": {
+        "definitionUa": "Значний за розміром, кількістю, вартістю або важливістю."
+      }
+    },
+    {
+      "id": "SB-1149",
+      "current_pair_sha256": "89c107b9cba8171c321e5c90e06087c7041b69a6f103e241d5ecc324fc150587",
+      "changes": {
+        "definitionUa": "Особа або річ, яка безпосередньо змінює іншу на посаді чи титулі."
+      }
+    },
+    {
+      "id": "SB-1166",
+      "current_pair_sha256": "2e610ebb7031b3d559d3361eafe0c9fe77bc7236631140a43e8d3a6303d56d13",
+      "changes": {
+        "definitionUa": "Пов’язаний із хірургією, використовуваний під час операції або спричинений нею."
+      }
+    },
+    {
+      "id": "SB-1168",
+      "current_pair_sha256": "85cbeae1c7c11ac32f9e4b4b532cc8d5546bed8bb84da74353a9485b4612d683",
+      "changes": {
+        "definitionUa": "Віддатися у владу іншого, особливо потрапляючи в полон; піддатися або поступитися."
+      }
+    },
+    {
+      "id": "SB-1171",
+      "current_pair_sha256": "b4858e6fdc93baaf07a75c8319ed400905e2a4077460487914de4c9c57ce421a",
+      "changes": {
+        "definitionUa": "Підозрювання чогось або когось, особливо в чомусь поганому."
+      }
+    },
+    {
+      "id": "SB-1184",
+      "current_pair_sha256": "2e0b2607055e71b10163c03729ce4c728f46f0ca1e3899d3fc6dde3b79ea2f60",
+      "changes": {
+        "definitionUa": "Спонукати когось зробити щось привабливою обіцянкою або бажаною винагородою."
+      }
+    },
+    {
+      "id": "SB-1200",
+      "current_pair_sha256": "5d55627214ef2fef6bd74ddfc7f67749a880a107fc4cd0e0ccb4fb6f3738ca68",
+      "changes": {
+        "definitionUa": "Таким чином або внаслідок цього."
+      }
+    },
+    {
+      "id": "SB-1203",
+      "current_pair_sha256": "d9b009251778d9d98ac44ec45b7f0b2ed37513188a36875ca43f697f07b85b1f",
+      "changes": {
+        "definitionUa": "Тонка довга пряжа зі скручених волокон, яку використовують для шиття або ткацтва."
+      }
+    },
+    {
+      "id": "SB-1211",
+      "current_pair_sha256": "2868595acdb8890bf33ab55da16e39df22c5feb27ddc9a6c6ffe25e4bcf9127b",
+      "changes": {
+        "definitionUa": "Рослини Nicotiana tabacum та деяких інших видів, які культивують, а їхнє листя збирають для виготовлення сигарет, сигар, нюхального тютюну, для куріння в трубках або для жування."
+      }
+    },
+    {
+      "id": "SB-1223",
+      "current_pair_sha256": "9d656e09a759fc6e1d78041f5f7de28b4863c95cdc91c0288b1678a4da5e4d51",
+      "changes": {
+        "definitionUa": "Безмоторний колісний транспортний засіб, який буксирує інший транспортний засіб для перевезення вантажу."
+      }
+    },
+    {
+      "id": "SB-1235",
+      "current_pair_sha256": "9a95d5f3a56fee8ccf802840a357cdb4186aa2d372fd16645e61e046a632f67b",
+      "changes": {
+        "definitionUa": "Суд або спеціальний орган з одним чи кількома суддями, який розглядає певні справи."
+      }
+    },
+    {
+      "id": "SB-1245",
+      "current_pair_sha256": "c564d4bf2d55419e9944b332def55bc90040d9d1ccf76ffe3a4ca2b51aceb139",
+      "changes": {
+        "definitionUa": "Загальна сума доходу від продажів за певний період."
+      }
+    },
+    {
+      "id": "SB-1246",
+      "current_pair_sha256": "92b63e0351b25a9ee50ff64e5c29ea85de98e9fcdc4dfb9e4f07b10dc39bcc03",
+      "changes": {
+        "ua": "крутити; поворот",
+        "definitionUa": "Обертати або скручувати; також поворот, вигин чи несподівана зміна."
+      }
+    },
+    {
+      "id": "SB-1247",
+      "current_pair_sha256": "7178813c55be658ce11158717ae7de022daa96c6c19a7422ff1bb1a2ce4ca554",
+      "changes": {
+        "ua": "студент бакалаврату"
+      }
+    },
+    {
+      "id": "SB-1252",
+      "current_pair_sha256": "697d743d8639c9bff069e8232643592721e0048fc787dac9e9df909f7ea02429",
+      "changes": {
+        "definitionUa": "Такий, якого раніше не було або який не має відомого прецеденту."
+      }
+    },
+    {
+      "id": "SB-1270",
+      "current_pair_sha256": "fb8f802ffaf3c7fe7ca649302b857ca360e0627780bc00ff9cc8714238e4c72c",
+      "changes": {
+        "definitionUa": "Підтвердити або перевірити правдивість або точність чогось."
+      }
+    },
+    {
+      "id": "SB-1275",
+      "current_pair_sha256": "1c1b008ad9a1a5e2818d3e14e8e949ed9582a78d232cdc06c932c3bcf2b5387c",
+      "changes": {
+        "definitionUa": "Такий, що можна здійснити на практиці; здійсненний."
+      }
+    },
+    {
+      "id": "SB-1293",
+      "current_pair_sha256": "13ad296744ab01741b8012db796ecaf8a182323681265562e544061cb4489391",
+      "changes": {
+        "definitionUa": "Утворювати тканину або інший виріб, переплітаючи нитки чи смуги над і під одна одною."
+      }
+    },
+    {
+      "id": "SB-1310",
+      "current_pair_sha256": "cfac788b9f40bc72ef09a54c99ae9c1bbfe777fa3855a9436a3f29a9dc87db2e",
+      "changes": {
+        "ua": "поклоніння; поклонятися",
+        "definitionUa": "Виявляти найвищу релігійну шану; також акт такого вшанування."
+      }
+    },
+    {
+      "id": "SB-1327",
+      "current_pair_sha256": "526ad254d881a2518e2c99a3dfa6a2fe77029561fc418de705d222ea19380c5f",
+      "changes": {
+        "definitionUa": "Юридична угода; також укладати таку угоду або зменшуватися в розмірі."
+      }
+    },
+    {
+      "id": "SB-1335",
+      "current_pair_sha256": "e12dc5485e3b044995deb9cfdd1f09f9deb15a738f26c02f92484bba64cd5d8d",
+      "changes": {
+        "definitionUa": "Такий, що існує протягом тривалого часу, тому визнаний і загальновизнаний."
+      }
+    },
+    {
+      "id": "SB-1338",
+      "current_pair_sha256": "c1f19dccda8c710d4a1c3bdf851f61a2708e1e5967d5c51e86cbab2b9c22d7d7",
+      "changes": {
+        "definitionUa": "Вивезення товарів за кордон для продажу; також вивозити або передавати дані назовні."
+      }
+    },
+    {
+      "id": "SB-1339",
+      "current_pair_sha256": "bb83f4ca6882f2388069a366f3445be33465d2346cedcc62d19fafb83ededa97",
+      "changes": {
+        "definitionUa": "Елементи, обставини або впливи, що сприяють певному результату."
+      }
+    },
+    {
+      "id": "SB-1340",
+      "current_pair_sha256": "d66008f879a509172a8407725da5d4bc4733ac6652e211f9977839f0a84c430a",
+      "changes": {
+        "definitionUa": "Пов’язаний із фінансами, грошима або управлінням коштами."
+      }
+    },
+    {
+      "id": "SB-1341",
+      "current_pair_sha256": "6b08f74981994db6678ca713880f0e0de0c7e8418e405b8bd9d4d4ea99113019",
+      "changes": {
+        "definitionUa": "Призначення або роль чогось; також працювати чи діяти належним чином."
+      }
+    },
+    {
+      "id": "SB-1345",
+      "current_pair_sha256": "6c82cea8504d28a514b940ee318d5d1b167523275289bd7b585b0012ad0be393",
+      "changes": {
+        "definitionUa": "Окрема людина, яку розглядають не як частину групи."
+      }
+    },
+    {
+      "id": "SB-1352",
+      "current_pair_sha256": "376ad4b83b004fb0a3cf4883511f621262444d322f058f931a2d9c7f32d73d43",
+      "changes": {
+        "definitionUa": "Упорядкований спосіб або процедура виконання завдання."
+      }
+    },
+    {
+      "id": "SB-1356",
+      "current_pair_sha256": "e3b5487223a4733be35503ad06f6fa5356b4fd0b7e1d4b97c07f58f55098999e",
+      "changes": {
+        "definitionUa": "Принцип або курс дій, якого дотримується уряд чи організація, особливо коли його офіційно затверджено."
+      }
+    },
+    {
+      "id": "SB-1371",
+      "current_pair_sha256": "147b830d97fbefad9324fada46230ce4d08707198b898d26c806eed151763235",
+      "changes": {
+        "definitionUa": "Система взаємопов’язаних ідей, що пояснює факти або явища й дає змогу робити перевірні передбачення."
+      }
+    },
+    {
+      "id": "SB-1374",
+      "current_pair_sha256": "1e34710a5cf49f954fdeba68f3be26c4eb5f4901e9e852a7f06778152e50edae",
+      "changes": {
+        "definitionUa": "Процес управління установою чи справами; також орган або посадовці, які здійснюють таке управління."
+      }
+    },
+    {
+      "id": "SB-1377",
+      "current_pair_sha256": "e36725fb3ddecd775ec553e67db4469f05dd2c6eccd1e6ebf176041005804174",
+      "changes": {
+        "definitionUa": "Окремі особливості, частини або сторони чогось."
+      }
+    },
+    {
+      "id": "SB-1394",
+      "current_pair_sha256": "e5ce9f356c32dc12cb5c300fede4f7168dc345da569260e825cd8d1691032052",
+      "changes": {
+        "definitionUa": "Систематичне визначення якості, ефективності або цінності когось чи чогось."
+      }
+    },
+    {
+      "id": "SB-1415",
+      "current_pair_sha256": "6c5c213307cd9351b87a26844b8efe8f4a7de87744b8cd3ff136f18457135d23",
+      "changes": {
+        "definitionUa": "Офіційні правила або нормативні акти, що визначають чи обмежують поведінку."
+      }
+    },
+    {
+      "id": "SB-1424",
+      "current_pair_sha256": "cf723b0ef390492f868072ace9e304358ba76bf87d07f1b57eaf7235308e57e8",
+      "changes": {
+        "definitionUa": "Плани дій, спрямовані на досягнення конкретних цілей."
+      }
+    },
+    {
+      "id": "SB-1431",
+      "current_pair_sha256": "c8cc505fc7de87a9f0ca7282fa3d5d9211da1d0d0e52a6396459ce949071ec31",
+      "changes": {
+        "definitionUa": "Усні або письмові зауваження чи пояснення."
+      }
+    },
+    {
+      "id": "SB-1432",
+      "current_pair_sha256": "f3dc0cf3f0094111731d5f170ece23d116aa6b85ae8865c596449c6f5978f7ed",
+      "changes": {
+        "definitionUa": "Окремі частини, з яких складається більша система або предмет."
+      }
+    },
+    {
+      "id": "SB-1438",
+      "current_pair_sha256": "80007c974cbf35d8e732b47ae748554406135bb6b01a9a1e6479f5156e94857c",
+      "changes": {
+        "definitionUa": "Центральна або найважливіша частина чогось."
+      }
+    },
+    {
+      "id": "SB-1443",
+      "current_pair_sha256": "36b674fb2837380d6c9b67a10bdffa7ef672de99c80b2e8b29c77bc4e2d28c89",
+      "changes": {
+        "definitionUa": "Письмовий або цифровий матеріал, що містить інформацію чи слугує офіційним записом або доказом."
+      }
+    },
+    {
+      "id": "SB-1452",
+      "current_pair_sha256": "2a87c0f2fdf62b06e318043f17fcc7cfd240ef51e34288ba06af2bee4708a625",
+      "changes": {
+        "definitionUa": "Непрямо вказує на щось, не висловлюючи цього прямо."
+      }
+    },
+    {
+      "id": "SB-1457",
+      "current_pair_sha256": "2281fd79b0e6c32729ae45f437ac33ca65bd2e9ebc2ef25f8b49acb71390e2ef",
+      "changes": {
+        "ua": "зв’язок; посилання",
+        "definitionUa": "Відношення між людьми, подіями, речами чи ідеями; також гіперпосилання."
+      }
+    },
+    {
+      "id": "SB-1462",
+      "current_pair_sha256": "88a4ae92afeee78793d2b22aacede590c15d9d4b338f6db409174d8bfb0468e1",
+      "changes": {
+        "definitionUa": "Результати, що виникають унаслідок подій або процесів."
+      }
+    },
+    {
+      "id": "SB-1464",
+      "current_pair_sha256": "7f80b9cc70314a8a3a45c753fb2b61b0da9efbdab54233a21f4defd8624d87a5",
+      "changes": {
+        "definitionUa": "Дисципліна, що за допомогою критичного міркування досліджує фундаментальні питання буття, знання, цінностей, розуму та мови."
+      }
+    },
+    {
+      "id": "SB-1465",
+      "current_pair_sha256": "b73d37e7e88441190b43b8996d7eb7896975cc416ef37ca634671b700b4b0baa",
+      "changes": {
+        "definitionUa": "Пов’язаний із матеріальним світом або тілом; відчутний і конкретний."
+      }
+    },
+    {
+      "id": "SB-1469",
+      "current_pair_sha256": "c08d1b6166ce4e4b03a05bf1650b7c357cd864636716d10bf562d5373fbf71f7",
+      "changes": {
+        "definitionUa": "Офіційно внесений до реєстру або списку."
+      }
+    },
+    {
+      "id": "SB-1479",
+      "current_pair_sha256": "461975538840d1718898752ad081be763d55193759f75e30623a77a9c6e3a29a",
+      "changes": {
+        "definitionUa": "Пов’язаний із технікою, технологією або спеціальними практичними знаннями."
+      }
+    },
+    {
+      "id": "SB-1480",
+      "current_pair_sha256": "660b9bc4a4558f0694e3bf226be6ac6bd4e64bf1211bbbb06e1bc23ed18b8264",
+      "changes": {
+        "definitionUa": "Практичні способи виконання дії, особливо ті, що потребують навичок."
+      }
+    },
+    {
+      "id": "SB-1482",
+      "current_pair_sha256": "d542f4c570201e9c717a1b28c89a8d02cc1102d91aca93d376013deed67f58c1",
+      "changes": {
+        "definitionUa": "Кількість тривимірного простору, яку займає тіло; вимірюється в кубічних одиницях."
+      }
+    },
+    {
+      "id": "SB-1484",
+      "current_pair_sha256": "d7e3d2f19e9c5ef0be8ec18a5feec901534b7d32211b9928374c35df6bb194ee",
+      "changes": {
+        "definitionUa": "Достатній для певної мети або такий, що відповідає вимогам."
+      }
+    },
+    {
+      "id": "SB-1495",
+      "current_pair_sha256": "3fdb12733c07ee3732b9579ce12ecfe48f498ed0714bf6d92d49b12018f52b0f",
+      "changes": {
+        "ua": "конференція"
+      }
+    },
+    {
+      "id": "SB-1509",
+      "current_pair_sha256": "cb84a519b05f669456d10cdf573c9504f0a2fc79e3794dee1e5628374a1196d9",
+      "changes": {
+        "definitionUa": "Можливі або непрямі наслідки рішення, дії чи твердження."
+      }
+    },
+    {
+      "id": "SB-1510",
+      "current_pair_sha256": "623e30e2f1a2db27027f195611792feac63ee51806d4e8153622e63612e1f4dc",
+      "changes": {
+        "definitionUa": "Нав’язаний або установлений владою як обов’язковий."
+      }
+    },
+    {
+      "id": "SB-1511",
+      "current_pair_sha256": "a9df9e8a75c828d4156cf03c35019f50b256b542eece99d8c79e4f038e106d25",
+      "changes": {
+        "definitionUa": "Розташований усередині або пов’язаний із внутрішньою частиною."
+      }
+    },
+    {
+      "id": "SB-1518",
+      "current_pair_sha256": "0d68befd7940b47f154dd156c20ec6d83141f01525d2e102f15cc783ce3eb364",
+      "changes": {
+        "definitionUa": "Одна з можливостей, яку можна вибрати."
+      }
+    },
+    {
+      "id": "SB-1522",
+      "current_pair_sha256": "0b1cffe5a70b5ffff2a10d059baa73f343222df7743e0386a71a82aa75ab801b",
+      "changes": {
+        "definitionUa": "Значення або умови, що визначають систему, обчислення чи експеримент."
+      }
+    },
+    {
+      "id": "SB-1523",
+      "current_pair_sha256": "1da064f7fffcb898e30d26b15aadc50f522e8baece58cddbad81780e80f1c1ce",
+      "changes": {
+        "definitionUa": "Окрема частина послідовності або циклу, що відбувається з часом."
+      }
+    },
+    {
+      "id": "SB-1524",
+      "current_pair_sha256": "61de3f574179bdc76e8e3f1e76a4cd81100fe3d3064d9a95f04fd161de98a937",
+      "changes": {
+        "ua": "передбачений",
+        "definitionUa": "Визначений або очікуваний заздалегідь."
+      }
+    },
+    {
+      "id": "SB-1525",
+      "current_pair_sha256": "29bbce3518bbfddaeebd25fc0c8e69fb2a6b462542891b021afe7a3cf66f80ae",
+      "changes": {
+        "definitionUa": "Попередній у часі, порядку або важливості."
+      }
+    },
+    {
+      "id": "SB-1530",
+      "current_pair_sha256": "7eaf5df01e1b4d57e959b6878a28d9fd39076953ec24783c6accc1b9193ceb04",
+      "changes": {
+        "ua": "збережений",
+        "definitionUa": "Утриманий, збережений або залишений для подальшого використання чи пам’яті."
+      }
+    },
+    {
+      "id": "SB-1544",
+      "current_pair_sha256": "a22490e4e0b8621b4a7a066668d307bed2eb4a39afef50809349eb4bb5f945a3",
+      "changes": {
+        "ua": "речення; клауза",
+        "definitionUa": "Група слів із підметом і присудком, що є частиною складного речення або окремим реченням."
+      }
+    },
+    {
+      "id": "SB-1545",
+      "current_pair_sha256": "b541d15eb87378e82671931413e03d09eab4a5d33c7c2898b80870565deae93a",
+      "changes": {
+        "definitionUa": "Речовини або об’єкти, утворені поєднанням двох чи більше складників."
+      }
+    },
+    {
+      "id": "SB-1552",
+      "current_pair_sha256": "f043f6fee588dfcb92c21d13f08d5f53ff469bbdc259f20e99c220f049fe7c98",
+      "changes": {
+        "definitionUa": "Окремі самостійні об’єкти або організації."
+      }
+    },
+    {
+      "id": "SB-1557",
+      "current_pair_sha256": "6706556724c49862aee3350e6554f615835f15a4387820d74ec7c370eee799b4",
+      "changes": {
+        "definitionUa": "Розташований поза чимось або пов’язаний із зовнішньою стороною."
+      }
+    },
+    {
+      "id": "SB-1558",
+      "current_pair_sha256": "0c22afec3315e9c37efd194b522e8e0ace387afad5d597e58c1ef94dd00570cc",
+      "changes": {
+        "definitionUa": "Основний, базовий або надзвичайно важливий."
+      }
+    },
+    {
+      "id": "SB-1559",
+      "current_pair_sha256": "d4d8d9111751ef709d7a1b77ec85a688beb8189118fc337e0df018f37005e950",
+      "changes": {
+        "definitionUa": "Створений, вироблений або породжений певним процесом."
+      }
+    },
+    {
+      "id": "SB-1560",
+      "current_pair_sha256": "6fbb0da1c766538de9f5647ee1ef84280482d3b12afa1d427568acc009ed09b2",
+      "changes": {
+        "definitionUa": "Група людей, народжених приблизно в один період і сформованих спільними історичними та культурними умовами."
+      }
+    },
+    {
+      "id": "SB-1563",
+      "current_pair_sha256": "34b9fa4dce29fd35f76dcc253422983572b8c637fd838e500c5bebd96adb84a1",
+      "changes": {
+        "definitionUa": "Пов’язаний із медициною або медичною практикою."
+      }
+    },
+    {
+      "id": "SB-1570",
+      "current_pair_sha256": "30c45c6ba44bd6784bcb875b833ed648a4256c69e74e0fff8b4f17b4a15e075a",
+      "changes": {
+        "definitionUa": "Ракурс або точка зору, з якої можна відчути, класифікувати, виміряти або кодифікувати досвід."
+      }
+    },
+    {
+      "id": "SB-1585",
+      "current_pair_sha256": "abb4d5114ab3086fea69f427628ce826d4f38514a6440bdb2770c3e4af156dc2",
+      "changes": {
+        "definitionUa": "Короткий виклад або підсумок більшої публікації."
+      }
+    },
+    {
+      "id": "SB-1590",
+      "current_pair_sha256": "d6d1c22bcb7bcc9b06c7fbd64c7179c548628a87ad9e4afe791b705c3c6cfc31",
+      "changes": {
+        "ua": "прикріплений; приєднаний",
+        "definitionUa": "Прикріплений або приєднаний до чогось."
+      }
+    },
+    {
+      "id": "SB-1594",
+      "current_pair_sha256": "deecd3ba3363d6c46b0a58e37dd101972eb7ec549c7849e2388e47e8545bd84a",
+      "changes": {
+        "definitionUa": "Такий, що має потрібні здібності або спроможний виконати певне завдання."
+      }
+    },
+    {
+      "id": "SB-1603",
+      "current_pair_sha256": "874b9592f4c3ab2125513789eb8150b08b754dabd5759534257a4db67648e6a6",
+      "changes": {
+        "definitionUa": "Пов’язаний із федеральним або загальнонаціональним рівнем влади у федерації."
+      }
+    },
+    {
+      "id": "SB-1613",
+      "current_pair_sha256": "cc91d1b1b606578ac829dd1fef6b68b925f695a8584cbf69569ef123612a6000",
+      "changes": {
+        "definitionUa": "Дані або ресурси, що надходять у процес і впливають на його результат."
+      }
+    },
+    {
+      "id": "SB-1617",
+      "current_pair_sha256": "ec8e9b743545e78edbffe6e2fef3a164ce022c451919d5319630b83f95054688",
+      "changes": {
+        "definitionUa": "Усний навчальний виклад або виступ перед групою слухачів."
+      }
+    },
+    {
+      "id": "SB-1630",
+      "current_pair_sha256": "9b4633614932860e9dd25629b00ae88986a7e27916abd8eb393a9f1b0e25a151",
+      "changes": {
+        "definitionUa": "Особи, які досягли повноліття."
+      }
+    },
+    {
+      "id": "SB-1633",
+      "current_pair_sha256": "435ea8ac3276ec5f25c9b343e673719f66ed616b1847bba6945a48ba31b0fe6f",
+      "changes": {
+        "definitionUa": "Пов’язаний із хімією або хімічними речовинами."
+      }
+    },
+    {
+      "id": "SB-1635",
+      "current_pair_sha256": "74ecf8ba9d7f1155810542c368eed634d6e9c12b8f34711eb0d224b0babd8905",
+      "changes": {
+        "definitionUa": "Такий, що охоплює всі або майже всі аспекти чогось; всебічний."
+      }
+    },
+    {
+      "id": "SB-1638",
+      "current_pair_sha256": "8d74a462984711416c7da67cb96ceb82a49f09f2ad71af821de51811d4a378c8",
+      "changes": {
+        "definitionUa": "Перетворений на іншу форму, функцію або систему."
+      }
+    },
+    {
+      "id": "SB-1650",
+      "current_pair_sha256": "cb211489602a08976a8fbe5fc585e13afb9e5cb6b131cf7bff9405073f3241cf",
+      "changes": {
+        "ua": "оцінка",
+        "definitionUa": "Результат оцінювання, виражений числом, літерою чи іншим символом."
+      }
+    },
+    {
+      "id": "SB-1653",
+      "current_pair_sha256": "1c066a32496dccf9de47e9e654ed0079fc5253a6f5fa998492c38627b292df40",
+      "changes": {
+        "ua": "однаковий; ідентичний",
+        "definitionUa": "Цілком такий самий за всіма істотними ознаками."
+      }
+    },
+    {
+      "id": "SB-1661",
+      "current_pair_sha256": "8a587d1cb9366e496a9f5c39ae9bbee0840c11f0595e0e8a5361068572c8b8fd",
+      "changes": {
+        "definitionUa": "Подія, факт або процес, які можна спостерігати чи досліджувати."
+      }
+    },
+    {
+      "id": "SB-1665",
+      "current_pair_sha256": "0b7a76a4788eb0b265124c4a513a24c5305d8c03961cbf25387943dfc501212c",
+      "changes": {
+        "definitionUa": "Точне відтворення слів іншої людини або уривка з тексту."
+      }
+    },
+    {
+      "id": "SB-1668",
+      "current_pair_sha256": "5552fee9974ab22e92266689ab8c11e9db4b935b42c0dd2aa1fbe7f421799d7d",
+      "changes": {
+        "definitionUa": "Внесено або винесено на затвердження, розгляд, відмітку тощо."
+      }
+    },
+    {
+      "id": "SB-1669",
+      "current_pair_sha256": "c84bc6a4805740c57a9b6918ce45651a87b9fcb0d83da5cb7051b1d4417533c9",
+      "changes": {
+        "definitionUa": "Залишатися живим після небезпеки; також продовжувати існувати."
+      }
+    },
+    {
+      "id": "SB-1677",
+      "current_pair_sha256": "2bc20ad4c1921ac37cfc71cbceaf8d5e1848fe6dc405335e2e0e13327becb656",
+      "changes": {
+        "ua": "супроводжуваний; у супроводі",
+        "definitionUa": "Такий, що прибув або відбувся разом із кимось чи чимось."
+      }
+    },
+    {
+      "id": "SB-1690",
+      "current_pair_sha256": "43a47e0047ffca32dfbe99dab58f43d263afe1f4d4e6bdccab081e45c8132a07",
+      "changes": {
+        "definitionUa": "Переміщення з попереднього місця або витіснення; також відстань такого переміщення."
+      }
+    },
+    {
+      "id": "SB-1692",
+      "current_pair_sha256": "1d8d9c596e23af788457db96a130cd9a5f84d056b382d38e92571855765986b7",
+      "changes": {
+        "definitionUa": "Зрештою, особливо після тривалого часу, серії проблем, затримок або невдач."
+      }
+    },
+    {
+      "id": "SB-1695",
+      "current_pair_sha256": "619aa5d809a6138835e9550c133eab76909b0b9de7a7f2b371dd09b827bb73df",
+      "changes": {
+        "definitionUa": "Загальні правила, принципи або рекомендації, що спрямовують дії чи поведінку."
+      }
+    },
+    {
+      "id": "SB-1697",
+      "current_pair_sha256": "1ea7aa353c8b69d49eace82dbdb4600de4235d92245c1798f206d4a00672a167",
+      "changes": {
+        "definitionUa": "Мається на увазі без прямого висловлення."
+      }
+    },
+    {
+      "id": "SB-1707",
+      "current_pair_sha256": "2f0faa121d7200fba60dd7bb82ce2dfc9c73f1c36d3ce2b3a0444e52c7e1ea0a",
+      "changes": {
+        "definitionUa": "Можливість або очікування майбутньої події, часто сприятливої."
+      }
+    }
+  ]
+}
