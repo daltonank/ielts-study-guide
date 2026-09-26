@@ -1,0 +1,122 @@
+{
+  "_meta": {
+    "ticket": "G4A-CX-09",
+    "stage": "B",
+    "stage_a_base_commit": "db65e13ce66190b48ae6c1039dd93930b2798b25",
+    "source_manifest_commit": "54daff49e05452eac3fef54e58a42c8719c673e5",
+    "source_manifest_sha256": "99aeb25b16e697fd3cbe42349a09d7bda80e50079ac5e6c5507f960f4b2c187a",
+    "expected_input_learner_git_blob": "d3153cdb71f4768a04bed883953ea788a38e0aaf",
+    "expected_output_learner_git_blob": "e0e81c69084853f3e0db1ca35335e0c4dcb5007e",
+    "row_count": 15,
+    "effective_ua_count": 1,
+    "effective_definitionUa_count": 15
+  },
+  "rows": [
+    {
+      "id": "SB-1709",
+      "current_pair_sha256": "c4708bc31c250826e13966d3a39346bc7bfb1afd757af378e27c8c6204dc67d9",
+      "changes": {
+        "definitionUa": "Посилений додатковою опорою, матеріалом або аргументом."
+      }
+    },
+    {
+      "id": "SB-1721",
+      "current_pair_sha256": "dae904505e2a073c718222f7e276c14136400473f89e4499d88a13852ca431e0",
+      "changes": {
+        "definitionUa": "Пов’язаний із зором або тим, що сприймається очима."
+      }
+    },
+    {
+      "id": "SB-1723",
+      "current_pair_sha256": "35a562d723c0c842482e7b36d3be46a45ba38f43c9604cfa5d0815ebd62387cc",
+      "changes": {
+        "definitionUa": "Подібний до чогось за певними ознаками або відношеннями; англійською вживається з «to»."
+      }
+    },
+    {
+      "id": "SB-1724",
+      "current_pair_sha256": "ab691758d3afd5b3728f3acccb5f937b9757a6ff4c9ba7d9b610401c299d4674",
+      "changes": {
+        "definitionUa": "Очікуваний або передбачений заздалегідь."
+      }
+    },
+    {
+      "id": "SB-1731",
+      "current_pair_sha256": "6713c9c2783419e1a90c8c7f0aca9a24287f254ab7a316e29b49c34332c0f9c4",
+      "changes": {
+        "definitionUa": "Обмежений у русі; не здатний вільно рухатися."
+      }
+    },
+    {
+      "id": "SB-1733",
+      "current_pair_sha256": "821ca92bf282d227844dd5d88c3f03255020245aac54f19989e4cae4a04e6bb1",
+      "changes": {
+        "definitionUa": "Навпаки; якщо розглянути протилежне співвідношення."
+      }
+    },
+    {
+      "id": "SB-1735",
+      "current_pair_sha256": "f3055af0f51a85c7473c9edee83b035ad392f0624e4371c1bcdd345a6d9dec3a",
+      "changes": {
+        "definitionUa": "Який має сильну емоційну прив'язаність; відданий; дуже любить когось або щось."
+      }
+    },
+    {
+      "id": "SB-1738",
+      "current_pair_sha256": "04e04623fbadf86b6f942564d648cd46b86f18d2431b79cef2216eadd24f604a",
+      "changes": {
+        "definitionUa": "Поступове руйнування й перенесення ґрунту або породи водою, вітром, льодом чи іншими чинниками."
+      }
+    },
+    {
+      "id": "SB-1747",
+      "current_pair_sha256": "613b7b73a5dafb111a1498ae4288cbe6ff8ea6b9ea0c7654e6d3b832d1503fa1",
+      "changes": {
+        "definitionUa": "Загальноприйняті правила або стандарти поведінки."
+      }
+    },
+    {
+      "id": "SB-1750",
+      "current_pair_sha256": "c94e82d523484dbdcca40b6c93ff1599c2a26b9cc830d41e5af8c96da432c51a",
+      "changes": {
+        "definitionUa": "Заснований на якості, властивостях або описі, а не на числовій кількості."
+      }
+    },
+    {
+      "id": "SB-1752",
+      "current_pair_sha256": "d60f5033c1b9970343f6ce0e84bd732ad6eda79563292ebfa682af74a2a2de7a",
+      "changes": {
+        "definitionUa": "Вільний від напруги або тривоги; спокійний і невимушений."
+      }
+    },
+    {
+      "id": "SB-1753",
+      "current_pair_sha256": "dce2f310b9125fc3dc33626bace74d4b2bf7dcd8e54b5bedef2f22a186feadc0",
+      "changes": {
+        "definitionUa": "Засоби або правила, що обмежують свободу дії чи руху; стримувальні заходи."
+      }
+    },
+    {
+      "id": "SB-1759",
+      "current_pair_sha256": "10d7bb6fdc2998028d4f0524207291e1093ad39bc9039d0d5b77cc42da0a5d50",
+      "changes": {
+        "definitionUa": "Додатковий; призначений доповнити те, чого бракує."
+      }
+    },
+    {
+      "id": "SB-1760",
+      "current_pair_sha256": "4896c95e5763da49b23f595de9deea9fda45862f7963e34def760c4303252138",
+      "changes": {
+        "ua": "призупинений",
+        "definitionUa": "Тимчасово зупинений, відкладений або усунений від виконання обов’язків."
+      }
+    },
+    {
+      "id": "SB-1769",
+      "current_pair_sha256": "e426557c1dc7ae65649248d6d07efefc0ac086fef00d8164c3cefc2b7c070244",
+      "changes": {
+        "definitionUa": "Твердий у певному переконанні або впевнений у його правдивості."
+      }
+    }
+  ]
+}
